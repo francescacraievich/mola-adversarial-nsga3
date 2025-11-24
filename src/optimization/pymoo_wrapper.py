@@ -92,9 +92,7 @@ class PerturbationOptimizer:
         # Results
         self.result = None
 
-    def optimize(
-        self, n_generations: int = 200, verbose: bool = True
-    ) -> Dict[str, np.ndarray]:
+    def optimize(self, n_generations: int = 200, verbose: bool = True) -> Dict[str, np.ndarray]:
         """
         Run optimization.
 
