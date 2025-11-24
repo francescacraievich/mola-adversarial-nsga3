@@ -19,4 +19,3 @@ ignore =
 per-file-ignores =
     __init__.py:F401,F403
     tests/*.py:E402
-    src/nsga2/utils.py:C901
