@@ -4,9 +4,10 @@ Point cloud operations and utilities.
 Helper functions for loading, saving, and validating point clouds.
 """
 
-import numpy as np
-from typing import Tuple, Optional
 from pathlib import Path
+from typing import Optional, Tuple
+
+import numpy as np
 
 
 def load_point_cloud(filepath: str) -> np.ndarray:
@@ -23,9 +24,9 @@ def load_point_cloud(filepath: str) -> np.ndarray:
     """
     filepath = Path(filepath)
 
-    if filepath.suffix == '.npy':
+    if filepath.suffix == ".npy":
         return np.load(filepath)
-    elif filepath.suffix in ['.txt', '.csv']:
+    elif filepath.suffix in [".txt", ".csv"]:
         return np.loadtxt(filepath)
     else:
         raise ValueError(f"Unsupported file format: {filepath.suffix}")
@@ -42,10 +43,10 @@ def save_point_cloud(point_cloud: np.ndarray, filepath: str):
     filepath = Path(filepath)
     filepath.parent.mkdir(parents=True, exist_ok=True)
 
-    if filepath.suffix == '.npy':
+    if filepath.suffix == ".npy":
         np.save(filepath, point_cloud)
-    elif filepath.suffix in ['.txt', '.csv']:
-        np.savetxt(filepath, point_cloud, fmt='%.6f')
+    elif filepath.suffix in [".txt", ".csv"]:
+        np.savetxt(filepath, point_cloud, fmt="%.6f")
     else:
         raise ValueError(f"Unsupported file format: {filepath.suffix}")
 
@@ -78,10 +79,7 @@ def validate_point_cloud(point_cloud: np.ndarray) -> Tuple[bool, Optional[str]]:
     return True, None
 
 
-def apply_perturbations(
-    point_cloud: np.ndarray,
-    perturbation_params: dict
-) -> np.ndarray:
+def apply_perturbations(point_cloud: np.ndarray, perturbation_params: dict) -> np.ndarray:
     """
     Apply perturbations to point cloud.
 
@@ -100,10 +98,7 @@ def apply_perturbations(
     return generator.apply_perturbation(point_cloud, perturbation_params)
 
 
-def compute_perturbation_magnitude(
-    original: np.ndarray,
-    perturbed: np.ndarray
-) -> float:
+def compute_perturbation_magnitude(original: np.ndarray, perturbed: np.ndarray) -> float:
     """
     Compute L2 magnitude of perturbation.
 
@@ -127,10 +122,7 @@ def compute_perturbation_magnitude(
     return np.linalg.norm(diff)
 
 
-def downsample_point_cloud(
-    point_cloud: np.ndarray,
-    voxel_size: float = 0.1
-) -> np.ndarray:
+def downsample_point_cloud(point_cloud: np.ndarray, voxel_size: float = 0.1) -> np.ndarray:
     """
     Downsample point cloud using voxel grid.
 
@@ -145,10 +137,6 @@ def downsample_point_cloud(
     voxel_indices = np.floor(point_cloud[:, :3] / voxel_size).astype(int)
 
     # Get unique voxels
-    unique_voxels, indices = np.unique(
-        voxel_indices,
-        axis=0,
-        return_index=True
-    )
+    unique_voxels, indices = np.unique(voxel_indices, axis=0, return_index=True)
 
     return point_cloud[indices]

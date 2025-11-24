@@ -4,19 +4,20 @@ Tests for perturbation module.
 Tests the PerturbationGenerator and point cloud operations.
 """
 
-import pytest
-import numpy as np
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import numpy as np
+import pytest
 
 # Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from perturbations.perturbation_generator import PerturbationGenerator
 from perturbations.point_cloud_ops import (
-    validate_point_cloud,
     compute_perturbation_magnitude,
-    downsample_point_cloud
+    downsample_point_cloud,
+    validate_point_cloud,
 )
 
 
@@ -27,12 +28,14 @@ class TestPerturbationGenerator:
         """Setup test fixtures."""
         self.generator = PerturbationGenerator()
         # Create a simple test point cloud
-        self.test_cloud = np.array([
-            [1.0, 0.0, 0.0, 100.0],
-            [0.0, 1.0, 0.0, 150.0],
-            [0.0, 0.0, 1.0, 200.0],
-            [1.0, 1.0, 0.0, 125.0],
-        ])
+        self.test_cloud = np.array(
+            [
+                [1.0, 0.0, 0.0, 100.0],
+                [0.0, 1.0, 0.0, 150.0],
+                [0.0, 0.0, 1.0, 200.0],
+                [1.0, 1.0, 0.0, 125.0],
+            ]
+        )
 
     def test_genome_size(self):
         """Test genome size is correct."""
@@ -63,13 +66,13 @@ class TestPerturbationGenerator:
         genome = np.ones(8) * 0.5
         params = self.generator.encode_perturbation(genome)
 
-        assert 'translation' in params
-        assert 'rotation' in params
-        assert 'intensity_scale' in params
-        assert 'dropout_rate' in params
+        assert "translation" in params
+        assert "rotation" in params
+        assert "intensity_scale" in params
+        assert "dropout_rate" in params
 
-        assert params['translation'].shape == (3,)
-        assert params['rotation'].shape == (3,)
+        assert params["translation"].shape == (3,)
+        assert params["rotation"].shape == (3,)
 
     def test_apply_perturbation_shape(self):
         """Test perturbation application maintains valid shape."""
@@ -102,7 +105,7 @@ class TestPerturbationGenerator:
         perturbed = self.generator.apply_perturbation(self.test_cloud, params, seed=42)
 
         # X coordinates should be shifted
-        assert np.any(perturbed[:, 0] != self.test_cloud[:len(perturbed), 0])
+        assert np.any(perturbed[:, 0] != self.test_cloud[: len(perturbed), 0])
 
     def test_intensity_clipping(self):
         """Test intensity values are clipped to valid range."""
@@ -125,9 +128,7 @@ class TestPerturbationGenerator:
 
         # Should be very close to original (except possible dropout)
         np.testing.assert_allclose(
-            perturbed[:, :3],
-            self.test_cloud[:len(perturbed), :3],
-            rtol=1e-5
+            perturbed[:, :3], self.test_cloud[: len(perturbed), :3], rtol=1e-5
         )
 
 
@@ -136,11 +137,13 @@ class TestPointCloudOps:
 
     def setup_method(self):
         """Setup test fixtures."""
-        self.test_cloud = np.array([
-            [1.0, 0.0, 0.0, 100.0],
-            [0.0, 1.0, 0.0, 150.0],
-            [0.0, 0.0, 1.0, 200.0],
-        ])
+        self.test_cloud = np.array(
+            [
+                [1.0, 0.0, 0.0, 100.0],
+                [0.0, 1.0, 0.0, 150.0],
+                [0.0, 0.0, 1.0, 200.0],
+            ]
+        )
 
     def test_validate_valid_cloud(self):
         """Test validation accepts valid point cloud."""
@@ -213,5 +216,5 @@ def test_integration_perturbation_pipeline():
     assert magnitude >= 0
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

@@ -4,14 +4,12 @@ NSGA-II (Non-dominated Sorting Genetic Algorithm II) implementation.
 Main algorithm implementation for multi-objective optimization.
 """
 
-import numpy as np
 from typing import Callable, Dict, List, Optional, Tuple
-from .utils import fast_non_dominated_sort, crowding_distance_all, assign_ranks
-from .operators import (
-    create_offspring_population,
-    simulated_binary_crossover,
-    polynomial_mutation
-)
+
+import numpy as np
+
+from .operators import create_offspring_population, polynomial_mutation, simulated_binary_crossover
+from .utils import assign_ranks, crowding_distance_all, fast_non_dominated_sort
 
 
 class NSGA2:
@@ -31,7 +29,7 @@ class NSGA2:
         mutation_eta: float = 20.0,
         crossover_prob: float = 0.9,
         mutation_prob: Optional[float] = None,
-        seed: Optional[int] = None
+        seed: Optional[int] = None,
     ):
         """
         Initialize NSGA-II algorithm.
@@ -67,11 +65,7 @@ class NSGA2:
         self.distances = None
 
         # History tracking
-        self.history = {
-            'best_fronts': [],
-            'hypervolume': [],
-            'population_diversity': []
-        }
+        self.history = {"best_fronts": [], "hypervolume": [], "population_diversity": []}
 
     def _initialize_population(self) -> np.ndarray:
         """
@@ -128,8 +122,8 @@ class NSGA2:
                 self.distances,
                 crossover_func=simulated_binary_crossover,
                 mutation_func=polynomial_mutation,
-                crossover_params={'eta': self.crossover_eta, 'crossover_prob': self.crossover_prob},
-                mutation_params={'eta': self.mutation_eta, 'mutation_prob': self.mutation_prob}
+                crossover_params={"eta": self.crossover_eta, "crossover_prob": self.crossover_prob},
+                mutation_params={"eta": self.mutation_eta, "mutation_prob": self.mutation_prob},
             )
 
             # Evaluate offspring
@@ -146,11 +140,12 @@ class NSGA2:
 
             # Track history
             fronts = fast_non_dominated_sort(self.objectives)
-            self.history['best_fronts'].append(len(fronts[0]))
+            self.history["best_fronts"].append(len(fronts[0]))
 
             if verbose and (gen + 1) % max(1, generations // 10) == 0:
-                print(f"Generation {gen + 1}/{generations} - "
-                      f"Pareto front size: {len(fronts[0])}")
+                print(
+                    f"Generation {gen + 1}/{generations} - " f"Pareto front size: {len(fronts[0])}"
+                )
 
         # Final evaluation
         fronts = fast_non_dominated_sort(self.objectives)
@@ -158,18 +153,16 @@ class NSGA2:
         self.distances = crowding_distance_all(self.objectives, fronts)
 
         return {
-            'population': self.population,
-            'objectives': self.objectives,
-            'fronts': fronts,
-            'ranks': self.ranks,
-            'distances': self.distances,
-            'history': self.history
+            "population": self.population,
+            "objectives": self.objectives,
+            "fronts": fronts,
+            "ranks": self.ranks,
+            "distances": self.distances,
+            "history": self.history,
         }
 
     def _environmental_selection(
-        self,
-        combined_population: np.ndarray,
-        combined_objectives: np.ndarray
+        self, combined_population: np.ndarray, combined_objectives: np.ndarray
     ) -> Tuple[np.ndarray, np.ndarray]:
         """
         Environmental selection to choose next generation.
@@ -207,7 +200,7 @@ class NSGA2:
 
             current_front_idx += 1
 
-        selected_indices = np.array(selected_indices[:self.population_size])
+        selected_indices = np.array(selected_indices[: self.population_size])
 
         return combined_population[selected_indices], combined_objectives[selected_indices]
 
@@ -226,7 +219,9 @@ class NSGA2:
 
         return self.population[pareto_indices], self.objectives[pareto_indices]
 
-    def get_best_solution(self, objective_weights: Optional[np.ndarray] = None) -> Tuple[np.ndarray, np.ndarray]:
+    def get_best_solution(
+        self, objective_weights: Optional[np.ndarray] = None
+    ) -> Tuple[np.ndarray, np.ndarray]:
         """
         Get the best solution based on weighted objectives.
 
@@ -262,13 +257,13 @@ class NSGA2:
             population=self.population,
             objectives=self.objectives,
             ranks=self.ranks,
-            distances=self.distances
+            distances=self.distances,
         )
 
     def load_population(self, filepath: str):
         """Load population from file."""
         data = np.load(filepath)
-        self.population = data['population']
-        self.objectives = data['objectives']
-        self.ranks = data['ranks']
-        self.distances = data['distances']
+        self.population = data["population"]
+        self.objectives = data["objectives"]
+        self.ranks = data["ranks"]
+        self.distances = data["distances"]

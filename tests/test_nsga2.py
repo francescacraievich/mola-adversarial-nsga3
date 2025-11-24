@@ -4,21 +4,18 @@ Tests for NSGA-II algorithm.
 Tests the NSGA-II implementation with simple benchmark functions.
 """
 
-import pytest
-import numpy as np
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import numpy as np
+import pytest
 
 # Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from nsga2.nsga2 import NSGA2
-from nsga2.utils import fast_non_dominated_sort, crowding_distance, compare_dominance
-from nsga2.operators import (
-    simulated_binary_crossover,
-    polynomial_mutation,
-    tournament_selection
-)
+from nsga2.operators import polynomial_mutation, simulated_binary_crossover, tournament_selection
+from nsga2.utils import compare_dominance, crowding_distance, fast_non_dominated_sort
 
 
 # Benchmark multi-objective functions
@@ -34,7 +31,7 @@ def zdt1_fitness(genome: np.ndarray) -> tuple:
 def schaffer_n1_fitness(genome: np.ndarray) -> tuple:
     """Schaffer N.1 benchmark function (2 objectives)."""
     x = genome[0] * 10  # Scale to reasonable range
-    f1 = x ** 2
+    f1 = x**2
     f2 = (x - 2) ** 2
     return (f1, f2)
 
@@ -59,13 +56,15 @@ class TestNSGA2Utils:
 
     def test_fast_non_dominated_sort(self):
         """Test fast non-dominated sorting."""
-        objectives = np.array([
-            [1.0, 5.0],  # Front 1
-            [2.0, 3.0],  # Front 1
-            [3.0, 2.0],  # Front 1
-            [4.0, 4.0],  # Front 2
-            [5.0, 1.0],  # Front 1
-        ])
+        objectives = np.array(
+            [
+                [1.0, 5.0],  # Front 1
+                [2.0, 3.0],  # Front 1
+                [3.0, 2.0],  # Front 1
+                [4.0, 4.0],  # Front 2
+                [5.0, 1.0],  # Front 1
+            ]
+        )
 
         fronts = fast_non_dominated_sort(objectives)
 
@@ -77,12 +76,14 @@ class TestNSGA2Utils:
 
     def test_crowding_distance(self):
         """Test crowding distance calculation."""
-        objectives = np.array([
-            [1.0, 5.0],
-            [2.0, 3.0],
-            [3.0, 2.0],
-            [5.0, 1.0],
-        ])
+        objectives = np.array(
+            [
+                [1.0, 5.0],
+                [2.0, 3.0],
+                [3.0, 2.0],
+                [5.0, 1.0],
+            ]
+        )
         front_indices = [0, 1, 2, 3]
 
         distances = crowding_distance(objectives, front_indices)
@@ -105,8 +106,7 @@ class TestNSGA2Operators:
     def test_sbx_crossover(self):
         """Test simulated binary crossover."""
         child1, child2 = simulated_binary_crossover(
-            self.parent1, self.parent2,
-            eta=20.0, crossover_prob=1.0
+            self.parent1, self.parent2, eta=20.0, crossover_prob=1.0
         )
 
         # Children should be valid
@@ -119,11 +119,7 @@ class TestNSGA2Operators:
 
     def test_polynomial_mutation(self):
         """Test polynomial mutation."""
-        mutated = polynomial_mutation(
-            self.parent1,
-            eta=20.0,
-            mutation_prob=1.0
-        )
+        mutated = polynomial_mutation(self.parent1, eta=20.0, mutation_prob=1.0)
 
         # Mutated individual should be valid
         assert len(mutated) == len(self.parent1)
@@ -152,10 +148,7 @@ class TestNSGA2Algorithm:
     def test_initialization(self):
         """Test NSGA-II initialization."""
         nsga2 = NSGA2(
-            population_size=20,
-            genome_size=5,
-            fitness_function=schaffer_n1_fitness,
-            seed=42
+            population_size=20, genome_size=5, fitness_function=schaffer_n1_fitness, seed=42
         )
 
         assert nsga2.population.shape == (20, 5)
@@ -167,16 +160,13 @@ class TestNSGA2Algorithm:
             NSGA2(
                 population_size=21,  # Odd number
                 genome_size=5,
-                fitness_function=schaffer_n1_fitness
+                fitness_function=schaffer_n1_fitness,
             )
 
     def test_evaluate_population(self):
         """Test population evaluation."""
         nsga2 = NSGA2(
-            population_size=10,
-            genome_size=5,
-            fitness_function=schaffer_n1_fitness,
-            seed=42
+            population_size=10, genome_size=5, fitness_function=schaffer_n1_fitness, seed=42
         )
 
         objectives = nsga2.evaluate_population(nsga2.population)
@@ -187,40 +177,31 @@ class TestNSGA2Algorithm:
     def test_single_generation(self):
         """Test running a single generation."""
         nsga2 = NSGA2(
-            population_size=20,
-            genome_size=5,
-            fitness_function=schaffer_n1_fitness,
-            seed=42
+            population_size=20, genome_size=5, fitness_function=schaffer_n1_fitness, seed=42
         )
 
         result = nsga2.evolve(generations=1, verbose=False)
 
-        assert 'population' in result
-        assert 'objectives' in result
-        assert 'fronts' in result
-        assert result['population'].shape == (20, 5)
+        assert "population" in result
+        assert "objectives" in result
+        assert "fronts" in result
+        assert result["population"].shape == (20, 5)
 
     def test_multiple_generations(self):
         """Test running multiple generations."""
         nsga2 = NSGA2(
-            population_size=20,
-            genome_size=5,
-            fitness_function=schaffer_n1_fitness,
-            seed=42
+            population_size=20, genome_size=5, fitness_function=schaffer_n1_fitness, seed=42
         )
 
         result = nsga2.evolve(generations=5, verbose=False)
 
-        assert result['population'].shape == (20, 5)
-        assert len(result['history']['best_fronts']) == 5
+        assert result["population"].shape == (20, 5)
+        assert len(result["history"]["best_fronts"]) == 5
 
     def test_get_pareto_front(self):
         """Test getting Pareto front."""
         nsga2 = NSGA2(
-            population_size=20,
-            genome_size=5,
-            fitness_function=schaffer_n1_fitness,
-            seed=42
+            population_size=20, genome_size=5, fitness_function=schaffer_n1_fitness, seed=42
         )
 
         nsga2.evolve(generations=10, verbose=False)
@@ -234,10 +215,7 @@ class TestNSGA2Algorithm:
     def test_get_best_solution(self):
         """Test getting best solution."""
         nsga2 = NSGA2(
-            population_size=20,
-            genome_size=5,
-            fitness_function=schaffer_n1_fitness,
-            seed=42
+            population_size=20, genome_size=5, fitness_function=schaffer_n1_fitness, seed=42
         )
 
         nsga2.evolve(generations=10, verbose=False)
@@ -248,12 +226,7 @@ class TestNSGA2Algorithm:
 
     def test_convergence(self):
         """Test that algorithm converges (improves over time)."""
-        nsga2 = NSGA2(
-            population_size=50,
-            genome_size=10,
-            fitness_function=zdt1_fitness,
-            seed=42
-        )
+        nsga2 = NSGA2(population_size=50, genome_size=10, fitness_function=zdt1_fitness, seed=42)
 
         # Initial objectives
         initial_objectives = nsga2.evaluate_population(nsga2.population)
@@ -272,26 +245,22 @@ class TestNSGA2Algorithm:
 
 def test_integration_nsga2():
     """Integration test: full NSGA-II run."""
+
     def simple_fitness(genome):
         """Simple 2-objective function."""
         x = genome[0]
         y = genome[1] if len(genome) > 1 else 0
-        return (x ** 2, (x - 1) ** 2 + y ** 2)
+        return (x**2, (x - 1) ** 2 + y**2)
 
-    nsga2 = NSGA2(
-        population_size=30,
-        genome_size=2,
-        fitness_function=simple_fitness,
-        seed=42
-    )
+    nsga2 = NSGA2(population_size=30, genome_size=2, fitness_function=simple_fitness, seed=42)
 
     result = nsga2.evolve(generations=15, verbose=False)
 
     # Check result structure
-    assert 'population' in result
-    assert 'objectives' in result
-    assert 'fronts' in result
-    assert 'history' in result
+    assert "population" in result
+    assert "objectives" in result
+    assert "fronts" in result
+    assert "history" in result
 
     # Check Pareto front
     pareto_genomes, pareto_objectives = nsga2.get_pareto_front()
@@ -301,5 +270,5 @@ def test_integration_nsga2():
     assert np.std(pareto_objectives[:, 0]) > 0
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

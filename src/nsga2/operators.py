@@ -4,16 +4,15 @@ Genetic operators for NSGA-II.
 Implements selection, crossover, and mutation operators.
 """
 
+from typing import List, Tuple
+
 import numpy as np
-from typing import Tuple, List
+
 from .utils import crowded_comparison
 
 
 def tournament_selection(
-    population: np.ndarray,
-    ranks: np.ndarray,
-    distances: np.ndarray,
-    tournament_size: int = 2
+    population: np.ndarray, ranks: np.ndarray, distances: np.ndarray, tournament_size: int = 2
 ) -> int:
     """
     Tournament selection using crowded comparison operator.
@@ -35,10 +34,7 @@ def tournament_selection(
     best_distance = distances[best_idx]
 
     for idx in tournament_indices[1:]:
-        comparison = crowded_comparison(
-            ranks[idx], best_rank,
-            distances[idx], best_distance
-        )
+        comparison = crowded_comparison(ranks[idx], best_rank, distances[idx], best_distance)
         if comparison > 0:
             best_idx = idx
             best_rank = ranks[idx]
@@ -48,10 +44,7 @@ def tournament_selection(
 
 
 def simulated_binary_crossover(
-    parent1: np.ndarray,
-    parent2: np.ndarray,
-    eta: float = 20.0,
-    crossover_prob: float = 0.9
+    parent1: np.ndarray, parent2: np.ndarray, eta: float = 20.0, crossover_prob: float = 0.9
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     Simulated Binary Crossover (SBX) operator.
@@ -82,8 +75,12 @@ def simulated_binary_crossover(
                     beta = (1.0 / (2.0 * (1.0 - u))) ** (1.0 / (eta + 1.0))
 
                 # Calculate offspring
-                offspring1[i] = 0.5 * ((parent1[i] + parent2[i]) - beta * abs(parent1[i] - parent2[i]))
-                offspring2[i] = 0.5 * ((parent1[i] + parent2[i]) + beta * abs(parent1[i] - parent2[i]))
+                offspring1[i] = 0.5 * (
+                    (parent1[i] + parent2[i]) - beta * abs(parent1[i] - parent2[i])
+                )
+                offspring2[i] = 0.5 * (
+                    (parent1[i] + parent2[i]) + beta * abs(parent1[i] - parent2[i])
+                )
 
                 # Clip to bounds [-1, 1]
                 offspring1[i] = np.clip(offspring1[i], -1, 1)
@@ -93,9 +90,7 @@ def simulated_binary_crossover(
 
 
 def polynomial_mutation(
-    individual: np.ndarray,
-    eta: float = 20.0,
-    mutation_prob: float = None
+    individual: np.ndarray, eta: float = 20.0, mutation_prob: float = None
 ) -> np.ndarray:
     """
     Polynomial mutation operator.
@@ -144,9 +139,7 @@ def polynomial_mutation(
 
 
 def uniform_crossover(
-    parent1: np.ndarray,
-    parent2: np.ndarray,
-    crossover_prob: float = 0.5
+    parent1: np.ndarray, parent2: np.ndarray, crossover_prob: float = 0.5
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     Uniform crossover operator.
@@ -176,9 +169,7 @@ def uniform_crossover(
 
 
 def gaussian_mutation(
-    individual: np.ndarray,
-    sigma: float = 0.1,
-    mutation_prob: float = None
+    individual: np.ndarray, sigma: float = 0.1, mutation_prob: float = None
 ) -> np.ndarray:
     """
     Gaussian mutation operator.
@@ -211,7 +202,7 @@ def create_offspring_population(
     crossover_func=simulated_binary_crossover,
     mutation_func=polynomial_mutation,
     crossover_params: dict = None,
-    mutation_params: dict = None
+    mutation_params: dict = None,
 ) -> np.ndarray:
     """
     Create offspring population using selection, crossover, and mutation.

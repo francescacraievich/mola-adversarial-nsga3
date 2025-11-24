@@ -4,8 +4,9 @@ Utility functions for NSGA-II algorithm.
 Implements fast non-dominated sorting and crowding distance calculation.
 """
 
-import numpy as np
 from typing import List, Tuple
+
+import numpy as np
 
 
 def fast_non_dominated_sort(objectives: np.ndarray) -> List[List[int]]:
@@ -20,8 +21,12 @@ def fast_non_dominated_sort(objectives: np.ndarray) -> List[List[int]]:
         List of fronts, where each front is a list of individual indices
     """
     population_size = len(objectives)
-    domination_count = np.zeros(population_size, dtype=int)  # Number of solutions that dominate this solution
-    dominated_solutions = [[] for _ in range(population_size)]  # Solutions dominated by this solution
+    domination_count = np.zeros(
+        population_size, dtype=int
+    )  # Number of solutions that dominate this solution
+    dominated_solutions = [
+        [] for _ in range(population_size)
+    ]  # Solutions dominated by this solution
     fronts = [[]]
 
     # For each individual
@@ -119,8 +124,10 @@ def crowding_distance(objectives: np.ndarray, front_indices: List[int]) -> np.nd
         distances[sorted_indices[-1]] = np.inf
 
         # Range of objective m
-        obj_range = objectives[front_indices[sorted_indices[-1]], m] - \
-                    objectives[front_indices[sorted_indices[0]], m]
+        obj_range = (
+            objectives[front_indices[sorted_indices[-1]], m]
+            - objectives[front_indices[sorted_indices[0]], m]
+        )
 
         if obj_range == 0:
             continue
@@ -128,8 +135,8 @@ def crowding_distance(objectives: np.ndarray, front_indices: List[int]) -> np.nd
         # Calculate crowding distance for intermediate points
         for i in range(1, front_size - 1):
             distances[sorted_indices[i]] += (
-                objectives[front_indices[sorted_indices[i + 1]], m] -
-                objectives[front_indices[sorted_indices[i - 1]], m]
+                objectives[front_indices[sorted_indices[i + 1]], m]
+                - objectives[front_indices[sorted_indices[i - 1]], m]
             ) / obj_range
 
     return distances
@@ -158,12 +165,7 @@ def crowding_distance_all(objectives: np.ndarray, fronts: List[List[int]]) -> np
     return distances
 
 
-def crowded_comparison(
-    rank1: int,
-    rank2: int,
-    distance1: float,
-    distance2: float
-) -> int:
+def crowded_comparison(rank1: int, rank2: int, distance1: float, distance2: float) -> int:
     """
     Crowded comparison operator for tournament selection.
 

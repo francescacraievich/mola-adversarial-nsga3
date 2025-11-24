@@ -5,8 +5,9 @@ Generates and applies various types of perturbations to point clouds
 while maintaining physical realism constraints.
 """
 
+from typing import Dict, Optional, Tuple
+
 import numpy as np
-from typing import Dict, Tuple, Optional
 
 
 class PerturbationGenerator:
@@ -22,7 +23,7 @@ class PerturbationGenerator:
         max_translation: float = 0.5,
         max_rotation: float = 0.1,
         max_intensity_change: float = 50.0,
-        point_dropout_rate: float = 0.1
+        point_dropout_rate: float = 0.1,
     ):
         """
         Initialize perturbation generator.
@@ -62,10 +63,10 @@ class PerturbationGenerator:
         dropout_rate = (genome[7] + 1) / 2 * self.point_dropout_rate  # Map [-1,1] to [0, max]
 
         return {
-            'translation': translation,
-            'rotation': rotation,
-            'intensity_scale': intensity_scale,
-            'dropout_rate': dropout_rate
+            "translation": translation,
+            "rotation": rotation,
+            "intensity_scale": intensity_scale,
+            "dropout_rate": dropout_rate,
         }
 
     def decode_perturbation(self, params: Dict[str, np.ndarray]) -> np.ndarray:
@@ -79,17 +80,14 @@ class PerturbationGenerator:
             Genome array (normalized [-1, 1])
         """
         genome = np.zeros(8)
-        genome[:3] = params['translation'] / self.max_translation
-        genome[3:6] = params['rotation'] / self.max_rotation
-        genome[6] = params['intensity_scale'] / self.max_intensity_change
-        genome[7] = params['dropout_rate'] / self.point_dropout_rate * 2 - 1
+        genome[:3] = params["translation"] / self.max_translation
+        genome[3:6] = params["rotation"] / self.max_rotation
+        genome[6] = params["intensity_scale"] / self.max_intensity_change
+        genome[7] = params["dropout_rate"] / self.point_dropout_rate * 2 - 1
         return genome
 
     def apply_perturbation(
-        self,
-        point_cloud: np.ndarray,
-        params: Dict[str, np.ndarray],
-        seed: Optional[int] = None
+        self, point_cloud: np.ndarray, params: Dict[str, np.ndarray], seed: Optional[int] = None
     ) -> np.ndarray:
         """
         Apply perturbation to point cloud.
@@ -108,19 +106,19 @@ class PerturbationGenerator:
         perturbed = point_cloud.copy()
 
         # Apply translation
-        perturbed[:, :3] += params['translation']
+        perturbed[:, :3] += params["translation"]
 
         # Apply rotation (using rotation matrix from Euler angles)
-        rotation_matrix = self._euler_to_rotation_matrix(params['rotation'])
+        rotation_matrix = self._euler_to_rotation_matrix(params["rotation"])
         perturbed[:, :3] = (rotation_matrix @ perturbed[:, :3].T).T
 
         # Apply intensity perturbation
-        perturbed[:, 3] += params['intensity_scale']
+        perturbed[:, 3] += params["intensity_scale"]
         perturbed[:, 3] = np.clip(perturbed[:, 3], 0, 255)  # Keep intensity in valid range
 
         # Apply point dropout
-        if params['dropout_rate'] > 0:
-            keep_mask = np.random.random(len(perturbed)) > params['dropout_rate']
+        if params["dropout_rate"] > 0:
+            keep_mask = np.random.random(len(perturbed)) > params["dropout_rate"]
             perturbed = perturbed[keep_mask]
 
         return perturbed
@@ -139,25 +137,17 @@ class PerturbationGenerator:
         roll, pitch, yaw = euler_angles
 
         # Rotation around X-axis (roll)
-        Rx = np.array([
-            [1, 0, 0],
-            [0, np.cos(roll), -np.sin(roll)],
-            [0, np.sin(roll), np.cos(roll)]
-        ])
+        Rx = np.array(
+            [[1, 0, 0], [0, np.cos(roll), -np.sin(roll)], [0, np.sin(roll), np.cos(roll)]]
+        )
 
         # Rotation around Y-axis (pitch)
-        Ry = np.array([
-            [np.cos(pitch), 0, np.sin(pitch)],
-            [0, 1, 0],
-            [-np.sin(pitch), 0, np.cos(pitch)]
-        ])
+        Ry = np.array(
+            [[np.cos(pitch), 0, np.sin(pitch)], [0, 1, 0], [-np.sin(pitch), 0, np.cos(pitch)]]
+        )
 
         # Rotation around Z-axis (yaw)
-        Rz = np.array([
-            [np.cos(yaw), -np.sin(yaw), 0],
-            [np.sin(yaw), np.cos(yaw), 0],
-            [0, 0, 1]
-        ])
+        Rz = np.array([[np.cos(yaw), -np.sin(yaw), 0], [np.sin(yaw), np.cos(yaw), 0], [0, 0, 1]])
 
         # Combined rotation: Rz * Ry * Rx
         return Rz @ Ry @ Rx
