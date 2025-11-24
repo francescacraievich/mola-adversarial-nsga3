@@ -132,7 +132,7 @@ def test_integration_with_perturbations():
         genome_size=8, fitness_function=perturbation_fitness, population_size=30, seed=42
     )
 
-    result = optimizer.optimize(n_generations=20, verbose=False)
+    optimizer.optimize(n_generations=20, verbose=False)
 
     # Check that we have diverse solutions
     pareto_genomes, pareto_objectives = optimizer.get_pareto_front()
