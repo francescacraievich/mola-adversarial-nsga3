@@ -4,7 +4,7 @@ Utility functions for NSGA-II algorithm.
 Implements fast non-dominated sorting and crowding distance calculation.
 """
 
-from typing import List, Tuple
+from typing import List
 
 import numpy as np
 

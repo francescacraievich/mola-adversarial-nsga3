@@ -4,7 +4,7 @@ NSGA-II (Non-dominated Sorting Genetic Algorithm II) implementation.
 Main algorithm implementation for multi-objective optimization.
 """
 
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, Dict, Optional, Tuple
 
 import numpy as np
 

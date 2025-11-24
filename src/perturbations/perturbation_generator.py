@@ -5,7 +5,7 @@ Generates and applies various types of perturbations to point clouds
 while maintaining physical realism constraints.
 """
 
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional
 
 import numpy as np
 

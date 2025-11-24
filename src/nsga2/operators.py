@@ -4,7 +4,7 @@ Genetic operators for NSGA-II.
 Implements selection, crossover, and mutation operators.
 """
 
-from typing import List, Tuple
+from typing import Tuple
 
 import numpy as np
 
