@@ -11,17 +11,17 @@ This allows you to see the effect of perturbations on MOLA SLAM in real-time.
 import sys
 from pathlib import Path
 
-# Add project root to path
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
-
 import numpy as np
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import PointCloud2
 from sensor_msgs_py import point_cloud2
 
-from src.perturbations.perturbation_generator import PerturbationGenerator
+# Add project root to path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
+from src.perturbations.perturbation_generator import PerturbationGenerator  # noqa: E402
 
 
 class PerturbationNode(Node):

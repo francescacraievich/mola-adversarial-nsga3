@@ -11,10 +11,12 @@ import numpy as np
 import pytest
 
 # Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from perturbations.perturbation_generator import PerturbationGenerator
-from perturbations.point_cloud_ops import (
+from perturbations.perturbation_generator import (  # noqa: E402
+    PerturbationGenerator,
+)
+from perturbations.point_cloud_ops import (  # noqa: E402
     compute_perturbation_magnitude,
     downsample_point_cloud,
     validate_point_cloud,

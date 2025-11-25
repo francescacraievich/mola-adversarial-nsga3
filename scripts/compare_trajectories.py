@@ -5,19 +5,17 @@ Compare and visualize trajectories (clean vs perturbed).
 Loads trajectory files and creates overlay visualization.
 """
 
+import argparse
 import sys
 from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-import argparse
-
-import matplotlib.pyplot as plt
-import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
-
-from src.evaluation.metrics import compute_localization_error
+from src.evaluation.metrics import compute_localization_error  # noqa: E402
 
 
 def load_trajectory(filepath):
@@ -30,10 +28,10 @@ def load_trajectory(filepath):
 
 def plot_trajectory_comparison(trajectories, labels, output_file=None):
     """Plot multiple trajectories overlaid."""
-    fig = plt.figure(figsize=(15, 5))
+    fig = plt.figure(figsize=(14, 6))
 
     # Plot 1: 2D top-down view (XY)
-    ax1 = fig.add_subplot(131)
+    ax1 = fig.add_subplot(121)
     colors = ["blue", "red", "green", "orange", "purple"]
 
     for idx, (traj, label) in enumerate(zip(trajectories, labels)):
@@ -56,32 +54,11 @@ def plot_trajectory_comparison(trajectories, labels, output_file=None):
     ax1.grid(True, alpha=0.3)
     ax1.axis("equal")
 
-    # Plot 2: Side view (XZ)
-    ax2 = fig.add_subplot(132)
+    # Plot 2: 3D view
+    ax2 = fig.add_subplot(122, projection="3d")
     for idx, (traj, label) in enumerate(zip(trajectories, labels)):
         color = colors[idx % len(colors)]
         ax2.plot(
-            traj[:, 0],
-            traj[:, 2],
-            "-o",
-            label=label,
-            color=color,
-            markersize=3,
-            linewidth=2,
-            alpha=0.7,
-        )
-
-    ax2.set_xlabel("X (m)", fontsize=12)
-    ax2.set_ylabel("Z (m)", fontsize=12)
-    ax2.set_title("Side View (XZ)", fontsize=14, fontweight="bold")
-    ax2.legend(fontsize=10)
-    ax2.grid(True, alpha=0.3)
-
-    # Plot 3: 3D view
-    ax3 = fig.add_subplot(133, projection="3d")
-    for idx, (traj, label) in enumerate(zip(trajectories, labels)):
-        color = colors[idx % len(colors)]
-        ax3.plot(
             traj[:, 0],
             traj[:, 1],
             traj[:, 2],
@@ -93,11 +70,11 @@ def plot_trajectory_comparison(trajectories, labels, output_file=None):
             alpha=0.7,
         )
 
-    ax3.set_xlabel("X (m)", fontsize=10)
-    ax3.set_ylabel("Y (m)", fontsize=10)
-    ax3.set_zlabel("Z (m)", fontsize=10)
-    ax3.set_title("3D View", fontsize=14, fontweight="bold")
-    ax3.legend(fontsize=9)
+    ax2.set_xlabel("X (m)", fontsize=10)
+    ax2.set_ylabel("Y (m)", fontsize=10)
+    ax2.set_zlabel("Z (m)", fontsize=10)
+    ax2.set_title("3D View", fontsize=14, fontweight="bold")
+    ax2.legend(fontsize=9)
 
     plt.tight_layout()
 

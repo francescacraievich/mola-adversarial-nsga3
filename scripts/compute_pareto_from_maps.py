@@ -69,12 +69,12 @@ def main():
     # Export trajectories
     print("📊 Extracting trajectories...")
     subprocess.run(
-        ["sm-cli", "export-keyframes", "final_map.simplemap", "-o", "clean.tum"],
-        capture_output=True,
+        ["sm-cli", "export-keyframes", "maps/final_map.simplemap", "-o", "clean.tum"],
+        check=True,
     )
     subprocess.run(
-        ["sm-cli", "export-keyframes", "final_map2.simplemap", "-o", "perturbed.tum"],
-        capture_output=True,
+        ["sm-cli", "export-keyframes", "maps/final_map2.simplemap", "-o", "perturbed.tum"],
+        check=True,
     )
 
     # Load trajectories
@@ -97,9 +97,9 @@ def main():
     # Use clean trajectory as "ground truth" proxy
     ate = compute_ate(clean_traj, perturbed_traj)
 
-    print(f"\n📈 Objective 1: Localization Error (ATE)")
+    print("\n📈 Objective 1: Localization Error (ATE)")
     print(f"   Value: {ate:.4f} m")
-    print(f"   Goal: MAXIMIZE (higher = more damage to SLAM)")
+    print("   Goal: MAXIMIZE (higher = more damage to SLAM)")
     print(f"   Status: {'✓ HIGH' if ate > 0.5 else '✗ LOW'} error achieved")
 
     # Objective 2: Imperceptibility
@@ -112,12 +112,14 @@ def main():
     mean_pert = np.mean(distances)
     max_pert = np.max(distances)
 
-    print(f"\n📉 Objective 2: Imperceptibility (Perturbation Magnitude)")
+    print("\n📉 Objective 2: Imperceptibility (Perturbation Magnitude)")
     print(f"   Mean perturbation: {mean_pert:.4f} m")
     print(f"   Max perturbation: {max_pert:.4f} m")
     print(f"   Constraint: ≤{max_translation} m translation, ≤{max_rotation:.2f} rad rotation")
-    print(f"   Goal: MINIMIZE (lower = stealthier)")
-    print(f"   Status: {'✓ WITHIN' if max_pert <= max_translation*3 else '✗ EXCEEDS'} constraints")
+    print("   Goal: MINIMIZE (lower = stealthier)")
+    print(
+        f"   Status: {'✓ WITHIN' if max_pert <= max_translation * 3 else '✗ EXCEEDS'} constraints"
+    )
 
     # Plot Pareto point
     print("\n" + "-" * 80)

@@ -11,9 +11,9 @@ import numpy as np
 import pytest
 
 # Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from optimization.pymoo_wrapper import PerturbationOptimizer
+from optimization.pymoo_wrapper import PerturbationOptimizer  # noqa: E402
 
 
 # Simple test fitness functions

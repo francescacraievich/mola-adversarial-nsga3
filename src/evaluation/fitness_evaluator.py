@@ -8,7 +8,7 @@ Coordinates the evaluation pipeline:
 4. Compute fitness metrics
 """
 
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, List, Tuple
 
 import numpy as np
 import rclpy

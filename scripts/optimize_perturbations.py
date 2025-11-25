@@ -13,19 +13,18 @@ Can run in two modes:
 
 import argparse
 import sys
-from pathlib import Path
-
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
-
 from datetime import datetime
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.evaluation.fitness_evaluator import OfflineFitnessEvaluator
-from src.optimization.pymoo_wrapper import PerturbationOptimizer
-from src.perturbations.perturbation_generator import PerturbationGenerator
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
+from src.evaluation.fitness_evaluator import OfflineFitnessEvaluator  # noqa: E402
+from src.optimization.pymoo_wrapper import PerturbationOptimizer  # noqa: E402
+from src.perturbations.perturbation_generator import PerturbationGenerator  # noqa: E402
 
 
 def parse_args():
@@ -152,7 +151,7 @@ def plot_results(result, generator, output_dir):
             "Dropout\n(rate)": params["dropout_rate"] * 10,
         }
 
-        bars = ax.bar(range(len(components)), list(components.values()), color=color, alpha=0.7)
+        ax.bar(range(len(components)), list(components.values()), color=color, alpha=0.7)
         ax.set_xticks(range(len(components)))
         ax.set_xticklabels(list(components.keys()), fontsize=9)
         ax.set_ylabel("Magnitude", fontsize=10)
@@ -225,7 +224,7 @@ def main():
     print("🧬 NSGA-II ADVERSARIAL PERTURBATION OPTIMIZATION")
     print("=" * 70 + "\n")
 
-    print(f"Configuration:")
+    print("Configuration:")
     print(f"  Mode: {args.mode}")
     print(f"  Population: {args.population}")
     print(f"  Generations: {args.generations}")
@@ -269,7 +268,7 @@ def main():
         return
 
     # Initialize optimizer
-    print(f"\n🧬 Initializing NSGA-II optimizer...")
+    print("\n🧬 Initializing NSGA-II optimizer...")
     optimizer = PerturbationOptimizer(
         genome_size=generator.get_genome_size(),
         fitness_function=evaluator.get_fitness_function(),
@@ -277,68 +276,68 @@ def main():
         population_size=args.population,
         seed=args.seed,
     )
-    print(f"  ✓ Optimizer ready")
+    print("  ✓ Optimizer ready")
 
     # Run optimization
-    print(f"\n⚡ Running optimization...")
+    print("\n⚡ Running optimization...")
     print(f"  This will evaluate {args.population * args.generations} solutions")
     print(f"  Estimated time: ~{args.population * args.generations * 0.01:.1f} seconds\n")
 
     result = optimizer.optimize(n_generations=args.generations, verbose=True)
 
-    print(f"\n✅ Optimization complete!")
+    print("\n✅ Optimization complete!")
     print(f"  Final population: {len(result['population'])}")
     print(f"  Pareto front size: {len(result['pareto_front'])}")
 
     # Analyze results
-    print(f"\n📊 Analyzing results...")
+    print("\n📊 Analyzing results...")
     pareto_objectives = result["pareto_objectives"]
 
-    print(f"\nPareto front statistics:")
-    print(f"  Attack effectiveness (neg. error):")
+    print("\nPareto front statistics:")
+    print("  Attack effectiveness (neg. error):")
     print(f"    Range: [{pareto_objectives[:, 0].min():.4f}, {pareto_objectives[:, 0].max():.4f}]")
     print(f"    Mean: {pareto_objectives[:, 0].mean():.4f}")
-    print(f"  Imperceptibility (perturbation mag):")
+    print("  Imperceptibility (perturbation mag):")
     print(f"    Range: [{pareto_objectives[:, 1].min():.4f}, {pareto_objectives[:, 1].max():.4f}]")
     print(f"    Mean: {pareto_objectives[:, 1].mean():.4f}")
 
     # Get best solutions
-    print(f"\n🎯 Best solutions:")
+    print("\n🎯 Best solutions:")
 
     best_attack = optimizer.get_best_solution(np.array([0.9, 0.1]))
-    print(f"\n  1. Most effective attack (90% weight):")
+    print("\n  1. Most effective attack (90% weight):")
     print(f"     Attack: {-best_attack[1][0]:.4f} | Stealth: {best_attack[1][1]:.4f}")
     params = generator.encode_perturbation(best_attack[0])
     print(f"     Translation: {np.linalg.norm(params['translation']):.3f} m")
     print(f"     Rotation: {np.linalg.norm(params['rotation']):.3f} rad")
 
     best_balanced = optimizer.get_best_solution(np.array([0.5, 0.5]))
-    print(f"\n  2. Balanced trade-off (50/50):")
+    print("\n  2. Balanced trade-off (50/50):")
     print(f"     Attack: {-best_balanced[1][0]:.4f} | Stealth: {best_balanced[1][1]:.4f}")
     params = generator.encode_perturbation(best_balanced[0])
     print(f"     Translation: {np.linalg.norm(params['translation']):.3f} m")
     print(f"     Rotation: {np.linalg.norm(params['rotation']):.3f} rad")
 
     best_stealth = optimizer.get_best_solution(np.array([0.1, 0.9]))
-    print(f"\n  3. Most stealthy (90% weight):")
+    print("\n  3. Most stealthy (90% weight):")
     print(f"     Attack: {-best_stealth[1][0]:.4f} | Stealth: {best_stealth[1][1]:.4f}")
     params = generator.encode_perturbation(best_stealth[0])
     print(f"     Translation: {np.linalg.norm(params['translation']):.3f} m")
     print(f"     Rotation: {np.linalg.norm(params['rotation']):.3f} rad")
 
     # Save results
-    print(f"\n💾 Saving results...")
+    print("\n💾 Saving results...")
     plot_results(result, generator, output_dir)
     save_best_perturbations(result, generator, output_dir)
 
-    print(f"\n" + "=" * 70)
-    print(f"✅ OPTIMIZATION COMPLETE!")
+    print("\n" + "=" * 70)
+    print("✅ OPTIMIZATION COMPLETE!")
     print("=" * 70)
     print(f"\nResults saved in: {output_dir}")
-    print(f"\nNext steps:")
+    print("\nNext steps:")
     print(f"  1. View plots: {output_dir}/pareto_front.png")
     print(f"  2. Load best perturbations: {output_dir}/best_perturbations.npz")
-    print(f"  3. Test in MOLA using scripts/test_perturbation.py")
+    print("  3. Test in MOLA using scripts/test_perturbation.py")
     print()
 
 

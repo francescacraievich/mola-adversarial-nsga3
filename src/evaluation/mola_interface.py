@@ -12,8 +12,7 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 import rclpy
-from geometry_msgs.msg import PoseStamped
-from nav_msgs.msg import Odometry, Path
+from nav_msgs.msg import Odometry
 from rclpy.node import Node
 from sensor_msgs.msg import PointCloud2, PointField
 from sensor_msgs_py import point_cloud2
@@ -59,7 +58,7 @@ class MOLAInterface(Node):
         self.trajectory: List[np.ndarray] = []
         self.timestamps: List[float] = []
 
-        self.get_logger().info(f"MOLA Interface initialized")
+        self.get_logger().info("MOLA Interface initialized")
         self.get_logger().info(f"Publishing point clouds to: {lidar_topic}")
         self.get_logger().info(f"Subscribing to odometry: {odom_topic}")
 
@@ -172,7 +171,6 @@ class MOLAInterface(Node):
         Returns:
             True if enough points collected, False if timeout
         """
-        rate = self.create_rate(10)  # 10 Hz
         elapsed = 0.0
         dt = 0.1
 
