@@ -27,6 +27,13 @@ site/
 *.gv
 *.pdf
 
+# Map files 
+maps/
+*.ply
+*.pcd
+*_raw.txt
+*.tum
+
 # Temporary files
 *.tmp
 *.bak

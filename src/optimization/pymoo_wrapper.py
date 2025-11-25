@@ -19,9 +19,17 @@ class PerturbationProblem(Problem):
     Pymoo problem definition for perturbation optimization.
 
     Wraps a fitness function that evaluates perturbations.
+    Includes constraint handling for physical realism.
     """
 
-    def __init__(self, n_var: int, fitness_function: Callable, n_obj: int = 2):
+    def __init__(
+        self,
+        n_var: int,
+        fitness_function: Callable,
+        n_obj: int = 2,
+        max_translation: float = 0.5,
+        max_rotation: float = 0.1,
+    ):
         """
         Initialize problem.
 
@@ -29,24 +37,52 @@ class PerturbationProblem(Problem):
             n_var: Number of variables (genome size)
             fitness_function: Function that takes a genome and returns tuple of objectives
             n_obj: Number of objectives (default: 2)
+            max_translation: Maximum translation constraint (m)
+            max_rotation: Maximum rotation constraint (rad)
         """
-        super().__init__(n_var=n_var, n_obj=n_obj, xl=-1.0, xu=1.0)
+        # n_constr = 1: single constraint for total perturbation magnitude
+        super().__init__(n_var=n_var, n_obj=n_obj, n_constr=1, xl=-1.0, xu=1.0)
         self.fitness_function = fitness_function
+        self.max_translation = max_translation
+        self.max_rotation = max_rotation
 
     def _evaluate(self, x, out, *args, **kwargs):
         """
-        Evaluate population.
+        Evaluate population with constraint checking.
 
         Args:
             x: Population array of shape (pop_size, n_var)
             out: Output dictionary
         """
         objectives = []
+        constraints = []
+
         for genome in x:
+            # Evaluate fitness
             obj = self.fitness_function(genome)
             objectives.append(obj)
 
+            # Constraint: perturbation magnitude must be within limits
+            # Genome format: [tx, ty, tz, rx, ry, rz, intensity, dropout]
+            translation = genome[:3] * self.max_translation
+            rotation = genome[3:6] * self.max_rotation
+
+            # Total perturbation magnitude
+            trans_mag = np.linalg.norm(translation)
+            rot_mag = np.linalg.norm(rotation)
+
+            # Constraint: g(x) <= 0 (violated if positive)
+            # We want: trans_mag <= max_translation AND rot_mag <= max_rotation
+            # Combine into single constraint: normalized magnitude <= 1.0
+            normalized_mag = (trans_mag / self.max_translation) ** 2 + (
+                rot_mag / self.max_rotation
+            ) ** 2
+            constraint = normalized_mag - 1.0  # <= 0 if within bounds
+
+            constraints.append(constraint)
+
         out["F"] = np.array(objectives)
+        out["G"] = np.array(constraints).reshape(-1, 1)
 
 
 class PerturbationOptimizer:
@@ -63,6 +99,8 @@ class PerturbationOptimizer:
         fitness_function: Callable,
         n_objectives: int = 2,
         population_size: int = 100,
+        max_translation: float = 0.5,
+        max_rotation: float = 0.1,
         seed: Optional[int] = None,
     ):
         """
@@ -73,17 +111,25 @@ class PerturbationOptimizer:
             fitness_function: Function that evaluates a genome and returns objectives
             n_objectives: Number of objectives to optimize (default: 2)
             population_size: Population size for NSGA-II (default: 100)
+            max_translation: Maximum translation constraint (m, default: 0.5)
+            max_rotation: Maximum rotation constraint (rad, default: 0.1 ≈ 5.7°)
             seed: Random seed for reproducibility
         """
         self.genome_size = genome_size
         self.fitness_function = fitness_function
         self.n_objectives = n_objectives
         self.population_size = population_size
+        self.max_translation = max_translation
+        self.max_rotation = max_rotation
         self.seed = seed
 
-        # Create problem
+        # Create problem with constraints
         self.problem = PerturbationProblem(
-            n_var=genome_size, fitness_function=fitness_function, n_obj=n_objectives
+            n_var=genome_size,
+            fitness_function=fitness_function,
+            n_obj=n_objectives,
+            max_translation=max_translation,
+            max_rotation=max_rotation,
         )
 
         # Create algorithm
