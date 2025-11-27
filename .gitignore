@@ -22,17 +22,15 @@ coverage.xml
 site/
 
 # MOLA/SLAM outputs
-*.simplemap
 *.mm
 *.gv
 *.pdf
 
 # Map files 
-maps/
 *.ply
 *.pcd
 *_raw.txt
-*.tum
+
 
 # Temporary files
 *.tmp
@@ -43,6 +41,10 @@ maps/
 scripts/check_ci.sh
 
 # Data files
-data/
 *.bag
 *.pcap
+*.mcap
+
+# Large data directories
+bags/
+data/*.npy

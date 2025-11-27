@@ -1,9 +1,9 @@
 """
-Multi-objective optimization using pymoo.
+Multi-objective optimization using NSGA-II.
 
-Provides integration between pymoo NSGA-II and perturbation generation.
+Provides adversarial perturbation optimization against MOLA SLAM.
 """
 
-from .pymoo_wrapper import PerturbationOptimizer
+from .run_nsga2_advanced import AdvancedMOLAEvaluator
 
-__all__ = ["PerturbationOptimizer"]
+__all__ = ["AdvancedMOLAEvaluator"]
