@@ -19,10 +19,12 @@ from sensor_msgs.msg import PointCloud2
 from sensor_msgs_py import point_cloud2
 
 # Add project root to path
-project_root = Path(__file__).parent.parent
+project_root = Path(__file__).parent.parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.perturbations.perturbation_generator import PerturbationGenerator  # noqa: E402
+from src.perturbations.perturbation_generator import (  # noqa: E402
+    PerturbationGenerator,
+)
 
 
 class PerturbationNode(Node):
@@ -32,25 +34,22 @@ class PerturbationNode(Node):
         super().__init__("perturbation_node")
 
         # Declare parameters with CLI argument overrides
-        self.declare_parameter("max_translation", args.max_translation if args else 0.5)
-        self.declare_parameter("max_rotation", args.max_rotation if args else 0.1)
-        self.declare_parameter("max_intensity_change", args.intensity_scale if args else 50.0)
-        self.declare_parameter("point_dropout_rate", args.dropout_rate if args else 0.1)
+        self.declare_parameter("max_point_shift", args.max_point_shift if args else 0.05)
+        self.declare_parameter("noise_std", args.noise_std if args else 0.02)
+        self.declare_parameter("max_dropout_rate", args.dropout_rate if args else 0.15)
         self.declare_parameter("perturbation_level", args.perturbation_level if args else 0.5)
 
         # Get parameters
-        max_translation = self.get_parameter("max_translation").value
-        max_rotation = self.get_parameter("max_rotation").value
-        max_intensity_change = self.get_parameter("max_intensity_change").value
-        point_dropout_rate = self.get_parameter("point_dropout_rate").value
+        max_point_shift = self.get_parameter("max_point_shift").value
+        noise_std = self.get_parameter("noise_std").value
+        max_dropout_rate = self.get_parameter("max_dropout_rate").value
         perturbation_level = self.get_parameter("perturbation_level").value
 
         # Initialize perturbation generator
         self.generator = PerturbationGenerator(
-            max_translation=max_translation,
-            max_rotation=max_rotation,
-            max_intensity_change=max_intensity_change,
-            point_dropout_rate=point_dropout_rate,
+            max_point_shift=max_point_shift,
+            noise_std=noise_std,
+            max_dropout_rate=max_dropout_rate,
         )
 
         # Load or generate perturbation genome
@@ -70,18 +69,10 @@ class PerturbationNode(Node):
         self.get_logger().info("Perturbation Node Started")
         self.get_logger().info("=" * 60)
         self.get_logger().info(f"Perturbation Level: {perturbation_level:.1%}")
-        self.get_logger().info(
-            f'Translation: [{self.params["translation"][0]:.3f}, '
-            f'{self.params["translation"][1]:.3f}, '
-            f'{self.params["translation"][2]:.3f}]'
-        )
-        self.get_logger().info(
-            f'Rotation:    [{self.params["rotation"][0]:.3f}, '
-            f'{self.params["rotation"][1]:.3f}, '
-            f'{self.params["rotation"][2]:.3f}]'
-        )
-        self.get_logger().info(f'Intensity:   {self.params["intensity_scale"]:+.2f}')
-        self.get_logger().info(f'Dropout:     {self.params["dropout_rate"]:.1%}')
+        self.get_logger().info(f'Noise Intensity: {self.params["noise_intensity"]:.4f}')
+        self.get_logger().info(f'Dropout Rate: {self.params["dropout_rate"]:.1%}')
+        self.get_logger().info(f'Ghost Ratio: {self.params["ghost_ratio"]:.1%}')
+        self.get_logger().info(f'Cluster Strength: {self.params["cluster_strength"]:.2f}')
         self.get_logger().info("=" * 60)
         self.get_logger().info("")
 
@@ -134,28 +125,22 @@ def main(args=None):
         description="ROS 2 node that applies adversarial perturbations to LiDAR"
     )
     parser.add_argument(
-        "--max-translation",
+        "--max-point-shift",
         type=float,
-        default=0.5,
-        help="Maximum translation perturbation in meters (default: 0.5)",
+        default=0.05,
+        help="Maximum per-point shift in meters (default: 0.05)",
     )
     parser.add_argument(
-        "--max-rotation",
+        "--noise-std",
         type=float,
-        default=0.1,
-        help="Maximum rotation perturbation in radians (default: 0.1)",
-    )
-    parser.add_argument(
-        "--intensity-scale",
-        type=float,
-        default=50.0,
-        help="Maximum intensity change (default: 50.0)",
+        default=0.02,
+        help="Gaussian noise standard deviation in meters (default: 0.02)",
     )
     parser.add_argument(
         "--dropout-rate",
         type=float,
-        default=0.1,
-        help="Point dropout rate (default: 0.1)",
+        default=0.15,
+        help="Maximum point dropout rate (default: 0.15)",
     )
     parser.add_argument(
         "--perturbation-level",

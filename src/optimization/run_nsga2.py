@@ -33,8 +33,8 @@ from tf2_msgs.msg import TFMessage
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))  # Go to project root
 
 from src.evaluation.metrics import compute_localization_error  # noqa: E402
-from src.perturbations.advanced_perturbation_generator import (  # noqa: E402
-    AdvancedPerturbationGenerator,
+from src.perturbations.perturbation_generator import (  # noqa: E402
+    PerturbationGenerator,
 )
 from src.utils.data_loaders import (  # noqa: E402
     load_point_clouds_from_npy,
@@ -42,12 +42,12 @@ from src.utils.data_loaders import (  # noqa: E402
 )
 
 
-class AdvancedMOLAEvaluator(Node):
+class MOLAEvaluator(Node):
     """ROS2 node that evaluates perturbations by running MOLA and measuring ATE."""
 
     def __init__(
         self,
-        perturbation_generator: AdvancedPerturbationGenerator,
+        perturbation_generator: PerturbationGenerator,
         ground_truth_trajectory: np.ndarray,
         point_cloud_sequence: list,
         mola_binary_path: str,
@@ -455,7 +455,7 @@ def _load_data(args):
 
 def _create_evaluator(args, gt_traj, clouds):
     """Create perturbation generator and evaluator."""
-    generator = AdvancedPerturbationGenerator(
+    generator = PerturbationGenerator(
         max_point_shift=args.max_point_shift,
         noise_std=args.noise_std,
         target_high_curvature=True,
@@ -464,7 +464,7 @@ def _create_evaluator(args, gt_traj, clouds):
         max_ghost_points_ratio=0.05,
     )
 
-    evaluator = AdvancedMOLAEvaluator(
+    evaluator = MOLAEvaluator(
         perturbation_generator=generator,
         ground_truth_trajectory=gt_traj,
         point_cloud_sequence=clouds,

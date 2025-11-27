@@ -8,8 +8,8 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from perturbations.advanced_perturbation_generator import (  # noqa: E402
-    AdvancedPerturbationGenerator,
+from perturbations.perturbation_generator import (  # noqa: E402
+    PerturbationGenerator,
 )
 
 # Check if pymoo is available
@@ -27,7 +27,7 @@ class TestNSGA2Integration:
 
     def setup_method(self):
         """Setup test fixtures."""
-        self.generator = AdvancedPerturbationGenerator(
+        self.generator = PerturbationGenerator(
             max_point_shift=0.05,
             noise_std=0.02,
             max_dropout_rate=0.15,

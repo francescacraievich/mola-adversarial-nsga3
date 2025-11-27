@@ -12,9 +12,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))  # Go to project ro
 
 import rclpy  # noqa: E402
 
-from src.optimization.run_nsga2_advanced import AdvancedMOLAEvaluator  # noqa: E402
-from src.perturbations.advanced_perturbation_generator import (  # noqa: E402
-    AdvancedPerturbationGenerator,
+from src.optimization.run_nsga2 import MOLAEvaluator  # noqa: E402
+from src.perturbations.perturbation_generator import (  # noqa: E402
+    PerturbationGenerator,
 )
 from src.utils.data_loaders import (  # noqa: E402
     load_point_clouds_from_npy,
@@ -41,13 +41,13 @@ def main():
     # Initialize ROS2
     rclpy.init()
 
-    generator = AdvancedPerturbationGenerator(
+    generator = PerturbationGenerator(
         max_point_shift=0.05,
         noise_std=0.02,
         max_dropout_rate=0.15,
     )
 
-    evaluator = AdvancedMOLAEvaluator(
+    evaluator = MOLAEvaluator(
         perturbation_generator=generator,
         ground_truth_trajectory=gt_traj,
         point_cloud_sequence=clouds,
@@ -63,7 +63,7 @@ def main():
     print(" Testing with ZERO perturbation")
     print("=" * 60)
 
-    zero_genome = np.zeros(12)  # 12 parameters for AdvancedPerturbationGenerator
+    zero_genome = np.zeros(12)  # 12 parameters for PerturbationGenerator
     neg_ate_zero, pert_mag_zero = evaluator.evaluate(zero_genome)
 
     print("\n" + "=" * 60)

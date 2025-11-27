@@ -1,4 +1,4 @@
-"""Tests for AdvancedPerturbationGenerator."""
+"""Tests for PerturbationGenerator."""
 
 import sys
 from pathlib import Path
@@ -8,17 +8,17 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from perturbations.advanced_perturbation_generator import (  # noqa: E402
-    AdvancedPerturbationGenerator,
+from perturbations.perturbation_generator import (  # noqa: E402
+    PerturbationGenerator,
 )
 
 
-class TestAdvancedPerturbationGenerator:
-    """Tests for AdvancedPerturbationGenerator."""
+class TestPerturbationGenerator:
+    """Tests for PerturbationGenerator."""
 
     def setup_method(self):
         """Setup test fixtures."""
-        self.generator = AdvancedPerturbationGenerator(
+        self.generator = PerturbationGenerator(
             max_point_shift=0.05,
             noise_std=0.02,
             max_dropout_rate=0.15,
@@ -121,40 +121,6 @@ class TestAdvancedPerturbationGenerator:
         curvatures = self.generator.compute_curvature(self.test_cloud[:, :3])
         assert len(curvatures) == len(self.test_cloud)
         assert np.all(curvatures >= 0)
-
-
-class TestPerturbationGenerator:
-    """Tests for basic PerturbationGenerator."""
-
-    def setup_method(self):
-        """Setup test fixtures."""
-        from perturbations.perturbation_generator import PerturbationGenerator
-
-        self.generator = PerturbationGenerator()
-        np.random.seed(42)
-        self.test_cloud = np.random.rand(100, 4) * 10
-        self.test_cloud[:, 3] = np.random.rand(100) * 255
-
-    def test_genome_size(self):
-        """Test genome size is 8."""
-        assert self.generator.get_genome_size() == 8
-
-    def test_encode_decode_consistency(self):
-        """Test encoding and decoding are consistent."""
-        genome = self.generator.random_genome()
-        params = self.generator.encode_perturbation(genome)
-        decoded = self.generator.decode_perturbation(params)
-        np.testing.assert_allclose(genome, decoded, rtol=1e-5)
-
-    def test_apply_perturbation_shape(self):
-        """Test perturbation maintains valid shape."""
-        genome = self.generator.random_genome()
-        params = self.generator.encode_perturbation(genome)
-        perturbed = self.generator.apply_perturbation(self.test_cloud, params, seed=42)
-
-        assert perturbed.ndim == 2
-        assert perturbed.shape[1] == 4
-        assert perturbed.shape[0] <= self.test_cloud.shape[0]
 
 
 if __name__ == "__main__":
