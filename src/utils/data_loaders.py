@@ -33,6 +33,28 @@ def load_point_clouds_from_npy(
         return None
 
 
+def load_timestamps_from_npy(
+    timestamps_path: str = "data/frame_sequence.timestamps.npy",
+) -> Optional[np.ndarray]:
+    """
+    Load timestamps for point cloud frames.
+
+    Args:
+        timestamps_path: Path to .npy file containing timestamps
+
+    Returns:
+        Array of timestamps in nanoseconds, or None if file not found
+    """
+    path = Path(timestamps_path)
+    if path.exists():
+        timestamps = np.load(path)
+        print(f"  Loaded {len(timestamps)} timestamps from {path}")
+        return timestamps
+    else:
+        print(f"  Not found: {path}")
+        return None
+
+
 def load_trajectory_from_tum(tum_path: str) -> Optional[np.ndarray]:
     """
     Load trajectory from TUM format file.

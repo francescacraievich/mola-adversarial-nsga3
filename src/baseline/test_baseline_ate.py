@@ -18,6 +18,7 @@ from src.perturbations.perturbation_generator import (  # noqa: E402
 )
 from src.utils.data_loaders import (  # noqa: E402
     load_point_clouds_from_npy,
+    load_timestamps_from_npy,
     load_trajectory_from_tum,
 )
 
@@ -30,13 +31,15 @@ def main():
     # Load data
     gt_traj = load_trajectory_from_tum("maps/ground_truth_trajectory.tum")
     clouds = load_point_clouds_from_npy("data/frame_sequence.npy")
+    timestamps = load_timestamps_from_npy("data/frame_sequence.timestamps.npy")
 
-    if gt_traj is None or clouds is None:
+    if gt_traj is None or clouds is None or timestamps is None:
         print("Failed to load data")
         return 1
 
     print(f"Ground truth: {len(gt_traj)} poses")
     print(f"Point clouds: {len(clouds)} frames")
+    print(f"Timestamps: {len(timestamps)}")
 
     # Initialize ROS2
     rclpy.init()
@@ -51,6 +54,7 @@ def main():
         perturbation_generator=generator,
         ground_truth_trajectory=gt_traj,
         point_cloud_sequence=clouds,
+        timestamps=timestamps,
         mola_binary_path="/opt/ros/jazzy/bin/mola-cli",
         mola_config_path="/opt/ros/jazzy/share/mola_lidar_odometry/mola-cli-launchs/lidar_odometry_ros2.yaml",
         bag_path="bags/lidar_sequence_with_odom",

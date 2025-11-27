@@ -38,6 +38,7 @@ from src.perturbations.perturbation_generator import (  # noqa: E402
 )
 from src.utils.data_loaders import (  # noqa: E402
     load_point_clouds_from_npy,
+    load_timestamps_from_npy,
     load_trajectory_from_tum,
 )
 
@@ -50,6 +51,7 @@ class MOLAEvaluator(Node):
         perturbation_generator: PerturbationGenerator,
         ground_truth_trajectory: np.ndarray,
         point_cloud_sequence: list,
+        timestamps: np.ndarray,
         mola_binary_path: str,
         mola_config_path: str,
         bag_path: str = None,
@@ -61,6 +63,7 @@ class MOLAEvaluator(Node):
         self.perturbation_generator = perturbation_generator
         self.ground_truth_trajectory = ground_truth_trajectory
         self.point_cloud_sequence = point_cloud_sequence
+        self.timestamps = timestamps
         self.mola_binary_path = mola_binary_path
         self.mola_config_path = mola_config_path
         self.bag_path = bag_path
@@ -108,8 +111,9 @@ class MOLAEvaluator(Node):
         pos = msg.pose.pose.position
         self.collected_trajectory.append([pos.x, pos.y, pos.z])
 
-    def _create_pointcloud2_msg(self, point_cloud):
+    def _create_pointcloud2_msg(self, point_cloud, timestamp_ns):
         """Convert numpy array to PointCloud2."""
+        from builtin_interfaces.msg import Time
         from std_msgs.msg import Header
 
         fields = [
@@ -120,7 +124,7 @@ class MOLAEvaluator(Node):
         ]
 
         header = Header()
-        header.stamp = self.get_clock().now().to_msg()
+        header.stamp = Time(sec=int(timestamp_ns // 1_000_000_000), nanosec=int(timestamp_ns % 1_000_000_000))
         header.frame_id = "base_link"
 
         msg = point_cloud2.create_cloud(header, fields, point_cloud)
@@ -255,8 +259,8 @@ class MOLAEvaluator(Node):
     def _publish_clouds(self, perturbed_sequence, rate_hz=10.0):
         """Publish perturbed point clouds to MOLA."""
         dt = 1.0 / rate_hz
-        for cloud in perturbed_sequence:
-            msg = self._create_pointcloud2_msg(cloud)
+        for i, cloud in enumerate(perturbed_sequence):
+            msg = self._create_pointcloud2_msg(cloud, self.timestamps[i])
             self.pc_publisher.publish(msg)
             rclpy.spin_once(self, timeout_sec=dt)
             time.sleep(dt)
@@ -437,23 +441,29 @@ def _print_results(result, elapsed, pareto_front, pareto_set, history_callback, 
 
 
 def _load_data(args):
-    """Load ground truth trajectory and point clouds."""
+    """Load ground truth trajectory, point clouds, and timestamps."""
     print("Loading data...")
     gt_traj = load_trajectory_from_tum(args.gt_traj)
     if gt_traj is None:
         print("Failed to load ground truth")
-        return None, None
+        return None, None, None
 
     clouds = load_point_clouds_from_npy(args.frames)
     if clouds is None:
-        return None, None
+        return None, None, None
+
+    timestamps = load_timestamps_from_npy(args.frames.replace(".npy", ".timestamps.npy"))
+    if timestamps is None:
+        print("Failed to load timestamps")
+        return None, None, None
 
     print(f"  Ground truth: {len(gt_traj)} poses")
     print(f"  Point clouds: {len(clouds)} frames")
-    return gt_traj, clouds
+    print(f"  Timestamps: {len(timestamps)}")
+    return gt_traj, clouds, timestamps
 
 
-def _create_evaluator(args, gt_traj, clouds):
+def _create_evaluator(args, gt_traj, clouds, timestamps):
     """Create perturbation generator and evaluator."""
     generator = PerturbationGenerator(
         max_point_shift=args.max_point_shift,
@@ -468,6 +478,7 @@ def _create_evaluator(args, gt_traj, clouds):
         perturbation_generator=generator,
         ground_truth_trajectory=gt_traj,
         point_cloud_sequence=clouds,
+        timestamps=timestamps,
         mola_binary_path=args.mola_binary,
         mola_config_path=args.mola_config,
         bag_path=args.bag,
@@ -566,12 +577,12 @@ def main():
     args = _parse_args()
     _print_header(args)
 
-    gt_traj, clouds = _load_data(args)
+    gt_traj, clouds, timestamps = _load_data(args)
     if gt_traj is None:
         return 1
 
     rclpy.init()
-    generator, evaluator = _create_evaluator(args, gt_traj, clouds)
+    generator, evaluator = _create_evaluator(args, gt_traj, clouds, timestamps)
     problem, algorithm, history_callback = _setup_optimizer(args, evaluator, generator)
 
     try:

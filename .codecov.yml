@@ -1,0 +1,16 @@
+codecov:
+  require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+
+ignore:
+  - "node_modules"
+  - ".venv"
+  - "**/__pycache__"
+  - "**/test_*.py"
+  - "src/tests/**"
+  - "src/cyclonedds/**"
+  - "src/rover_isaacsim/**"
