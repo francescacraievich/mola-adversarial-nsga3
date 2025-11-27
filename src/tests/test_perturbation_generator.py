@@ -100,9 +100,11 @@ class TestPerturbationGenerator:
         shifted = self.test_cloud.copy()
         shifted[:, :3] += 0.1  # shift by 10cm in all directions
         chamfer = self.generator.compute_chamfer_distance(self.test_cloud, shifted)
-        # Expected: sqrt(0.1^2 + 0.1^2 + 0.1^2) = sqrt(0.03) ~= 0.173m
-        assert chamfer > 0.1
-        assert chamfer < 0.3
+        # With new formula: CD = mean(dist²) + mean(dist²)
+        # dist² = 0.1² + 0.1² + 0.1² = 0.03 m²
+        # CD = 0.03 + 0.03 = 0.06 m² (bidirectional)
+        assert chamfer > 0.03  # Greater than single direction
+        assert chamfer < 0.10  # Less than unreasonable value
 
     def test_perturbation_magnitude(self):
         """Test perturbation magnitude computation."""

@@ -336,13 +336,13 @@ class MOLAEvaluator(Node):
             self.get_logger().info(f"Retry collected {len(estimated_traj)} trajectory points")
 
         if len(estimated_traj) < min_valid_points:
-            self.get_logger().error(f"Failed after {max_retries} retries - using penalty")
-            ate = 50.0
-        else:
-            min_len = min(len(self.ground_truth_trajectory), len(estimated_traj))
-            ate = compute_localization_error(
-                self.ground_truth_trajectory[:min_len], estimated_traj[:min_len], method="ate"
-            )
+            self.get_logger().error(f"Failed after {max_retries} retries - returning invalid fitness")
+            return (np.inf, np.inf)
+
+        min_len = min(len(self.ground_truth_trajectory), len(estimated_traj))
+        ate = compute_localization_error(
+            self.ground_truth_trajectory[:min_len], estimated_traj[:min_len], method="ate"
+        )
 
         pert_mag = self.perturbation_generator.compute_perturbation_magnitude(
             self.original_clouds[0], perturbed_sequence[0], params
@@ -371,7 +371,7 @@ def _parse_args():
     parser.add_argument("--bag", type=str, default="bags/lidar_sequence_with_odom")
     parser.add_argument("--pop-size", type=int, default=10)
     parser.add_argument("--n-gen", type=int, default=20)
-    parser.add_argument("--output", type=str, default="results/optimized_genome_advanced.npy")
+    parser.add_argument("--output", type=str, default="src/results/optimized_genome.npy")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument(
         "--max-point-shift",
@@ -386,6 +386,29 @@ def _parse_args():
         "--max-dropout", type=float, default=0.15, help="Max dropout rate (default: 15%)"
     )
     return parser.parse_args()
+
+
+def _get_next_run_number(base_path: Path) -> int:
+    """Find the next available run number."""
+    base_dir = base_path.parent
+    base_name = base_path.stem  # e.g., "optimized_genome"
+
+    if not base_dir.exists():
+        return 1
+
+    existing_numbers = []
+    for file in base_dir.glob(f"{base_name}*.npy"):
+        # Extract number from filenames like optimized_genome1.npy, optimized_genome2.npy
+        name = file.stem
+        if name == base_name:
+            # No number, treat as run 0
+            existing_numbers.append(0)
+        elif name.startswith(base_name):
+            suffix = name[len(base_name):]
+            if suffix.isdigit():
+                existing_numbers.append(int(suffix))
+
+    return max(existing_numbers, default=0) + 1
 
 
 def _print_results(result, elapsed, pareto_front, pareto_set, history_callback, output_path):
@@ -577,6 +600,16 @@ def main():
     args = _parse_args()
     _print_header(args)
 
+    # Generate numbered output filename
+    base_output_path = Path(args.output)
+    run_number = _get_next_run_number(base_output_path)
+    numbered_output = base_output_path.parent / f"{base_output_path.stem}{run_number}{base_output_path.suffix}"
+
+    # Create results directory if it doesn't exist
+    numbered_output.parent.mkdir(parents=True, exist_ok=True)
+
+    print(f"Results will be saved to: {numbered_output}\n")
+
     gt_traj, clouds, timestamps = _load_data(args)
     if gt_traj is None:
         return 1
@@ -595,7 +628,7 @@ def main():
         rclpy.shutdown()
         return 1
 
-    _print_results(result, elapsed, result.F, result.X, history_callback, Path(args.output))
+    _print_results(result, elapsed, result.F, result.X, history_callback, numbered_output)
 
     evaluator.destroy_node()
     rclpy.shutdown()

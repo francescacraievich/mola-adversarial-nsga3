@@ -55,11 +55,41 @@ def compute_pareto_front(points, baseline_ate=None):
 
 
 def main():
-    results_dir = Path("results")
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Plot NSGA-II results")
+    parser.add_argument(
+        "--results-dir",
+        type=str,
+        default="src/results",
+        help="Directory containing results files",
+    )
+    parser.add_argument(
+        "--baseline",
+        type=float,
+        default=0.400,
+        help="Baseline ATE in meters (default: 0.400)",
+    )
+    parser.add_argument(
+        "--run-number", type=int, default=1, help="Run number to analyze (default: 1)"
+    )
+    args = parser.parse_args()
+
+    results_dir = Path(args.results_dir)
 
     # Load data
-    all_points = np.load(results_dir / "optimized_genome_advanced.all_points.npy")
-    valid_points = np.load(results_dir / "optimized_genome_advanced.valid_points.npy")
+    all_points_file = results_dir / f"optimized_genome{args.run_number}.all_points.npy"
+    valid_points_file = results_dir / f"optimized_genome{args.run_number}.valid_points.npy"
+
+    if not all_points_file.exists():
+        print(f"ERROR: File not found: {all_points_file}")
+        print(f"\nAvailable files in {results_dir}:")
+        for f in sorted(results_dir.glob("*.npy")):
+            print(f"  {f.name}")
+        return
+
+    all_points = np.load(all_points_file)
+    valid_points = np.load(valid_points_file)
 
     # Convert from [-ATE, Chamfer] to [ATE, Chamfer]
     # all_points used for reference, valid_points for analysis
@@ -80,7 +110,17 @@ def main():
     valid_ate = valid_combined[:, 0]
     valid_chamfer = valid_combined[:, 1]
 
-    baseline_ate = 0.6877
+    baseline_ate = args.baseline
+
+    print(f"\n{'='*60}")
+    print(f" NSGA-II Results Analysis")
+    print(f"{'='*60}")
+    print(f"  Results file: optimized_genome{args.run_number}")
+    print(f"  Baseline ATE: {baseline_ate:.4f}m ({baseline_ate*100:.2f}cm)")
+    print(f"  Total evaluations: {len(all_points)}")
+    print(f"  Valid (ATE<10m): {len(valid_points)}")
+    print(f"  After filtering: {len(valid_combined)}")
+    print(f"{'='*60}\n")
 
     # Compute true Pareto front from valid points (only successful attacks with ATE > baseline)
     pareto_points = compute_pareto_front(valid_combined, baseline_ate=baseline_ate)
@@ -190,9 +230,9 @@ def main():
     plt.tight_layout()
 
     # Save
-    output_path = results_dir / "nsga2_pareto_front.png"
+    output_path = results_dir / f"nsga2_pareto_front_run{args.run_number}.png"
     plt.savefig(output_path, dpi=150, bbox_inches="tight")
-    print(f"Saved: {output_path}")
+    print(f"\nSaved: {output_path}")
 
     # Print summary
     print("\n" + "=" * 60)

@@ -3,6 +3,7 @@
 [![CI](https://github.com/francescacraievich/mola-adversarial-nsga2/actions/workflows/ci.yml/badge.svg)](https://github.com/francescacraievich/mola-adversarial-nsga2/actions/workflows/ci.yml)
 [![Documentation](https://github.com/francescacraievich/mola-adversarial-nsga2/actions/workflows/docs.yml/badge.svg)](https://github.com/francescacraievich/mola-adversarial-nsga2/actions/workflows/docs.yml)
 [![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://francescacraievich.github.io/mola-adversarial-nsga2/)
+[![codecov](https://codecov.io/github/francescacraievich/mola-adversarial-nsga2/graph/badge.svg?token=BQX8LWJMSJ)](https://codecov.io/github/francescacraievich/mola-adversarial-nsga2)
 
 Evolutionary multi-objective optimization of adversarial perturbations on LiDAR point clouds to evaluate the robustness of SLAM systems.
 

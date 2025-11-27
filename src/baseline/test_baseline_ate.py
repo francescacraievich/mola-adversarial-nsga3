@@ -24,6 +24,14 @@ from src.utils.data_loaders import (  # noqa: E402
 
 
 def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Measure baseline ATE")
+    parser.add_argument(
+        "--num-runs", type=int, default=5, help="Number of runs to average (default: 5)"
+    )
+    args = parser.parse_args()
+
     print("\n" + "=" * 60)
     print(" BASELINE ATE TEST (Zero Perturbation)")
     print("=" * 60 + "\n")
@@ -62,46 +70,74 @@ def main():
         odom_topic="/lidar_odometry/pose",
     )
 
-    # Test with ZERO genome (no perturbation)
+    # Run multiple times with ZERO genome (no perturbation)
     print("\n" + "=" * 60)
-    print(" Testing with ZERO perturbation")
+    print(f" Running {args.num_runs} evaluations with ZERO perturbation")
     print("=" * 60)
 
     zero_genome = np.zeros(12)  # 12 parameters for PerturbationGenerator
-    neg_ate_zero, pert_mag_zero = evaluator.evaluate(zero_genome)
+    baseline_ates = []
+
+    for run in range(args.num_runs):
+        print(f"\nRun {run + 1}/{args.num_runs}...")
+        neg_ate_zero, pert_mag_zero = evaluator.evaluate(zero_genome)
+        ate = -neg_ate_zero
+        baseline_ates.append(ate)
+        print(f"  ATE: {ate:.4f} m ({ate * 100:.2f} cm)")
+
+    # Compute statistics
+    baseline_ates = np.array(baseline_ates)
+    mean_ate = np.mean(baseline_ates)
+    std_ate = np.std(baseline_ates)
+    min_ate = np.min(baseline_ates)
+    max_ate = np.max(baseline_ates)
 
     print("\n" + "=" * 60)
-    print(" BASELINE RESULT")
+    print(" BASELINE STATISTICS")
     print("=" * 60)
-    print(f"  ATE (baseline): {-neg_ate_zero:.4f} m")
-    print(f"  Perturbation magnitude: {pert_mag_zero:.4f}")
+    print(f"  Runs: {args.num_runs}")
+    print(f"  Mean ATE:   {mean_ate:.4f} m ({mean_ate * 100:.2f} cm)")
+    print(f"  Std dev:    {std_ate:.4f} m ({std_ate * 100:.2f} cm)")
+    print(f"  Min ATE:    {min_ate:.4f} m ({min_ate * 100:.2f} cm)")
+    print(f"  Max ATE:    {max_ate:.4f} m ({max_ate * 100:.2f} cm)")
+    print(f"  Range:      {(max_ate - min_ate) * 100:.2f} cm")
+    print("\nIndividual runs:")
+    for i, ate in enumerate(baseline_ates):
+        print(f"  Run {i + 1}: {ate:.4f} m ({ate * 100:.2f} cm)")
     print("=" * 60 + "\n")
 
-    # Test with small perturbation
+    # Test with small perturbation (single run for comparison)
     print("\n" + "=" * 60)
-    print(" Testing with SMALL perturbation")
+    print(" Testing with SMALL perturbation (single run)")
     print("=" * 60)
 
     small_genome = np.array(
         [0.3, 0.3, 0.3, 0.2, 0.2, 0.1, 0.1, 0.1, 0.2, 0.1, 0.3, 0.2]
     )  # 12 params
     neg_ate_small, pert_mag_small = evaluator.evaluate(small_genome)
+    ate_small = -neg_ate_small
 
     print("\n" + "=" * 60)
     print(" SMALL PERTURBATION RESULT")
     print("=" * 60)
-    print(f"  ATE (perturbed): {-neg_ate_small:.4f} m")
+    print(f"  ATE (perturbed): {ate_small:.4f} m ({ate_small * 100:.2f} cm)")
     print(f"  Perturbation magnitude: {pert_mag_small:.4f}")
     print("=" * 60 + "\n")
 
     # Summary
     print("\n" + "=" * 60)
-    print(" SUMMARY")
+    print(" FINAL SUMMARY")
     print("=" * 60)
-    print(f"  Baseline ATE:  {-neg_ate_zero:.4f} m")
-    print(f"  Perturbed ATE: {-neg_ate_small:.4f} m")
-    print(f"  Difference:    {-neg_ate_small - (-neg_ate_zero):.4f} m")
+    print(f"  Baseline ATE (mean):  {mean_ate:.4f} m ({mean_ate * 100:.2f} cm)")
+    print(f"  Baseline ATE (±std):  ± {std_ate:.4f} m (± {std_ate * 100:.2f} cm)")
+    print(f"  Perturbed ATE:        {ate_small:.4f} m ({ate_small * 100:.2f} cm)")
+    print(f"  Improvement:          {(ate_small - mean_ate):.4f} m ({(ate_small - mean_ate) * 100:.2f} cm)")
+    print(f"  Improvement %:        {((ate_small - mean_ate) / mean_ate * 100):.1f}%")
     print("=" * 60 + "\n")
+
+    print("RECOMMENDED BASELINE for NSGA-II:")
+    print(f"  Use: {mean_ate:.4f} m ({mean_ate * 100:.2f} cm)")
+    print()
 
     # Cleanup
     evaluator.destroy_node()

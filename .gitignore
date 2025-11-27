@@ -54,5 +54,4 @@ node_modules/
 package-lock.json
 
 # Test outputs
-junit.xml
-node_modules/ 
+junit.xml 

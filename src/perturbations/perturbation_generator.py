@@ -363,7 +363,9 @@ class PerturbationGenerator:
         """
         Compute Chamfer distance between original and perturbed point clouds.
 
-        This is the standard metric for measuring point cloud perturbation magnitude.
+        Uses the standard bidirectional formula:
+        CD(A, B) = (1/|A|) * Σ min ||a - b||² + (1/|B|) * Σ min ||b - a||²
+
         Lower values = more imperceptible perturbation.
 
         Args:
@@ -371,7 +373,7 @@ class PerturbationGenerator:
             perturbed: Perturbed point cloud (M, 3+)
 
         Returns:
-            Chamfer distance (average nearest-neighbor distance)
+            Chamfer distance (sum of mean squared nearest-neighbor distances)
         """
         if len(original) == 0 or len(perturbed) == 0:
             return float("inf")
@@ -386,8 +388,9 @@ class PerturbationGenerator:
         # Backward distance: for each point in original, find nearest in perturbed
         dist_backward, _ = tree_pert.query(original[:, :3], k=1)
 
-        # Chamfer distance = mean of forward + backward
-        chamfer = (dist_forward.mean() + dist_backward.mean()) / 2
+        # Chamfer distance = sum of mean squared distances (standard formula)
+        # CD(A, B) = mean(dist_forward²) + mean(dist_backward²)
+        chamfer = (dist_forward**2).mean() + (dist_backward**2).mean()
 
         return chamfer
 
@@ -400,6 +403,9 @@ class PerturbationGenerator:
         Returns Chamfer distance in centimeters - this is the standard metric
         for point cloud perturbation imperceptibility.
 
+        Uses the corrected bidirectional formula with squared distances:
+        CD(A, B) = mean(||a-b||²) + mean(||b-a||²)
+
         Args:
             original: Original point cloud
             perturbed: Perturbed point cloud
@@ -407,13 +413,14 @@ class PerturbationGenerator:
 
         Returns:
             Chamfer distance in centimeters (lower = more imperceptible)
+            Note: With squared distances, range will be larger than before
         """
-        # Compute Chamfer distance in meters
-        chamfer_m = self.compute_chamfer_distance(original, perturbed)
+        # Compute Chamfer distance in meters² (squared distances)
+        chamfer_m2 = self.compute_chamfer_distance(original, perturbed)
 
-        # Return in centimeters for readability
-        # Typical range: 0.5 - 5.0 cm for adversarial perturbations
-        chamfer_cm = chamfer_m * 100
+        # Convert to cm² then take sqrt to get cm
+        # This gives a more interpretable metric
+        chamfer_cm = np.sqrt(chamfer_m2 * 10000)  # m² to cm²
 
         return chamfer_cm
 
