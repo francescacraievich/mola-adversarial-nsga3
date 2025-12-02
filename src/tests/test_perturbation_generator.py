@@ -27,24 +27,24 @@ class TestPerturbationGenerator:
         self.test_cloud[:, 3] = np.random.rand(100) * 255  # intensity [0, 255]
 
     def test_genome_size(self):
-        """Test genome size is 12."""
-        assert self.generator.get_genome_size() == 12
+        """Test genome size is 17 (expanded with advanced attacks)."""
+        assert self.generator.get_genome_size() == 17
 
     def test_random_genome_shape(self):
         """Test random genome generation."""
         genome = self.generator.random_genome()
-        assert genome.shape == (12,)
+        assert genome.shape == (17,)
         assert np.all(genome >= -1) and np.all(genome <= 1)
 
     def test_random_genome_batch(self):
         """Test batch genome generation."""
         genomes = self.generator.random_genome(size=10)
-        assert genomes.shape == (10, 12)
+        assert genomes.shape == (10, 17)
         assert np.all(genomes >= -1) and np.all(genomes <= 1)
 
     def test_encode_perturbation(self):
         """Test perturbation encoding."""
-        genome = np.zeros(12)
+        genome = np.zeros(17)
         params = self.generator.encode_perturbation(genome)
 
         assert "noise_direction" in params
@@ -77,7 +77,7 @@ class TestPerturbationGenerator:
 
     def test_zero_perturbation(self):
         """Test zero genome produces minimal change."""
-        genome = np.zeros(12)
+        genome = np.zeros(17)
         params = self.generator.encode_perturbation(genome)
         _ = self.generator.apply_perturbation(self.test_cloud, params, seed=42)
 

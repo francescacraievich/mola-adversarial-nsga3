@@ -142,7 +142,7 @@ def main():
         valid_combined[:, 0] = valid_ate
 
     print(f"\n{'='*60}")
-    print(f" NSGA-II Results Analysis")
+    print(" NSGA-II Results Analysis")
     print(f"{'='*60}")
     print(f"  Results file: optimized_genome{args.run_number}")
     print(f"  Baseline ATE: {baseline_ate:.4f}m ({baseline_ate*100:.2f}cm)")

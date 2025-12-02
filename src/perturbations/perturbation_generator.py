@@ -528,7 +528,7 @@ class PerturbationGenerator:
             eigenvalues, eigenvectors = np.linalg.eigh(cov)
 
             # Perturb perpendicular to principal direction (max confusion for ICP)
-            principal_dir = eigenvectors[:, -1]  # Largest eigenvalue
+            # principal_dir = eigenvectors[:, -1]  # Largest eigenvalue (unused)
             perp_dir = eigenvectors[:, 0]  # Smallest eigenvalue (perpendicular)
 
             # Shift amount based on strength and edge score

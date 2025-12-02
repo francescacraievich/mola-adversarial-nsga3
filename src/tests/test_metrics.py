@@ -26,12 +26,12 @@ class TestLocalizationError:
         assert error == pytest.approx(0.0, abs=1e-6)
 
     def test_ate_offset_trajectories(self):
-        """Test ATE with constant offset."""
+        """Test ATE with constant offset - Umeyama alignment corrects pure translation."""
         gt = np.array([[0, 0, 0], [1, 0, 0], [2, 0, 0], [3, 0, 0]])
         estimated = gt + np.array([1, 1, 0])
         error = compute_localization_error(gt, estimated, method="ate")
-        # sqrt(1^2 + 1^2) = sqrt(2)
-        assert error == pytest.approx(np.sqrt(2), abs=1e-6)
+        # Umeyama alignment corrects constant translation offset to ~0
+        assert error == pytest.approx(0.0, abs=1e-6)
 
     def test_rpe_identical_trajectories(self):
         """Test RPE with identical trajectories."""

@@ -132,7 +132,7 @@ def _compute_ate(
     final_error = np.linalg.norm(gt_aligned[-1] - est_transformed[-1])
 
     if verbose:
-        print(f"  [ATE] Umeyama alignment applied (R + t)")
+        print("  [ATE] Umeyama alignment applied (R + t)")
         print(
             f"  [ATE] Error: min={errors.min():.3f}m, max={errors.max():.3f}m, mean={errors.mean():.3f}m"
         )

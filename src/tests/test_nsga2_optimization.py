@@ -59,7 +59,7 @@ class TestNSGA2Integration:
                 out["F"] = np.array(F)
 
         problem = MockProblem(mock_fitness, self.generator.get_genome_size())
-        assert problem.n_var == 12
+        assert problem.n_var == 17  # Expanded genome with advanced attacks
         assert problem.n_obj == 2
 
     def test_nsga2_optimization_runs(self):

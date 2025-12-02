@@ -55,7 +55,7 @@ def load_timestamps_from_npy(
         return None
 
 
-def load_trajectory_from_tum(
+def load_trajectory_from_tum(  # noqa: C901
     tum_path: str, interpolate_to_frames: int = None, pc_timestamps: np.ndarray = None
 ) -> Optional[np.ndarray]:
     """
