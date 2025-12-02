@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-II">
+        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-III">
       
       
         <meta name="author" content="Francesca Craievich">
@@ -27,7 +27,7 @@
     
     
       
-        <title>Fitness Evaluation - MOLA Adversarial NSGA-II</title>
+        <title>Fitness Evaluation - MOLA Adversarial NSGA-III</title>
       
     
     
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            MOLA Adversarial NSGA-II
+            MOLA Adversarial NSGA-III
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -344,13 +344,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    MOLA Adversarial NSGA-II
+    MOLA Adversarial NSGA-III
   </label>
   
     <div class="md-nav__source">
@@ -582,7 +582,7 @@
   <span class="md-ellipsis">
     
   
-    NSGA-II Algorithm
+    NSGA-III Algorithm
   
 
     
@@ -702,22 +702,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
+  <a href="#two-objectives" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Metrics
+        Two Objectives
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Metrics">
+    <nav class="md-nav" aria-label="Two Objectives">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#localization-error" class="md-nav__link">
+  <a href="#objective-1-maximize-localization-error-ate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Localization Error
+        Objective 1: Maximize Localization Error (ATE)
       
     </span>
   </a>
@@ -725,10 +725,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#perturbation-magnitude" class="md-nav__link">
+  <a href="#objective-2-minimize-perturbation-magnitude" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Perturbation Magnitude
+        Objective 2: Minimize Perturbation Magnitude
       
     </span>
   </a>
@@ -749,13 +749,245 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Evaluation Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-load-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Load Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-decode-genome" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Decode Genome
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-apply-perturbations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Apply Perturbations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-write-temporary-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Write Temporary Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-run-mola-slam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Run MOLA SLAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-extract-estimated-trajectory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Extract Estimated Trajectory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-align-trajectories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7: Align Trajectories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-8-compute-ate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8: Compute ATE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-9-return-fitness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 9: Return Fitness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#implementation-details" class="md-nav__link">
+  <a href="#handling-invalid-solutions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Implementation Details
+        Handling Invalid Solutions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-caching-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Caching Baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-early-termination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Early Termination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-parallel-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Parallel Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics Tracking
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#baseline-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline Performance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-ate-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding ATE Values
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#efficiency-metric" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Efficiency Metric
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-failed-evaluations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debugging Failed Evaluations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
       
     </span>
   </a>
@@ -1022,22 +1254,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
+  <a href="#two-objectives" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Metrics
+        Two Objectives
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Metrics">
+    <nav class="md-nav" aria-label="Two Objectives">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#localization-error" class="md-nav__link">
+  <a href="#objective-1-maximize-localization-error-ate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Localization Error
+        Objective 1: Maximize Localization Error (ATE)
       
     </span>
   </a>
@@ -1045,10 +1277,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#perturbation-magnitude" class="md-nav__link">
+  <a href="#objective-2-minimize-perturbation-magnitude" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Perturbation Magnitude
+        Objective 2: Minimize Perturbation Magnitude
       
     </span>
   </a>
@@ -1069,13 +1301,245 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Evaluation Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-load-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Load Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-decode-genome" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Decode Genome
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-apply-perturbations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Apply Perturbations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-write-temporary-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Write Temporary Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-run-mola-slam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Run MOLA SLAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-extract-estimated-trajectory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Extract Estimated Trajectory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-align-trajectories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7: Align Trajectories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-8-compute-ate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8: Compute ATE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-9-return-fitness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 9: Return Fitness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#implementation-details" class="md-nav__link">
+  <a href="#handling-invalid-solutions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Implementation Details
+        Handling Invalid Solutions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-caching-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Caching Baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-early-termination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Early Termination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-parallel-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Parallel Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics Tracking
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#baseline-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline Performance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-ate-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding ATE Values
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#efficiency-metric" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Efficiency Metric
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-failed-evaluations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debugging Failed Evaluations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
       
     </span>
   </a>
@@ -1104,22 +1568,317 @@
 
 <h1 id="fitness-evaluation">Fitness Evaluation</h1>
 <h2 id="overview">Overview</h2>
-<p>Fitness evaluation compares SLAM trajectories against ground truth from Isaac Sim.</p>
-<h2 id="metrics">Metrics</h2>
-<h3 id="localization-error">Localization Error</h3>
-<p>The primary metric for attack effectiveness is the localization error between the SLAM-estimated trajectory and the ground truth trajectory.</p>
-<h3 id="perturbation-magnitude">Perturbation Magnitude</h3>
-<p>The imperceptibility objective is measured using the L2 norm of the perturbations applied to the point cloud.</p>
+<p>Fitness evaluation is the core of the NSGA-II optimization process. For each candidate solution (genome), we need to measure how well it achieves our two objectives: maximizing localization error while minimizing perturbation magnitude.</p>
+<p>This evaluation happens hundreds of times during optimization (400 evaluations = 20 generations × 20 population), making it the most computationally expensive component of the system.</p>
+<h2 id="two-objectives">Two Objectives</h2>
+<h3 id="objective-1-maximize-localization-error-ate">Objective 1: Maximize Localization Error (ATE)</h3>
+<p>The primary goal is to degrade MOLA's localization accuracy as much as possible. We measure this using Absolute Trajectory Error (ATE).</p>
+<p><strong>ATE Definition:</strong>
+ATE is the root mean square error (RMSE) between the estimated trajectory and ground truth trajectory after optimal alignment.</p>
+<p><strong>Formula:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ATE = sqrt(1/N * Σ ||p_i - q_i||²)
+</code></pre></div></p>
+<p>Where:
+- N = number of trajectory poses
+- p_i = ground truth position at pose i
+- q_i = estimated position at pose i
+- ||·|| = Euclidean distance (L2 norm)</p>
+<p><strong>Interpretation:</strong>
+- Higher ATE = More trajectory error = Better attack
+- Baseline ATE ≈ 68cm (MOLA's natural error on unperturbed data)
+- Target ATE ≈ 120-150cm (after perturbations)</p>
+<p>NSGA-II tries to <strong>maximize</strong> this objective.</p>
+<h3 id="objective-2-minimize-perturbation-magnitude">Objective 2: Minimize Perturbation Magnitude</h3>
+<p>The secondary goal is to keep perturbations as small as possible to avoid detection.</p>
+<p><strong>Perturbation Magnitude:</strong>
+We measure the average displacement applied to points across all frames.</p>
+<p><strong>Formula:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Perturbation = (1/M) * Σ ||δ_j||
+</code></pre></div></p>
+<p>Where:
+- M = total number of perturbed points
+- δ_j = displacement vector for point j
+- ||·|| = Euclidean distance (L2 norm)</p>
+<p><strong>Special case for dropout:</strong>
+When points are removed (dropout), we count the missing point as having infinite displacement for measurement purposes, but use the dropout rate as a proxy:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Perturbation (dropout) = dropout_rate * average_point_spacing
+</code></pre></div></p>
+<p><strong>Interpretation:</strong>
+- Lower perturbation = More stealthy = Better
+- Typical perturbations: 1-15cm average displacement
+- Physical constraint: &lt; 50cm maximum displacement per point</p>
+<p>NSGA-II tries to <strong>minimize</strong> this objective.</p>
 <h2 id="evaluation-pipeline">Evaluation Pipeline</h2>
+<p>For each genome in the population, the fitness evaluation follows these steps:</p>
+<h3 id="step-1-load-data">Step 1: Load Data</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Load point cloud frames</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">frames</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;data/frame_sequence.npy&#39;</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># 113 frames</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Load timestamps</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;data/frame_sequence.timestamps.npy&#39;</span><span class="p">)</span>  <span class="c1"># nanoseconds</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Load ground truth trajectory</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">ground_truth</span> <span class="o">=</span> <span class="n">load_trajectory_from_tum</span><span class="p">(</span><span class="s1">&#39;data/ground_truth.tum&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="step-2-decode-genome">Step 2: Decode Genome</h3>
+<p>The genome encodes the perturbation strategy and parameters:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Example genome: [strategy_id, param1, param2, ...]</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># strategy_id: 0=dropout, 1=gaussian, 2=feature, 3=ghost</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># params depend on strategy</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">strategy</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">genome</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">if</span> <span class="n">strategy</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Dropout</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">dropout_rate</span> <span class="o">=</span> <span class="n">genome</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 0-100%</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="k">elif</span> <span class="n">strategy</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Gaussian noise</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">noise_sigma</span> <span class="o">=</span> <span class="n">genome</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 0-10cm</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># ... etc</span>
+</code></pre></div>
+<h3 id="step-3-apply-perturbations">Step 3: Apply Perturbations</h3>
+<p>Apply the decoded perturbations to all frames:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">perturbed_frames</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">total_perturbation</span> <span class="o">=</span> <span class="mf">0.0</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">perturbed_frame</span><span class="p">,</span> <span class="n">perturbation_amount</span> <span class="o">=</span> <span class="n">apply_perturbation</span><span class="p">(</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        <span class="n">frame</span><span class="p">,</span> <span class="n">strategy</span><span class="p">,</span> <span class="n">params</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="p">)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="n">perturbed_frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perturbed_frame</span><span class="p">)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">total_perturbation</span> <span class="o">+=</span> <span class="n">perturbation_amount</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="n">avg_perturbation</span> <span class="o">=</span> <span class="n">total_perturbation</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="step-4-write-temporary-files">Step 4: Write Temporary Files</h3>
+<p>MOLA needs data in ROS2 format, so we write perturbed frames to temporary files:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Write perturbed frames to .npy</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">temp_frames</span> <span class="o">=</span> <span class="s1">&#39;data/temp_perturbed.npy&#39;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">temp_frames</span><span class="p">,</span> <span class="n">perturbed_frames</span><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Copy timestamps (unchanged)</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">temp_timestamps</span> <span class="o">=</span> <span class="s1">&#39;data/temp_perturbed.timestamps.npy&#39;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;data/frame_sequence.timestamps.npy&#39;</span><span class="p">,</span> <span class="n">temp_timestamps</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="step-5-run-mola-slam">Step 5: Run MOLA SLAM</h3>
+<p>Launch MOLA to process the perturbed point clouds:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Create ROS2 node</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">ros2</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;ros2&#39;</span><span class="p">,</span> <span class="s1">&#39;launch&#39;</span><span class="p">,</span> <span class="s1">&#39;mola_lidar_odometry&#39;</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Publish perturbed frames with timestamps</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">for</span> <span class="n">frame</span><span class="p">,</span> <span class="n">timestamp</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">perturbed_frames</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">):</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">publish_pointcloud</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># 10Hz</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># Wait for MOLA to complete</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">ros2</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+</code></pre></div>
+<p>MOLA outputs an estimated trajectory.</p>
+<h3 id="step-6-extract-estimated-trajectory">Step 6: Extract Estimated Trajectory</h3>
+<p>Read MOLA's output trajectory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># MOLA writes trajectory to file</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">estimated_traj</span> <span class="o">=</span> <span class="n">load_trajectory_from_tum</span><span class="p">(</span><span class="s1">&#39;maps/estimated_trajectory.tum&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Check if MOLA succeeded</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">estimated_traj</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="c1"># MOLA failed - return invalid fitness</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+</code></pre></div>
+<p>If MOLA collects fewer than 10 poses, something went wrong (likely too much dropout or noise). We return infinite fitness to exclude this solution.</p>
+<h3 id="step-7-align-trajectories">Step 7: Align Trajectories</h3>
+<p>Before computing ATE, we need to align the trajectories:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rotation</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">align_trajectories</span><span class="p">(</span><span class="n">estimated</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">):</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Align estimated trajectory to ground truth using Umeyama algorithm.&quot;&quot;&quot;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="c1"># Compute optimal rotation and translation</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">umeyama_alignment</span><span class="p">(</span><span class="n">estimated</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="c1"># Apply transformation</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="n">aligned</span> <span class="o">=</span> <span class="n">scale</span> <span class="o">*</span> <span class="p">(</span><span class="n">estimated</span> <span class="o">@</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="n">t</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="k">return</span> <span class="n">aligned</span>
+</code></pre></div>
+<p>This accounts for:
+- Different coordinate frames
+- Different starting positions
+- Scale differences (usually scale=1 for MOLA)</p>
+<h3 id="step-8-compute-ate">Step 8: Compute ATE</h3>
+<p>Calculate the trajectory error:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">compute_ate</span><span class="p">(</span><span class="n">estimated</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">):</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Absolute Trajectory Error (RMSE).&quot;&quot;&quot;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="c1"># Align trajectories first</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">aligned</span> <span class="o">=</span> <span class="n">align_trajectories</span><span class="p">(</span><span class="n">estimated</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">)</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="c1"># Ensure same length (interpolate if needed)</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">aligned</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">):</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>        <span class="n">aligned</span> <span class="o">=</span> <span class="n">interpolate_trajectory</span><span class="p">(</span><span class="n">aligned</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">))</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    <span class="c1"># Compute RMSE</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="n">squared_errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">aligned</span> <span class="o">-</span> <span class="n">ground_truth</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="n">ate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">squared_errors</span><span class="p">))</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="k">return</span> <span class="n">ate</span>
+</code></pre></div>
+<h3 id="step-9-return-fitness">Step 9: Return Fitness</h3>
+<p>Return both objectives to NSGA-II:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">fitness</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="o">-</span><span class="n">ate</span><span class="p">,</span>  <span class="c1"># Negative because pymoo minimizes (we want to maximize ATE)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="n">avg_perturbation</span>  <span class="c1"># Minimize perturbation</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">)</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">return</span> <span class="n">fitness</span>
+</code></pre></div>
+<p>Note: pymoo minimizes all objectives by default, so we negate ATE to convert maximization to minimization.</p>
+<h2 id="handling-invalid-solutions">Handling Invalid Solutions</h2>
+<p>Some perturbations cause MOLA to fail completely:</p>
+<p><strong>Failure cases:</strong>
+- 100% dropout: No points to process
+- Extreme noise: All points displaced far from original positions
+- Too many ghost points: Memory overflow</p>
+<p><strong>Handling strategy:</strong>
+Return infinite fitness for both objectives:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">if</span> <span class="n">mola_failed</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">estimated_traj</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+</code></pre></div>
+<p>NSGA-II automatically excludes these solutions from the Pareto front. This is better than using a penalty value (like 50.0) because penalties can distort the Pareto front.</p>
+<h2 id="performance-optimization">Performance Optimization</h2>
+<p>Fitness evaluation is expensive (several minutes per evaluation). Optimizations:</p>
+<h3 id="1-caching-baseline">1. Caching Baseline</h3>
+<p>Compute baseline ATE once and reuse:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_baseline_ate&#39;</span><span class="p">):</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_baseline_ate</span> <span class="o">=</span> <span class="n">evaluate_unperturbed</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="2-early-termination">2. Early Termination</h3>
+<p>If MOLA shows signs of failing, terminate early:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">collected_points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>    <span class="c1"># MOLA collected nothing - stop early</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    <span class="n">terminate_mola</span><span class="p">()</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="3-parallel-evaluation">3. Parallel Evaluation</h3>
+<p>Future work: Evaluate multiple genomes in parallel using multiprocessing.</p>
+<p>Currently not implemented because MOLA uses ROS2, which complicates parallelization.</p>
+<h2 id="metrics-tracking">Metrics Tracking</h2>
+<p>During optimization, we track several metrics:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Best ATE achieved so far</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">best_ate</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Most efficient solution (highest ATE per cm)</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="n">efficiency</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">population</span><span class="o">.</span><span class="n">F</span><span class="p">]</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="n">best_efficiency</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">efficiency</span><span class="p">)</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="c1"># Pareto front size</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="n">pareto_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">[</span><span class="n">population</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">])</span>
+</code></pre></div>
+<p>These metrics help monitor convergence and identify the most effective attacks.</p>
+<h2 id="baseline-performance">Baseline Performance</h2>
+<p>Before optimization, we evaluate baseline performance on unperturbed data:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">baseline_ate</span> <span class="o">=</span> <span class="n">evaluate_unperturbed</span><span class="p">()</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Baseline ATE: </span><span class="si">{</span><span class="n">baseline_ate</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">m (</span><span class="si">{</span><span class="n">baseline_ate</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">cm)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Expected baseline:
+- Ideal conditions: 30-50cm
+- Realistic conditions: 60-80cm
+- Poor conditions: 100cm+</p>
+<p>Our baseline is ~68cm, which suggests:
+- Ground truth may have slight misalignment
+- MOLA parameters may not be optimal
+- Natural drift accumulation without perfect loop closure</p>
+<h2 id="understanding-ate-values">Understanding ATE Values</h2>
+<p>What do different ATE values mean?</p>
+<table>
+<thead>
+<tr>
+<th>ATE</th>
+<th>Interpretation</th>
+<th>Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-30cm</td>
+<td>Excellent SLAM performance</td>
+<td>Professional-grade</td>
+</tr>
+<tr>
+<td>30-60cm</td>
+<td>Good performance</td>
+<td>Acceptable for robotics</td>
+</tr>
+<tr>
+<td>60-100cm</td>
+<td>Moderate drift</td>
+<td>Usable but degraded</td>
+</tr>
+<tr>
+<td>100-150cm</td>
+<td>Significant drift</td>
+<td>Unreliable localization</td>
+</tr>
+<tr>
+<td>150cm+</td>
+<td>Severe failure</td>
+<td>Unusable</td>
+</tr>
+</tbody>
+</table>
+<p>Our goal is to push ATE from ~68cm (baseline) to 120-150cm (severely degraded).</p>
+<h2 id="efficiency-metric">Efficiency Metric</h2>
+<p>Beyond absolute ATE, we care about efficiency: how much ATE per unit of perturbation?</p>
+<p><strong>Efficiency = (ATE - baseline_ATE) / perturbation_magnitude</strong></p>
+<p>Example:
+- Solution A: ATE=120cm, pert=5cm → efficiency = (120-68)/5 = 10.4%/cm
+- Solution B: ATE=140cm, pert=10cm → efficiency = (140-68)/10 = 7.2%/cm</p>
+<p>Solution A is more efficient despite lower absolute ATE.</p>
+<p>This metric reveals that <strong>dropout at 5% is most efficient</strong> (18.9%/cm).</p>
+<h2 id="debugging-failed-evaluations">Debugging Failed Evaluations</h2>
+<p>If many evaluations return infinite fitness:</p>
 <ol>
-<li>Apply perturbations to point cloud</li>
-<li>Run MOLA SLAM on perturbed data</li>
-<li>Extract estimated trajectory</li>
-<li>Compare with ground truth trajectory</li>
-<li>Compute fitness metrics</li>
+<li><strong>Check MOLA logs</strong>: Look for errors or warnings</li>
+<li><strong>Visualize perturbations</strong>: Ensure they're reasonable</li>
+<li><strong>Reduce perturbation magnitude</strong>: May be too aggressive</li>
+<li><strong>Check timestamps</strong>: MOLA requires proper timestamp synchronization</li>
+<li><strong>Verify data files</strong>: Ensure frames and timestamps are valid</li>
 </ol>
-<h2 id="implementation-details">Implementation Details</h2>
-<p>Coming soon - detailed implementation of the fitness evaluation system.</p>
+<p>Common issues:
+- Missing intensity field in point clouds (use <code>add_intensity_node.py</code>)
+- Timestamp misalignment (MOLA expects nanoseconds)
+- Extreme perturbations that violate physical constraints</p>
+<h2 id="implementation">Implementation</h2>
+<p>The fitness evaluator is implemented in <code>src/optimization/run_nsga2.py</code> as a pymoo Problem:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">AdversarialPerturbationProblem</span><span class="p">(</span><span class="n">ElementwiseProblem</span><span class="p">):</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>            <span class="n">n_var</span><span class="o">=</span><span class="n">genome_length</span><span class="p">,</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>            <span class="n">n_obj</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># ATE and perturbation</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>            <span class="n">n_constr</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>            <span class="n">xl</span><span class="o">=</span><span class="n">lower_bounds</span><span class="p">,</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>            <span class="n">xu</span><span class="o">=</span><span class="n">upper_bounds</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>        <span class="p">)</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>        <span class="c1"># x is the genome</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>        <span class="n">ate</span><span class="p">,</span> <span class="n">perturbation</span> <span class="o">=</span> <span class="n">evaluate_genome</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>        <span class="c1"># Return objectives (both minimization)</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>        <span class="n">out</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">ate</span><span class="p">,</span> <span class="n">perturbation</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="summary">Summary</h2>
+<p>Fitness evaluation measures two competing objectives:</p>
+<ol>
+<li><strong>ATE (maximize)</strong>: How much MOLA's trajectory deviates from ground truth</li>
+<li><strong>Perturbation (minimize)</strong>: Average displacement applied to points</li>
+</ol>
+<p>The evaluation pipeline:
+1. Apply perturbations to point clouds
+2. Run MOLA SLAM
+3. Extract estimated trajectory
+4. Align with ground truth
+5. Compute ATE
+6. Return fitness to NSGA-II</p>
+<p>Key considerations:
+- Invalid solutions return infinite fitness
+- Baseline ATE is ~68cm
+- Target ATE is 120-150cm
+- Most efficient attack: dropout at 5% (18.9%/cm)
+- Evaluation takes several minutes per genome</p>
 
 
 

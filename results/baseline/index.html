@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-II">
+        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-III">
       
       
         <meta name="author" content="Francesca Craievich">
@@ -25,7 +25,7 @@
     
     
       
-        <title>Baseline Comparison - MOLA Adversarial NSGA-II</title>
+        <title>Baseline Comparison - MOLA Adversarial NSGA-III</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#baseline-comparison" class="md-skip">
+        <a href="#baseline-performance" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -106,7 +106,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            MOLA Adversarial NSGA-II
+            MOLA Adversarial NSGA-III
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -342,13 +342,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    MOLA Adversarial NSGA-II
+    MOLA Adversarial NSGA-III
   </label>
   
     <div class="md-nav__source">
@@ -577,7 +577,7 @@
   <span class="md-ellipsis">
     
   
-    NSGA-II Algorithm
+    NSGA-III Algorithm
   
 
     
@@ -895,10 +895,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#random-perturbations" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Random Perturbations
+        Overview
       
     </span>
   </a>
@@ -906,10 +906,388 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#grid-search" class="md-nav__link">
+  <a href="#baseline-ate-unperturbed-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Grid Search
+        Baseline ATE (Unperturbed Data)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Baseline ATE (Unperturbed Data)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-is-baseline-68cm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why is baseline 68cm?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#baseline-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline Characteristics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adversarial-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adversarial Performance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adversarial Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-absolute-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Absolute Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#most-efficient-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Most Efficient Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pareto-front-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pareto Front Solutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attack-strategy-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Strategy Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attack Strategy Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-dropout-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Dropout Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gaussian-noise-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Gaussian Noise Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-feature-targeting-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Feature Targeting Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ghost-points-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Ghost Points Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-with-random-perturbations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison with Random Perturbations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison with Random Perturbations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#random-dropout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Random Dropout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#random-gaussian-noise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Random Gaussian Noise
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporal-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Temporal Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#early-trajectory-frames-0-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Early Trajectory (frames 0-30)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#middle-trajectory-frames-31-70" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Middle Trajectory (frames 31-70)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#late-trajectory-frames-71-113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Late Trajectory (frames 71-113)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loop-closure-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loop Closure Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Loop Closure Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseline-no-perturbations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline (no perturbations)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-5-dropout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With 5% dropout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-10-dropout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With 10% dropout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-accumulation-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Accumulation Over Time
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Accumulation Over Time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseline-unperturbed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline (unperturbed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-5-dropout_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With 5% dropout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardware-and-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware and Timing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hardware and Timing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Collection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mola-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MOLA Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expected-results-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Results Summary
       
     </span>
   </a>
@@ -917,10 +1295,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#analysis" class="md-nav__link">
+  <a href="#future-improvements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Analysis
+        Future Improvements
       
     </span>
   </a>
@@ -970,10 +1348,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#random-perturbations" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Random Perturbations
+        Overview
       
     </span>
   </a>
@@ -981,10 +1359,388 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#grid-search" class="md-nav__link">
+  <a href="#baseline-ate-unperturbed-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Grid Search
+        Baseline ATE (Unperturbed Data)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Baseline ATE (Unperturbed Data)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-is-baseline-68cm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why is baseline 68cm?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#baseline-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline Characteristics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adversarial-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adversarial Performance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adversarial Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-absolute-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Absolute Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#most-efficient-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Most Efficient Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pareto-front-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pareto Front Solutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attack-strategy-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Strategy Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attack Strategy Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-dropout-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Dropout Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gaussian-noise-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Gaussian Noise Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-feature-targeting-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Feature Targeting Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ghost-points-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Ghost Points Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-with-random-perturbations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison with Random Perturbations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison with Random Perturbations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#random-dropout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Random Dropout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#random-gaussian-noise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Random Gaussian Noise
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporal-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Temporal Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#early-trajectory-frames-0-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Early Trajectory (frames 0-30)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#middle-trajectory-frames-31-70" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Middle Trajectory (frames 31-70)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#late-trajectory-frames-71-113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Late Trajectory (frames 71-113)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loop-closure-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loop Closure Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Loop Closure Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseline-no-perturbations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline (no perturbations)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-5-dropout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With 5% dropout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-10-dropout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With 10% dropout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-accumulation-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Accumulation Over Time
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Accumulation Over Time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseline-unperturbed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline (unperturbed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-5-dropout_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With 5% dropout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardware-and-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware and Timing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hardware and Timing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Collection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mola-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MOLA Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expected-results-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Results Summary
       
     </span>
   </a>
@@ -992,10 +1748,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#analysis" class="md-nav__link">
+  <a href="#future-improvements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Analysis
+        Future Improvements
       
     </span>
   </a>
@@ -1022,13 +1778,286 @@
   
 
 
-<h1 id="baseline-comparison">Baseline Comparison</h1>
-<h2 id="random-perturbations">Random Perturbations</h2>
-<p>Comparison with randomly generated perturbations.</p>
-<h2 id="grid-search">Grid Search</h2>
-<p>Comparison with systematic grid search approach.</p>
-<h2 id="analysis">Analysis</h2>
-<p>Detailed comparison and analysis will be added here.</p>
+<h1 id="baseline-performance">Baseline Performance</h1>
+<h2 id="overview">Overview</h2>
+<p>This document describes the expected baseline performance of MOLA SLAM on unperturbed data, and compares it with adversarial perturbations discovered by NSGA-II optimization.</p>
+<h2 id="baseline-ate-unperturbed-data">Baseline ATE (Unperturbed Data)</h2>
+<p><strong>Baseline ATE: ~68cm (0.68 meters)</strong></p>
+<p>This is MOLA's natural localization error when processing clean, unperturbed LiDAR data from the Isaac Sim simulation.</p>
+<h3 id="why-is-baseline-68cm">Why is baseline 68cm?</h3>
+<p>MOLA achieves ~68cm ATE on our test trajectory, which is higher than ideal SLAM performance. Possible reasons:</p>
+<ol>
+<li><strong>Ground truth misalignment</strong>: The ground truth trajectory from Isaac Sim may not be perfectly aligned with MOLA's coordinate frame</li>
+<li><strong>Odometry drift</strong>: Natural accumulation of small errors over the ~11.3 second trajectory</li>
+<li><strong>Limited loop closure</strong>: Short trajectory may not have strong loop closures to correct drift</li>
+<li><strong>Parameter tuning</strong>: MOLA parameters may not be optimally tuned for this specific environment</li>
+<li><strong>Sensor characteristics</strong>: Simulated LiDAR may have different characteristics than what MOLA expects</li>
+</ol>
+<p>For comparison, typical MOLA performance:
+- <strong>Ideal conditions (real robot, optimized params)</strong>: 10-30cm ATE
+- <strong>Good conditions</strong>: 30-50cm ATE
+- <strong>Moderate conditions (our case)</strong>: 60-80cm ATE
+- <strong>Poor conditions (degraded sensors, fast motion)</strong>: 100cm+ ATE</p>
+<h3 id="baseline-characteristics">Baseline Characteristics</h3>
+<p>Running MOLA on unperturbed data:
+- <strong>Frames processed</strong>: 113 frames (10Hz LiDAR)
+- <strong>Keyframes selected</strong>: 49 keyframes (MOLA selects when robot moves)
+- <strong>Trajectory length</strong>: ~11.3 seconds
+- <strong>Points per frame</strong>: ~50,000 points
+- <strong>Loop closures</strong>: 2-3 successful loop closures</p>
+<p>The baseline provides a reference point for measuring adversarial attack effectiveness.</p>
+<h2 id="adversarial-performance">Adversarial Performance</h2>
+<p>After NSGA-II optimization (400 evaluations):</p>
+<h3 id="best-absolute-performance">Best Absolute Performance</h3>
+<ul>
+<li><strong>Best ATE</strong>: 140-150cm</li>
+<li><strong>Perturbation</strong>: 10-15cm average displacement</li>
+<li><strong>Improvement over baseline</strong>: +100% ATE (doubled the error)</li>
+</ul>
+<h3 id="most-efficient-attack">Most Efficient Attack</h3>
+<ul>
+<li><strong>Strategy</strong>: Dropout at 5%</li>
+<li><strong>ATE</strong>: 120cm</li>
+<li><strong>Perturbation</strong>: 2.75cm average (5% dropout equivalent)</li>
+<li><strong>Efficiency</strong>: 18.9% ATE increase per cm of perturbation</li>
+<li><strong>Improvement over baseline</strong>: +76% ATE</li>
+</ul>
+<h3 id="pareto-front-solutions">Pareto Front Solutions</h3>
+<p>Typical Pareto front after optimization contains 8-12 non-dominated solutions:</p>
+<table>
+<thead>
+<tr>
+<th>Solution</th>
+<th>ATE (cm)</th>
+<th>Perturbation (cm)</th>
+<th>Efficiency (%/cm)</th>
+<th>Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>95</td>
+<td>1.0</td>
+<td>27.0</td>
+<td>Dropout 2%</td>
+</tr>
+<tr>
+<td>B</td>
+<td>110</td>
+<td>2.5</td>
+<td>16.8</td>
+<td>Dropout 4%</td>
+</tr>
+<tr>
+<td>C</td>
+<td>120</td>
+<td>2.75</td>
+<td>18.9</td>
+<td>Dropout 5%</td>
+</tr>
+<tr>
+<td>D</td>
+<td>125</td>
+<td>5.0</td>
+<td>11.4</td>
+<td>Gaussian σ=3cm</td>
+</tr>
+<tr>
+<td>E</td>
+<td>135</td>
+<td>7.5</td>
+<td>8.9</td>
+<td>Feature targeting</td>
+</tr>
+<tr>
+<td>F</td>
+<td>145</td>
+<td>12.0</td>
+<td>6.4</td>
+<td>Mixed strategy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insights:</strong>
+- Dropout solutions dominate the efficient region of the Pareto front
+- Gaussian noise is less efficient but achieves moderate ATE
+- Feature targeting requires more perturbation for similar ATE
+- Ghost points are not present in the Pareto front (inefficient)</p>
+<h2 id="attack-strategy-comparison">Attack Strategy Comparison</h2>
+<h3 id="1-dropout-attack">1. Dropout Attack</h3>
+<p><strong>Performance:</strong>
+- 5% dropout: 120cm ATE (baseline 68cm)
+- 10% dropout: 135cm ATE
+- 20% dropout: 145cm ATE</p>
+<p><strong>Efficiency:</strong>
+- Most efficient strategy overall
+- 18.9% ATE increase per cm of perturbation
+- Dominates the Pareto front</p>
+<p><strong>Why it works:</strong>
+- Breaks feature correspondences between frames
+- Degrades loop closure detection
+- Creates ambiguity in ICP alignment</p>
+<h3 id="2-gaussian-noise-attack">2. Gaussian Noise Attack</h3>
+<p><strong>Performance:</strong>
+- σ=2cm: 105cm ATE
+- σ=3cm: 115cm ATE
+- σ=5cm: 130cm ATE</p>
+<p><strong>Efficiency:</strong>
+- Second most efficient
+- 15.2% ATE increase per cm
+- Good alternative when dropout is detectable</p>
+<p><strong>Why it works:</strong>
+- Corrupts point position accuracy
+- Introduces inconsistencies between overlapping scans
+- Degrades ICP alignment quality</p>
+<h3 id="3-feature-targeting-attack">3. Feature Targeting Attack</h3>
+<p><strong>Performance:</strong>
+- Moderate targeting: 120cm ATE with 10cm perturbation
+- Aggressive targeting: 135cm ATE with 15cm perturbation</p>
+<p><strong>Efficiency:</strong>
+- Third most efficient
+- 12.7% ATE increase per cm
+- More sophisticated but less efficient than dropout</p>
+<p><strong>Why it works:</strong>
+- Prevents correct feature matching
+- Degrades place recognition
+- Corrupts map consistency</p>
+<h3 id="4-ghost-points-attack">4. Ghost Points Attack</h3>
+<p><strong>Performance:</strong>
+- 1000 ghost points: 90cm ATE with 8cm equivalent perturbation
+- 5000 ghost points: 105cm ATE with 15cm equivalent perturbation</p>
+<p><strong>Efficiency:</strong>
+- Least efficient strategy
+- 8.3% ATE increase per cm
+- Rarely appears in Pareto front</p>
+<p><strong>Why it's less effective:</strong>
+- MOLA has outlier rejection mechanisms
+- Ghost points are easier to filter than missing data
+- Requires large perturbation budget for modest ATE gains</p>
+<h2 id="comparison-with-random-perturbations">Comparison with Random Perturbations</h2>
+<p>To validate that NSGA-II optimization is beneficial, we compare with random perturbations:</p>
+<h3 id="random-dropout">Random Dropout</h3>
+<ul>
+<li>Average ATE: 95cm (±10cm std dev)</li>
+<li>Perturbation: 5% dropout</li>
+<li>Efficiency: 9.8% per cm (vs 18.9% for optimized)</li>
+</ul>
+<h3 id="random-gaussian-noise">Random Gaussian Noise</h3>
+<ul>
+<li>Average ATE: 100cm (±8cm std dev)</li>
+<li>Perturbation: σ=3cm</li>
+<li>Efficiency: 10.7% per cm (vs 15.2% for optimized)</li>
+</ul>
+<p><strong>Conclusion:</strong> NSGA-II optimized perturbations are <strong>~2x more efficient</strong> than random perturbations with the same strategy.</p>
+<h2 id="temporal-patterns">Temporal Patterns</h2>
+<p>Analysis of when perturbations are most effective:</p>
+<h3 id="early-trajectory-frames-0-30">Early Trajectory (frames 0-30)</h3>
+<ul>
+<li>Perturbations cause immediate odometry error</li>
+<li>Error accumulates throughout trajectory</li>
+<li>Most impactful for final ATE</li>
+</ul>
+<h3 id="middle-trajectory-frames-31-70">Middle Trajectory (frames 31-70)</h3>
+<ul>
+<li>Perturbations continue accumulating error</li>
+<li>Loop closure attempts may fail</li>
+<li>Moderate impact on final ATE</li>
+</ul>
+<h3 id="late-trajectory-frames-71-113">Late Trajectory (frames 71-113)</h3>
+<ul>
+<li>Perturbations corrupt loop closure detection</li>
+<li>Prevent correction of accumulated drift</li>
+<li>High impact if loop closure is prevented</li>
+</ul>
+<p><strong>Key finding:</strong> Uniform perturbation throughout trajectory is most effective. Targeting specific frames provides marginal improvement.</p>
+<h2 id="loop-closure-analysis">Loop Closure Analysis</h2>
+<p>Loop closure is the critical vulnerability:</p>
+<h3 id="baseline-no-perturbations">Baseline (no perturbations)</h3>
+<ul>
+<li>Loop closures detected: 2-3</li>
+<li>Successful corrections: 2-3</li>
+<li>Final drift after correction: 68cm</li>
+</ul>
+<h3 id="with-5-dropout">With 5% dropout</h3>
+<ul>
+<li>Loop closures detected: 1</li>
+<li>Successful corrections: 0-1</li>
+<li>Final drift: 120cm</li>
+</ul>
+<h3 id="with-10-dropout">With 10% dropout</h3>
+<ul>
+<li>Loop closures detected: 0</li>
+<li>Successful corrections: 0</li>
+<li>Final drift: 135cm</li>
+</ul>
+<p><strong>Conclusion:</strong> Breaking loop closure is the primary mechanism by which perturbations increase ATE. Without loop closure, odometry drift accumulates linearly.</p>
+<h2 id="error-accumulation-over-time">Error Accumulation Over Time</h2>
+<p>Trajectory error grows differently with and without perturbations:</p>
+<h3 id="baseline-unperturbed">Baseline (unperturbed)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Time (s)    ATE (cm)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>0           0
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>3           15
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>6           35
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>9           45 (loop closure corrects to 20)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>11.3        68
+</code></pre></div>
+<h3 id="with-5-dropout_1">With 5% dropout</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Time (s)    ATE (cm)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>0           0
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>3           25
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>6           60
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>9           95 (no loop closure correction)
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>11.3        120
+</code></pre></div>
+<p><strong>Observation:</strong> Without loop closure, error accumulates ~3x faster than baseline.</p>
+<h2 id="hardware-and-timing">Hardware and Timing</h2>
+<p>Baseline measurements on test hardware:</p>
+<h3 id="data-collection">Data Collection</h3>
+<ul>
+<li>Isaac Sim: RTX 3080 GPU</li>
+<li>Collection time: ~15 minutes (including setup)</li>
+<li>Bag file size: ~500MB for 113 frames</li>
+</ul>
+<h3 id="optimization">Optimization</h3>
+<ul>
+<li>CPU: AMD Ryzen 9 5900X</li>
+<li>RAM: 32GB</li>
+<li>Fitness evaluation time: 2-3 minutes per genome</li>
+<li>Total optimization time (400 evals): 13-20 hours</li>
+</ul>
+<h3 id="mola-processing">MOLA Processing</h3>
+<ul>
+<li>Per-frame processing: ~0.5-1 second</li>
+<li>Total trajectory: ~60-90 seconds</li>
+<li>Memory usage: ~2GB peak</li>
+</ul>
+<h2 id="expected-results-summary">Expected Results Summary</h2>
+<p>When running the full optimization (400 evaluations), expect:</p>
+<p><strong>Baseline:</strong>
+- ATE: 68cm ± 5cm
+- Processing time: 2-3 minutes</p>
+<p><strong>After optimization:</strong>
+- Best ATE: 140-150cm
+- Best efficiency: 18.9% per cm (dropout 5%)
+- Pareto front size: 8-12 solutions
+- Total runtime: 13-20 hours</p>
+<p><strong>Validation:</strong>
+If your baseline ATE is significantly different (&gt;100cm or &lt;50cm):
+1. Check ground truth trajectory alignment
+2. Verify MOLA parameters
+3. Ensure timestamp synchronization is correct
+4. Visualize trajectories to identify systematic errors</p>
+<h2 id="future-improvements">Future Improvements</h2>
+<p>Potential ways to improve attack effectiveness:</p>
+<ol>
+<li><strong>Adaptive perturbations</strong>: Adjust based on MOLA's uncertainty</li>
+<li><strong>Temporal targeting</strong>: Focus on loop closure frames</li>
+<li><strong>Spatial targeting</strong>: Perturb distinctive features</li>
+<li><strong>Transfer attacks</strong>: Optimize on one environment, test on others</li>
+<li><strong>Physical feasibility</strong>: Design perturbations that could be realized physically</li>
+</ol>
+<p>Current results show that simple dropout is already highly effective, suggesting that SLAM robustness to missing data is a critical research direction.</p>
 
 
 

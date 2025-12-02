@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-II">
+        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-III">
       
       
         <meta name="author" content="Francesca Craievich">
@@ -25,7 +25,7 @@
     
     
       
-        <title>MOLA Adversarial NSGA-II</title>
+        <title>MOLA Adversarial NSGA-III</title>
       
     
     
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="MOLA Adversarial NSGA-II" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="." title="MOLA Adversarial NSGA-III" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -106,7 +106,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            MOLA Adversarial NSGA-II
+            MOLA Adversarial NSGA-III
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -342,13 +342,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="MOLA Adversarial NSGA-II" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="." title="MOLA Adversarial NSGA-III" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    MOLA Adversarial NSGA-II
+    MOLA Adversarial NSGA-III
   </label>
   
     <div class="md-nav__source">
@@ -458,6 +458,17 @@
     <span class="md-ellipsis">
       
         Key Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attack-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Strategies
       
     </span>
   </a>
@@ -690,7 +701,7 @@
   <span class="md-ellipsis">
     
   
-    NSGA-II Algorithm
+    NSGA-III Algorithm
   
 
     
@@ -1033,6 +1044,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#attack-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Strategies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#project-context" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1086,40 +1108,98 @@
 
 
 <h1 id="multi-objective-adversarial-perturbations-for-slam-systems">Multi-Objective Adversarial Perturbations for SLAM Systems</h1>
-<p>Welcome to the documentation for the MOLA Adversarial NSGA-II project.</p>
+<p>Welcome to the documentation for the MOLA Adversarial NSGA-III project.</p>
 <h2 id="overview">Overview</h2>
-<p>This project applies <strong>NSGA-II</strong> (Non-dominated Sorting Genetic Algorithm II) to evolve adversarial perturbations on LiDAR point clouds that can compromise SLAM (Simultaneous Localization and Mapping) systems.</p>
+<p>This project applies <strong>NSGA-III</strong> (Non-dominated Sorting Genetic Algorithm III) to evolve adversarial perturbations on LiDAR point clouds that can compromise SLAM (Simultaneous Localization and Mapping) systems. The project implements state-of-the-art adversarial attack techniques inspired by recent research:</p>
+<ul>
+<li><strong>FLAT</strong>: Flux-Aware Imperceptible Adversarial Attacks (ECCV 2024)</li>
+<li><strong>SLACK</strong>: Attacking LiDAR-based SLAM (arXiv 2024)</li>
+<li><strong>ICP Attack</strong>: Adversarial attacks on ICP registration (arXiv 2403.05666)</li>
+<li><strong>ASP</strong>: Attribution-based Scanline Perturbation (IEEE 2024)</li>
+</ul>
 <h2 id="objectives">Objectives</h2>
 <p>The algorithm optimizes two competing objectives:</p>
 <ol>
-<li><strong>Attack Effectiveness</strong> - Maximize localization error in the SLAM system</li>
-<li><strong>Imperceptibility</strong> - Minimize the magnitude of perturbations to make them harder to detect</li>
+<li><strong>Attack Effectiveness</strong> - Maximize localization error (ATE) in MOLA SLAM</li>
+<li><strong>Imperceptibility</strong> - Minimize perturbation magnitude (Chamfer distance)</li>
 </ol>
-<p>This creates a Pareto front of optimal trade-offs between these two objectives.</p>
+<p>This creates a Pareto front of optimal trade-offs between attack effectiveness and detectability.</p>
 <h2 id="key-features">Key Features</h2>
 <ul>
-<li>Multi-objective evolutionary optimization using NSGA-II</li>
-<li>Integration with MOLA SLAM in Isaac Sim</li>
+<li><strong>NSGA-III optimization</strong> with Das-Dennis reference directions</li>
+<li><strong>17-parameter genome</strong> combining multiple attack strategies</li>
+<li><strong>Advanced attacks</strong>: Edge targeting, temporal drift, scanline perturbation, geometric distortion</li>
+<li>Integration with <strong>MOLA SLAM</strong> in Isaac Sim</li>
 <li>Automated fitness evaluation using ground truth comparison</li>
-<li>Baseline comparisons (random perturbations, grid search)</li>
 <li>Comprehensive analysis and visualization tools</li>
 </ul>
+<h2 id="attack-strategies">Attack Strategies</h2>
+<p>The 17-parameter genome encodes:</p>
+<table>
+<thead>
+<tr>
+<th>Attack Type</th>
+<th>Description</th>
+<th>Effectiveness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dropout</td>
+<td>Remove random points</td>
+<td>High (18.9% ATE/cm)</td>
+</tr>
+<tr>
+<td>Gaussian noise</td>
+<td>Add random displacement</td>
+<td>Medium (15.2% ATE/cm)</td>
+</tr>
+<tr>
+<td>Edge attack</td>
+<td>Target ICP-critical features</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Temporal drift</td>
+<td>Accumulating bias (breaks loop closure)</td>
+<td>Very High</td>
+</tr>
+<tr>
+<td>Geometric distortion</td>
+<td>Range-dependent scaling</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Scanline perturbation</td>
+<td>Along-beam perturbation</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Strategic ghost</td>
+<td>Feature-based ghost points</td>
+<td>Medium</td>
+</tr>
+</tbody>
+</table>
 <h2 id="project-context">Project Context</h2>
 <p>This project is part of a practical application of multi-objective evolutionary algorithms. The setup includes:</p>
 <ul>
 <li>MOLA SLAM operational in Isaac Sim</li>
-<li>Recorded point clouds from a rover simulation</li>
-<li>Automatic fitness evaluation by comparing SLAM trajectories with simulator ground truth</li>
+<li>Recorded point clouds from a simulated rover (~11.3s, 113 frames at 10Hz)</li>
+<li>Automatic fitness evaluation using Umeyama-aligned ATE</li>
+<li>Baseline ATE: ~6.8cm (unperturbed)</li>
 </ul>
 <h2 id="quick-links">Quick Links</h2>
 <ul>
 <li><a href="getting-started/installation/">Installation Guide</a></li>
 <li><a href="getting-started/quickstart/">Quick Start</a></li>
-<li><a href="user-guide/nsga2/">NSGA-II Algorithm Details</a></li>
+<li><a href="user-guide/nsga2/">NSGA-III Algorithm Details</a></li>
+<li><a href="user-guide/perturbations/">Perturbation Strategies</a></li>
 <li><a href="api/overview/">API Reference</a></li>
+<li><a href="results/experiments/">Experimental Results</a></li>
 </ul>
 <h2 id="repository">Repository</h2>
-<p>View the source code on <a href="https://github.com/francescacraievich/mola-adversial-nsga2">GitHub</a>.</p>
+<p>View the source code on <a href="https://github.com/francescacraievich/mola-adversarial-nsga2">GitHub</a>.</p>
 
 
 

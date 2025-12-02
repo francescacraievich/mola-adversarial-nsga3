@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-II">
+        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-III">
       
       
         <meta name="author" content="Francesca Craievich">
@@ -27,7 +27,7 @@
     
     
       
-        <title>Overview - MOLA Adversarial NSGA-II</title>
+        <title>Overview - MOLA Adversarial NSGA-III</title>
       
     
     
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            MOLA Adversarial NSGA-II
+            MOLA Adversarial NSGA-III
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -344,13 +344,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    MOLA Adversarial NSGA-II
+    MOLA Adversarial NSGA-III
   </label>
   
     <div class="md-nav__source">
@@ -579,7 +579,7 @@
   <span class="md-ellipsis">
     
   
-    NSGA-II Algorithm
+    NSGA-III Algorithm
   
 
     
@@ -799,6 +799,339 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#perturbation-generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perturbation Generator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Perturbation Generator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PerturbationGenerator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.apply_perturbation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apply_perturbation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.compute_chamfer_distance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compute_chamfer_distance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.compute_curvature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compute_curvature
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.compute_perturbation_magnitude" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compute_perturbation_magnitude
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.detect_edges_and_corners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        detect_edges_and_corners
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.encode_perturbation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        encode_perturbation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.get_genome_size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_genome_size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.random_genome" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        random_genome
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.reset_temporal_state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reset_temporal_state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genome-structure-17-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Genome Structure (17 parameters)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ate-computation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ATE Computation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-loaders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Loaders
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Loaders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsga-iii-optimizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NSGA-III Optimizer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NSGA-III Optimizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Line Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plotting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-perturbation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Perturbation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
 </li>
       
     </ul>
@@ -980,6 +1313,339 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#perturbation-generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perturbation Generator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Perturbation Generator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PerturbationGenerator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.apply_perturbation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apply_perturbation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.compute_chamfer_distance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compute_chamfer_distance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.compute_curvature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compute_curvature
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.compute_perturbation_magnitude" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compute_perturbation_magnitude
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.detect_edges_and_corners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        detect_edges_and_corners
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.encode_perturbation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        encode_perturbation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.get_genome_size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_genome_size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.random_genome" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        random_genome
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.perturbations.perturbation_generator.PerturbationGenerator.reset_temporal_state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reset_temporal_state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genome-structure-17-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Genome Structure (17 parameters)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ate-computation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ATE Computation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-loaders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Loaders
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Loaders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsga-iii-optimizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NSGA-III Optimizer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NSGA-III Optimizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Line Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plotting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-perturbation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Perturbation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
 </li>
       
     </ul>
@@ -1004,13 +1670,1220 @@
 
 <h1 id="api-reference">API Reference</h1>
 <h2 id="overview">Overview</h2>
-<p>Coming soon - API documentation for the main modules.</p>
+<p>This document provides an API reference for the main modules in the MOLA Adversarial NSGA-II project.</p>
 <h2 id="modules">Modules</h2>
+<h3 id="perturbation-generator">Perturbation Generator</h3>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<a id="src.perturbations.perturbation_generator.PerturbationGenerator"></a>
+    <div class="doc doc-contents first">
+
+
+
+        <p>Adversarial perturbation generator for LiDAR point clouds.</p>
+<p>Uses per-point perturbations with realistic bounds based on research papers.
+Targets high-curvature regions that are critical for SLAM feature extraction.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">max_point_shift</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">noise_std</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">target_high_curvature</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">curvature_percentile</span><span class="o">=</span><span class="mf">90.0</span><span class="p">,</span> <span class="n">max_dropout_rate</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">max_ghost_points_ratio</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">cluster_shift_std</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_edge_shift</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">max_temporal_drift</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Initialize perturbation generator.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>max_point_shift</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Maximum displacement per point in meters (default: 5cm)</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.05</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>noise_std</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Standard deviation of Gaussian noise in meters (default: 2cm)</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.02</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>target_high_curvature</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to target high-curvature regions</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>curvature_percentile</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Percentile threshold for high-curvature points</p>
+              </div>
+            </td>
+            <td>
+                  <code>90.0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>max_dropout_rate</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Maximum fraction of points to remove</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.15</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>max_ghost_points_ratio</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Maximum ratio of ghost points to add</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.05</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>cluster_shift_std</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Std of cluster-based displacement</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.03</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>n_clusters</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of perturbation clusters</p>
+              </div>
+            </td>
+            <td>
+                  <code>5</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>max_edge_shift</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Maximum shift for detected edge points</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.08</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>max_temporal_drift</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Maximum accumulated drift per frame</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.05</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.apply_perturbation" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">apply_perturbation</span><span class="p">(</span><span class="n">point_cloud</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Apply advanced adversarial perturbation to point cloud.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>point_cloud</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Input point cloud (N, 4) with [x, y, z, intensity]</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>params</code>
+            </td>
+            <td>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="any">any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Perturbation parameters from encode_perturbation()</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>seed</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Random seed for reproducibility</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Perturbed point cloud (M, 4) where M may differ from N</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.compute_chamfer_distance" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_chamfer_distance</span><span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">perturbed</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute Chamfer distance between original and perturbed point clouds.</p>
+<p>Uses the standard bidirectional formula:
+CD(A, B) = (1/|A|) * Σ min ||a - b||² + (1/|B|) * Σ min ||b - a||²</p>
+<p>Lower values = more imperceptible perturbation.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>original</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Original point cloud (N, 3+)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>perturbed</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Perturbed point cloud (M, 3+)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Chamfer distance (sum of mean squared nearest-neighbor distances)</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.compute_curvature" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_curvature</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute local curvature using fast approximation.</p>
+<p>OPTIMIZED: Uses small sample and vectorized nearest-neighbor assignment.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>points</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Point cloud (N, 3+) XYZ coordinates</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>k</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of nearest neighbors</p>
+              </div>
+            </td>
+            <td>
+                  <code>10</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Curvature values for each point (N,)</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.compute_perturbation_magnitude" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_perturbation_magnitude</span><span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">perturbed</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute perturbation magnitude for NSGA-II objective.</p>
+<p>Combines Chamfer distance (point displacement) with structural changes
+(dropout/ghost points) to capture both geometric and topological perturbations.</p>
+<p>Formula:
+- Chamfer distance captures point displacement
+- Point count change captures dropout/ghost points as % of original cloud
+- Total perturbation = sqrt(chamfer² + dropout_penalty²)</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>original</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Original point cloud</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>perturbed</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Perturbed point cloud</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>params</code>
+            </td>
+            <td>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="any">any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Perturbation parameters for decoding dropout/ghost settings</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Combined perturbation magnitude in cm (accounts for both displacement and structure)</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.detect_edges_and_corners" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">detect_edges_and_corners</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Detect edge and corner points using eigenvalue analysis.</p>
+<p>SLACK-inspired: These are the critical points for ICP matching.
+Perturbing them has maximum impact on scan registration.</p>
+<p>Classification based on eigenvalue ratios:
+- Planar: λ1 ≈ λ2 &gt;&gt; λ3 (surface points)
+- Edge: λ1 &gt;&gt; λ2 ≈ λ3 (line features)
+- Corner: λ1 ≈ λ2 ≈ λ3 (3D features)</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>points</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Point cloud (N, 3+)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>k</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of neighbors for local analysis</p>
+              </div>
+            </td>
+            <td>
+                  <code>15</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Edge scores for each point (N,) - higher = more edge-like</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.encode_perturbation" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">encode_perturbation</span><span class="p">(</span><span class="n">genome</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Encode genome into perturbation parameters.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>genome</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Normalized parameters in range [-1, 1]</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="any">any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dictionary with perturbation parameters</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.get_genome_size" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_genome_size</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the size of the genome encoding.</p>
+<p>Genome structure (17 parameters):
+- [0-2]: Directional bias for per-point noise (normalized direction)
+- [3]: Noise intensity scale [0, 1]
+- [4]: Curvature targeting strength [0, 1]
+- [5]: Point dropout rate [0, 1]
+- [6]: Ghost points ratio [0, 1]
+- [7-9]: Cluster perturbation direction
+- [10]: Cluster perturbation strength [0, 1]
+- [11]: Spatial correlation of perturbations [0, 1]
+- [12]: Geometric distortion strength [0, 1] - KEY for ICP attacks
+- [13]: Edge attack strength [0, 1] - Target edges/corners (SLACK-inspired)
+- [14]: Temporal drift strength [0, 1] - Accumulating drift (ICP attack)
+- [15]: Scanline perturbation [0, 1] - ASP-inspired attack
+- [16]: Strategic ghost placement [0, 1] - Place ghosts near features</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.random_genome" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">random_genome</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generate random genome(s).</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>size</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of genomes to generate (None for single genome)</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Random genome(s) in range [-1, 1]</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.reset_temporal_state" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">reset_temporal_state</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Reset temporal state for new sequence evaluation.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><p><strong>Location:</strong> <code>src/perturbations/perturbation_generator.py</code></p>
+<p>The <code>PerturbationGenerator</code> class implements state-of-the-art adversarial perturbation techniques for LiDAR point clouds.</p>
+<h4 id="key-methods">Key Methods</h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_genome_size()</code></td>
+<td>Returns genome size (17 parameters)</td>
+</tr>
+<tr>
+<td><code>encode_perturbation(genome)</code></td>
+<td>Converts genome to perturbation parameters</td>
+</tr>
+<tr>
+<td><code>apply_perturbation(cloud, params, seed)</code></td>
+<td>Applies perturbation to point cloud</td>
+</tr>
+<tr>
+<td><code>compute_chamfer_distance(cloud1, cloud2)</code></td>
+<td>Computes Chamfer distance between clouds</td>
+</tr>
+<tr>
+<td><code>compute_curvature(points)</code></td>
+<td>Computes local curvature for targeting</td>
+</tr>
+<tr>
+<td><code>detect_edges_and_corners(points)</code></td>
+<td>Detects edge/corner points (SLACK-inspired)</td>
+</tr>
+<tr>
+<td><code>reset_temporal_state()</code></td>
+<td>Resets temporal drift state</td>
+</tr>
+</tbody>
+</table>
+<h4 id="genome-structure-17-parameters">Genome Structure (17 parameters)</h4>
+<table>
+<thead>
+<tr>
+<th>Index</th>
+<th>Parameter</th>
+<th>Range</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-2</td>
+<td>Noise direction</td>
+<td>[-1, 1]</td>
+<td>Directional bias for noise</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Noise intensity</td>
+<td>[0, 1]</td>
+<td>Scaled by <code>noise_std</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Curvature strength</td>
+<td>[0, 1]</td>
+<td>High-curvature targeting</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Dropout rate</td>
+<td>[0, 1]</td>
+<td>Scaled by <code>max_dropout_rate</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Ghost ratio</td>
+<td>[0, 1]</td>
+<td>Scaled by <code>max_ghost_points_ratio</code></td>
+</tr>
+<tr>
+<td>7-9</td>
+<td>Cluster direction</td>
+<td>[-1, 1]</td>
+<td>Direction for cluster perturbation</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Cluster strength</td>
+<td>[0, 1]</td>
+<td>Cluster perturbation intensity</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Spatial correlation</td>
+<td>[0, 1]</td>
+<td>Correlation of nearby perturbations</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Geometric distortion</td>
+<td>[0, 1]</td>
+<td>ICP attack strength</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Edge attack</td>
+<td>[0, 1]</td>
+<td>SLACK-inspired edge targeting</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Temporal drift</td>
+<td>[0, 1]</td>
+<td>Accumulating drift strength</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Scanline perturbation</td>
+<td>[0, 1]</td>
+<td>ASP-inspired attack</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Strategic ghost</td>
+<td>[0, 1]</td>
+<td>Feature-based ghost placement</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="metrics">Metrics</h3>
+<p><strong>Location:</strong> <code>src/evaluation/metrics.py</code></p>
+<p>Functions for computing fitness metrics.</p>
+<h4 id="functions">Functions</h4>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>compute_localization_error(gt, est, method)</code></td>
+<td>Compute ATE/RPE between trajectories</td>
+</tr>
+<tr>
+<td><code>compute_imperceptibility(orig, pert, method)</code></td>
+<td>Compute perturbation magnitude</td>
+</tr>
+<tr>
+<td><code>compute_multi_objective_fitness(...)</code></td>
+<td>Combined fitness for NSGA-II</td>
+</tr>
+<tr>
+<td><code>normalize_fitness(values, ref_point)</code></td>
+<td>Normalize fitness values</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ate-computation">ATE Computation</h4>
+<p>The <code>_compute_ate</code> function implements standard Absolute Trajectory Error:</p>
+<ol>
+<li><strong>Umeyama alignment</strong>: Rigid alignment (R + t, no scale) of estimated to ground truth</li>
+<li><strong>RMSE</strong>: Root mean squared error of per-pose distances</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.evaluation.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_localization_error</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">ate</span> <span class="o">=</span> <span class="n">compute_localization_error</span><span class="p">(</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">ground_truth_trajectory</span><span class="p">,</span>  <span class="c1"># (N, 3) array</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">estimated_trajectory</span><span class="p">,</span>     <span class="c1"># (M, 3) array</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;ate&quot;</span>              <span class="c1"># &quot;ate&quot;, &quot;rpe&quot;, or &quot;final&quot;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h3 id="data-loaders">Data Loaders</h3>
+<p><strong>Location:</strong> <code>src/utils/data_loaders.py</code></p>
+<p>Functions for loading point clouds and trajectories.</p>
+<h4 id="functions_1">Functions</h4>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>load_point_clouds_from_npy(path)</code></td>
+<td>Load point cloud sequence</td>
+</tr>
+<tr>
+<td><code>load_timestamps_from_npy(path)</code></td>
+<td>Load frame timestamps</td>
+</tr>
+<tr>
+<td><code>load_trajectory_from_tum(path, ...)</code></td>
+<td>Load trajectory (TUM or NPY format)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="nsga-iii-optimizer">NSGA-III Optimizer</h3>
+<p><strong>Location:</strong> <code>src/optimization/run_nsga2.py</code></p>
+<p>Main optimization script using pymoo's NSGA-III algorithm.</p>
+<h4 id="key-classes">Key Classes</h4>
+<p><strong>MOLAEvaluator</strong>: ROS2 node that evaluates genomes by running MOLA SLAM.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">evaluator</span> <span class="o">=</span> <span class="n">MOLAEvaluator</span><span class="p">(</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">perturbation_generator</span><span class="o">=</span><span class="n">generator</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">ground_truth_trajectory</span><span class="o">=</span><span class="n">gt_traj</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">point_cloud_sequence</span><span class="o">=</span><span class="n">clouds</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">timestamps</span><span class="o">=</span><span class="n">timestamps</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">tf_sequence</span><span class="o">=</span><span class="n">tf_data</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">tf_static</span><span class="o">=</span><span class="n">tf_static_data</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">mola_binary_path</span><span class="o">=</span><span class="s2">&quot;/opt/ros/jazzy/bin/mola-cli&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">mola_config_path</span><span class="o">=</span><span class="s2">&quot;path/to/config.yaml&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">)</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Evaluate a genome</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">neg_ate</span><span class="p">,</span> <span class="n">chamfer</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">genome</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="command-line-arguments">Command Line Arguments</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>src/optimization/run_nsga2.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span>--gt-traj<span class="w"> </span>maps/ground_truth_interpolated.npy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span>--frames<span class="w"> </span>data/frame_sequence.npy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span>--pop-size<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span>--n-gen<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span>--max-point-shift<span class="w"> </span><span class="m">0</span>.05<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span>--noise-std<span class="w"> </span><span class="m">0</span>.015<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span>--max-dropout<span class="w"> </span><span class="m">0</span>.15<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span>--output<span class="w"> </span>src/results/optimized_genome.npy
+</code></pre></div>
+<hr />
+<h3 id="plotting">Plotting</h3>
+<p><strong>Location:</strong> <code>src/plots/plot_nsga2_results.py</code></p>
+<p>Visualization of optimization results.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>src/plots/plot_nsga2_results.py<span class="w"> </span>src/results/optimized_genome6
+</code></pre></div>
+<p>Generates:
+- Pareto front plot (ATE vs Chamfer distance)
+- Best solution analysis
+- Parameter correlation analysis</p>
+<hr />
+<h2 id="usage-examples">Usage Examples</h2>
+<h3 id="basic-perturbation">Basic Perturbation</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.perturbations.perturbation_generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">PerturbationGenerator</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Create generator</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">gen</span> <span class="o">=</span> <span class="n">PerturbationGenerator</span><span class="p">(</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">max_point_shift</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>  <span class="c1"># 5cm</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">noise_std</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>        <span class="c1"># 2cm</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">max_dropout_rate</span><span class="o">=</span><span class="mf">0.15</span>  <span class="c1"># 15%</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">)</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1"># Generate random genome</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="n">genome</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">random_genome</span><span class="p">()</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1"># Apply perturbation</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="n">params</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">encode_perturbation</span><span class="p">(</span><span class="n">genome</span><span class="p">)</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="n">perturbed</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">apply_perturbation</span><span class="p">(</span><span class="n">point_cloud</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1"># Measure imperceptibility</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="n">chamfer</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">compute_chamfer_distance</span><span class="p">(</span><span class="n">point_cloud</span><span class="p">,</span> <span class="n">perturbed</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="running-optimization">Running Optimization</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pymoo.algorithms.moo.nsga3</span><span class="w"> </span><span class="kn">import</span> <span class="n">NSGA3</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pymoo.util.ref_dirs</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_reference_directions</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Setup NSGA-III</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">ref_dirs</span> <span class="o">=</span> <span class="n">get_reference_directions</span><span class="p">(</span><span class="s2">&quot;das-dennis&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_partitions</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">algorithm</span> <span class="o">=</span> <span class="n">NSGA3</span><span class="p">(</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">pop_size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">ref_dirs</span><span class="p">),</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="n">ref_dirs</span><span class="o">=</span><span class="n">ref_dirs</span><span class="p">,</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Run optimization</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;n_gen&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1"># Get Pareto front</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">pareto_front</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">F</span>  <span class="c1"># Fitness values</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">pareto_set</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">X</span>    <span class="c1"># Genomes</span>
+</code></pre></div>
+<hr />
+<h2 id="references">References</h2>
 <ul>
-<li><code>nsga2</code>: NSGA-II implementation</li>
-<li><code>perturbations</code>: Perturbation generation and application</li>
-<li><code>fitness</code>: Fitness evaluation functions</li>
-<li><code>visualization</code>: Result visualization tools</li>
+<li><strong>NSGA-III</strong>: Deb &amp; Jain (2014) - Reference-point based NSGA</li>
+<li><strong>SLACK</strong>: arXiv 2024 - Attacking LiDAR-based SLAM</li>
+<li><strong>ICP Attack</strong>: arXiv 2403.05666 - ICP adversarial perturbations</li>
+<li><strong>ASP</strong>: IEEE 2024 - Attribution-based Scanline Perturbation</li>
+<li><strong>FLAT</strong>: ECCV 2024 - Flux-Aware Imperceptible Adversarial Attacks</li>
 </ul>
 
 

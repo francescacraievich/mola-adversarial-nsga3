@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-II">
+        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-III">
       
       
         <meta name="author" content="Francesca Craievich">
@@ -27,7 +27,7 @@
     
     
       
-        <title>NSGA-II Algorithm - MOLA Adversarial NSGA-II</title>
+        <title>NSGA-III Algorithm - MOLA Adversarial NSGA-III</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#nsga-ii-algorithm" class="md-skip">
+        <a href="#nsga-iii-algorithm" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,13 +108,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            MOLA Adversarial NSGA-II
+            MOLA Adversarial NSGA-III
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              NSGA-II Algorithm
+              NSGA-III Algorithm
             
           </span>
         </div>
@@ -344,13 +344,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    MOLA Adversarial NSGA-II
+    MOLA Adversarial NSGA-III
   </label>
   
     <div class="md-nav__source">
@@ -591,7 +591,7 @@
   <span class="md-ellipsis">
     
   
-    NSGA-II Algorithm
+    NSGA-III Algorithm
   
 
     
@@ -609,7 +609,7 @@
   <span class="md-ellipsis">
     
   
-    NSGA-II Algorithm
+    NSGA-III Algorithm
   
 
     
@@ -646,6 +646,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#why-multi-objective-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Multi-Objective Optimization?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#key-concepts" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -669,6 +680,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pareto-front" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pareto Front
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#non-dominated-sorting" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -680,10 +702,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#crowding-distance" class="md-nav__link">
+  <a href="#reference-points-nsga-iii" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Crowding Distance
+        Reference Points (NSGA-III)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crowding-distance-legacy-nsga-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crowding Distance (Legacy - NSGA-II)
       
     </span>
   </a>
@@ -704,13 +737,245 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Algorithm Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-fitness-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fitness Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-non-dominated-sorting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Non-dominated Sorting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-crowding-distance-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Crowding Distance Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-tournament-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Tournament Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-crossover-and-mutation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Crossover and Mutation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-combine-populations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Combine Populations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-environmental-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Environmental Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-termination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Termination
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#application-to-adversarial-perturbations" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Application to Adversarial Perturbations
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#genome-encoding-17-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Genome Encoding (17 Parameters)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Genome Encoding (17 Parameters)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attack-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Combinations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constraint-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraint Handling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-with-single-objective-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison with Single-Objective Optimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpreting-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpreting Results
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advantages-of-nsga-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages of NSGA-II
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Details
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nsga-iii-vs-nsga-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NSGA-III vs NSGA-II
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
       
     </span>
   </a>
@@ -1033,6 +1298,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#why-multi-objective-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Multi-Objective Optimization?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#key-concepts" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1056,6 +1332,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pareto-front" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pareto Front
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#non-dominated-sorting" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1067,10 +1354,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#crowding-distance" class="md-nav__link">
+  <a href="#reference-points-nsga-iii" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Crowding Distance
+        Reference Points (NSGA-III)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crowding-distance-legacy-nsga-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crowding Distance (Legacy - NSGA-II)
       
     </span>
   </a>
@@ -1091,13 +1389,245 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Algorithm Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-fitness-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fitness Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-non-dominated-sorting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Non-dominated Sorting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-crowding-distance-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Crowding Distance Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-tournament-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Tournament Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-crossover-and-mutation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Crossover and Mutation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-combine-populations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Combine Populations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-environmental-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Environmental Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-termination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Termination
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#application-to-adversarial-perturbations" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Application to Adversarial Perturbations
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#genome-encoding-17-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Genome Encoding (17 Parameters)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Genome Encoding (17 Parameters)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attack-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Combinations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constraint-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraint Handling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-with-single-objective-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison with Single-Objective Optimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpreting-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpreting Results
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advantages-of-nsga-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages of NSGA-II
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Details
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nsga-iii-vs-nsga-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NSGA-III vs NSGA-II
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
       
     </span>
   </a>
@@ -1124,41 +1654,341 @@
   
 
 
-<h1 id="nsga-ii-algorithm">NSGA-II Algorithm</h1>
+<h1 id="nsga-iii-algorithm">NSGA-III Algorithm</h1>
 <h2 id="overview">Overview</h2>
-<p>NSGA-II (Non-dominated Sorting Genetic Algorithm II) is a multi-objective evolutionary algorithm that maintains a diverse set of solutions along the Pareto front.</p>
+<p>This project uses <strong>NSGA-III</strong> (Non-dominated Sorting Genetic Algorithm III), an advanced multi-objective evolutionary algorithm designed for better handling of many-objective optimization problems. NSGA-III improves upon NSGA-II by using reference-point based selection instead of crowding distance, providing better diversity maintenance along the Pareto front.</p>
+<p>In this project, we optimize two competing objectives:
+1. <strong>Maximize SLAM localization error</strong> (attack effectiveness)
+2. <strong>Minimize perturbation magnitude</strong> (imperceptibility)</p>
+<p>Unlike single-objective optimization that finds one best solution, NSGA-III finds a set of Pareto-optimal solutions that represent different trade-offs between the objectives.</p>
+<h2 id="why-multi-objective-optimization">Why Multi-Objective Optimization?</h2>
+<p>In adversarial attacks on SLAM systems, we face two competing objectives:</p>
+<ol>
+<li><strong>Maximize ATE (Absolute Trajectory Error)</strong> - We want to degrade MOLA's localization accuracy as much as possible</li>
+<li><strong>Minimize perturbation magnitude</strong> - We want perturbations to be small and imperceptible</li>
+</ol>
+<p>You cannot optimize both simultaneously because:
+- Larger perturbations cause more damage but are easier to detect
+- Smaller perturbations are stealthier but cause less damage</p>
+<p>NSGA-II finds the Pareto front: the set of solutions where improving one objective requires worsening the other.</p>
 <h2 id="key-concepts">Key Concepts</h2>
 <h3 id="pareto-dominance">Pareto Dominance</h3>
-<p>A solution <strong>dominates</strong> another if it is better in at least one objective and not worse in any other objective.</p>
+<p>Solution A <strong>dominates</strong> solution B if:
+- A is better than B in at least one objective
+- A is not worse than B in any objective</p>
+<p>Example:
+- Solution A: ATE = 1.5m, perturbation = 2cm
+- Solution B: ATE = 1.2m, perturbation = 3cm
+- A dominates B (higher ATE and lower perturbation)</p>
+<h3 id="pareto-front">Pareto Front</h3>
+<p>The Pareto front is the set of non-dominated solutions. These are the "best" solutions where you cannot improve one objective without worsening another.</p>
+<p>In our case, the Pareto front shows:
+- Minimum perturbation needed to achieve a given ATE
+- Maximum ATE achievable with a given perturbation budget</p>
 <h3 id="non-dominated-sorting">Non-dominated Sorting</h3>
-<p>Solutions are ranked into fronts based on dominance relationships:</p>
+<p>NSGA-II ranks solutions into fronts:
+- <strong>Front 1</strong>: Non-dominated solutions (the Pareto front)
+- <strong>Front 2</strong>: Solutions dominated only by Front 1
+- <strong>Front 3</strong>: Solutions dominated only by Fronts 1 and 2
+- And so on...</p>
+<p>During selection, Front 1 solutions are preferred, then Front 2, etc.</p>
+<h3 id="reference-points-nsga-iii">Reference Points (NSGA-III)</h3>
+<p>NSGA-III uses <strong>reference points</strong> instead of crowding distance for diversity maintenance. Reference points are uniformly distributed on a normalized hyperplane and guide the search toward well-spread solutions.</p>
+<p><strong>Das-Dennis method</strong>: We use Das-Dennis reference directions to generate evenly-spaced reference points:
+- For 2 objectives with 12 partitions: generates 13 reference points
+- Each solution is associated with its nearest reference point
+- Selection favors solutions in underrepresented regions</p>
+<p>This provides better diversity than crowding distance, especially for problems with 3+ objectives.</p>
+<h3 id="crowding-distance-legacy-nsga-ii">Crowding Distance (Legacy - NSGA-II)</h3>
+<p>NSGA-II used crowding distance to maintain diversity:</p>
 <ul>
-<li>Front 1: Non-dominated solutions (best)</li>
-<li>Front 2: Solutions dominated only by Front 1</li>
-<li>And so on...</li>
+<li><strong>Large crowding distance</strong>: Solution is in a sparse region (preferred)</li>
+<li><strong>Small crowding distance</strong>: Solution has many neighbors (less preferred)</li>
 </ul>
-<h3 id="crowding-distance">Crowding Distance</h3>
-<p>Within each front, solutions are assigned a crowding distance to maintain diversity. Solutions with larger crowding distances (more isolated) are preferred to maintain spread along the Pareto front.</p>
+<p>NSGA-III's reference-point approach is generally more effective for maintaining spread along the Pareto front.</p>
 <h2 id="algorithm-steps">Algorithm Steps</h2>
-<ol>
-<li><strong>Initialize</strong> population randomly</li>
-<li><strong>Evaluate</strong> fitness for all individuals</li>
-<li><strong>Non-dominated sorting</strong> to assign ranks</li>
-<li><strong>Calculate crowding distance</strong> within each front</li>
-<li><strong>Selection</strong> using tournament selection based on rank and crowding distance</li>
-<li><strong>Crossover</strong> and <strong>mutation</strong> to create offspring</li>
-<li><strong>Combine</strong> parent and offspring populations</li>
-<li><strong>Select</strong> best individuals for next generation</li>
-<li>Repeat steps 2-8 until termination</li>
-</ol>
-<h2 id="application-to-adversarial-perturbations">Application to Adversarial Perturbations</h2>
-<p>In this project:</p>
+<h3 id="1-initialization">1. Initialization</h3>
+<p>Generate an initial population of random solutions. Each solution is a "genome" encoding perturbations for the point cloud.</p>
+<p>In our implementation:
+- Population size: 10-13 individuals (based on reference directions)
+- Reference partitions: 12 (Das-Dennis)
+- Each genome has <strong>17 parameters</strong> encoding multiple attack strategies</p>
+<h3 id="2-fitness-evaluation">2. Fitness Evaluation</h3>
+<p>Evaluate each individual by:
+1. Apply perturbations to point clouds
+2. Run MOLA SLAM on perturbed data
+3. Compare estimated trajectory with ground truth
+4. Calculate ATE (objective 1) and perturbation magnitude (objective 2)</p>
+<p>This is the most computationally expensive step, taking several minutes per evaluation.</p>
+<h3 id="3-non-dominated-sorting">3. Non-dominated Sorting</h3>
+<p>Rank all solutions into fronts based on dominance relationships. Solutions in Front 1 are the current best approximation of the Pareto front.</p>
+<h3 id="4-crowding-distance-calculation">4. Crowding Distance Calculation</h3>
+<p>For each front, calculate crowding distance to identify which solutions maintain diversity along the front.</p>
+<h3 id="5-tournament-selection">5. Tournament Selection</h3>
+<p>Select parents for reproduction using tournament selection:
+1. Randomly pick two individuals
+2. Select the one with better rank (lower front number)
+3. If tied, select the one with larger crowding distance</p>
+<p>This favors both quality (low rank) and diversity (high crowding distance).</p>
+<h3 id="6-crossover-and-mutation">6. Crossover and Mutation</h3>
+<p>Create offspring through genetic operators:</p>
+<p><strong>Crossover</strong>: Combine two parent genomes
+- Example: Take attack strategy from parent A, parameters from parent B
+- Crossover probability: 90%</p>
+<p><strong>Mutation</strong>: Randomly modify genome components
+- Example: Change dropout rate from 5% to 7%
+- Mutation probability: 10%</p>
+<h3 id="7-combine-populations">7. Combine Populations</h3>
+<p>Merge parent population (size N) with offspring population (size N) to create a combined pool of size 2N.</p>
+<h3 id="8-environmental-selection">8. Environmental Selection</h3>
+<p>Select the best N individuals for the next generation:
+1. Sort combined population into fronts
+2. Add entire fronts to next generation until full
+3. If the last front doesn't fit completely, use crowding distance to select the most diverse individuals</p>
+<h3 id="9-termination">9. Termination</h3>
+<p>Repeat steps 2-8 for a fixed number of generations (typically 20 generations).</p>
+<p>Final output is Front 1 from the last generation, which approximates the true Pareto front.</p>
+<h2 id="parameters">Parameters</h2>
+<p>Key parameters in our NSGA-III implementation:</p>
 <ul>
-<li><strong>Individual</strong>: A set of perturbations to apply to point cloud points</li>
-<li><strong>Objective 1</strong>: Maximize SLAM localization error</li>
-<li><strong>Objective 2</strong>: Minimize perturbation magnitude (L2 norm)</li>
+<li><strong>Population size</strong>: 10-13 individuals (determined by reference directions)</li>
+<li><strong>Reference partitions</strong>: 12 (Das-Dennis method)</li>
+<li><strong>Number of generations</strong>: 20 (for ~200 total evaluations)</li>
+<li><strong>Crossover probability</strong>: 0.9 (SBX crossover, eta=15)</li>
+<li><strong>Mutation probability</strong>: Polynomial mutation (eta=20)</li>
 </ul>
-<p>The result is a set of Pareto-optimal perturbations offering different trade-offs between attack effectiveness and imperceptibility.</p>
+<p>For quick testing, use smaller values:
+- Population size: 4
+- Generations: 5
+- Reference partitions: 3</p>
+<h2 id="genome-encoding-17-parameters">Genome Encoding (17 Parameters)</h2>
+<p>Each individual is encoded as a <strong>17-parameter genome</strong> that combines multiple attack strategies inspired by recent research (SLACK, ICP Attack, ASP, FLAT):</p>
+<table>
+<thead>
+<tr>
+<th>Index</th>
+<th>Parameter</th>
+<th>Range</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-2</td>
+<td>Noise direction</td>
+<td>[-1, 1]</td>
+<td>Directional bias for noise (x, y, z)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Noise intensity</td>
+<td>[0, 1]</td>
+<td>Scaled by <code>noise_std</code> config</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Curvature strength</td>
+<td>[0, 1]</td>
+<td>High-curvature point targeting</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Dropout rate</td>
+<td>[0, 1]</td>
+<td>Scaled by <code>max_dropout_rate</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Ghost ratio</td>
+<td>[0, 1]</td>
+<td>Scaled by <code>max_ghost_points_ratio</code></td>
+</tr>
+<tr>
+<td>7-9</td>
+<td>Cluster direction</td>
+<td>[-1, 1]</td>
+<td>Direction for cluster perturbation</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Cluster strength</td>
+<td>[0, 1]</td>
+<td>Cluster perturbation intensity</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Spatial correlation</td>
+<td>[0, 1]</td>
+<td>Correlation of nearby perturbations</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>Geometric distortion</strong></td>
+<td>[0, 1]</td>
+<td>Range-dependent scaling (KEY for ICP)</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>Edge attack</strong></td>
+<td>[0, 1]</td>
+<td>SLACK-inspired edge/corner targeting</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>Temporal drift</strong></td>
+<td>[0, 1]</td>
+<td>Accumulating drift (breaks loop closure)</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>Scanline perturbation</strong></td>
+<td>[0, 1]</td>
+<td>ASP-inspired along-beam perturbation</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>Strategic ghost</strong></td>
+<td>[0, 1]</td>
+<td>Feature-based ghost point placement</td>
+</tr>
+</tbody>
+</table>
+<h3 id="attack-combinations">Attack Combinations</h3>
+<p>The genome allows combining multiple strategies simultaneously:</p>
+<ul>
+<li><strong>High ATE, High Detectability</strong>: Maximize all parameters</li>
+<li><strong>Balanced Attack</strong>: Moderate temporal drift + edge attack</li>
+<li><strong>Stealthy Attack</strong>: Low intensity across all parameters</li>
+</ul>
+<p>The genome is represented as a numpy array in range [-1, 1] that pymoo manipulates with genetic operators.</p>
+<h2 id="constraint-handling">Constraint Handling</h2>
+<p>Physical constraints are enforced:
+- <strong>Maximum perturbation per point</strong>: 50cm (points moved beyond this are unrealistic)
+- <strong>Dropout rate</strong>: 0-100% (cannot remove more than all points)
+- <strong>Noise standard deviation</strong>: 0-10cm (larger values create obvious artifacts)</p>
+<p>Constraint violations are handled by:
+1. Returning infinite fitness (solution is automatically excluded from Pareto front)
+2. Repairing infeasible solutions to nearest feasible point</p>
+<h2 id="convergence">Convergence</h2>
+<p>NSGA-II typically converges to a good approximation of the Pareto front within 20-50 generations. You can monitor convergence by tracking:</p>
+<ol>
+<li><strong>Hypervolume</strong>: Volume of objective space dominated by Pareto front (should increase)</li>
+<li><strong>Best ATE</strong>: Maximum ATE achieved (should increase)</li>
+<li><strong>Best efficiency</strong>: Highest ATE per cm of perturbation (should increase)</li>
+</ol>
+<p>In practice, we observe:
+- Baseline ATE: 68cm (unperturbed)
+- After 20 generations: 120-150cm ATE with 5-10cm perturbations
+- Convergence plateaus around generation 15-20</p>
+<h2 id="comparison-with-single-objective-optimization">Comparison with Single-Objective Optimization</h2>
+<p>Why not use single-objective optimization (e.g., maximize ATE only)?</p>
+<p><strong>Single-objective approach:</strong>
+- Would find solutions with very high ATE but also very large perturbations
+- No control over perturbation budget
+- Misses efficient solutions with good ATE/perturbation trade-offs</p>
+<p><strong>NSGA-II multi-objective approach:</strong>
+- Finds entire Pareto front with diverse trade-offs
+- Allows choosing solution based on perturbation budget constraints
+- Identifies most efficient attack strategies (highest ATE per cm)
+- Discovers that dropout is more efficient than noise or ghost points</p>
+<h2 id="interpreting-results">Interpreting Results</h2>
+<p>After optimization, the Pareto front shows:</p>
+<p><strong>Example solutions:</strong>
+1. Solution A: ATE = 0.95m, perturbation = 1cm (conservative attack)
+2. Solution B: ATE = 1.30m, perturbation = 5cm (balanced attack)
+3. Solution C: ATE = 1.65m, perturbation = 12cm (aggressive attack)</p>
+<p><strong>Key insight:</strong> Dropout at 5% is most efficient
+- Achieves 18.9% ATE increase per cm of perturbation
+- Outperforms Gaussian noise (15.2%), feature targeting (12.7%), and ghost points (8.3%)
+- Removing points breaks feature correspondences and degrades loop closure</p>
+<h2 id="advantages-of-nsga-ii">Advantages of NSGA-II</h2>
+<ol>
+<li><strong>No weight tuning</strong>: Unlike weighted sum approaches, NSGA-II doesn't require manually tuning weights for objectives</li>
+<li><strong>Diverse solutions</strong>: Maintains multiple solutions with different trade-offs</li>
+<li><strong>Robust</strong>: Works well even when objectives have different scales or units</li>
+<li><strong>Parallelizable</strong>: Fitness evaluations are independent and can be parallelized</li>
+</ol>
+<h2 id="limitations">Limitations</h2>
+<ol>
+<li><strong>Computational cost</strong>: Requires hundreds of fitness evaluations, each taking minutes</li>
+<li><strong>Stochastic</strong>: Results vary between runs due to randomness</li>
+<li><strong>Scaling</strong>: Performance degrades with &gt;3 objectives (not an issue here)</li>
+<li><strong>Local optima</strong>: May get stuck in local Pareto fronts, though crossover helps escape</li>
+</ol>
+<h2 id="implementation-details">Implementation Details</h2>
+<p>Our implementation uses <a href="https://pymoo.org/">pymoo</a>, a Python framework for multi-objective optimization:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pymoo.algorithms.moo.nsga3</span><span class="w"> </span><span class="kn">import</span> <span class="n">NSGA3</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pymoo.util.ref_dirs</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_reference_directions</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pymoo.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Generate Das-Dennis reference directions</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">ref_dirs</span> <span class="o">=</span> <span class="n">get_reference_directions</span><span class="p">(</span><span class="s2">&quot;das-dennis&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_partitions</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">algorithm</span> <span class="o">=</span> <span class="n">NSGA3</span><span class="p">(</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">pop_size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">ref_dirs</span><span class="p">),</span>  <span class="c1"># Population size from reference directions</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">ref_dirs</span><span class="o">=</span><span class="n">ref_dirs</span><span class="p">,</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">problem</span><span class="p">,</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">algorithm</span><span class="p">,</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="p">(</span><span class="s1">&#39;n_gen&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="p">)</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="c1"># Access results</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="n">pareto_front</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">F</span>  <span class="c1"># Fitness values (N, 2)</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="n">pareto_set</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">X</span>    <span class="c1"># Genomes (N, 17)</span>
+</code></pre></div>
+<p>The problem definition includes:
+- Number of variables: 17 (genome length)
+- Variable bounds: [-1, 1] for all parameters
+- Number of objectives: 2 (negative ATE, Chamfer distance)
+- Evaluation function: applies perturbations and runs MOLA SLAM</p>
+<h2 id="nsga-iii-vs-nsga-ii">NSGA-III vs NSGA-II</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>NSGA-II</th>
+<th>NSGA-III</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diversity mechanism</td>
+<td>Crowding distance</td>
+<td>Reference points</td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>Good for 2-3 objectives</td>
+<td>Better for many objectives</td>
+</tr>
+<tr>
+<td>Parameter tuning</td>
+<td>Minimal</td>
+<td>Reference partitions</td>
+</tr>
+<tr>
+<td>Pareto front coverage</td>
+<td>Can have gaps</td>
+<td>More uniform</td>
+</tr>
+</tbody>
+</table>
+<p>We use NSGA-III because:
+1. Better diversity maintenance along the Pareto front
+2. More consistent results across runs
+3. Reference-point approach is more principled</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li>Original NSGA-III paper: Deb &amp; Jain (2014) - "An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based Nondominated Sorting Approach"</li>
+<li>Original NSGA-II paper: Deb et al. (2002)</li>
+<li>pymoo documentation: https://pymoo.org/</li>
+<li>Das-Dennis reference directions: Das &amp; Dennis (1998)</li>
+</ul>
 
 
 

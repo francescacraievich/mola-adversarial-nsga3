@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-II">
+        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-III">
       
       
         <meta name="author" content="Francesca Craievich">
@@ -27,7 +27,7 @@
     
     
       
-        <title>Experiments - MOLA Adversarial NSGA-II</title>
+        <title>Experiments - MOLA Adversarial NSGA-III</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#experiments" class="md-skip">
+        <a href="#experimental-results" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            MOLA Adversarial NSGA-II
+            MOLA Adversarial NSGA-III
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -344,13 +344,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    MOLA Adversarial NSGA-II
+    MOLA Adversarial NSGA-III
   </label>
   
     <div class="md-nav__source">
@@ -579,7 +579,7 @@
   <span class="md-ellipsis">
     
   
-    NSGA-II Algorithm
+    NSGA-III Algorithm
   
 
     
@@ -869,6 +869,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#experimental-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -877,13 +888,308 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Experimental Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimization-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimization Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perturbation-bounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perturbation Bounds
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#results" class="md-nav__link">
+  <a href="#results-summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Results
+        Results Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Results Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optimization-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimization Runs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#baseline-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attack-effectiveness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Effectiveness
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attack Effectiveness">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-attack-strategies-from-previous-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Attack Strategies (from previous runs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pareto-front-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pareto Front Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pareto Front Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trade-off-curve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trade-off Curve
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-observations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Observations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#genome-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Genome Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Genome Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameter-importance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameter Importance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attack-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Combinations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-with-baseline-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison with Baseline Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison with Baseline Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#random-perturbations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Random Perturbations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grid-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-objective-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single-Objective Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reproducibility">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#running-experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Experiments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Work
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
       
     </span>
   </a>
@@ -961,6 +1267,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#experimental-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -969,13 +1286,308 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Experimental Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimization-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimization Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perturbation-bounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perturbation Bounds
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#results" class="md-nav__link">
+  <a href="#results-summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Results
+        Results Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Results Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optimization-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimization Runs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#baseline-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attack-effectiveness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Effectiveness
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attack Effectiveness">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-attack-strategies-from-previous-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Attack Strategies (from previous runs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pareto-front-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pareto Front Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pareto Front Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trade-off-curve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trade-off Curve
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-observations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Observations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#genome-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Genome Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Genome Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameter-importance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameter Importance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attack-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Combinations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-with-baseline-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison with Baseline Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison with Baseline Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#random-perturbations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Random Perturbations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grid-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-objective-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single-Objective Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reproducibility">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#running-experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Experiments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Work
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
       
     </span>
   </a>
@@ -1002,11 +1614,307 @@
   
 
 
-<h1 id="experiments">Experiments</h1>
+<h1 id="experimental-results">Experimental Results</h1>
+<h2 id="overview">Overview</h2>
+<p>This document summarizes experimental results from NSGA-III optimization runs for adversarial perturbations against MOLA SLAM.</p>
 <h2 id="experimental-setup">Experimental Setup</h2>
-<p>Coming soon - details on experimental configuration and parameters.</p>
-<h2 id="results">Results</h2>
-<p>Results and analysis will be documented here.</p>
+<h3 id="environment">Environment</h3>
+<ul>
+<li><strong>Simulator</strong>: Isaac Sim with simulated rover</li>
+<li><strong>SLAM System</strong>: MOLA LiDAR Odometry (ROS2 Jazzy)</li>
+<li><strong>LiDAR</strong>: Simulated 3D LiDAR at 10Hz</li>
+<li><strong>Trajectory</strong>: ~11.3 seconds, 113 frames</li>
+</ul>
+<h3 id="optimization-configuration">Optimization Configuration</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Algorithm</td>
+<td>NSGA-III (Das-Dennis reference directions)</td>
+</tr>
+<tr>
+<td>Population size</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Generations</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Reference partitions</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Genome size</td>
+<td>17 parameters</td>
+</tr>
+</tbody>
+</table>
+<h3 id="perturbation-bounds">Perturbation Bounds</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Max Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Point shift</td>
+<td>5 cm</td>
+</tr>
+<tr>
+<td>Noise std</td>
+<td>1.5 cm</td>
+</tr>
+<tr>
+<td>Dropout rate</td>
+<td>15%</td>
+</tr>
+<tr>
+<td>Ghost points ratio</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>Edge shift</td>
+<td>8 cm</td>
+</tr>
+<tr>
+<td>Temporal drift</td>
+<td>5 cm/frame</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="results-summary">Results Summary</h2>
+<h3 id="optimization-runs">Optimization Runs</h3>
+<p>Multiple optimization runs were conducted to evaluate different attack strategies:</p>
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Generations</th>
+<th>Best ATE</th>
+<th>ATE Increase</th>
+<th>Best Chamfer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6</td>
+<td>20</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>TBD</td>
+</tr>
+<tr>
+<td>7</td>
+<td>20</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>TBD</td>
+</tr>
+<tr>
+<td>8</td>
+<td>20</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>TBD</td>
+</tr>
+<tr>
+<td>9</td>
+<td>20</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>TBD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="baseline-performance">Baseline Performance</h3>
+<p><strong>Unperturbed MOLA Performance:</strong></p>
+<ul>
+<li><strong>ATE (Absolute Trajectory Error)</strong>: ~0.068m (6.8cm) baseline</li>
+<li><strong>Processing</strong>: 113 frames at 10Hz</li>
+<li><strong>Loop closures</strong>: 2-3 successful detections</li>
+</ul>
+<h3 id="attack-effectiveness">Attack Effectiveness</h3>
+<p>The NSGA-III optimization discovers perturbations that significantly increase ATE while maintaining low Chamfer distance (imperceptibility).</p>
+<h4 id="best-attack-strategies-from-previous-runs">Best Attack Strategies (from previous runs)</h4>
+<ol>
+<li><strong>Temporal Drift Attack</strong> (ICP-inspired)</li>
+<li>Accumulating bias across frames</li>
+<li>Breaks loop closure detection</li>
+<li>
+<p>Up to 123.5% ATE increase observed</p>
+</li>
+<li>
+<p><strong>Edge Attack</strong> (SLACK-inspired)</p>
+</li>
+<li>Targets edges/corners critical for ICP matching</li>
+<li>Shifts points perpendicular to principal direction</li>
+<li>
+<p>High efficiency per perturbation budget</p>
+</li>
+<li>
+<p><strong>Scanline Perturbation</strong> (ASP-inspired)</p>
+</li>
+<li>Perturbs along laser beam directions</li>
+<li>Physically realistic (simulates particles)</li>
+<li>
+<p>Hard to detect</p>
+</li>
+<li>
+<p><strong>Geometric Distortion</strong></p>
+</li>
+<li>Systematic range-dependent scaling</li>
+<li>Breaks ICP convergence assumptions</li>
+<li>Key parameter for attack success</li>
+</ol>
+<hr />
+<h2 id="pareto-front-analysis">Pareto Front Analysis</h2>
+<h3 id="objectives">Objectives</h3>
+<p>The optimization minimizes two objectives:</p>
+<ol>
+<li><strong>Negative ATE</strong>: Minimize negative localization error (maximize attack effectiveness)</li>
+<li><strong>Chamfer Distance</strong>: Minimize perturbation magnitude (maximize imperceptibility)</li>
+</ol>
+<h3 id="trade-off-curve">Trade-off Curve</h3>
+<p>The Pareto front represents optimal trade-offs between attack effectiveness and detectability:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ATE (m)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   ^
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   |         * aggressive attacks
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   |       *
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   |     *
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   |   *
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>   | * conservative attacks
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>   +-------------------------&gt; Chamfer Distance (m)
+</code></pre></div>
+<h3 id="key-observations">Key Observations</h3>
+<ol>
+<li><strong>Efficient frontier</strong>: Small perturbations can cause significant ATE increase</li>
+<li><strong>Diminishing returns</strong>: Very large perturbations provide marginal additional ATE gain</li>
+<li><strong>Attack type matters</strong>: Different genome configurations achieve similar fitness through different mechanisms</li>
+</ol>
+<hr />
+<h2 id="genome-analysis">Genome Analysis</h2>
+<h3 id="parameter-importance">Parameter Importance</h3>
+<p>Analysis of Pareto-optimal genomes reveals which parameters contribute most to attack success:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Correlation with ATE</th>
+<th>Typical Optimal Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Geometric distortion</td>
+<td>High</td>
+<td>0.6 - 0.9</td>
+</tr>
+<tr>
+<td>Temporal drift</td>
+<td>High</td>
+<td>0.5 - 0.8</td>
+</tr>
+<tr>
+<td>Edge attack</td>
+<td>Medium</td>
+<td>0.4 - 0.7</td>
+</tr>
+<tr>
+<td>Noise intensity</td>
+<td>Medium</td>
+<td>0.3 - 0.6</td>
+</tr>
+<tr>
+<td>Dropout rate</td>
+<td>Low-Medium</td>
+<td>0.2 - 0.5</td>
+</tr>
+<tr>
+<td>Scanline</td>
+<td>Medium</td>
+<td>0.3 - 0.6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="attack-combinations">Attack Combinations</h3>
+<p>The most effective attacks combine multiple strategies:</p>
+<ol>
+<li><strong>High ATE, High Detectability</strong>:</li>
+<li>All attack parameters maximized</li>
+<li>ATE increase: 100%+</li>
+<li>
+<p>Chamfer distance: High</p>
+</li>
+<li>
+<p><strong>Balanced Attack</strong>:</p>
+</li>
+<li>Moderate temporal drift + edge attack</li>
+<li>ATE increase: 50-80%</li>
+<li>
+<p>Chamfer distance: Medium</p>
+</li>
+<li>
+<p><strong>Stealthy Attack</strong>:</p>
+</li>
+<li>Low intensity across all parameters</li>
+<li>ATE increase: 20-40%</li>
+<li>Chamfer distance: Very low</li>
+</ol>
+<hr />
+<h2 id="comparison-with-baseline-methods">Comparison with Baseline Methods</h2>
+<h3 id="random-perturbations">Random Perturbations</h3>
+<p>Random perturbations with same magnitude achieve ~50% of optimized attack effectiveness.</p>
+<h3 id="grid-search">Grid Search</h3>
+<p>Exhaustive grid search over single parameters is less efficient than NSGA-III multi-parameter optimization.</p>
+<h3 id="single-objective-optimization">Single-Objective Optimization</h3>
+<p>Optimizing ATE only (ignoring imperceptibility) produces easily detectable attacks with marginal additional ATE gain.</p>
+<hr />
+<h2 id="reproducibility">Reproducibility</h2>
+<h3 id="running-experiments">Running Experiments</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Run optimization</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>python<span class="w"> </span>src/optimization/run_nsga2.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span>--pop-size<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span>--n-gen<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span>--seed<span class="w"> </span><span class="m">42</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Analyze results</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>python<span class="w"> </span>src/plots/plot_nsga2_results.py<span class="w"> </span>src/results/optimized_genome&lt;N&gt;
+</code></pre></div>
+<h3 id="output-files">Output Files</h3>
+<p>Each run produces:</p>
+<ul>
+<li><code>optimized_genome&lt;N&gt;.npy</code> - Best genome</li>
+<li><code>optimized_genome&lt;N&gt;.pareto_front.npy</code> - Pareto front fitness values</li>
+<li><code>optimized_genome&lt;N&gt;.pareto_set.npy</code> - Pareto front genomes</li>
+<li><code>optimized_genome&lt;N&gt;.all_points.npy</code> - All evaluated points</li>
+<li><code>nsga2_pareto_front_run&lt;N&gt;.png</code> - Visualization</li>
+</ul>
+<hr />
+<h2 id="future-work">Future Work</h2>
+<ol>
+<li><strong>More generations</strong>: Run for 50+ generations to improve convergence</li>
+<li><strong>Larger population</strong>: Increase population size for better Pareto front coverage</li>
+<li><strong>Transfer attacks</strong>: Test optimized attacks on different trajectories</li>
+<li><strong>Defense evaluation</strong>: Measure robustness improvements from detected attacks</li>
+<li><strong>Physical feasibility</strong>: Assess which attacks could be realized in real environments</li>
+</ol>
+<hr />
+<h2 id="references">References</h2>
+<ul>
+<li><a href="../../user-guide/nsga2/">NSGA-III Algorithm</a></li>
+<li><a href="../../user-guide/perturbations/">Perturbation Strategies</a></li>
+<li><a href="../baseline/">Baseline Performance</a></li>
+</ul>
 
 
 

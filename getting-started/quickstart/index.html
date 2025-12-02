@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-II">
+        <meta name="description" content="Multi-Objective Adversarial Perturbations for SLAM Systems using NSGA-III">
       
       
         <meta name="author" content="Francesca Craievich">
@@ -27,7 +27,7 @@
     
     
       
-        <title>Quick Start - MOLA Adversarial NSGA-II</title>
+        <title>Quick Start - MOLA Adversarial NSGA-III</title>
       
     
     
@@ -94,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-header__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            MOLA Adversarial NSGA-II
+            MOLA Adversarial NSGA-III
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -344,13 +344,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="MOLA Adversarial NSGA-II" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-II" data-md-component="logo">
+    <a href="../.." title="MOLA Adversarial NSGA-III" class="md-nav__button md-logo" aria-label="MOLA Adversarial NSGA-III" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    MOLA Adversarial NSGA-II
+    MOLA Adversarial NSGA-III
   </label>
   
     <div class="md-nav__source">
@@ -546,10 +546,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Basic Usage
+        Overview
       
     </span>
   </a>
@@ -557,10 +557,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#running-nsga-ii" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running NSGA-II
+        Prerequisites
       
     </span>
   </a>
@@ -568,10 +568,104 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#evaluating-perturbations" class="md-nav__link">
+  <a href="#step-1-data-collection-in-isaac-sim" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Evaluating Perturbations
+        Step 1: Data Collection in Isaac Sim
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Data Collection in Isaac Sim">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#terminal-1-isaac-sim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 1: Isaac Sim
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-2-ros2-bridge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 2: ROS2 Bridge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-3-ros2-bag-recording" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 3: ROS2 Bag Recording
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-4-add-intensity-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 4: Add Intensity Node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-5-mola-slam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 5: MOLA SLAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-6-trajectory-recording" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 6: Trajectory Recording
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop-recording" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stop Recording
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-extract-point-clouds-from-bag-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Extract Point Clouds from Bag File
       
     </span>
   </a>
@@ -579,10 +673,221 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#visualizing-results" class="md-nav__link">
+  <a href="#step-3-export-ground-truth-trajectory" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Visualizing Results
+        Step 3: Export Ground Truth Trajectory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-run-nsga-ii-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Run NSGA-II Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Run NSGA-II Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-test-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Test Run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-analyze-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Analyze Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Analyze Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-the-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding the Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attack-strategy-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Strategy Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-visualize-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Visualize Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 6: Visualize Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visualize-optimization-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualize Optimization Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualize-perturbations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualize Perturbations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-in-cloudcompare-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open in CloudCompare (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-loop-closure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding Loop Closure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mola-collects-0-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MOLA Collects 0 Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-baseline-ate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High Baseline ATE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#out-of-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Out of Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-key-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of Key Commands
       
     </span>
   </a>
@@ -673,7 +978,7 @@
   <span class="md-ellipsis">
     
   
-    NSGA-II Algorithm
+    NSGA-III Algorithm
   
 
     
@@ -983,10 +1288,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Basic Usage
+        Overview
       
     </span>
   </a>
@@ -994,10 +1299,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#running-nsga-ii" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running NSGA-II
+        Prerequisites
       
     </span>
   </a>
@@ -1005,10 +1310,104 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#evaluating-perturbations" class="md-nav__link">
+  <a href="#step-1-data-collection-in-isaac-sim" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Evaluating Perturbations
+        Step 1: Data Collection in Isaac Sim
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Data Collection in Isaac Sim">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#terminal-1-isaac-sim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 1: Isaac Sim
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-2-ros2-bridge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 2: ROS2 Bridge
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-3-ros2-bag-recording" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 3: ROS2 Bag Recording
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-4-add-intensity-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 4: Add Intensity Node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-5-mola-slam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 5: MOLA SLAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-6-trajectory-recording" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal 6: Trajectory Recording
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop-recording" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stop Recording
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-extract-point-clouds-from-bag-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Extract Point Clouds from Bag File
       
     </span>
   </a>
@@ -1016,10 +1415,221 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#visualizing-results" class="md-nav__link">
+  <a href="#step-3-export-ground-truth-trajectory" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Visualizing Results
+        Step 3: Export Ground Truth Trajectory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-run-nsga-ii-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Run NSGA-II Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Run NSGA-II Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-test-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Test Run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-analyze-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Analyze Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Analyze Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-the-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding the Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attack-strategy-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attack Strategy Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-visualize-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Visualize Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 6: Visualize Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visualize-optimization-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualize Optimization Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualize-perturbations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualize Perturbations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-in-cloudcompare-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open in CloudCompare (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-loop-closure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding Loop Closure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mola-collects-0-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MOLA Collects 0 Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-baseline-ate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High Baseline ATE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#out-of-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Out of Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-key-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of Key Commands
       
     </span>
   </a>
@@ -1047,16 +1657,266 @@
 
 
 <h1 id="quick-start">Quick Start</h1>
-<h2 id="basic-usage">Basic Usage</h2>
-<p>Coming soon - this section will include basic usage examples.</p>
-<h2 id="running-nsga-ii">Running NSGA-II</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Example usage will be added here</span>
+<p>This guide walks you through collecting data in Isaac Sim, running NSGA-II optimization, and analyzing the results.</p>
+<h2 id="overview">Overview</h2>
+<p>The complete workflow consists of:
+1. Data collection in Isaac Sim (simulated robot with LiDAR)
+2. Extracting point clouds from ROS2 bag files
+3. Running MOLA SLAM to get ground truth trajectory
+4. Running NSGA-II optimization to find adversarial perturbations
+5. Analyzing results and visualizing point clouds</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before starting, ensure you have completed the <a href="../installation/">Installation</a> steps:
+- ROS 2 Jazzy installed and sourced
+- Python virtual environment activated
+- MOLA SLAM installed
+- Isaac Sim installed</p>
+<h2 id="step-1-data-collection-in-isaac-sim">Step 1: Data Collection in Isaac Sim</h2>
+<p>Data collection requires running 6 terminals simultaneously. The robot navigates autonomously while collecting LiDAR data.</p>
+<h3 id="terminal-1-isaac-sim">Terminal 1: Isaac Sim</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Launch Isaac Sim (adjust path to your installation)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>~/.local/share/ov/pkg/isaac-sim-4.2.0/isaac-sim.sh
 </code></pre></div>
-<h2 id="evaluating-perturbations">Evaluating Perturbations</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Example code for evaluation</span>
+<p>In Isaac Sim:
+1. Open the scene with the Carter robot
+2. Enable LiDAR sensor
+3. Start the simulation</p>
+<h3 id="terminal-2-ros2-bridge">Terminal 2: ROS2 Bridge</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Source ROS 2</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Launch ROS2 bridge for Isaac Sim</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>ros2<span class="w"> </span>launch<span class="w"> </span>isaac_ros_carter_navigation<span class="w"> </span>carter_navigation.launch.py
 </code></pre></div>
-<h2 id="visualizing-results">Visualizing Results</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Example visualization code</span>
+<h3 id="terminal-3-ros2-bag-recording">Terminal 3: ROS2 Bag Recording</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Source ROS 2</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Create bags directory if it doesn&#39;t exist</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>bags
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Record LiDAR topic</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>-o<span class="w"> </span>bags/carter_lidar<span class="w"> </span>/point_cloud
+</code></pre></div>
+<h3 id="terminal-4-add-intensity-node">Terminal 4: Add Intensity Node</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Source ROS 2</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Activate virtual environment</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Run intensity node to add intensity field to point clouds</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>python<span class="w"> </span>src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py
+</code></pre></div>
+<p>This node subscribes to <code>/point_cloud</code> and republishes to <code>/point_cloud_with_intensity</code>, adding the intensity field that MOLA expects.</p>
+<h3 id="terminal-5-mola-slam">Terminal 5: MOLA SLAM</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Source ROS 2</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Run MOLA LiDAR odometry</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>ros2<span class="w"> </span>launch<span class="w"> </span>mola_lidar_odometry<span class="w"> </span>ros2-lidar-odometry.launch.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span>input_sensor_topic:<span class="o">=</span>/point_cloud_with_intensity<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span>output_trajectory_topic:<span class="o">=</span>/estimated_trajectory
+</code></pre></div>
+<p>MOLA will process the LiDAR scans and estimate the robot's trajectory in real-time.</p>
+<h3 id="terminal-6-trajectory-recording">Terminal 6: Trajectory Recording</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Source ROS 2</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Record estimated trajectory</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>-o<span class="w"> </span>bags/mola_trajectory<span class="w"> </span>/estimated_trajectory
+</code></pre></div>
+<h3 id="stop-recording">Stop Recording</h3>
+<p>After the robot completes its navigation:
+1. Stop all ROS2 bag recordings (Ctrl+C in terminals 3 and 6)
+2. Stop MOLA (Ctrl+C in terminal 5)
+3. Stop the intensity node (Ctrl+C in terminal 4)
+4. Stop Isaac Sim simulation</p>
+<p>You should now have two bag files:
+- <code>bags/carter_lidar/</code> - Contains LiDAR point clouds
+- <code>bags/mola_trajectory/</code> - Contains MOLA's estimated trajectory</p>
+<h2 id="step-2-extract-point-clouds-from-bag-file">Step 2: Extract Point Clouds from Bag File</h2>
+<p>Convert ROS2 bag to numpy format for preprocessing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Activate virtual environment</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Extract point clouds and transforms</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>python<span class="w"> </span>src/preprocessing_data/extract_frames_and_tf_from_bag.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span>--bag<span class="w"> </span>bags/carter_lidar<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span>--topic<span class="w"> </span>/point_cloud<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span>--output<span class="w"> </span>data/frame_sequence.npy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span>--timestamps<span class="w"> </span>data/frame_sequence.timestamps.npy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">  </span>--tf-topic<span class="w"> </span>/tf<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span>--tf-output<span class="w"> </span>data/tf_transforms.npy
+</code></pre></div>
+<p>This creates:
+- <code>data/frame_sequence.npy</code> - List of point cloud arrays (N, 3) with xyz coordinates
+- <code>data/frame_sequence.timestamps.npy</code> - Timestamps for each frame in nanoseconds
+- <code>data/tf_transforms.npy</code> - TF transforms for trajectory reconstruction</p>
+<h2 id="step-3-export-ground-truth-trajectory">Step 3: Export Ground Truth Trajectory</h2>
+<p>MOLA saves the trajectory in its internal format. Export it to TUM format for evaluation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Source ROS 2</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">source</span><span class="w"> </span>/opt/ros/jazzy/setup.bash
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Export trajectory (adjust paths as needed)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>mp2p_icp_log_to_tum<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span>--input-log<span class="w"> </span>bags/mola_trajectory/trajectory.log<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span>--output<span class="w"> </span>data/ground_truth.tum
+</code></pre></div>
+<p>The TUM format contains: <code>timestamp tx ty tz qx qy qz qw</code></p>
+<p>Alternatively, if MOLA saved the map:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Convert MOLA map to trajectory</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>mp2p_icp_map_to_tum<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>--input-map<span class="w"> </span>maps/slam_output.mm<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>--output<span class="w"> </span>data/ground_truth.tum
+</code></pre></div></p>
+<h2 id="step-4-run-nsga-ii-optimization">Step 4: Run NSGA-II Optimization</h2>
+<p>Now you can run the optimization to find adversarial perturbations:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Activate virtual environment</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Run NSGA-II (400 evaluations: 20 generations × 20 population)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>python<span class="w"> </span>src/optimization/run_nsga2.py<span class="w"> </span>--n-gen<span class="w"> </span><span class="m">20</span><span class="w"> </span>--pop-size<span class="w"> </span><span class="m">20</span>
+</code></pre></div>
+<p>This will:
+1. Load point clouds from <code>data/frame_sequence.npy</code>
+2. Load timestamps from <code>data/frame_sequence.timestamps.npy</code>
+3. Load ground truth from <code>data/ground_truth.tum</code>
+4. Run NSGA-II optimization to find perturbations that maximize ATE
+5. Save results to <code>src/results/optimized_genome1.npy</code></p>
+<p>The optimization takes several hours depending on your hardware. You'll see progress like:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Generation 1/20
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  Baseline ATE: 0.6827m (68.27cm)
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  Best ATE: 1.2341m (123.41cm)
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  Best perturbation: 0.0234 m/cm
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>Generation 2/20
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>  ...
+</code></pre></div></p>
+<h3 id="quick-test-run">Quick Test Run</h3>
+<p>For testing, use fewer evaluations:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># 4 evaluations: 2 generations × 2 population</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>python<span class="w"> </span>src/optimization/run_nsga2.py<span class="w"> </span>--n-gen<span class="w"> </span><span class="m">2</span><span class="w"> </span>--pop-size<span class="w"> </span><span class="m">2</span>
+</code></pre></div></p>
+<h2 id="step-5-analyze-results">Step 5: Analyze Results</h2>
+<p>The optimization saves the Pareto front to <code>src/results/optimized_genomeN.npy</code>. Each subsequent run increments the number automatically.</p>
+<h3 id="understanding-the-results">Understanding the Results</h3>
+<p>The optimization has two objectives:
+1. <strong>Maximize ATE</strong> - Make MOLA's trajectory as inaccurate as possible
+2. <strong>Minimize perturbation magnitude</strong> - Keep perturbations small and imperceptible</p>
+<p>The Pareto front shows the trade-off: you can achieve higher ATE with larger perturbations, but the goal is to find solutions that achieve high ATE with minimal perturbation.</p>
+<h3 id="key-metrics">Key Metrics</h3>
+<p>From the optimization output:
+- <strong>Baseline ATE</strong>: ~68cm (MOLA's natural error on unperturbed data)
+- <strong>Best ATE</strong>: The maximum trajectory error achieved
+- <strong>Perturbation budget</strong>: Average displacement per point in cm</p>
+<h3 id="attack-strategy-results">Attack Strategy Results</h3>
+<p>Based on experiments, the most effective attack strategies are:
+- <strong>Dropout 5%</strong>: 18.9% ATE/cm (most efficient)
+- <strong>Gaussian noise</strong>: 15.2% ATE/cm
+- <strong>Feature targeting</strong>: 12.7% ATE/cm
+- <strong>Ghost points</strong>: 8.3% ATE/cm</p>
+<p>Dropout is the most efficient because removing points:
+- Breaks feature correspondences
+- Degrades loop closure detection
+- Causes accumulated drift over time</p>
+<h2 id="step-6-visualize-results">Step 6: Visualize Results</h2>
+<h3 id="visualize-optimization-results">Visualize Optimization Results</h3>
+<p>Plot the Pareto front and convergence:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Activate virtual environment</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Plot NSGA-II results</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>python<span class="w"> </span>src/plots/plot_nsga2_results.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span>--input<span class="w"> </span>src/results/optimized_genome1.npy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span>--output<span class="w"> </span>src/results/pareto_front.png
+</code></pre></div>
+<p>This creates visualizations showing:
+- Pareto front (ATE vs perturbation magnitude)
+- Convergence over generations
+- Best solutions found</p>
+<h3 id="visualize-perturbations">Visualize Perturbations</h3>
+<p>Compare original and perturbed point clouds:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Plot perturbation effects</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>python<span class="w"> </span>src/plots/plot_perturbation_results.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span>--original<span class="w"> </span>data/frame_sequence.npy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span>--perturbed<span class="w"> </span>data/temp_perturbed.npy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span>--frame<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">  </span>--output<span class="w"> </span>src/results/perturbation_comparison.png
+</code></pre></div>
+<h3 id="open-in-cloudcompare-optional">Open in CloudCompare (Optional)</h3>
+<p>For detailed 3D visualization:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Install CloudCompare if needed</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>sudo<span class="w"> </span>snap<span class="w"> </span>install<span class="w"> </span>cloudcompare
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Open point clouds (if you have .ply files)</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>cloudcompare<span class="w"> </span>maps/*.ply
+</code></pre></div>
+<p>In CloudCompare:
+1. Use point size 2-3 for better visibility
+2. Color by intensity or height (Z coordinate)
+3. Compare original vs perturbed frames side-by-side</p>
+<h2 id="understanding-loop-closure">Understanding Loop Closure</h2>
+<p>Loop closure is critical for SLAM accuracy. When the robot revisits a previously mapped area:
+- MOLA detects the loop by matching current scan with past scans
+- It corrects accumulated drift from odometry errors
+- The trajectory "snaps" back to align with the previously mapped location</p>
+<p>Adversarial perturbations aim to prevent loop closure by:
+- Removing distinctive features that enable matching
+- Adding noise to degrade correspondence quality
+- Creating ghost points that confuse the matcher</p>
+<p>Without successful loop closure, odometry drift accumulates linearly over time, causing the trajectory error to grow.</p>
+<h2 id="common-issues">Common Issues</h2>
+<h3 id="mola-collects-0-points">MOLA Collects 0 Points</h3>
+<p>If MOLA fails to process point clouds:
+- Check that intensity field is present (use <code>add_intensity_node.py</code>)
+- Verify point cloud timestamps match MOLA's expected format (nanoseconds)
+- Check MOLA logs for errors</p>
+<p>The optimization automatically skips invalid solutions by returning infinite fitness.</p>
+<h3 id="high-baseline-ate">High Baseline ATE</h3>
+<p>If baseline ATE is unexpectedly high (&gt;1m):
+- Check ground truth and estimated trajectory alignment
+- Verify they use the same coordinate frame
+- Consider recalibrating MOLA parameters
+- Visualize trajectories to identify systematic offset</p>
+<h3 id="out-of-memory">Out of Memory</h3>
+<p>If optimization runs out of memory:
+- Reduce population size: <code>--pop-size 10</code>
+- Reduce number of generations: <code>--n-gen 10</code>
+- Process fewer frames (modify data loader)</p>
+<h2 id="next-steps">Next Steps</h2>
+<p>After completing the quickstart:
+1. Read <a href="../../user-guide/nsga2/">NSGA-II Algorithm</a> to understand the optimization
+2. Learn about <a href="../../user-guide/perturbations/">Perturbation Strategies</a>
+3. Understand the <a href="../../user-guide/fitness/">Fitness Function</a>
+4. Review <a href="../../results/baseline/">Baseline Performance</a> expectations</p>
+<h2 id="summary-of-key-commands">Summary of Key Commands</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># 1. Data collection (6 terminals - see above)</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1"># 2. Extract point clouds and transforms</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>python<span class="w"> </span>src/preprocessing_data/extract_frames_and_tf_from_bag.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span>--bag<span class="w"> </span>bags/carter_lidar<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">  </span>--topic<span class="w"> </span>/point_cloud<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">  </span>--output<span class="w"> </span>data/frame_sequence.npy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">  </span>--timestamps<span class="w"> </span>data/frame_sequence.timestamps.npy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">  </span>--tf-topic<span class="w"> </span>/tf<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">  </span>--tf-output<span class="w"> </span>data/tf_transforms.npy
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="c1"># 3. Export ground truth</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>mp2p_icp_log_to_tum<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">  </span>--input-log<span class="w"> </span>bags/mola_trajectory/trajectory.log<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">  </span>--output<span class="w"> </span>data/ground_truth.tum
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="c1"># 4. Run optimization (400 evaluations)</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>python<span class="w"> </span>src/optimization/run_nsga2.py<span class="w"> </span>--n-gen<span class="w"> </span><span class="m">20</span><span class="w"> </span>--pop-size<span class="w"> </span><span class="m">20</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="c1"># 5. Quick test (4 evaluations)</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>python<span class="w"> </span>src/optimization/run_nsga2.py<span class="w"> </span>--n-gen<span class="w"> </span><span class="m">2</span><span class="w"> </span>--pop-size<span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="c1"># 6. Visualize results</span>
+<a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a>python<span class="w"> </span>src/plots/plot_nsga2_results.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="w">  </span>--input<span class="w"> </span>src/results/optimized_genome1.npy<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="w">  </span>--output<span class="w"> </span>src/results/pareto_front.png
 </code></pre></div>
 
 
