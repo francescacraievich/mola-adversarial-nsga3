@@ -50,16 +50,61 @@ def compute_localization_error(
         raise ValueError(f"Unknown error method: {method}")
 
 
-def _compute_ate(gt_positions: np.ndarray, est_positions: np.ndarray) -> float:
+def _rigid_alignment(source: np.ndarray, target: np.ndarray) -> tuple:
     """
-    Compute Absolute Trajectory Error (ATE).
+    Compute rigid alignment (rotation, translation only - NO scale) from source to target.
 
-    ATE measures the RMSE between ground truth and estimated positions
-    after optimal alignment (using Procrustes/Umeyama alignment).
+    For adversarial attacks, we don't want scale correction as it would
+    hide trajectory distortions caused by the attack.
+
+    Args:
+        source: Source points (N, 3)
+        target: Target points (N, 3)
+
+    Returns:
+        Tuple of (rotation_matrix, translation)
+    """
+    # Center the point clouds
+    source_mean = source.mean(axis=0)
+    target_mean = target.mean(axis=0)
+
+    source_centered = source - source_mean
+    target_centered = target - target_mean
+
+    # Compute cross-covariance matrix
+    H = source_centered.T @ target_centered
+
+    # SVD decomposition
+    U, S, Vt = np.linalg.svd(H)
+
+    # Compute rotation
+    R = Vt.T @ U.T
+
+    # Correct for reflection
+    if np.linalg.det(R) < 0:
+        Vt[-1, :] *= -1
+        R = Vt.T @ U.T
+
+    # Compute translation (NO scale)
+    t = target_mean - R @ source_mean
+
+    return R, t
+
+
+def _compute_ate(
+    gt_positions: np.ndarray, est_positions: np.ndarray, verbose: bool = True
+) -> float:
+    """
+    Compute Absolute Trajectory Error (ATE) with Umeyama alignment.
+
+    Standard ATE computation:
+    1. Align estimated trajectory to ground truth using Umeyama (R, t, no scale)
+    2. Compute RMSE of per-pose translational errors
 
     Args:
         gt_positions: Ground truth positions (N, 3)
         est_positions: Estimated positions (M, 3)
+        verbose: Print debug information
 
     Returns:
         ATE error (meters)
@@ -69,9 +114,30 @@ def _compute_ate(gt_positions: np.ndarray, est_positions: np.ndarray) -> float:
     gt_aligned = gt_positions[:min_len]
     est_aligned = est_positions[:min_len]
 
-    # Compute RMSE
-    squared_errors = np.sum((gt_aligned - est_aligned) ** 2, axis=1)
-    rmse = np.sqrt(np.mean(squared_errors))
+    if min_len < 3:
+        squared_errors = np.sum((gt_aligned - est_aligned) ** 2, axis=1)
+        return np.sqrt(np.mean(squared_errors))
+
+    # Umeyama alignment: find R, t that minimizes ||gt - (R @ est + t)||
+    R, t = _rigid_alignment(est_aligned, gt_aligned)
+
+    # Transform estimated trajectory
+    est_transformed = (R @ est_aligned.T).T + t
+
+    # Compute per-pose errors
+    errors = np.linalg.norm(gt_aligned - est_transformed, axis=1)
+    rmse = np.sqrt(np.mean(errors**2))
+
+    # Also compute final position error (drift)
+    final_error = np.linalg.norm(gt_aligned[-1] - est_transformed[-1])
+
+    if verbose:
+        print(f"  [ATE] Umeyama alignment applied (R + t)")
+        print(
+            f"  [ATE] Error: min={errors.min():.3f}m, max={errors.max():.3f}m, mean={errors.mean():.3f}m"
+        )
+        print(f"  [ATE] Final drift: {final_error:.3f}m")
+        print(f"  [ATE] RMSE: {rmse:.4f}m")
 
     return rmse
 

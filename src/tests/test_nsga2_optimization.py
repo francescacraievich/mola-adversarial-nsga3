@@ -8,9 +8,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from perturbations.perturbation_generator import (  # noqa: E402
-    PerturbationGenerator,
-)
+from perturbations.perturbation_generator import PerturbationGenerator  # noqa: E402
 
 # Check if pymoo is available
 try:

@@ -8,14 +8,18 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))  # Go to project root
+# Get project root directory (works regardless of where script is run from)
+PROJECT_ROOT = Path(__file__).parent.parent.parent.resolve()
+sys.path.insert(0, str(PROJECT_ROOT))
 
 import rclpy  # noqa: E402
 
-from src.optimization.run_nsga2 import MOLAEvaluator  # noqa: E402
-from src.perturbations.perturbation_generator import (  # noqa: E402
-    PerturbationGenerator,
+from src.optimization.run_nsga2 import (  # noqa: E402
+    MOLAEvaluator,
+    load_tf_from_npy,
+    load_tf_static_from_npy,
 )
+from src.perturbations.perturbation_generator import PerturbationGenerator  # noqa: E402
 from src.utils.data_loaders import (  # noqa: E402
     load_point_clouds_from_npy,
     load_timestamps_from_npy,
@@ -28,7 +32,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Measure baseline ATE")
     parser.add_argument(
-        "--num-runs", type=int, default=5, help="Number of runs to average (default: 5)"
+        "--num-runs", type=int, default=3, help="Number of runs to average (default: 3)"
     )
     args = parser.parse_args()
 
@@ -36,10 +40,18 @@ def main():
     print(" BASELINE ATE TEST (Zero Perturbation)")
     print("=" * 60 + "\n")
 
-    # Load data
-    gt_traj = load_trajectory_from_tum("maps/ground_truth_trajectory.tum")
-    clouds = load_point_clouds_from_npy("data/frame_sequence.npy")
-    timestamps = load_timestamps_from_npy("data/frame_sequence.timestamps.npy")
+    # Load data using absolute paths from project root
+    clouds = load_point_clouds_from_npy(str(PROJECT_ROOT / "data/frame_sequence.npy"))
+    timestamps = load_timestamps_from_npy(str(PROJECT_ROOT / "data/frame_sequence.timestamps.npy"))
+
+    # Load GT with interpolation to match point cloud count
+    gt_traj = load_trajectory_from_tum(
+        str(PROJECT_ROOT / "maps/ground_truth_trajectory.tum"),
+        interpolate_to_frames=len(clouds) if clouds else None,
+        pc_timestamps=timestamps,
+    )
+    tf_sequence = load_tf_from_npy(str(PROJECT_ROOT / "data/tf_sequence.npy"))
+    tf_static = load_tf_static_from_npy(str(PROJECT_ROOT / "data/tf_static.npy"))
 
     if gt_traj is None or clouds is None or timestamps is None:
         print("Failed to load data")
@@ -48,6 +60,8 @@ def main():
     print(f"Ground truth: {len(gt_traj)} poses")
     print(f"Point clouds: {len(clouds)} frames")
     print(f"Timestamps: {len(timestamps)}")
+    print(f"TF sequence: {len(tf_sequence)} transforms")
+    print(f"TF static: {len(tf_static)} transforms")
 
     # Initialize ROS2
     rclpy.init()
@@ -63,9 +77,10 @@ def main():
         ground_truth_trajectory=gt_traj,
         point_cloud_sequence=clouds,
         timestamps=timestamps,
+        tf_sequence=tf_sequence,
+        tf_static=tf_static,
         mola_binary_path="/opt/ros/jazzy/bin/mola-cli",
         mola_config_path="/opt/ros/jazzy/share/mola_lidar_odometry/mola-cli-launchs/lidar_odometry_ros2.yaml",
-        bag_path="bags/lidar_sequence_with_odom",
         lidar_topic="/mola_nsga2/lidar",
         odom_topic="/lidar_odometry/pose",
     )
@@ -75,7 +90,9 @@ def main():
     print(f" Running {args.num_runs} evaluations with ZERO perturbation")
     print("=" * 60)
 
-    zero_genome = np.zeros(12)  # 12 parameters for PerturbationGenerator
+    # Genome uses [-1, 1] range, so -1 means MINIMUM (zero perturbation)
+    # 0 would be 50% of max values, not zero!
+    zero_genome = -np.ones(12)  # All -1 = minimum perturbation
     baseline_ates = []
 
     for run in range(args.num_runs):
@@ -131,7 +148,9 @@ def main():
     print(f"  Baseline ATE (mean):  {mean_ate:.4f} m ({mean_ate * 100:.2f} cm)")
     print(f"  Baseline ATE (±std):  ± {std_ate:.4f} m (± {std_ate * 100:.2f} cm)")
     print(f"  Perturbed ATE:        {ate_small:.4f} m ({ate_small * 100:.2f} cm)")
-    print(f"  Improvement:          {(ate_small - mean_ate):.4f} m ({(ate_small - mean_ate) * 100:.2f} cm)")
+    print(
+        f"  Improvement:          {(ate_small - mean_ate):.4f} m ({(ate_small - mean_ate) * 100:.2f} cm)"
+    )
     print(f"  Improvement %:        {((ate_small - mean_ate) / mean_ate * 100):.1f}%")
     print("=" * 60 + "\n")
 
