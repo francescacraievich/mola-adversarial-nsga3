@@ -537,9 +537,7 @@ class MOLAEvaluator(Node):
         self.get_logger().info(f"  Curvature targeting: {params['curvature_strength']:.2f}")
         self.get_logger().info(f"  Dropout rate: {params['dropout_rate'] * 100:.1f}%")
         self.get_logger().info(f"  Ghost ratio: {params['ghost_ratio'] * 100:.1f}%")
-        self.get_logger().info(
-            f"  Geometric distortion: {params['geometric_distortion']:.3f}"
-        )
+        self.get_logger().info(f"  Geometric distortion: {params['geometric_distortion']:.3f}")
         # Log new attack parameters
         self.get_logger().info(
             f"  Edge attack: {params.get('edge_attack_strength', 0):.2f}, "

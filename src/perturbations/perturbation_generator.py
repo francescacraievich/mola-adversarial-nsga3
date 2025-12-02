@@ -481,9 +481,7 @@ class PerturbationGenerator:
 
         return perturbed
 
-    def _apply_edge_attack(
-        self, point_cloud: np.ndarray, params: Dict[str, any]
-    ) -> np.ndarray:
+    def _apply_edge_attack(self, point_cloud: np.ndarray, params: Dict[str, any]) -> np.ndarray:
         """
         Apply targeted perturbation to edge and corner points.
 
@@ -517,7 +515,7 @@ class PerturbationGenerator:
         edge_indices = np.where(edge_mask)[0]
         tree = cKDTree(perturbed[:, :3])
 
-        for idx in edge_indices[:min(500, len(edge_indices))]:  # Limit for speed
+        for idx in edge_indices[: min(500, len(edge_indices))]:  # Limit for speed
             point = perturbed[idx, :3]
 
             # Get neighbors
@@ -534,16 +532,16 @@ class PerturbationGenerator:
             perp_dir = eigenvectors[:, 0]  # Smallest eigenvalue (perpendicular)
 
             # Shift amount based on strength and edge score
-            shift_amount = strength * self.max_edge_shift * (edge_scores[idx] / (edge_scores.max() + 1e-6))
+            shift_amount = (
+                strength * self.max_edge_shift * (edge_scores[idx] / (edge_scores.max() + 1e-6))
+            )
             shift = perp_dir * shift_amount * np.sign(np.random.randn())
 
             perturbed[idx, :3] += shift
 
         return perturbed
 
-    def _apply_temporal_drift(
-        self, point_cloud: np.ndarray, params: Dict[str, any]
-    ) -> np.ndarray:
+    def _apply_temporal_drift(self, point_cloud: np.ndarray, params: Dict[str, any]) -> np.ndarray:
         """
         Apply accumulating temporal drift to break loop closure.
 
