@@ -42,9 +42,9 @@ class PerturbationGenerator:
         # Feature targeting
         target_high_curvature: bool = True,
         curvature_percentile: float = 90.0,  # Target top 10% curvature points
-        # Point manipulation
-        max_dropout_rate: float = 0.15,  # Max 15% point removal
-        max_ghost_points_ratio: float = 0.05,  # Max 5% ghost points added
+        # Point manipulation (minimal for MOLA stability)
+        max_dropout_rate: float = 0.03,  # Max 3% point removal
+        max_ghost_points_ratio: float = 0.02,  # Max 2% ghost points added
         # Cluster perturbation
         cluster_shift_std: float = 0.03,  # 3 cm cluster displacement std
         n_clusters: int = 5,  # Number of perturbation clusters
@@ -802,7 +802,7 @@ class PerturbationGenerator:
         self, original: np.ndarray, perturbed: np.ndarray, params: Dict[str, any]
     ) -> float:
         """
-        Compute perturbation magnitude for NSGA-II objective.
+        Compute perturbation magnitude for NSGA-III objective.
 
         Combines Chamfer distance (point displacement) with structural changes
         (dropout/ghost points) to capture both geometric and topological perturbations.

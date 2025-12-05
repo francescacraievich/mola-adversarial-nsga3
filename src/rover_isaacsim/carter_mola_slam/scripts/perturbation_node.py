@@ -54,7 +54,7 @@ class PerturbationNode(Node):
 
         # Load or generate perturbation genome
         if args and args.genome_file:
-            # Load pre-optimized genome from NSGA-II
+            # Load pre-optimized genome from NSGA-III
             self.genome = np.load(args.genome_file)
             self.get_logger().info(f"Loaded optimized genome from: {args.genome_file}")
             self.params = self.generator.encode_perturbation(self.genome)
@@ -151,7 +151,7 @@ def main(args=None):
     parser.add_argument(
         "--genome-file",
         type=str,
-        help="Path to pre-optimized genome file (.npy) from NSGA-II optimization",
+        help="Path to pre-optimized genome file (.npy) from NSGA-III optimization",
     )
 
     cli_args = parser.parse_args()

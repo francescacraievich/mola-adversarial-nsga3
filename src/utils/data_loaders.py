@@ -1,5 +1,5 @@
 """
-Data loading utilities for NSGA-II adversarial perturbations.
+Data loading utilities for NSGA-III adversarial perturbations.
 
 Functions for loading point clouds and trajectories from various formats.
 """

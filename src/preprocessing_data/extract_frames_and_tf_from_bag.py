@@ -2,7 +2,7 @@
 """
 Extract point cloud frames AND tf transforms from a ROS2 bag file.
 
-This extracts both LiDAR frames and associated transforms for use in NSGA-II optimization.
+This extracts both LiDAR frames and associated transforms for use in NSGA-III optimization.
 """
 
 import argparse
