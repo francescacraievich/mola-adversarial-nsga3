@@ -12,16 +12,16 @@ import argparse
 from pathlib import Path
 
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
+
+matplotlib.use("Agg")
 
 
 def load_trajectory(filepath):
     """Load trajectory from numpy or TUM file."""
     filepath = str(filepath)
-    if filepath.endswith('.tum'):
+    if filepath.endswith(".tum"):
         # TUM format: timestamp tx ty tz qx qy qz qw
         data = np.loadtxt(filepath)
         return data[:, 1:4]  # Return only x, y, z
@@ -29,8 +29,9 @@ def load_trajectory(filepath):
         return np.load(filepath)
 
 
-def plot_trajectory_3d(baseline, perturbed, output_path,
-                       title="Trajectory Comparison: Blue=Map1 | Red=Map2"):
+def plot_trajectory_3d(
+    baseline, perturbed, output_path, title="Trajectory Comparison: Blue=Map1 | Red=Map2"
+):
     """
     Create clear two-panel trajectory comparison plot.
 
@@ -40,46 +41,48 @@ def plot_trajectory_3d(baseline, perturbed, output_path,
         output_path: Output file path
         title: Plot title
     """
-    fig = plt.figure(figsize=(14, 6), facecolor='white')
+    fig = plt.figure(figsize=(14, 6), facecolor="white")
     gs = fig.add_gridspec(1, 2, wspace=0.3)
 
     # ============ Left: X-Y view (top down) ============
     ax1 = fig.add_subplot(gs[0, 0])
-    ax1.plot(baseline[:, 0], baseline[:, 1], 'b-', linewidth=2.5, label='Baseline')
-    ax1.scatter(baseline[:, 0], baseline[:, 1], c='blue', s=40, marker='o', alpha=0.7, zorder=5)
-    ax1.plot(perturbed[:, 0], perturbed[:, 1], 'r-', linewidth=2.5, label='Perturbed')
-    ax1.scatter(perturbed[:, 0], perturbed[:, 1], c='red', s=40, marker='s', alpha=0.7, zorder=5)
+    ax1.plot(baseline[:, 0], baseline[:, 1], "b-", linewidth=2.5, label="Baseline")
+    ax1.scatter(baseline[:, 0], baseline[:, 1], c="blue", s=40, marker="o", alpha=0.7, zorder=5)
+    ax1.plot(perturbed[:, 0], perturbed[:, 1], "r-", linewidth=2.5, label="Perturbed")
+    ax1.scatter(perturbed[:, 0], perturbed[:, 1], c="red", s=40, marker="s", alpha=0.7, zorder=5)
 
     # Mark start and end
-    ax1.scatter(baseline[0, 0], baseline[0, 1], c='green', s=150, marker='*', zorder=10, label='Start')
-    ax1.scatter(baseline[-1, 0], baseline[-1, 1], c='blue', s=100, marker='X', zorder=10)
-    ax1.scatter(perturbed[-1, 0], perturbed[-1, 1], c='red', s=100, marker='X', zorder=10)
+    ax1.scatter(
+        baseline[0, 0], baseline[0, 1], c="green", s=150, marker="*", zorder=10, label="Start"
+    )
+    ax1.scatter(baseline[-1, 0], baseline[-1, 1], c="blue", s=100, marker="X", zorder=10)
+    ax1.scatter(perturbed[-1, 0], perturbed[-1, 1], c="red", s=100, marker="X", zorder=10)
 
-    ax1.set_xlabel('X [m]', fontsize=12)
-    ax1.set_ylabel('Y [m]', fontsize=12)
-    ax1.set_title('Top View (X-Y Plane)', fontsize=13, fontweight='bold')
-    ax1.legend(loc='best', fontsize=10)
+    ax1.set_xlabel("X [m]", fontsize=12)
+    ax1.set_ylabel("Y [m]", fontsize=12)
+    ax1.set_title("Top View (X-Y Plane)", fontsize=13, fontweight="bold")
+    ax1.legend(loc="best", fontsize=10)
     ax1.grid(True, alpha=0.3)
-    ax1.axis('equal')
+    ax1.axis("equal")
 
     # ============ Right: X-Z view (side) ============
     ax2 = fig.add_subplot(gs[0, 1])
-    ax2.plot(baseline[:, 0], baseline[:, 2], 'b-', linewidth=2.5, label='Baseline')
-    ax2.scatter(baseline[:, 0], baseline[:, 2], c='blue', s=40, marker='o', alpha=0.7, zorder=5)
-    ax2.plot(perturbed[:, 0], perturbed[:, 2], 'r-', linewidth=2.5, label='Perturbed')
-    ax2.scatter(perturbed[:, 0], perturbed[:, 2], c='red', s=40, marker='s', alpha=0.7, zorder=5)
+    ax2.plot(baseline[:, 0], baseline[:, 2], "b-", linewidth=2.5, label="Baseline")
+    ax2.scatter(baseline[:, 0], baseline[:, 2], c="blue", s=40, marker="o", alpha=0.7, zorder=5)
+    ax2.plot(perturbed[:, 0], perturbed[:, 2], "r-", linewidth=2.5, label="Perturbed")
+    ax2.scatter(perturbed[:, 0], perturbed[:, 2], c="red", s=40, marker="s", alpha=0.7, zorder=5)
 
-    ax2.set_xlabel('X [m]', fontsize=12)
-    ax2.set_ylabel('Z [m]', fontsize=12)
-    ax2.set_title('Side View (X-Z Plane)', fontsize=13, fontweight='bold')
-    ax2.legend(loc='best', fontsize=10)
+    ax2.set_xlabel("X [m]", fontsize=12)
+    ax2.set_ylabel("Z [m]", fontsize=12)
+    ax2.set_title("Side View (X-Z Plane)", fontsize=13, fontweight="bold")
+    ax2.legend(loc="best", fontsize=10)
     ax2.grid(True, alpha=0.3)
 
     # Main title
-    fig.suptitle(title, fontsize=16, fontweight='bold', y=1.02)
+    fig.suptitle(title, fontsize=16, fontweight="bold", y=1.02)
 
-    plt.savefig(output_path, dpi=150, bbox_inches='tight', facecolor='white')
-    print(f'Saved: {output_path}')
+    plt.savefig(output_path, dpi=150, bbox_inches="tight", facecolor="white")
+    print(f"Saved: {output_path}")
     plt.close()
 
     # Print statistics to console
@@ -115,7 +118,9 @@ def compute_ate(gt, est):
     return errors, np.sqrt(np.mean(errors**2))
 
 
-def plot_trajectory_comparison(trajectories, names, colors, output_path, title="Trajectory Comparison"):
+def plot_trajectory_comparison(
+    trajectories, names, colors, output_path, title="Trajectory Comparison"
+):
     """
     Create a comprehensive trajectory comparison figure.
 
@@ -145,20 +150,20 @@ def plot_trajectory_comparison(trajectories, names, colors, output_path, title="
             offset = gt[0] - est[0]
             est_plot = est + offset
             if i == 0:  # Only plot GT once
-                ax1.plot(gt[:, 0], gt[:, 1], 'k--', linewidth=2, label='Ground Truth', alpha=0.7)
+                ax1.plot(gt[:, 0], gt[:, 1], "k--", linewidth=2, label="Ground Truth", alpha=0.7)
         else:
             est_plot = est
 
         ax1.plot(est_plot[:, 0], est_plot[:, 1], color=color, linewidth=2, label=name)
-        ax1.plot(est_plot[-1, 0], est_plot[-1, 1], 'o', color=color, markersize=10)
+        ax1.plot(est_plot[-1, 0], est_plot[-1, 1], "o", color=color, markersize=10)
 
-    ax1.plot(trajectories[0][0][0, 0], trajectories[0][0][0, 1], 'g*', markersize=15, label='Start')
-    ax1.set_xlabel('X (m)', fontsize=11)
-    ax1.set_ylabel('Y (m)', fontsize=11)
-    ax1.set_title('Trajectory Comparison (2D)', fontsize=13, fontweight='bold')
-    ax1.legend(loc='best', fontsize=9)
+    ax1.plot(trajectories[0][0][0, 0], trajectories[0][0][0, 1], "g*", markersize=15, label="Start")
+    ax1.set_xlabel("X (m)", fontsize=11)
+    ax1.set_ylabel("Y (m)", fontsize=11)
+    ax1.set_title("Trajectory Comparison (2D)", fontsize=13, fontweight="bold")
+    ax1.legend(loc="best", fontsize=9)
     ax1.grid(True, alpha=0.3)
-    ax1.axis('equal')
+    ax1.axis("equal")
 
     # ============ Top Right: Error over time ============
     ax2 = fig.add_subplot(gs[0, 1])
@@ -167,12 +172,18 @@ def plot_trajectory_comparison(trajectories, names, colors, output_path, title="
         if gt is not None and len(gt) > 0:
             errors, rmse = compute_ate(gt, est)
             frames = np.arange(len(errors))
-            ax2.plot(frames, errors * 100, color=color, linewidth=2, label=f'{name} (RMSE: {rmse*100:.1f}cm)')
+            ax2.plot(
+                frames,
+                errors * 100,
+                color=color,
+                linewidth=2,
+                label=f"{name} (RMSE: {rmse * 100:.1f}cm)",
+            )
 
-    ax2.set_xlabel('Frame', fontsize=11)
-    ax2.set_ylabel('Position Error (cm)', fontsize=11)
-    ax2.set_title('Localization Error Over Time', fontsize=13, fontweight='bold')
-    ax2.legend(loc='best', fontsize=9)
+    ax2.set_xlabel("Frame", fontsize=11)
+    ax2.set_ylabel("Position Error (cm)", fontsize=11)
+    ax2.set_title("Localization Error Over Time", fontsize=13, fontweight="bold")
+    ax2.legend(loc="best", fontsize=9)
     ax2.grid(True, alpha=0.3)
 
     # ============ Bottom Left: Individual trajectory panels ============
@@ -188,24 +199,25 @@ def plot_trajectory_comparison(trajectories, names, colors, output_path, title="
         else:
             final_error = est[-1] - est[0]
 
-        offset = (i - n_traj/2 + 0.5) * bar_width
-        ax3.bar(x + offset, np.abs(final_error) * 100, bar_width,
-                label=name, color=color, alpha=0.8)
+        offset = (i - n_traj / 2 + 0.5) * bar_width
+        ax3.bar(
+            x + offset, np.abs(final_error) * 100, bar_width, label=name, color=color, alpha=0.8
+        )
 
     ax3.set_xticks(x)
-    ax3.set_xticklabels(['X', 'Y', 'Z'])
-    ax3.set_ylabel('Final Position Error (cm)', fontsize=11)
-    ax3.set_title('Final Drift by Axis', fontsize=13, fontweight='bold')
-    ax3.legend(loc='best', fontsize=9)
-    ax3.grid(True, alpha=0.3, axis='y')
+    ax3.set_xticklabels(["X", "Y", "Z"])
+    ax3.set_ylabel("Final Position Error (cm)", fontsize=11)
+    ax3.set_title("Final Drift by Axis", fontsize=13, fontweight="bold")
+    ax3.legend(loc="best", fontsize=9)
+    ax3.grid(True, alpha=0.3, axis="y")
 
     # ============ Bottom Right: Summary statistics table ============
     ax4 = fig.add_subplot(gs[1, 1])
-    ax4.axis('off')
+    ax4.axis("off")
 
     # Create summary table
     table_data = []
-    headers = ['Experiment', 'RMSE (cm)', 'Max Error (cm)', 'Final Drift (cm)']
+    headers = ["Experiment", "RMSE (cm)", "Max Error (cm)", "Final Drift (cm)"]
 
     for (est, gt), name in zip(trajectories, names):
         if gt is not None and len(gt) > 0:
@@ -217,14 +229,21 @@ def plot_trajectory_comparison(trajectories, names, colors, output_path, title="
             max_err = 0
             final_drift = np.linalg.norm(est[-1] - est[0])
 
-        table_data.append([name, f'{rmse*100:.1f}', f'{max_err*100:.1f}', f'{final_drift*100:.1f}'])
+        table_data.append(
+            [
+                name,
+                f"{rmse * 100:.1f}",
+                f"{max_err * 100:.1f}",
+                f"{final_drift * 100:.1f}",
+            ]
+        )
 
     table = ax4.table(
         cellText=table_data,
         colLabels=headers,
-        loc='center',
-        cellLoc='center',
-        colWidths=[0.3, 0.2, 0.25, 0.25]
+        loc="center",
+        cellLoc="center",
+        colWidths=[0.3, 0.2, 0.25, 0.25],
     )
     table.auto_set_font_size(False)
     table.set_fontsize(10)
@@ -232,41 +251,51 @@ def plot_trajectory_comparison(trajectories, names, colors, output_path, title="
 
     # Style header
     for i in range(len(headers)):
-        table[(0, i)].set_facecolor('#4472C4')
-        table[(0, i)].set_text_props(color='white', fontweight='bold')
+        table[(0, i)].set_facecolor("#4472C4")
+        table[(0, i)].set_text_props(color="white", fontweight="bold")
 
     # Alternate row colors
     for i in range(1, len(table_data) + 1):
         for j in range(len(headers)):
             if i % 2 == 0:
-                table[(i, j)].set_facecolor('#D6DCE4')
+                table[(i, j)].set_facecolor("#D6DCE4")
 
-    ax4.set_title('Summary Statistics', fontsize=13, fontweight='bold', pad=20)
+    ax4.set_title("Summary Statistics", fontsize=13, fontweight="bold", pad=20)
 
     # Main title
-    fig.suptitle(title, fontsize=16, fontweight='bold', y=0.98)
+    fig.suptitle(title, fontsize=16, fontweight="bold", y=0.98)
 
-    plt.savefig(output_path, dpi=200, bbox_inches='tight', facecolor='white')
-    print(f'Saved: {output_path}')
+    plt.savefig(output_path, dpi=200, bbox_inches="tight", facecolor="white")
+    print(f"Saved: {output_path}")
     plt.close()
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Compare trajectory recordings')
-    parser.add_argument('--baseline', type=str,
-                        help='Baseline trajectory file (.tum or .npy)')
-    parser.add_argument('--perturbed', type=str,
-                        help='Perturbed trajectory file (.tum or .npy)')
-    parser.add_argument('--recordings-dir', type=str, default='trajectory_recordings',
-                        help='Directory with trajectory recordings')
-    parser.add_argument('--output', type=str, default='trajectory_comparison.png',
-                        help='Output figure path')
-    parser.add_argument('--experiments', type=str, nargs='+',
-                        default=['baseline', 'efficient', 'aggressive'],
-                        help='Experiment names to compare')
-    parser.add_argument('--title', type=str,
-                        default='Trajectory Comparison: Blue=Baseline | Red=Perturbed',
-                        help='Plot title')
+    parser = argparse.ArgumentParser(description="Compare trajectory recordings")
+    parser.add_argument("--baseline", type=str, help="Baseline trajectory file (.tum or .npy)")
+    parser.add_argument("--perturbed", type=str, help="Perturbed trajectory file (.tum or .npy)")
+    parser.add_argument(
+        "--recordings-dir",
+        type=str,
+        default="trajectory_recordings",
+        help="Directory with trajectory recordings",
+    )
+    parser.add_argument(
+        "--output", type=str, default="trajectory_comparison.png", help="Output figure path"
+    )
+    parser.add_argument(
+        "--experiments",
+        type=str,
+        nargs="+",
+        default=["baseline", "efficient", "aggressive"],
+        help="Experiment names to compare",
+    )
+    parser.add_argument(
+        "--title",
+        type=str,
+        default="Trajectory Comparison: Blue=Baseline | Red=Perturbed",
+        help="Plot title",
+    )
     args = parser.parse_args()
 
     # If --baseline and --perturbed are provided, use 3D plot
@@ -284,35 +313,35 @@ def main():
     # Load trajectories
     trajectories = []
     names = []
-    colors = ['green', 'orange', 'red', 'purple', 'blue']
+    colors = ["green", "orange", "red", "purple", "blue"]
 
     for exp_name in args.experiments:
-        est_file = recordings_dir / f'{exp_name}_estimated.npy'
-        gt_file = recordings_dir / f'{exp_name}_ground_truth.npy'
+        est_file = recordings_dir / f"{exp_name}_estimated.npy"
+        gt_file = recordings_dir / f"{exp_name}_ground_truth.npy"
 
         if not est_file.exists():
-            print(f'Warning: {est_file} not found, skipping')
+            print(f"Warning: {est_file} not found, skipping")
             continue
 
         est = load_trajectory(est_file)
         gt = load_trajectory(gt_file) if gt_file.exists() else None
 
         trajectories.append((est, gt))
-        names.append(exp_name.replace('_', ' ').title())
+        names.append(exp_name.replace("_", " ").title())
 
     if len(trajectories) < 2:
-        print('Need at least 2 trajectories to compare')
+        print("Need at least 2 trajectories to compare")
         return
 
     # Generate comparison plot
     plot_trajectory_comparison(
         trajectories,
         names,
-        colors[:len(trajectories)],
+        colors[: len(trajectories)],
         args.output,
-        title='Adversarial Attack on MOLA SLAM: Trajectory Comparison'
+        title="Adversarial Attack on MOLA SLAM: Trajectory Comparison",
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

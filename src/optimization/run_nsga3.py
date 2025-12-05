@@ -472,7 +472,8 @@ class MOLAEvaluator(Node):
         # Log cloud size after downsampling
         cloud_sizes = [len(c) for c in perturbed_sequence]
         self.get_logger().info(
-            f"Cloud sizes (after downsampling): min={min(cloud_sizes)}, max={max(cloud_sizes)}, avg={sum(cloud_sizes)//len(cloud_sizes)}"
+            f"Cloud sizes (after downsampling): min={min(cloud_sizes)}, "
+            f"max={max(cloud_sizes)}, avg={sum(cloud_sizes) // len(cloud_sizes)}"
         )
 
         # Start MOLA
@@ -957,8 +958,12 @@ def main():
         if n_evals >= 5:  # Minimum threshold to save
             all_fitness = np.array(history_callback.all_fitness)
             all_genomes = np.array(history_callback.all_genomes)
-            valid_fitness = np.array(history_callback.valid_fitness) if n_valid > 0 else np.array([])
-            valid_genomes = np.array(history_callback.valid_genomes) if n_valid > 0 else np.array([])
+            valid_fitness = (
+                np.array(history_callback.valid_fitness) if n_valid > 0 else np.array([])
+            )
+            valid_genomes = (
+                np.array(history_callback.valid_genomes) if n_valid > 0 else np.array([])
+            )
 
             # Compute Pareto front from valid points
             if n_valid >= 2:

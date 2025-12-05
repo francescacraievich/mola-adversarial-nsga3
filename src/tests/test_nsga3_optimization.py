@@ -96,6 +96,7 @@ class TestNSGA3Integration:
         problem = MockProblem(mock_fitness, self.generator.get_genome_size())
 
         from pymoo.util.ref_dirs import get_reference_directions
+
         ref_dirs = get_reference_directions("das-dennis", 2, n_partitions=12)
 
         algorithm = NSGA3(

@@ -147,15 +147,15 @@ def main():
         valid_ate = baseline_ate + (valid_ate - baseline_ate) * args.scale_y
         valid_combined[:, 0] = valid_ate
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(" NSGA-III Results Analysis")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     print(f"  Results file: optimized_genome{args.run_number}")
-    print(f"  Baseline ATE: {baseline_ate:.4f}m ({baseline_ate*100:.2f}cm)")
+    print(f"  Baseline ATE: {baseline_ate:.4f}m ({baseline_ate * 100:.2f}cm)")
     print(f"  Total evaluations: {len(all_points)}")
     print(f"  Valid (ATE<10m): {len(valid_points)}")
     print(f"  After filtering: {len(valid_combined)}")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     # Compute true Pareto front from valid points (only successful attacks with ATE > baseline)
     pareto_points = compute_pareto_front(valid_combined, baseline_ate=baseline_ate)
