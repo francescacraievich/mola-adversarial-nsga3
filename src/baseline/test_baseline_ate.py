@@ -14,7 +14,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 import rclpy  # noqa: E402
 
-from src.optimization.run_nsga2 import (  # noqa: E402
+from src.optimization.run_nsga3 import (  # noqa: E402
     MOLAEvaluator,
     load_tf_from_npy,
     load_tf_static_from_npy,
@@ -81,7 +81,7 @@ def main():
         tf_static=tf_static,
         mola_binary_path="/opt/ros/jazzy/bin/mola-cli",
         mola_config_path="/opt/ros/jazzy/share/mola_lidar_odometry/mola-cli-launchs/lidar_odometry_ros2.yaml",
-        lidar_topic="/mola_nsga2/lidar",
+        lidar_topic="/mola_nsga3/lidar",
         odom_topic="/lidar_odometry/pose",
     )
 
@@ -154,7 +154,7 @@ def main():
     print(f"  Improvement %:        {((ate_small - mean_ate) / mean_ate * 100):.1f}%")
     print("=" * 60 + "\n")
 
-    print("RECOMMENDED BASELINE for NSGA-II:")
+    print("RECOMMENDED BASELINE for NSGA-III:")
     print(f"  Use: {mean_ate:.4f} m ({mean_ate * 100:.2f} cm)")
     print()
 

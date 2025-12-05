@@ -233,7 +233,7 @@ def compute_multi_objective_fitness(
     imperceptibility_method: str = "l2",
 ) -> Tuple[float, float]:
     """
-    Compute multi-objective fitness for NSGA-II.
+    Compute multi-objective fitness for NSGA-III.
 
     Objectives:
     1. Maximize localization error (attack effectiveness)
