@@ -1698,7 +1698,7 @@ Targets high-curvature regions that are critical for SLAM feature extraction.</p
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
 
 
 
@@ -1713,7 +1713,7 @@ Targets high-curvature regions that are critical for SLAM feature extraction.</p
 
 
 <h4 id="src.perturbations.perturbation_generator.PerturbationGenerator.__init__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">max_point_shift</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">noise_std</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">target_high_curvature</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">curvature_percentile</span><span class="o">=</span><span class="mf">90.0</span><span class="p">,</span> <span class="n">max_dropout_rate</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">max_ghost_points_ratio</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">cluster_shift_std</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_edge_shift</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">max_temporal_drift</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">max_point_shift</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">noise_std</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">target_high_curvature</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">curvature_percentile</span><span class="o">=</span><span class="mf">90.0</span><span class="p">,</span> <span class="n">max_dropout_rate</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">max_ghost_points_ratio</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">cluster_shift_std</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_edge_shift</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">max_temporal_drift</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span></code>
 
 </h4>
 
@@ -1811,7 +1811,7 @@ Targets high-curvature regions that are critical for SLAM feature extraction.</p
               </div>
             </td>
             <td>
-                  <code>0.15</code>
+                  <code>0.03</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -1827,7 +1827,7 @@ Targets high-curvature regions that are critical for SLAM feature extraction.</p
               </div>
             </td>
             <td>
-                  <code>0.05</code>
+                  <code>0.02</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -2197,7 +2197,7 @@ CD(A, B) = (1/|A|) * Σ min ||a - b||² + (1/|B|) * Σ min ||b - a||²</p>
 
     <div class="doc doc-contents ">
 
-        <p>Compute perturbation magnitude for NSGA-II objective.</p>
+        <p>Compute perturbation magnitude for NSGA-III objective.</p>
 <p>Combines Chamfer distance (point displacement) with structural changes
 (dropout/ghost points) to capture both geometric and topological perturbations.</p>
 <p>Formula:
