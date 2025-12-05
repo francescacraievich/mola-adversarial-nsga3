@@ -916,6 +916,60 @@ def _setup_optimizer(args, evaluator, generator):
     return problem, algorithm, history_callback
 
 
+def _save_partial_results(history_callback, numbered_output):
+    """Save partial results after interruption."""
+    n_evals = len(history_callback.all_fitness) if history_callback.all_fitness else 0
+    n_valid = len(history_callback.valid_fitness) if history_callback.valid_fitness else 0
+
+    if n_evals < 5:
+        print(f"\nNot enough data to save ({n_evals} evaluations, need >= 5)")
+        print("No partial results saved.")
+        return
+
+    all_fitness = np.array(history_callback.all_fitness)
+    all_genomes = np.array(history_callback.all_genomes)
+    valid_fitness = np.array(history_callback.valid_fitness) if n_valid > 0 else np.array([])
+    valid_genomes = np.array(history_callback.valid_genomes) if n_valid > 0 else np.array([])
+
+    # Compute Pareto front from valid points
+    if n_valid >= 2:
+        pareto_front, pareto_set = _compute_pareto_front(valid_fitness, valid_genomes)
+    else:
+        pareto_front = valid_fitness
+        pareto_set = valid_genomes
+
+    # Save all files
+    np.save(numbered_output.with_suffix(".all_points.npy"), all_fitness)
+    np.save(numbered_output.with_suffix(".valid_points.npy"), valid_fitness)
+    np.save(numbered_output.with_suffix(".all_genomes.npy"), all_genomes)
+    np.save(numbered_output.with_suffix(".valid_genomes.npy"), valid_genomes)
+
+    if len(pareto_front) > 0:
+        np.save(numbered_output.with_suffix(".pareto_front.npy"), pareto_front)
+        np.save(numbered_output.with_suffix(".pareto_set.npy"), pareto_set)
+        # Save best genome (highest ATE/pert ratio)
+        ratios = [-f[0] / max(f[1], 0.001) for f in pareto_front]
+        best_idx = np.argmax(ratios)
+        np.save(numbered_output, pareto_set[best_idx])
+
+    print(f"\nPartial results saved ({n_evals} evaluations):")
+    print(f"  - All points: {numbered_output.with_suffix('.all_points.npy')}")
+    print(f"  - All genomes: {numbered_output.with_suffix('.all_genomes.npy')}")
+    print(f"  - Valid points: {n_valid} (ATE < 10m)")
+    if len(pareto_front) > 0:
+        print(f"  - Pareto front: {len(pareto_front)} solutions")
+        print(f"  - Best genome: {numbered_output}")
+
+
+def _cleanup_rclpy(evaluator):
+    """Clean up ROS2 resources."""
+    evaluator.destroy_node()
+    try:
+        rclpy.shutdown()
+    except Exception:
+        pass
+
+
 def main():
     """Main function for NSGA-III optimization."""
     args = _parse_args()
@@ -950,67 +1004,12 @@ def main():
         print("INTERRUPTED BY USER")
         print("=" * 60)
         evaluator._stop_mola()
-
-        # Save partial results only if we have enough data
-        n_evals = len(history_callback.all_fitness) if history_callback.all_fitness else 0
-        n_valid = len(history_callback.valid_fitness) if history_callback.valid_fitness else 0
-
-        if n_evals >= 5:  # Minimum threshold to save
-            all_fitness = np.array(history_callback.all_fitness)
-            all_genomes = np.array(history_callback.all_genomes)
-            valid_fitness = (
-                np.array(history_callback.valid_fitness) if n_valid > 0 else np.array([])
-            )
-            valid_genomes = (
-                np.array(history_callback.valid_genomes) if n_valid > 0 else np.array([])
-            )
-
-            # Compute Pareto front from valid points
-            if n_valid >= 2:
-                pareto_front, pareto_set = _compute_pareto_front(valid_fitness, valid_genomes)
-            else:
-                pareto_front = valid_fitness
-                pareto_set = valid_genomes
-
-            # Save all files
-            np.save(numbered_output.with_suffix(".all_points.npy"), all_fitness)
-            np.save(numbered_output.with_suffix(".valid_points.npy"), valid_fitness)
-            np.save(numbered_output.with_suffix(".all_genomes.npy"), all_genomes)
-            np.save(numbered_output.with_suffix(".valid_genomes.npy"), valid_genomes)
-
-            if len(pareto_front) > 0:
-                np.save(numbered_output.with_suffix(".pareto_front.npy"), pareto_front)
-                np.save(numbered_output.with_suffix(".pareto_set.npy"), pareto_set)
-                # Save best genome (highest ATE/pert ratio)
-                ratios = [-f[0] / max(f[1], 0.001) for f in pareto_front]
-                best_idx = np.argmax(ratios)
-                np.save(numbered_output, pareto_set[best_idx])
-
-            print(f"\nPartial results saved ({n_evals} evaluations):")
-            print(f"  - All points: {numbered_output.with_suffix('.all_points.npy')}")
-            print(f"  - All genomes: {numbered_output.with_suffix('.all_genomes.npy')}")
-            print(f"  - Valid points: {n_valid} (ATE < 10m)")
-            if len(pareto_front) > 0:
-                print(f"  - Pareto front: {len(pareto_front)} solutions")
-                print(f"  - Best genome: {numbered_output}")
-        else:
-            print(f"\nNot enough data to save ({n_evals} evaluations, need >= 5)")
-            print("No partial results saved.")
-
-        evaluator.destroy_node()
-        try:
-            rclpy.shutdown()
-        except Exception:
-            pass
+        _save_partial_results(history_callback, numbered_output)
+        _cleanup_rclpy(evaluator)
         return 1
 
     _print_results(result, elapsed, result.F, result.X, history_callback, numbered_output)
-
-    evaluator.destroy_node()
-    try:
-        rclpy.shutdown()
-    except Exception:
-        pass
+    _cleanup_rclpy(evaluator)
     return 0
 
 

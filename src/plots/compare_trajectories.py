@@ -118,61 +118,36 @@ def compute_ate(gt, est):
     return errors, np.sqrt(np.mean(errors**2))
 
 
-def plot_trajectory_comparison(
-    trajectories, names, colors, output_path, title="Trajectory Comparison"
-):
-    """
-    Create a comprehensive trajectory comparison figure.
-
-    Args:
-        trajectories: List of (estimated, ground_truth) tuples
-        names: List of experiment names
-        colors: List of colors for each trajectory
-        output_path: Where to save the figure
-        title: Figure title
-    """
-    fig = plt.figure(figsize=(16, 10))
-
-    # Layout: 2x2 grid
-    # Top left: All trajectories overlaid (2D)
-    # Top right: Error over time
-    # Bottom left: Individual trajectories
-    # Bottom right: Summary statistics
-
-    gs = fig.add_gridspec(2, 2, hspace=0.3, wspace=0.25)
-
-    # ============ Top Left: All trajectories overlaid ============
-    ax1 = fig.add_subplot(gs[0, 0])
-
+def _plot_trajectories_2d(ax, trajectories, names, colors):
+    """Plot 2D trajectory overlay on given axis."""
     for i, ((est, gt), name, color) in enumerate(zip(trajectories, names, colors)):
-        # Align to ground truth start
         if gt is not None and len(gt) > 0:
             offset = gt[0] - est[0]
             est_plot = est + offset
-            if i == 0:  # Only plot GT once
-                ax1.plot(gt[:, 0], gt[:, 1], "k--", linewidth=2, label="Ground Truth", alpha=0.7)
+            if i == 0:
+                ax.plot(gt[:, 0], gt[:, 1], "k--", linewidth=2, label="Ground Truth", alpha=0.7)
         else:
             est_plot = est
 
-        ax1.plot(est_plot[:, 0], est_plot[:, 1], color=color, linewidth=2, label=name)
-        ax1.plot(est_plot[-1, 0], est_plot[-1, 1], "o", color=color, markersize=10)
+        ax.plot(est_plot[:, 0], est_plot[:, 1], color=color, linewidth=2, label=name)
+        ax.plot(est_plot[-1, 0], est_plot[-1, 1], "o", color=color, markersize=10)
 
-    ax1.plot(trajectories[0][0][0, 0], trajectories[0][0][0, 1], "g*", markersize=15, label="Start")
-    ax1.set_xlabel("X (m)", fontsize=11)
-    ax1.set_ylabel("Y (m)", fontsize=11)
-    ax1.set_title("Trajectory Comparison (2D)", fontsize=13, fontweight="bold")
-    ax1.legend(loc="best", fontsize=9)
-    ax1.grid(True, alpha=0.3)
-    ax1.axis("equal")
+    ax.plot(trajectories[0][0][0, 0], trajectories[0][0][0, 1], "g*", markersize=15, label="Start")
+    ax.set_xlabel("X (m)", fontsize=11)
+    ax.set_ylabel("Y (m)", fontsize=11)
+    ax.set_title("Trajectory Comparison (2D)", fontsize=13, fontweight="bold")
+    ax.legend(loc="best", fontsize=9)
+    ax.grid(True, alpha=0.3)
+    ax.axis("equal")
 
-    # ============ Top Right: Error over time ============
-    ax2 = fig.add_subplot(gs[0, 1])
 
+def _plot_error_over_time(ax, trajectories, names, colors):
+    """Plot localization error over time on given axis."""
     for (est, gt), name, color in zip(trajectories, names, colors):
         if gt is not None and len(gt) > 0:
             errors, rmse = compute_ate(gt, est)
             frames = np.arange(len(errors))
-            ax2.plot(
+            ax.plot(
                 frames,
                 errors * 100,
                 color=color,
@@ -180,18 +155,18 @@ def plot_trajectory_comparison(
                 label=f"{name} (RMSE: {rmse * 100:.1f}cm)",
             )
 
-    ax2.set_xlabel("Frame", fontsize=11)
-    ax2.set_ylabel("Position Error (cm)", fontsize=11)
-    ax2.set_title("Localization Error Over Time", fontsize=13, fontweight="bold")
-    ax2.legend(loc="best", fontsize=9)
-    ax2.grid(True, alpha=0.3)
+    ax.set_xlabel("Frame", fontsize=11)
+    ax.set_ylabel("Position Error (cm)", fontsize=11)
+    ax.set_title("Localization Error Over Time", fontsize=13, fontweight="bold")
+    ax.legend(loc="best", fontsize=9)
+    ax.grid(True, alpha=0.3)
 
-    # ============ Bottom Left: Individual trajectory panels ============
-    ax3 = fig.add_subplot(gs[1, 0])
 
+def _plot_final_drift_bars(ax, trajectories, names, colors):
+    """Plot bar chart of final drift by axis."""
     n_traj = len(trajectories)
     bar_width = 0.8 / n_traj
-    x = np.arange(3)  # X, Y, Z final positions
+    x = np.arange(3)
 
     for i, ((est, gt), name, color) in enumerate(zip(trajectories, names, colors)):
         if gt is not None and len(gt) > 0:
@@ -200,22 +175,20 @@ def plot_trajectory_comparison(
             final_error = est[-1] - est[0]
 
         offset = (i - n_traj / 2 + 0.5) * bar_width
-        ax3.bar(
-            x + offset, np.abs(final_error) * 100, bar_width, label=name, color=color, alpha=0.8
-        )
+        ax.bar(x + offset, np.abs(final_error) * 100, bar_width, label=name, color=color, alpha=0.8)
 
-    ax3.set_xticks(x)
-    ax3.set_xticklabels(["X", "Y", "Z"])
-    ax3.set_ylabel("Final Position Error (cm)", fontsize=11)
-    ax3.set_title("Final Drift by Axis", fontsize=13, fontweight="bold")
-    ax3.legend(loc="best", fontsize=9)
-    ax3.grid(True, alpha=0.3, axis="y")
+    ax.set_xticks(x)
+    ax.set_xticklabels(["X", "Y", "Z"])
+    ax.set_ylabel("Final Position Error (cm)", fontsize=11)
+    ax.set_title("Final Drift by Axis", fontsize=13, fontweight="bold")
+    ax.legend(loc="best", fontsize=9)
+    ax.grid(True, alpha=0.3, axis="y")
 
-    # ============ Bottom Right: Summary statistics table ============
-    ax4 = fig.add_subplot(gs[1, 1])
-    ax4.axis("off")
 
-    # Create summary table
+def _create_summary_table(ax, trajectories, names):
+    """Create summary statistics table on given axis."""
+    ax.axis("off")
+
     table_data = []
     headers = ["Experiment", "RMSE (cm)", "Max Error (cm)", "Final Drift (cm)"]
 
@@ -230,15 +203,10 @@ def plot_trajectory_comparison(
             final_drift = np.linalg.norm(est[-1] - est[0])
 
         table_data.append(
-            [
-                name,
-                f"{rmse * 100:.1f}",
-                f"{max_err * 100:.1f}",
-                f"{final_drift * 100:.1f}",
-            ]
+            [name, f"{rmse * 100:.1f}", f"{max_err * 100:.1f}", f"{final_drift * 100:.1f}"]
         )
 
-    table = ax4.table(
+    table = ax.table(
         cellText=table_data,
         colLabels=headers,
         loc="center",
@@ -260,9 +228,31 @@ def plot_trajectory_comparison(
             if i % 2 == 0:
                 table[(i, j)].set_facecolor("#D6DCE4")
 
-    ax4.set_title("Summary Statistics", fontsize=13, fontweight="bold", pad=20)
+    ax.set_title("Summary Statistics", fontsize=13, fontweight="bold", pad=20)
 
-    # Main title
+
+def plot_trajectory_comparison(
+    trajectories, names, colors, output_path, title="Trajectory Comparison"
+):
+    """
+    Create a comprehensive trajectory comparison figure.
+
+    Args:
+        trajectories: List of (estimated, ground_truth) tuples
+        names: List of experiment names
+        colors: List of colors for each trajectory
+        output_path: Where to save the figure
+        title: Figure title
+    """
+    fig = plt.figure(figsize=(16, 10))
+    gs = fig.add_gridspec(2, 2, hspace=0.3, wspace=0.25)
+
+    # Create each subplot using helper functions
+    _plot_trajectories_2d(fig.add_subplot(gs[0, 0]), trajectories, names, colors)
+    _plot_error_over_time(fig.add_subplot(gs[0, 1]), trajectories, names, colors)
+    _plot_final_drift_bars(fig.add_subplot(gs[1, 0]), trajectories, names, colors)
+    _create_summary_table(fig.add_subplot(gs[1, 1]), trajectories, names)
+
     fig.suptitle(title, fontsize=16, fontweight="bold", y=0.98)
 
     plt.savefig(output_path, dpi=200, bbox_inches="tight", facecolor="white")
