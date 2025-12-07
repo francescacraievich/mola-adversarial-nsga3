@@ -52,10 +52,38 @@ def plot_trajectory_3d(
 
     # Mark start and end
     ax1.scatter(
-        baseline[0, 0], baseline[0, 1], c="green", s=150, marker="*", zorder=10, label="Start", edgecolors="darkgreen", linewidths=2
+        baseline[0, 0],
+        baseline[0, 1],
+        c="green",
+        s=150,
+        marker="*",
+        zorder=10,
+        label="Start",
+        edgecolors="darkgreen",
+        linewidths=2,
     )
-    ax1.scatter(baseline[-1, 0], baseline[-1, 1], c="blue", s=100, marker="X", zorder=10, label="Baseline End", edgecolors="darkblue", linewidths=2)
-    ax1.scatter(perturbed[-1, 0], perturbed[-1, 1], c="red", s=100, marker="X", zorder=10, label="Perturbed End", edgecolors="darkred", linewidths=2)
+    ax1.scatter(
+        baseline[-1, 0],
+        baseline[-1, 1],
+        c="blue",
+        s=100,
+        marker="X",
+        zorder=10,
+        label="Baseline End",
+        edgecolors="darkblue",
+        linewidths=2,
+    )
+    ax1.scatter(
+        perturbed[-1, 0],
+        perturbed[-1, 1],
+        c="red",
+        s=100,
+        marker="X",
+        zorder=10,
+        label="Perturbed End",
+        edgecolors="darkred",
+        linewidths=2,
+    )
 
     ax1.set_xlabel("X [m]", fontsize=14)
     ax1.set_ylabel("Y [m]", fontsize=14)

@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 
-# Get project root directory 
+# Get project root directory
 PROJECT_ROOT = Path(__file__).parent.parent.parent.resolve()
 sys.path.insert(0, str(PROJECT_ROOT))
 

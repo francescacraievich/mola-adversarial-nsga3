@@ -122,7 +122,7 @@ def create_mock_odom_msg(x, y, z):
 
 
 # ============================================================================
-# TEST VOXEL DOWNSAMPLING 
+# TEST VOXEL DOWNSAMPLING
 # ============================================================================
 
 
@@ -151,9 +151,7 @@ class TestVoxelDownsampling:
         "voxel_size",
         [0.05, 0.10, 0.15, 0.20, 0.30],
     )
-    def test_voxel_downsample_size_correlation(
-        self, sample_point_cloud, voxel_size
-    ):
+    def test_voxel_downsample_size_correlation(self, sample_point_cloud, voxel_size):
         """Test that larger voxel sizes produce more reduction."""
         evaluator = create_minimal_evaluator()
         result = evaluator._voxel_downsample(sample_point_cloud, voxel_size)
@@ -222,7 +220,7 @@ class TestVoxelDownsampling:
 
 
 # ============================================================================
-# TEST TRAJECTORY COLLECTION 
+# TEST TRAJECTORY COLLECTION
 # ============================================================================
 
 
@@ -279,7 +277,7 @@ class TestTrajectoryCollection:
 
 
 # ============================================================================
-# TEST MOLA LIFECYCLE 
+# TEST MOLA LIFECYCLE
 # ============================================================================
 
 
@@ -451,7 +449,7 @@ class TestMOLALifecycle:
 
 
 # ============================================================================
-# TEST EDGE CASES 
+# TEST EDGE CASES
 # ============================================================================
 
 
