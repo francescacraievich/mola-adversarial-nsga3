@@ -155,10 +155,10 @@ mola-adversarial-nsga3/
 │       ├── test_data_loaders.py
 │       ├── test_metrics.py
 │       └── test_nsga3_optimization.py
-├── data/                             # Point cloud and trajectory data
-├── maps/                             # Ground truth trajectories
-├── bags/                             # ROS bag recordings
-├── trajectory_recordings/            # Saved trajectories
+├── data/
+│   ├── maps/                         # Ground truth trajectories
+│   └── trajectory_recordings/        # Saved trajectories (baseline, perturbed)
+├── bags/                             # ROS bag recordings (not tracked)
 └── docs/                             # MkDocs documentation
 ```
 
