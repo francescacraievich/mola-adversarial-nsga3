@@ -76,7 +76,7 @@ python -c "import numpy; import scipy; import pymoo; print('Python deps OK')"
 # Test ROS 2 setup
 source /opt/ros/jazzy/setup.bash
 ros2 pkg list | grep mola
-
+```
 
 
 

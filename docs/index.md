@@ -13,7 +13,7 @@ This project applies **NSGA-III** (Non-dominated Sorting Genetic Algorithm III) 
 - [Perturbation Strategies](user-guide/perturbations.md)
 - [Fitness Evaluation](user-guide/fitness.md)
 - [API Reference](api/overview.md)
-- [Baseline Comparison](results/baseline.md)
+- [Baseline](user-guide/baseline.md)
 
 ## Repository
 

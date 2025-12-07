@@ -212,4 +212,4 @@ In CloudCompare:
 After completing the quickstart:
 1. Learn about [Perturbation Strategies](../user-guide/perturbations.md)
 2. Understand the [Fitness Function](../user-guide/fitness.md)
-3. Review [Baseline Performance](../results/baseline.md) expectations
+3. Review [Baseline](../user-guide/baseline.md)
