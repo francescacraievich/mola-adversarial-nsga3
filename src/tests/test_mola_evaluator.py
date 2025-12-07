@@ -4,7 +4,7 @@ import signal
 import subprocess
 import sys
 from pathlib import Path
-from unittest.mock import DEFAULT, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pytest
@@ -13,11 +13,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # Try to import ROS2 dependencies
 try:
-    import rclpy
-    from geometry_msgs.msg import Point, Pose, PoseWithCovariance
-    from nav_msgs.msg import Odometry
-    from rclpy.node import Node
-    from sensor_msgs.msg import PointCloud2
+    import rclpy  # noqa: F401
+    from geometry_msgs.msg import Point, Pose, PoseWithCovariance  # noqa: F401
+    from nav_msgs.msg import Odometry  # noqa: F401
+    from rclpy.node import Node  # noqa: F401
+    from sensor_msgs.msg import PointCloud2  # noqa: F401
 
     from optimization.run_nsga3 import MOLAEvaluator  # noqa: E402
 
