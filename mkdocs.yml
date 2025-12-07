@@ -62,13 +62,11 @@ nav:
       - Installation: getting-started/installation.md
       - Quick Start: getting-started/quickstart.md
   - User Guide:
-      - NSGA-III Algorithm: user-guide/nsga3.md
       - Perturbations: user-guide/perturbations.md
       - Fitness Evaluation: user-guide/fitness.md
   - API Reference:
       - Overview: api/overview.md
   - Results:
-      - Experiments: results/experiments.md
       - Baseline Comparison: results/baseline.md
 
 extra_javascript:

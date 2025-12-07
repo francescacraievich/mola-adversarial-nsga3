@@ -10,10 +10,10 @@ This project applies **NSGA-III** (Non-dominated Sorting Genetic Algorithm III) 
 
 - [Installation Guide](getting-started/installation.md)
 - [Quick Start](getting-started/quickstart.md)
-- [NSGA-III Algorithm Details](user-guide/nsga3.md)
 - [Perturbation Strategies](user-guide/perturbations.md)
+- [Fitness Evaluation](user-guide/fitness.md)
 - [API Reference](api/overview.md)
-- [Experimental Results](results/experiments.md)
+- [Baseline Comparison](results/baseline.md)
 
 ## Repository
 

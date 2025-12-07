@@ -210,7 +210,6 @@ In CloudCompare:
 ## Next Steps
 
 After completing the quickstart:
-1. Read [NSGA-III Algorithm](../user-guide/nsga3.md) to understand the optimization
-2. Learn about [Perturbation Strategies](../user-guide/perturbations.md)
-3. Understand the [Fitness Function](../user-guide/fitness.md)
-4. Review [Baseline Performance](../results/baseline.md) expectations
+1. Learn about [Perturbation Strategies](../user-guide/perturbations.md)
+2. Understand the [Fitness Function](../user-guide/fitness.md)
+3. Review [Baseline Performance](../results/baseline.md) expectations
