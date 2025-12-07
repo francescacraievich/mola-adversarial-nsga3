@@ -139,7 +139,7 @@ def main():
         print(f"Error: Bag not found: {bag_path}")
         return 1
 
-    typestore = get_typestore(Stores.ROS2_HUMBLE)
+    typestore = get_typestore(Stores.ROS2_JAZZY)
 
     with AnyReader([bag_path], default_typestore=typestore) as reader:
         print("Topics in bag:")

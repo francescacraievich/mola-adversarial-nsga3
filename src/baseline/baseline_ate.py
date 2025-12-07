@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 
-# Get project root directory (works regardless of where script is run from)
+# Get project root directory 
 PROJECT_ROOT = Path(__file__).parent.parent.parent.resolve()
 sys.path.insert(0, str(PROJECT_ROOT))
 
@@ -85,12 +85,12 @@ def main():
         odom_topic="/lidar_odometry/pose",
     )
 
-    # Run multiple times with ZERO genome (no perturbation)
+    # Run multiple times with genom without perturbation
     print("\n" + "=" * 60)
-    print(f" Running {args.num_runs} evaluations with ZERO perturbation")
+    print(f" Running {args.num_runs} evaluations with zero perturbation")
     print("=" * 60)
 
-    # Genome uses [-1, 1] range, so -1 means MINIMUM (zero perturbation)
+    # Genome uses [-1, 1] range, so -1 means minimum (zero perturbation)
     # 0 would be 50% of max values, not zero!
     zero_genome = -np.ones(12)  # All -1 = minimum perturbation
     baseline_ates = []

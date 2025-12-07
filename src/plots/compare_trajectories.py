@@ -33,7 +33,7 @@ def plot_trajectory_3d(
     baseline, perturbed, output_path, title="Trajectory Comparison: Blue=Map1 | Red=Map2"
 ):
     """
-    Create clear two-panel trajectory comparison plot.
+    Create single-panel X-Y trajectory comparison plot.
 
     Args:
         baseline: Baseline trajectory (Nx3)
@@ -41,45 +41,28 @@ def plot_trajectory_3d(
         output_path: Output file path
         title: Plot title
     """
-    fig = plt.figure(figsize=(14, 6), facecolor="white")
-    gs = fig.add_gridspec(1, 2, wspace=0.3)
+    fig = plt.figure(figsize=(12, 10), facecolor="white")
 
-    # ============ Left: X-Y view (top down) ============
-    ax1 = fig.add_subplot(gs[0, 0])
-    ax1.plot(baseline[:, 0], baseline[:, 1], "b-", linewidth=2.5, label="Baseline")
-    ax1.scatter(baseline[:, 0], baseline[:, 1], c="blue", s=40, marker="o", alpha=0.7, zorder=5)
-    ax1.plot(perturbed[:, 0], perturbed[:, 1], "r-", linewidth=2.5, label="Perturbed")
-    ax1.scatter(perturbed[:, 0], perturbed[:, 1], c="red", s=40, marker="s", alpha=0.7, zorder=5)
+    # ============ Single X-Y view (top down) ============
+    ax1 = fig.add_subplot(111)
+    ax1.plot(baseline[:, 0], baseline[:, 1], "b-", linewidth=2.5, label="Baseline", alpha=0.8)
+    ax1.scatter(baseline[:, 0], baseline[:, 1], c="blue", s=20, marker="o", alpha=0.6, zorder=5)
+    ax1.plot(perturbed[:, 0], perturbed[:, 1], "r-", linewidth=2.5, label="Perturbed", alpha=0.8)
+    ax1.scatter(perturbed[:, 0], perturbed[:, 1], c="red", s=20, marker="s", alpha=0.6, zorder=5)
 
     # Mark start and end
     ax1.scatter(
-        baseline[0, 0], baseline[0, 1], c="green", s=150, marker="*", zorder=10, label="Start"
+        baseline[0, 0], baseline[0, 1], c="green", s=150, marker="*", zorder=10, label="Start", edgecolors="darkgreen", linewidths=2
     )
-    ax1.scatter(baseline[-1, 0], baseline[-1, 1], c="blue", s=100, marker="X", zorder=10)
-    ax1.scatter(perturbed[-1, 0], perturbed[-1, 1], c="red", s=100, marker="X", zorder=10)
+    ax1.scatter(baseline[-1, 0], baseline[-1, 1], c="blue", s=100, marker="X", zorder=10, label="Baseline End", edgecolors="darkblue", linewidths=2)
+    ax1.scatter(perturbed[-1, 0], perturbed[-1, 1], c="red", s=100, marker="X", zorder=10, label="Perturbed End", edgecolors="darkred", linewidths=2)
 
-    ax1.set_xlabel("X [m]", fontsize=12)
-    ax1.set_ylabel("Y [m]", fontsize=12)
-    ax1.set_title("Top View (X-Y Plane)", fontsize=13, fontweight="bold")
-    ax1.legend(loc="best", fontsize=10)
+    ax1.set_xlabel("X [m]", fontsize=14)
+    ax1.set_ylabel("Y [m]", fontsize=14)
+    ax1.set_title(title, fontsize=16, fontweight="bold", pad=20)
+    ax1.legend(loc="best", fontsize=11)
     ax1.grid(True, alpha=0.3)
     ax1.axis("equal")
-
-    # ============ Right: X-Z view (side) ============
-    ax2 = fig.add_subplot(gs[0, 1])
-    ax2.plot(baseline[:, 0], baseline[:, 2], "b-", linewidth=2.5, label="Baseline")
-    ax2.scatter(baseline[:, 0], baseline[:, 2], c="blue", s=40, marker="o", alpha=0.7, zorder=5)
-    ax2.plot(perturbed[:, 0], perturbed[:, 2], "r-", linewidth=2.5, label="Perturbed")
-    ax2.scatter(perturbed[:, 0], perturbed[:, 2], c="red", s=40, marker="s", alpha=0.7, zorder=5)
-
-    ax2.set_xlabel("X [m]", fontsize=12)
-    ax2.set_ylabel("Z [m]", fontsize=12)
-    ax2.set_title("Side View (X-Z Plane)", fontsize=13, fontweight="bold")
-    ax2.legend(loc="best", fontsize=10)
-    ax2.grid(True, alpha=0.3)
-
-    # Main title
-    fig.suptitle(title, fontsize=16, fontweight="bold", y=1.02)
 
     plt.savefig(output_path, dpi=150, bbox_inches="tight", facecolor="white")
     print(f"Saved: {output_path}")

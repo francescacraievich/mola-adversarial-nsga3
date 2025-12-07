@@ -12,8 +12,8 @@
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/francescacraievich/mola-adversarial-nsga2.git
-cd mola-adversarial-nsga2
+git clone https://github.com/francescacraievich/mola-adversarial-nsga3.git
+cd mola-adversarial-nsga3
 ```
 
 ## Setup Virtual Environment
@@ -36,7 +36,7 @@ pip install -r requirements/requirements.txt
 The main dependencies are:
 - `numpy>=1.24.0` - Numerical computing
 - `scipy>=1.10.0` - Scientific computing (for KDTree)
-- `pymoo>=0.6.0` - Multi-objective optimization (NSGA-II)
+- `pymoo>=0.6.0` - Multi-objective optimization (NSGA-III)
 - `matplotlib>=3.7.0` - Visualization
 - `rosbags>=0.9.0` - ROS bag file reading
 - `pytest>=7.0.0` - Testing framework
@@ -77,37 +77,13 @@ python -c "import numpy; import scipy; import pymoo; print('Python deps OK')"
 source /opt/ros/jazzy/setup.bash
 ros2 pkg list | grep mola
 
-# Expected output:
-# mola_bridge_ros2
-# mola_lidar_odometry
-# mola_pose_list
-# ...
-```
 
-## Directory Structure After Installation
 
-```
-mola-adversarial-nsga2/
-├── .venv/                     # Python virtual environment
-├── src/                       # Source code
-├── scripts/                   # Analysis scripts
-├── docs/                      # Documentation
-├── maps/                      # SLAM maps (create this)
-├── bags/                      # ROS bags (create this)
-├── data/                      # Preprocessed data (auto-created)
-└── results/                   # Optimization results (auto-created)
-```
-
-Create missing directories:
-
-```bash
-mkdir -p maps bags
-```
 
 ## Next Steps
 
 After installation, proceed to the [Quickstart Guide](quickstart.md) to:
 1. Collect data in Isaac Sim
 2. Extract point clouds from bag files
-3. Run NSGA-II optimization
+3. Run NSGA-III optimization
 4. Analyze results

@@ -256,6 +256,10 @@ class MOLAEvaluator(Node):
 
         More uniform than random sampling, preserves spatial structure.
         """
+        # Handle empty input
+        if len(points) == 0:
+            return points
+
         # Compute voxel indices
         voxel_indices = np.floor(points[:, :3] / voxel_size).astype(np.int32)
 
@@ -844,10 +848,10 @@ def _print_header(args):
     print("\nGenome: 17 parameters (ENHANCED)")
     print("  - Basic: Noise, dropout, ghost, cluster perturbations")
     print("  - Geometric distortion (ICP attack)")
-    print("  - NEW: Edge attack (SLACK-inspired)")
-    print("  - NEW: Temporal drift (accumulating bias)")
-    print("  - NEW: Scanline perturbation (ASP-inspired)")
-    print("  - NEW: Strategic ghost placement")
+    print("  - Edge attack (SLACK-inspired)")
+    print("  - Temporal drift (accumulating bias)")
+    print("  - Scanline perturbation (ASP-inspired)")
+    print("  - Strategic ghost placement")
     print("\nPerturbation settings:")
     print(f"  Max point shift: {args.max_point_shift * 100:.1f} cm")
     print(f"  Noise std: {args.noise_std * 100:.1f} cm")

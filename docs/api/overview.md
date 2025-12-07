@@ -2,16 +2,11 @@
 
 ## Overview
 
-This document provides an API reference for the main modules in the MOLA Adversarial NSGA-II project.
+This document provides an API reference for the main modules in the MOLA Adversarial NSGA-III project.
 
 ## Modules
 
 ### Perturbation Generator
-
-::: src.perturbations.perturbation_generator.PerturbationGenerator
-    options:
-      show_source: false
-      heading_level: 4
 
 **Location:** `src/perturbations/perturbation_generator.py`
 
@@ -61,7 +56,7 @@ Functions for computing fitness metrics.
 |----------|-------------|
 | `compute_localization_error(gt, est, method)` | Compute ATE/RPE between trajectories |
 | `compute_imperceptibility(orig, pert, method)` | Compute perturbation magnitude |
-| `compute_multi_objective_fitness(...)` | Combined fitness for NSGA-II |
+| `compute_multi_objective_fitness(...)` | Combined fitness for NSGA-III |
 | `normalize_fitness(values, ref_point)` | Normalize fitness values |
 
 #### ATE Computation
@@ -70,16 +65,6 @@ The `_compute_ate` function implements standard Absolute Trajectory Error:
 
 1. **Umeyama alignment**: Rigid alignment (R + t, no scale) of estimated to ground truth
 2. **RMSE**: Root mean squared error of per-pose distances
-
-```python
-from src.evaluation.metrics import compute_localization_error
-
-ate = compute_localization_error(
-    ground_truth_trajectory,  # (N, 3) array
-    estimated_trajectory,     # (M, 3) array
-    method="ate"              # "ate", "rpe", or "final"
-)
-```
 
 ---
 
@@ -101,7 +86,7 @@ Functions for loading point clouds and trajectories.
 
 ### NSGA-III Optimizer
 
-**Location:** `src/optimization/run_nsga2.py`
+**Location:** `src/optimization/run_nsga3.py`
 
 Main optimization script using pymoo's NSGA-III algorithm.
 
@@ -109,26 +94,10 @@ Main optimization script using pymoo's NSGA-III algorithm.
 
 **MOLAEvaluator**: ROS2 node that evaluates genomes by running MOLA SLAM.
 
-```python
-evaluator = MOLAEvaluator(
-    perturbation_generator=generator,
-    ground_truth_trajectory=gt_traj,
-    point_cloud_sequence=clouds,
-    timestamps=timestamps,
-    tf_sequence=tf_data,
-    tf_static=tf_static_data,
-    mola_binary_path="/opt/ros/jazzy/bin/mola-cli",
-    mola_config_path="path/to/config.yaml",
-)
-
-# Evaluate a genome
-neg_ate, chamfer = evaluator.evaluate(genome)
-```
-
 #### Command Line Arguments
 
 ```bash
-python src/optimization/run_nsga2.py \
+python src/optimization/run_nsga3.py \
     --gt-traj maps/ground_truth_interpolated.npy \
     --frames data/frame_sequence.npy \
     --pop-size 10 \
@@ -141,69 +110,100 @@ python src/optimization/run_nsga2.py \
 
 ---
 
-### Plotting
+### Baseline ATE
 
-**Location:** `src/plots/plot_nsga2_results.py`
+**Location:** `src/baseline/baseline_ate.py`
 
-Visualization of optimization results.
+Script for measuring baseline ATE with zero perturbation.
 
 ```bash
-python src/plots/plot_nsga2_results.py src/results/optimized_genome6
+python src/baseline/baseline_ate.py --num-runs 3
+```
+
+Runs MOLA SLAM on unperturbed data to establish the baseline ATE (~23cm).
+
+---
+
+### Preprocessing
+
+#### Extract Frames from Bag
+
+**Location:** `src/preprocessing_data/extract_frames_and_tf_from_bag.py`
+
+Extracts point cloud frames and TF transforms from ROS2 bag files.
+
+```bash
+python src/preprocessing_data/extract_frames_and_tf_from_bag.py \
+    --bag bags/carter_lidar \
+    --lidar-topic /carter/lidar \
+    --output-frames data/frame_sequence.npy \
+    --output-tf data/tf_sequence.npy \
+    --output-tf-static data/tf_static.npy
+```
+
+#### Create Frame Sequence
+
+**Location:** `src/preprocessing_data/create_frame_sequence.py`
+
+Creates frame sequences from extracted data.
+
+---
+
+### Plotting
+
+#### Pareto Front Visualization
+
+**Location:** `src/plots/plot_nsga3_results.py`
+
+Visualization of optimization results showing Pareto front.
+
+```bash
+python src/plots/plot_nsga3_results.py src/results/optimized_genome12
 ```
 
 Generates:
 - Pareto front plot (ATE vs Chamfer distance)
-- Best solution analysis
-- Parameter correlation analysis
+- Valid evaluations scatter plot
+- Baseline reference line
+- Best solution statistics
+
+#### Parameter Analysis
+
+**Location:** `src/plots/plot_parameter_dual_correlation.py`
+
+Analysis of genome parameter importance and correlation with fitness.
+
+Generates:
+- Parameter importance ranking
+- Dual correlation analysis (ATE and Chamfer distance)
+
+#### Trajectory Comparison
+
+**Location:** `src/plots/compare_trajectories.py`
+
+Compares ground truth and estimated trajectories visually.
 
 ---
 
-## Usage Examples
+### ROS2 Nodes
 
-### Basic Perturbation
+#### Add Intensity Node
 
-```python
-import numpy as np
-from src.perturbations.perturbation_generator import PerturbationGenerator
+**Location:** `src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py`
 
-# Create generator
-gen = PerturbationGenerator(
-    max_point_shift=0.05,  # 5cm
-    noise_std=0.02,        # 2cm
-    max_dropout_rate=0.15  # 15%
-)
+ROS2 node that adds intensity field to point clouds from Isaac Sim.
 
-# Generate random genome
-genome = gen.random_genome()
+#### Perturbation Node
 
-# Apply perturbation
-params = gen.encode_perturbation(genome)
-perturbed = gen.apply_perturbation(point_cloud, params, seed=42)
+**Location:** `src/rover_isaacsim/carter_mola_slam/scripts/perturbation_node.py`
 
-# Measure imperceptibility
-chamfer = gen.compute_chamfer_distance(point_cloud, perturbed)
-```
+ROS2 node for real-time perturbation injection.
 
-### Running Optimization
+#### Point Cloud Comparison Node
 
-```python
-from pymoo.algorithms.moo.nsga3 import NSGA3
-from pymoo.util.ref_dirs import get_reference_directions
+**Location:** `src/rover_isaacsim/carter_mola_slam/scripts/pointcloud_comparison_node.py`
 
-# Setup NSGA-III
-ref_dirs = get_reference_directions("das-dennis", 2, n_partitions=12)
-algorithm = NSGA3(
-    pop_size=len(ref_dirs),
-    ref_dirs=ref_dirs,
-)
-
-# Run optimization
-result = minimize(problem, algorithm, ('n_gen', 20), seed=42)
-
-# Get Pareto front
-pareto_front = result.F  # Fitness values
-pareto_set = result.X    # Genomes
-```
+ROS2 node for comparing original and perturbed point clouds.
 
 ---
 

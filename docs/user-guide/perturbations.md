@@ -2,7 +2,7 @@
 
 ## Overview
 
-Adversarial perturbations are small, carefully crafted modifications to LiDAR point clouds that degrade SLAM performance while remaining imperceptible. This document describes the different perturbation strategies implemented and their effectiveness against MOLA SLAM.
+Adversarial perturbations are small, carefully crafted modifications to LiDAR point clouds that degrade SLAM performance while remaining imperceptible. This document describes the 17-parameter genome encoding and the effectiveness of each perturbation strategy against MOLA SLAM.
 
 The perturbation generator implements state-of-the-art adversarial techniques based on recent research:
 
@@ -18,412 +18,172 @@ An effective adversarial perturbation must balance two goals:
 1. **Maximize localization error** - Cause MOLA to produce inaccurate trajectory estimates
 2. **Minimize detectability** - Keep perturbations small enough to avoid detection
 
-The NSGA-II optimization finds perturbations that achieve the best trade-off between these objectives.
+The NSGA-III optimization finds perturbations that achieve the best trade-off between these objectives.
 
-## Perturbation Types
+## 17-Parameter Genome
 
-### 1. Dropout Attack
+The genome encodes 17 continuous parameters in the range [-1, 1], which are then scaled to their respective physical ranges. Each parameter controls a different aspect of the perturbation.
 
-The dropout attack removes a percentage of points from each point cloud frame.
+### Basic Perturbations (Parameters 0-6)
 
-**How it works:**
-- Randomly select N% of points in each frame
-- Remove these points from the point cloud
-- MOLA processes the remaining points
+#### Parameters 0-2: Noise Direction (3D Vector)
 
-**Parameters:**
-- Dropout rate: 0-100% (typically 5-20%)
+A directional bias applied to all points.
 
-**Effectiveness:**
-- Most efficient attack strategy
-- 18.9% ATE increase per cm of perturbation budget
-- At 5% dropout: achieves 120cm ATE vs 68cm baseline
+- **Parameter 0**: X component of noise direction
+- **Parameter 1**: Y component of noise direction
+- **Parameter 2**: Z component of noise direction
 
-**Why it works:**
-Dropout breaks SLAM in multiple ways:
-- Reduces number of feature correspondences between frames
-- Degrades loop closure detection (fewer points to match)
-- Increases uncertainty in ICP alignment
-- Causes accumulated odometry drift
+The direction vector is normalized and scaled by noise intensity. This creates a systematic drift in a specific direction rather than random noise.
 
-Removing points is particularly effective because SLAM systems rely on dense, consistent measurements. Missing data creates ambiguity that propagates through the entire mapping process.
+**Why it works:** Directional bias accumulates over time, causing consistent odometry drift that SLAM cannot correct without loop closures.
 
-**Example:**
-```
-Original frame: 50,000 points
-5% dropout: 47,500 points (2,500 removed)
-10% dropout: 45,000 points (5,000 removed)
-```
+#### Parameter 3: Noise Intensity
 
-### 2. Gaussian Noise Attack
+Controls the magnitude of Gaussian noise added to point coordinates.
 
-The Gaussian noise attack adds random displacement to point coordinates.
+- **Range**: 0-5cm standard deviation
+- **ATE correlation**: +0.370 (strong positive effect)
+- **Perturbation correlation**: +0.366 (increases detectability)
 
-**How it works:**
-- For each point (x, y, z), add random noise: (x + Nx, y + Ny, z + Nz)
-- Noise is sampled from Gaussian distribution N(0, σ²)
-- Standard deviation σ controls noise magnitude
+**Why it works:** Random noise degrades ICP point-to-plane alignment accuracy. Higher noise means less precise feature matching between consecutive frames.
 
-**Parameters:**
-- Standard deviation σ: 0-10cm (typically 1-5cm)
+#### Parameter 4: Curvature Targeting
 
-**Effectiveness:**
-- Second most efficient strategy
-- 15.2% ATE increase per cm of perturbation budget
-- At σ=3cm: achieves 105cm ATE vs 68cm baseline
+Targets high-curvature regions (edges, corners) with stronger perturbations.
 
-**Why it works:**
-Noise degrades SLAM by:
-- Reducing precision of feature matching
-- Introducing errors in ICP point-to-plane alignment
-- Creating inconsistencies between overlapping scans
-- Degrading loop closure reliability
+- **Range**: 0-100% strength
+- **ATE correlation**: +0.227 (moderate positive effect)
+- **Perturbation correlation**: -0.025 (minimal impact on detectability)
 
-Unlike dropout, noise preserves point density but corrupts position accuracy. This is particularly effective against ICP-based odometry, which assumes point measurements are accurate.
+**Why it works:** SLAM systems rely on geometric features (edges, corners, planes) for alignment. Corrupting these features specifically degrades matching quality.
 
-**Example:**
-```python
-# Add Gaussian noise with σ=2cm
-noise = np.random.normal(0, 0.02, size=points.shape)
-perturbed_points = points + noise
-```
+#### Parameter 5: Dropout Rate
 
-### 3. Feature Targeting Attack
+Percentage of points randomly removed from each frame.
 
-The feature targeting attack identifies and perturbs high-gradient regions (edges, corners) that SLAM systems rely on for feature matching.
+- **Range**: 0-30%
+- **ATE correlation**: +0.055 (weak positive effect)
+- **Perturbation correlation**: +0.105 (low detectability impact)
 
-**How it works:**
-1. Compute local point density or gradient for each point
-2. Identify high-gradient points (features)
-3. Apply larger perturbations to these feature points
-4. Apply smaller perturbations to flat regions
+**Why it works:** Removing points reduces feature density, degrading ICP convergence and loop closure detection. However, MOLA is relatively robust to moderate dropout.
 
-**Parameters:**
-- Feature threshold: Points above this gradient are considered features
-- Feature perturbation: 5-15cm displacement
-- Background perturbation: 1-3cm displacement
+#### Parameter 6: Ghost Point Ratio
 
-**Effectiveness:**
-- Third most efficient strategy
-- 12.7% ATE increase per cm of perturbation budget
-- More targeted than uniform noise
+Adds synthetic points near real measurements.
 
-**Why it works:**
-SLAM systems extract features (edges, corners, planes) for matching and alignment. By corrupting these features specifically, the attack:
-- Prevents correct feature correspondence
-- Degrades place recognition for loop closure
-- Increases ICP alignment errors
-- Creates false matches that corrupt the map
+- **Range**: 0-10% additional points
+- **ATE correlation**: -0.086 (slightly negative effect)
+- **Perturbation correlation**: +0.110 (increases detectability)
 
-This strategy is more sophisticated than uniform noise because it focuses perturbation budget on the most critical points for SLAM.
+**Why it works:** Ghost points create false correspondences in ICP. However, MOLA's outlier rejection often filters these, making this less effective.
 
-**Example:**
-```python
-# Identify features by local density
-density = compute_local_density(points, radius=0.5)
-is_feature = density > threshold
+### Cluster Perturbations (Parameters 7-10)
 
-# Apply larger perturbations to features
-perturbations = np.where(is_feature[:, None],
-                         large_noise,
-                         small_noise)
-perturbed_points = points + perturbations
-```
+#### Parameters 7-9: Cluster Direction (3D Vector)
 
-### 4. Ghost Points Attack
+Direction for cluster-based perturbations.
 
-The ghost points attack adds false points that don't correspond to real objects.
+- **Parameter 7**: X component (ATE correlation: -0.261)
+- **Parameter 8**: Y component (ATE correlation: +0.003)
+- **Parameter 9**: Z component (ATE correlation: +0.036)
 
-**How it works:**
-- Generate synthetic points near real sensor readings
-- Add these points to the point cloud
-- MOLA processes both real and fake points
+#### Parameter 10: Cluster Strength
 
-**Parameters:**
-- Number of ghost points: 100-5000 per frame
-- Ghost point distribution: Near real points or in empty space
+Intensity of cluster-based perturbations.
 
-**Effectiveness:**
-- Least efficient strategy
-- 8.3% ATE increase per cm of perturbation budget
-- Requires more perturbation budget for same ATE
+- **Range**: 0-100%
+- **ATE correlation**: +0.071 (weak positive effect)
+- **Perturbation correlation**: -0.037 (minimal impact)
 
-**Why it works:**
-Ghost points confuse SLAM by:
-- Creating false surfaces and structures
-- Introducing spurious feature matches
-- Degrading scan matching quality
-- Corrupting map consistency
+**Why it works:** Clusters of points are shifted together, maintaining local structure while introducing global distortion.
 
-However, this is less efficient than dropout because:
-- SLAM systems have outlier rejection mechanisms
-- Ghost points in empty space are easily filtered
-- Adding points is more detectable than removing or shifting them
+### Advanced Perturbations (Parameters 11-16)
 
-**Example:**
-```python
-# Add ghost points near real points
-n_ghosts = 1000
-base_indices = np.random.choice(len(points), n_ghosts)
-ghost_offset = np.random.normal(0, 0.05, size=(n_ghosts, 3))
-ghost_points = points[base_indices] + ghost_offset
-perturbed_cloud = np.vstack([points, ghost_points])
-```
+#### Parameter 11: Spatial Correlation
 
-## Comparative Analysis
+Controls how perturbations are correlated spatially.
 
-Based on experimental results:
+- **Range**: 0-100%
+- **ATE correlation**: -0.167 (negative effect)
+- **Perturbation correlation**: -0.070 (reduces detectability)
 
-| Strategy | ATE/cm Efficiency | Best Use Case | Detectability |
-|----------|------------------|---------------|---------------|
-| Dropout (5%) | 18.9% | Most efficient general attack | Low (missing data is common) |
-| Gaussian noise | 15.2% | When dropout is detectable | Medium (depends on σ) |
-| Feature targeting | 12.7% | Targeted attack on features | Medium-High |
-| Ghost points | 8.3% | When modifying points is detectable | High (easier to detect additions) |
+**Why it works:** Spatially correlated perturbations appear more natural than random noise. However, high correlation may actually help SLAM by preserving local structure.
 
-### Key Insights
+#### Parameter 12: Geometric Distortion (ICP Attack)
 
-1. **Dropout is most efficient**: Removing points causes more damage per unit of perturbation than any other strategy. This is because SLAM fundamentally relies on having complete, dense measurements.
+Applies systematic geometric distortions (scaling, shearing).
 
-2. **Loop closure is the weak point**: All effective attacks degrade loop closure detection. Without successful loop closures, odometry drift accumulates linearly over time.
+- **Range**: 0-100%
+- **ATE correlation**: +0.357 (strong positive effect)
+- **Perturbation correlation**: +0.970 (very high detectability!)
 
-3. **Feature-based attacks are less efficient**: While intuitively appealing, targeting features specifically is less efficient than uniform dropout or noise. This suggests MOLA's robustness mechanisms handle feature corruption better than missing data.
+**Why it works:** ICP assumes rigid transformations. Systematic distortions violate this assumption, causing alignment failures. However, this is highly detectable due to large point displacements.
 
-4. **Additions are easier to defend against**: Ghost points are the least efficient attack, likely because MOLA has outlier rejection that filters spurious measurements.
+#### Parameter 13: Edge Attack (SLACK-inspired)
 
-## Temporal Patterns
+Targets edge and corner points with perpendicular shifts.
 
-Perturbations can be applied with different temporal patterns:
+- **Range**: 0-100%
+- **ATE correlation**: +0.033 (weak positive effect)
+- **Perturbation correlation**: -0.149 (reduces detectability)
 
-### Uniform Perturbation
-Apply same perturbation to all frames.
-- Simple to implement
-- Consistent effect throughout trajectory
-- Easy to optimize
+**Why it works:** Shifting edge points perpendicular to their principal direction maximizes ICP confusion while minimizing visible distortion.
 
-### Temporal Dropout
-Apply perturbations only to specific frames.
-- Target loop closure frames specifically
-- Minimize overall perturbation budget
-- More sophisticated attack
+#### Parameter 14: Temporal Drift
 
-### Adaptive Perturbation
-Adjust perturbation based on MOLA's state.
-- Increase perturbation when MOLA is uncertain
-- Reduce perturbation when MOLA is confident
-- Requires online feedback (not implemented)
+Accumulating bias across frames over time.
 
-## Physical Constraints
+- **Range**: 0-100%
+- **ATE correlation**: +0.627 (strongest positive effect!)
+- **Perturbation correlation**: +0.237 (moderate detectability)
 
-To maintain realism, perturbations are constrained:
+**Why it works:** Temporal drift is the most effective attack because:
+- Bias accumulates consistently over the trajectory
+- Prevents loop closure detection (locations appear different over time)
+- SLAM cannot correct accumulated drift without recognizing revisited places
 
-1. **Maximum displacement**: 50cm per point
-   - Larger displacements create obvious artifacts
-   - Real sensor noise is typically < 5cm
+#### Parameter 15: Scanline Perturbation (ASP-inspired)
 
-2. **Dropout rate**: 0-100%
-   - Cannot remove more than all points
-   - Typical rates: 5-20%
+Perturbs points along their laser beam directions.
 
-3. **Noise standard deviation**: 0-10cm
-   - Based on realistic sensor noise characteristics
-   - LiDAR accuracy is typically 1-3cm
+- **Range**: 0-100%
+- **ATE correlation**: +0.595 (second strongest effect!)
+- **Perturbation correlation**: +0.392 (moderate-high detectability)
 
-4. **Ghost point density**: < 10% of real points
-   - Too many ghost points are obviously fake
-   - Must match real point cloud density
+**Why it works:** Perturbations along scanlines simulate realistic sensor interference (dust, particles). This systematically affects range measurements in a physically plausible way.
 
-5. **Spatial coherence**: Perturbations should be locally consistent
-   - Random per-point perturbations create speckle noise
-   - Spatially correlated noise is more realistic
+#### Parameter 16: Strategic Ghost Placement
 
-## Implementation Details
+Places ghost points near geometric features.
 
-Perturbations are applied during NSGA-II fitness evaluation:
+- **Range**: 0-100% (activates when > 50%)
+- **ATE correlation**: +0.344 (strong positive effect)
+- **Perturbation correlation**: -0.026 (minimal detectability impact)
 
-1. Load original point cloud frames
-2. Decode genome to perturbation parameters
-3. Apply perturbation to each frame
-4. Write perturbed frames to temporary file
-5. Run MOLA SLAM on perturbed data
-6. Evaluate ATE and perturbation magnitude
-7. Return fitness values to NSGA-II
+**Why it works:** Ghost points placed near features create ambiguous correspondences that ICP cannot easily reject, unlike random ghost points.
 
-The perturbation module is in [src/perturbations/](../../src/perturbations/).
+## Effectiveness Rankings
 
-### Dropout Implementation
+Based on correlation analysis from genome12 results (347 valid evaluations):
 
-```python
-def apply_dropout(cloud, dropout_rate):
-    """Remove random points from cloud."""
-    n_points = len(cloud)
-    n_keep = int(n_points * (1 - dropout_rate))
-    keep_indices = np.random.choice(n_points, n_keep, replace=False)
-    return cloud[keep_indices]
-```
+### Most Effective for Increasing ATE
 
-### Gaussian Noise Implementation
+| Rank | Parameter | ATE Correlation | Why Effective |
+|------|-----------|-----------------|---------------|
+| 1 | Temporal Drift | +0.627 | Accumulates over time, breaks loop closure |
+| 2 | Scanline Perturbation | +0.595 | Systematic range errors, physically realistic |
+| 3 | Noise Intensity | +0.370 | Degrades ICP alignment precision |
+| 4 | Geometric Distortion | +0.357 | Violates ICP rigid transformation assumption |
+| 5 | Strategic Ghost | +0.344 | Creates ambiguous feature correspondences |
 
-```python
-def apply_gaussian_noise(cloud, sigma):
-    """Add Gaussian noise to point coordinates."""
-    noise = np.random.normal(0, sigma, size=cloud.shape)
-    return cloud + noise
-```
 
 ## Defending Against Perturbations
 
 Understanding these attacks informs defense strategies:
 
-1. **Outlier rejection**: Filter points with high residuals
-   - Helps against ghost points
-   - Less effective against dropout and noise
-
-2. **Multi-sensor fusion**: Combine LiDAR with camera or IMU
-   - Provides redundancy against single-sensor attacks
-   - Increases attack complexity
-
-3. **Temporal consistency**: Check for frame-to-frame consistency
-   - Detects sudden dropout or noise changes
-   - Requires buffering multiple frames
-
-4. **Learned anomaly detection**: Train classifier to detect adversarial perturbations
-   - Can detect statistical anomalies
-   - Requires representative training data
-
-5. **Robust estimation**: Use RANSAC or M-estimators
-   - Already implemented in MOLA
-   - Provides some inherent robustness
-
-## Advanced Attack Strategies (NEW)
-
-The following advanced attacks are inspired by recent research and implemented in the 17-parameter genome:
-
-### 5. Edge Attack (SLACK-inspired)
-
-The edge attack targets edges and corners that are critical for ICP matching.
-
-**How it works:**
-1. Detect edge and corner points using eigenvalue analysis
-2. Classify points: planar (λ1 ≈ λ2 >> λ3), edge (λ1 >> λ2 ≈ λ3), corner (λ1 ≈ λ2 ≈ λ3)
-3. Shift edge points perpendicular to their principal direction
-4. Maximum confusion for ICP correspondence matching
-
-**Parameters:**
-- Edge attack strength: 0-100%
-- Max edge shift: 8cm
-
-**Why it works:**
-- "Location of injection matters more than quantity" (SLACK paper)
-- Edge/corner points are critical for ICP - perturbing them has disproportionate impact
-- Shifts perpendicular to principal direction maximize alignment confusion
-
-### 6. Temporal Drift Attack (ICP Attack-inspired)
-
-The temporal drift attack applies accumulating bias across frames.
-
-**How it works:**
-1. Accumulate drift in a specified direction over time
-2. Apply drift with decay (0.98) to prevent explosion
-3. Each frame adds to accumulated drift
-4. Prevents SLAM from recognizing previously visited locations
-
-**Parameters:**
-- Temporal drift strength: 0-100%
-- Max drift per frame: 5cm
-- Drift direction: Encoded in genome
-
-**Why it works:**
-- Consistent bias accumulates over trajectory
-- Breaks loop closure detection (devastating effect)
-- SLAM cannot correct accumulated odometry drift
-
-### 7. Scanline Perturbation (ASP-inspired)
-
-The scanline attack perturbs points along their laser beam directions.
-
-**How it works:**
-1. Compute range direction for each point (sensor at origin)
-2. Apply perturbation along scanline direction
-3. Mix random (3cm std) and systematic (wave pattern) components
-4. Physically realistic - simulates particles between sensor and objects
-
-**Parameters:**
-- Scanline strength: 0-100%
-
-**Why it works:**
-- Simulates realistic sensor interference (dust, particles)
-- Hard to detect as it follows natural sensor noise patterns
-- Affects range measurements systematically
-
-### 8. Strategic Ghost Points (SLACK-inspired)
-
-Strategic placement of ghost points near geometric features.
-
-**How it works:**
-1. Detect edges and high-curvature regions
-2. Select high-feature points as bases (top 30%)
-3. Add ghost points with small offsets (2.5cm std)
-4. Ghost points are close enough to real features to confuse ICP
-
-**Parameters:**
-- Strategic ghost: 0-100%
-- Activates when > 50%
-
-**Why it works:**
-- Ghost points placed near features create ambiguous correspondences
-- ICP cannot distinguish real features from nearby ghosts
-- More effective than random ghost placement
-
-### 9. Geometric Distortion (KEY for ICP)
-
-Systematic geometric distortion to break ICP convergence.
-
-**How it works:**
-1. Apply range-dependent scaling
-2. ICP is robust to random noise but weak against systematic distortions
-3. Scaling, shearing, or range-dependent bias
-
-**Parameters:**
-- Geometric distortion strength: 0-100%
-
-**Why it works:**
-- ICP assumes point-to-point correspondence
-- Systematic distortions violate ICP assumptions
-- Breaks convergence to correct alignment
-
-## Future Directions
-
-Potential improvements to perturbation strategies:
-
-1. **Transfer attacks**: Optimize on one SLAM system, test on others
-2. **Physical perturbations**: 3D-print adversarial objects to place in environment
-3. **Online adaptive attacks**: Adjust perturbations based on SLAM state feedback
-4. **Semantic targeting**: Perturb specific object types (walls, obstacles)
-
-## Keyframes vs All Frames
-
-An important consideration is whether to perturb all frames or only keyframes:
-
-**All frames (113 frames at 10Hz):**
-- LiDAR publishes at 10Hz during ~11.3 second trajectory
-- More data to perturb
-- Affects odometry estimation
-
-**Keyframes only (49 frames):**
-- MOLA selects keyframes when robot moves enough
-- Less data to perturb
-- Directly affects what MOLA processes
-- More efficient use of perturbation budget
-
-Current implementation perturbs all frames, but future work could target keyframes specifically.
-
-## Summary
-
-- **Dropout is the most efficient attack** (18.9% ATE/cm)
-- **Loop closure degradation is the primary damage mechanism**
-- **Physical constraints ensure perturbations remain realistic**
-- **Different attacks have different detectability vs effectiveness trade-offs**
-- **NSGA-II optimization discovers these trade-offs automatically**
-
-The optimization process reveals that simpler attacks (dropout) are more effective than complex ones (feature targeting), which is a valuable insight for both adversarial robustness and SLAM system design.
+1. **Temporal consistency checking**: Detect sudden changes in point cloud statistics between frames
+2. **Multi-sensor fusion**: Combine LiDAR with camera or IMU for redundancy
+3. **Learned anomaly detection**: Train classifiers to detect adversarial patterns
+4. **Robust loop closure**: Use multiple verification methods for place recognition
+5. **Range verification**: Cross-check LiDAR ranges with expected environment geometry
