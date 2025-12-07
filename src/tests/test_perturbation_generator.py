@@ -252,7 +252,9 @@ class TestPerturbationGenerator:
     def test_compute_perturbation_weights_no_curvature(self):
         """Test perturbation weights when curvature targeting is disabled."""
         params = {"curvature_strength": 0.05}
-        weights = self.generator._compute_perturbation_weights(self.test_cloud, len(self.test_cloud), params)
+        weights = self.generator._compute_perturbation_weights(
+            self.test_cloud, len(self.test_cloud), params
+        )
         assert np.all(weights == 1.0)
 
     def test_compute_perturbation_weights_uniform_curvature(self):
@@ -260,13 +262,17 @@ class TestPerturbationGenerator:
         # Create uniform cloud
         uniform_cloud = np.ones((100, 4))
         params = {"curvature_strength": 0.5}
-        weights = self.generator._compute_perturbation_weights(uniform_cloud, len(uniform_cloud), params)
+        weights = self.generator._compute_perturbation_weights(
+            uniform_cloud, len(uniform_cloud), params
+        )
         assert np.all(weights == 1.0)  # Should return ones when curvature is uniform
 
     def test_apply_noise_zero_intensity(self):
         """Test that zero noise intensity doesn't change cloud."""
         params = {"noise_intensity": 0.0}
-        perturbed = self.generator._apply_noise(self.test_cloud.copy(), len(self.test_cloud), np.ones(len(self.test_cloud)), params)
+        perturbed = self.generator._apply_noise(
+            self.test_cloud.copy(), len(self.test_cloud), np.ones(len(self.test_cloud)), params
+        )
         np.testing.assert_array_equal(perturbed, self.test_cloud)
 
     def test_apply_geometric_distortion_high_strength(self):

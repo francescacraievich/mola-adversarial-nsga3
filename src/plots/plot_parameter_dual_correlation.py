@@ -141,9 +141,7 @@ def main():
             status = "? REVIEW"
             consider_remove.append(param)
 
-        print(
-            f"{status:12s} | {param:20s} | ATE: {corr_ate:+.3f} | Pert: {corr_pert:+.3f}"
-        )
+        print(f"{status:12s} | {param:20s} | ATE: {corr_ate:+.3f} | Pert: {corr_pert:+.3f}")
         print(f"             | {cat}")
         print()
 
@@ -168,7 +166,9 @@ def main():
     y_pos = np.arange(len(sorted_params_ate))
     colors_ate = ["#2ecc71" if c > 0 else "#e74c3c" for c in sorted_corrs_ate]
 
-    bars1 = ax1.barh(y_pos, sorted_corrs_ate, color=colors_ate, edgecolor="black", linewidth=1.5, alpha=0.85)
+    bars1 = ax1.barh(
+        y_pos, sorted_corrs_ate, color=colors_ate, edgecolor="black", linewidth=1.5, alpha=0.85
+    )
 
     # Highlight top 3 by absolute value
     top3_abs_idx = np.argsort(np.abs(correlations_ate))[-3:]
@@ -187,8 +187,16 @@ def main():
 
         fontweight = "bold" if i in [len(bars1) - 1, len(bars1) - 2, len(bars1) - 3] else "normal"
         fontsize = 11
-        ax1.text(label_x, bar.get_y() + bar.get_height() / 2, f"{corr:+.3f}",
-                 ha=ha, va="center", fontsize=fontsize, fontweight=fontweight, color="black")
+        ax1.text(
+            label_x,
+            bar.get_y() + bar.get_height() / 2,
+            f"{corr:+.3f}",
+            ha=ha,
+            va="center",
+            fontsize=fontsize,
+            fontweight=fontweight,
+            color="black",
+        )
 
     ax1.set_yticks(y_pos)
     ax1.set_yticklabels(sorted_params_ate, fontsize=11)
@@ -205,9 +213,13 @@ def main():
     sorted_params_pert = [GENOME_PARAMS[i] for i in sorted_idx_pert]
     sorted_corrs_pert = correlations_pert[sorted_idx_pert]
 
-    colors_pert = ["#e74c3c" if c > 0 else "#2ecc71" for c in sorted_corrs_pert]  # Inverse: high pert is bad
+    colors_pert = [
+        "#e74c3c" if c > 0 else "#2ecc71" for c in sorted_corrs_pert
+    ]  # Inverse: high pert is bad
 
-    bars2 = ax2.barh(y_pos, sorted_corrs_pert, color=colors_pert, edgecolor="black", linewidth=1.5, alpha=0.85)
+    bars2 = ax2.barh(
+        y_pos, sorted_corrs_pert, color=colors_pert, edgecolor="black", linewidth=1.5, alpha=0.85
+    )
 
     # Highlight top 3 by absolute value
     top3_abs_idx_pert = np.argsort(np.abs(correlations_pert))[-3:]
@@ -224,10 +236,20 @@ def main():
         label_x = width + 0.03 if width > 0 else width - 0.08
         ha = "left" if width > 0 else "right"
 
-        fontweight = "bold" if i in [len(bars2) - 1, len(bars2) - 2, len(bars2) - 3, 0, 1, 2] else "normal"
+        fontweight = (
+            "bold" if i in [len(bars2) - 1, len(bars2) - 2, len(bars2) - 3, 0, 1, 2] else "normal"
+        )
         fontsize = 11
-        ax2.text(label_x, bar.get_y() + bar.get_height() / 2, f"{corr:+.3f}",
-                 ha=ha, va="center", fontsize=fontsize, fontweight=fontweight, color="black")
+        ax2.text(
+            label_x,
+            bar.get_y() + bar.get_height() / 2,
+            f"{corr:+.3f}",
+            ha=ha,
+            va="center",
+            fontsize=fontsize,
+            fontweight=fontweight,
+            color="black",
+        )
 
     ax2.set_yticks(y_pos)
     ax2.set_yticklabels(sorted_params_pert, fontsize=11)
@@ -235,13 +257,14 @@ def main():
     ax2.set_title("Parameters vs Perturbation", fontsize=14, fontweight="bold", pad=15)
     ax2.axvline(x=0, color="black", linewidth=2)
     ax2.grid(axis="x", alpha=0.3, linestyle="--")
-    ax2.set_xlim(left=-0.8, right=1.2)  # Add more space on both sides (more on right for large values)
+    ax2.set_xlim(
+        left=-0.8, right=1.2
+    )  # Add more space on both sides (more on right for large values)
     ax2.invert_yaxis()
 
     # Main title
     fig.suptitle(
-        f"Dual Correlation Analysis - Run {args.run}",
-        fontsize=15, fontweight="bold", y=0.96
+        f"Dual Correlation Analysis - Run {args.run}", fontsize=15, fontweight="bold", y=0.96
     )
 
     plt.tight_layout()

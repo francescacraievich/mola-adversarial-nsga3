@@ -102,6 +102,13 @@ def main():
     parser.add_argument(
         "--output", type=str, default=None, help="Output file path (default: auto-generated)"
     )
+    parser.add_argument(
+        "--stats-position",
+        type=str,
+        choices=["top-right", "top-left"],
+        default="top-right",
+        help="Position of stats box (default: top-right)",
+    )
     args = parser.parse_args()
 
     results_dir = Path(args.results_dir)
@@ -259,7 +266,7 @@ def main():
             bbox={"boxstyle": "round,pad=0.2", "facecolor": "white", "alpha": 0.8},
         )
 
-    # Summary stats box - positioned in bottom left to avoid covering data points
+    # Summary stats box - position based on argument
     if len(pareto_sorted) > 0:
         stats_text = (
             f"Evaluations: {len(all_points)} ({len(valid_ate)} valid)\n"
@@ -270,12 +277,22 @@ def main():
         stats_text = (
             f"Evaluations: {len(all_points)} ({len(valid_ate)} valid)\n" f"No successful attacks"
         )
+
+    # Set position based on --stats-position argument
+    if args.stats_position == "top-left":
+        x_pos = 0.02
+        h_align = "left"
+    else:  # top-right (default)
+        x_pos = 0.98
+        h_align = "right"
+
     ax.text(
-        0.02,
+        x_pos,
         0.98,
         stats_text,
         transform=ax.transAxes,
         verticalalignment="top",
+        horizontalalignment=h_align,
         fontsize=9,
         bbox={"boxstyle": "round", "facecolor": "wheat", "alpha": 0.85},
     )

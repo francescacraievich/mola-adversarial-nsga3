@@ -78,7 +78,9 @@ class TestVoxelDownsampling:
         unique_voxels, inverse = np.unique(voxel_indices, axis=0, return_inverse=True)
 
         # Reconstruct points from voxels
-        downsampled = np.array([points[inverse == i].mean(axis=0) for i in range(len(unique_voxels))])
+        downsampled = np.array(
+            [points[inverse == i].mean(axis=0) for i in range(len(unique_voxels))]
+        )
 
         assert downsampled.shape[1] == 3
         assert len(downsampled) > 0
