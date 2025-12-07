@@ -26,10 +26,6 @@ site/
 *.gv
 *.pdf
 
-# Map files 
-*.ply
-*.pcd
-*_raw.txt
 
 
 # Temporary files
@@ -47,7 +43,7 @@ scripts/check_ci.sh
 
 # Large data directories
 bags/
-data/*.npy
+
 
 # Node.js
 node_modules/
