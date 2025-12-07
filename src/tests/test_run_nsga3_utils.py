@@ -8,10 +8,19 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from optimization.run_nsga3 import (  # noqa: E402
-    load_tf_from_npy,
-    load_tf_static_from_npy,
-)
+try:
+    from optimization.run_nsga3 import (  # noqa: E402
+        load_tf_from_npy,
+        load_tf_static_from_npy,
+    )
+
+    ROS2_AVAILABLE = True
+except (ImportError, ModuleNotFoundError):
+    ROS2_AVAILABLE = False
+    load_tf_from_npy = None
+    load_tf_static_from_npy = None
+
+pytestmark = pytest.mark.skipif(not ROS2_AVAILABLE, reason="ROS2 dependencies not available")
 
 
 class TestDataLoaders:
