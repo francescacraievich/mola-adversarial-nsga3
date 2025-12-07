@@ -5,6 +5,8 @@
 [![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://francescacraievich.github.io/mola-adversarial-nsga3/)
 [![codecov](https://codecov.io/github/francescacraievich/mola-adversarial-nsga3/graph/badge.svg?token=BQX8LWJMSJ)](https://codecov.io/github/francescacraievich/mola-adversarial-nsga3)
 
+Documentation available at: [https://francescacraievich.github.io/mola-adversarial-nsga3/](https://francescacraievich.github.io/mola-adversarial-nsga3/)
+
 Evolutionary multi-objective optimization of adversarial perturbations on LiDAR point clouds to evaluate the robustness of SLAM systems.
 
 ## Overview
@@ -218,7 +220,7 @@ The complete experimental pipeline consists of:
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Author
 
