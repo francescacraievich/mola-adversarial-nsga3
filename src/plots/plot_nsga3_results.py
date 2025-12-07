@@ -62,7 +62,8 @@ def compute_pareto_front(points, baseline_ate=None, min_perturbation=0.1):
     return np.array(pareto) if pareto else np.array([])
 
 
-def main():
+def parse_arguments():
+    """Parse command line arguments."""
     import argparse
 
     parser = argparse.ArgumentParser(description="Plot NSGA-III results")
@@ -109,7 +110,11 @@ def main():
         default="top-right",
         help="Position of stats box (default: top-right)",
     )
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main():  # noqa: C901
+    args = parse_arguments()
 
     results_dir = Path(args.results_dir)
 

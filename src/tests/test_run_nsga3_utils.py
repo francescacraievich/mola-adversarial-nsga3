@@ -51,7 +51,7 @@ class TestVoxelDownsampling:
         """Test that voxel downsampling reduces point count."""
         # Import here to avoid ROS2 dependencies in main test
         try:
-            from optimization.run_nsga3 import MOLAEvaluator
+            from optimization.run_nsga3 import MOLAEvaluator  # noqa: F401
         except ImportError:
             pytest.skip("ROS2 dependencies not available")
 

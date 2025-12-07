@@ -34,7 +34,7 @@ GENOME_PARAMS = [
 ]
 
 
-def main():
+def main():  # noqa: C901
     parser = argparse.ArgumentParser(
         description="Analyze dual correlation: parameters vs ATE and Perturbation"
     )
@@ -74,9 +74,9 @@ def main():
     print(f"{'=' * 70}")
     print(f"  Evaluations: {len(genomes)}")
     print(f"  Parameters: {len(GENOME_PARAMS)}")
-    print(f"\n  Analyzing correlation with:")
-    print(f"    1. ATE (higher = worse SLAM = good for attack)")
-    print(f"    2. Perturbation (higher = more noticeable = bad)")
+    print("\n  Analyzing correlation with:")
+    print("    1. ATE (higher = worse SLAM = good for attack)")
+    print("    2. Perturbation (higher = more noticeable = bad)")
     print(f"{'=' * 70}\n")
 
     # Compute correlations
@@ -147,7 +147,7 @@ def main():
 
     # Summary
     print(f"{'=' * 70}")
-    print(f" SUMMARY")
+    print(" SUMMARY")
     print(f"{'=' * 70}")
     print(f"  ✓ Keep ({len(keep)} params): {', '.join(keep)}")
     print(f"  ? Review ({len(consider_remove)} params): {', '.join(consider_remove)}")
