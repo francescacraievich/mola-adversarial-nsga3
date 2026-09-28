@@ -1,0 +1,75 @@
+[INFO] [1790105174.161647924] [add_intensity_node]: Add Intensity Node started (with scan aggregation)
+[INFO] [1790105174.161928061] [add_intensity_node]: Aggregation mode: FIXED COUNT (1 sub-scans/cycle)
+[INFO] [1790105174.162133816] [add_intensity_node]: Subscribing to: /front_3d_lidar/lidar_points
+[INFO] [1790105174.162329310] [add_intensity_node]: Publishing to: /carter/lidar_with_intensity
+[INFO] [1790105174.162529444] [add_intensity_node]: Output frame_id: chassis_link
+[INFO] [1790105176.292528364] [add_intensity_node]: [DIAG] First msg: point_step=12 width=44981 height=1 is_dense=True frame=front_3d_lidar stamp=468.100s fields=[('x', 0, 7, 1), ('y', 4, 7, 1), ('z', 8, 7, 1)]
+[INFO] [1790105176.292709372] [add_intensity_node]: [DIAG] Field layout cached: x@0 y@4 z@8 dtype=float32 size=4B point_step=12
+[INFO] [1790105176.295379511] [add_intensity_node]: [DIAG] agg_scan#0: t=468.100 sub_scans=1 total_pts=44981 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.057,-1.815,0.474)
+[INFO] [1790105176.312497562] [add_intensity_node]: [DIAG] agg_scan#1: t=468.200 sub_scans=1 total_pts=44980 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.058,-1.814,0.474)
+[INFO] [1790105176.327899613] [add_intensity_node]: [DIAG] agg_scan#2: t=468.300 sub_scans=1 total_pts=44976 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.057,-1.813,0.474)
+[INFO] [1790105176.342893502] [add_intensity_node]: [DIAG] agg_scan#3: t=468.400 sub_scans=1 total_pts=44972 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.059,-1.813,0.474)
+[INFO] [1790105176.356483098] [add_intensity_node]: [DIAG] agg_scan#4: t=468.500 sub_scans=1 total_pts=44978 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.058,-1.814,0.474)
+[INFO] [1790105176.450764458] [add_intensity_node]: [DIAG] agg_scan#5: t=468.600 sub_scans=1 total_pts=44986 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.056,-1.816,0.474)
+[INFO] [1790105176.560639928] [add_intensity_node]: [DIAG] agg_scan#6: t=468.700 sub_scans=1 total_pts=44991 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.056,-1.815,0.474)
+[INFO] [1790105176.660901614] [add_intensity_node]: [DIAG] agg_scan#7: t=468.800 sub_scans=1 total_pts=44980 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.059,-1.813,0.474)
+[INFO] [1790105176.750904331] [add_intensity_node]: [DIAG] agg_scan#8: t=468.900 sub_scans=1 total_pts=44978 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.058,-1.813,0.474)
+[INFO] [1790105176.861048376] [add_intensity_node]: [DIAG] agg_scan#9: t=469.000 sub_scans=1 total_pts=44978 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.058,-1.815,0.474)
+[INFO] [1790105181.450498303] [add_intensity_node]: [DIAG] agg_scan#50: t=473.100 sub_scans=1 total_pts=44985 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.059,-1.817,0.474)
+[INFO] [1790105184.163824418] [add_intensity_node]: [DIAG] recv=78 pub=78 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=475.8
+[INFO] [1790105184.163986679] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:78 (100%)   | modale=1
+[INFO] [1790105186.733448657] [add_intensity_node]: [DIAG] agg_scan#100: t=478.100 sub_scans=1 total_pts=44979 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.059,-1.822,0.473)
+[INFO] [1790105192.018348293] [add_intensity_node]: [DIAG] agg_scan#150: t=483.100 sub_scans=1 total_pts=44966 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.066,-1.825,0.473)
+[INFO] [1790105194.154202907] [add_intensity_node]: [DIAG] recv=170 pub=170 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=485.0
+[INFO] [1790105194.154372482] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:170 (100%)   | modale=1
+[INFO] [1790105197.507574319] [add_intensity_node]: [DIAG] agg_scan#200: t=488.100 sub_scans=1 total_pts=44956 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.066,-1.826,0.473)
+[INFO] [1790105202.902451389] [add_intensity_node]: [DIAG] agg_scan#250: t=493.100 sub_scans=1 total_pts=44966 z=[-0.53,5.68] dist=[1.28,25.27] centroid=(-3.063,-1.832,0.472)
+[INFO] [1790105204.154331746] [add_intensity_node]: [DIAG] recv=263 pub=263 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=494.3
+[INFO] [1790105204.154565253] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:263 (100%)   | modale=1
+[INFO] [1790105207.959546977] [add_intensity_node]: [DIAG] agg_scan#300: t=498.100 sub_scans=1 total_pts=44961 z=[-0.53,5.68] dist=[1.27,25.27] centroid=(-3.069,-1.835,0.473)
+[INFO] [1790105213.511889973] [add_intensity_node]: [DIAG] agg_scan#350: t=503.100 sub_scans=1 total_pts=44991 z=[-0.53,5.69] dist=[1.27,25.28] centroid=(-3.070,-1.839,0.472)
+[INFO] [1790105214.154086992] [add_intensity_node]: [DIAG] recv=357 pub=357 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=503.7
+[INFO] [1790105214.154252750] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:357 (100%)   | modale=1
+[INFO] [1790105218.729133359] [add_intensity_node]: [DIAG] agg_scan#400: t=508.100 sub_scans=1 total_pts=44973 z=[-0.53,5.69] dist=[1.27,25.29] centroid=(-3.074,-1.840,0.472)
+[INFO] [1790105224.154092643] [add_intensity_node]: [DIAG] recv=449 pub=449 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=512.9
+[INFO] [1790105224.154262629] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:449 (100%)   | modale=1
+[INFO] [1790105224.279475096] [add_intensity_node]: [DIAG] agg_scan#450: t=513.100 sub_scans=1 total_pts=44972 z=[-0.53,5.69] dist=[1.27,25.29] centroid=(-3.076,-1.842,0.472)
+[INFO] [1790105229.663026180] [add_intensity_node]: [DIAG] agg_scan#500: t=518.100 sub_scans=1 total_pts=44981 z=[-0.53,5.69] dist=[1.27,25.30] centroid=(-3.076,-1.848,0.472)
+[INFO] [1790105234.154198239] [add_intensity_node]: [DIAG] recv=543 pub=543 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=522.299999998
+[INFO] [1790105234.154434713] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:543 (100%)   | modale=1
+[INFO] [1790105234.884405037] [add_intensity_node]: [DIAG] agg_scan#550: t=523.100 sub_scans=1 total_pts=44981 z=[-0.53,5.69] dist=[1.27,25.31] centroid=(-3.078,-1.852,0.471)
+[INFO] [1790105240.329796930] [add_intensity_node]: [DIAG] agg_scan#600: t=528.100 sub_scans=1 total_pts=45000 z=[-0.53,5.70] dist=[1.27,25.32] centroid=(-3.079,-1.855,0.471)
+[INFO] [1790105244.154084209] [add_intensity_node]: [DIAG] recv=635 pub=635 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=531.5
+[INFO] [1790105244.154293300] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:635 (100%)   | modale=1
+[INFO] [1790105245.766687187] [add_intensity_node]: [DIAG] agg_scan#650: t=533.100 sub_scans=1 total_pts=44994 z=[-0.53,5.70] dist=[1.27,25.33] centroid=(-3.078,-1.858,0.471)
+Traceback (most recent call last):
+  File "/home/missroot/mola-adversarial-nsga3/src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py", line 506, in main
+    rclpy.spin(node)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+    executor.spin_once()
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 926, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 907, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 877, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 785, in _wait_for_ready_callbacks
+    raise ExternalShutdownException()
+rclpy.executors.ExternalShutdownException
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/missroot/mola-adversarial-nsga3/src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py", line 515, in <module>
+    main()
+  File "/home/missroot/mola-adversarial-nsga3/src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py", line 511, in main
+    rclpy.shutdown()
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 134, in shutdown
+    _shutdown(context=context)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/utilities.py", line 82, in shutdown
+    context.shutdown()
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/context.py", line 129, in shutdown
+    self.__context.shutdown()
+rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333

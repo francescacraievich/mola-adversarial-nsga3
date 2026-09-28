@@ -1,0 +1,174 @@
+"""
+Server dei comandi per i rollout fisici dell'attacco receding-horizon.
+
+Gira nello Script Editor di Isaac Sim: con la simulazione in Play, aprire questo
+file nello Script Editor ed eseguirlo. Resta attivo finche' non viene fermato o
+la scena ricaricata.
+
+Comunicazione via file, senza rclpy dentro Isaac Sim:
+    /tmp/isaac_cmd.json    comando scritto dall'orchestratore (src/optimization/)
+    /tmp/isaac_reply.json  risposta di questo script, con lo stesso campo "id"
+
+Comandi: save (memorizza posa, velocita' e giunti), restore (ripristina lo stato
+salvato), step n (avanza di n frame), pose (posa vera corrente), play, pause.
+NSGA-III prova piu' candidati dallo stesso stato e il robot e' uno solo, quindi
+dopo ogni prova viene riportato indietro. Il campo "id" permette all'orchestratore
+di distinguere la risposta nuova da quella del comando precedente.
+"""
+
+import asyncio
+import json
+import os
+
+import numpy as np
+import omni.kit.app
+import omni.timeline
+from isaacsim.core.prims import SingleArticulation
+
+ROBOT = "/World/Nova_Carter_ROS"
+CMD = "/tmp/isaac_cmd.json"
+REPLY = "/tmp/isaac_reply.json"
+
+_timeline = omni.timeline.get_timeline_interface()
+_art = None
+_saved = None
+_busy = False
+
+
+def _get_art():
+    global _art
+    if _art is None:
+        _art = SingleArticulation(prim_path=ROBOT, name="attack_ctrl")
+        _art.initialize()
+    return _art
+
+
+def _snapshot(art):
+    """Stato completo: posa, velocita' del corpo, posizioni e velocita' dei giunti.
+
+    Le velocita' sono necessarie: ripristinare la sola posa lascerebbe al robot la
+    quantita' di moto della prova precedente.
+    """
+    pos, orient = art.get_world_pose()
+    return {
+        "pos": np.array(pos, dtype=np.float64),
+        "orient": np.array(orient, dtype=np.float64),
+        "lin": np.array(art.get_linear_velocity(), dtype=np.float64),
+        "ang": np.array(art.get_angular_velocity(), dtype=np.float64),
+        "jpos": np.array(art.get_joint_positions(), dtype=np.float64),
+        "jvel": np.array(art.get_joint_velocities(), dtype=np.float64),
+    }
+
+
+def _restore(art, s):
+    art.set_world_pose(position=s["pos"], orientation=s["orient"])
+    art.set_joint_positions(s["jpos"])
+    art.set_joint_velocities(s["jvel"])
+    art.set_linear_velocity(s["lin"])
+    art.set_angular_velocity(s["ang"])
+
+
+def _yaw(q):
+    w, x, y, z = float(q[0]), float(q[1]), float(q[2]), float(q[3])
+    return float(np.arctan2(2.0 * (w * z + x * y), 1.0 - 2.0 * (y * y + z * z)))
+
+
+def _reply(payload):
+    tmp = REPLY + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(payload, f)
+    # Scrittura atomica: l'orchestratore non deve leggere un JSON troncato.
+    os.replace(tmp, REPLY)
+
+
+async def _handle(cmd):
+    global _saved
+    art = _get_art()
+    op = cmd.get("cmd")
+
+    if op == "save":
+        _saved = _snapshot(art)
+        p = _saved["pos"]
+        return {"ok": True, "pose": [float(p[0]), float(p[1]),
+                                     _yaw(_saved["orient"])]}
+
+    if op == "restore":
+        if _saved is None:
+            return {"ok": False, "error": "nessuno stato salvato"}
+        _restore(art, _saved)
+        # Un frame perche' PhysX assorba lo stato scritto.
+        await omni.kit.app.get_app().next_update_async()
+        s = _snapshot(art)
+        p = s["pos"]
+        return {"ok": True, "pose": [float(p[0]), float(p[1]), _yaw(s["orient"])]}
+
+    if op == "step":
+        n = int(cmd.get("n", 60))
+        for _ in range(n):
+            await omni.kit.app.get_app().next_update_async()
+        s = _snapshot(art)
+        p = s["pos"]
+        return {"ok": True, "pose": [float(p[0]), float(p[1]), _yaw(s["orient"])],
+                "frames": n}
+
+    if op == "pose":
+        s = _snapshot(art)
+        p = s["pos"]
+        return {"ok": True, "pose": [float(p[0]), float(p[1]), _yaw(s["orient"])],
+                "playing": bool(_timeline.is_playing())}
+
+    if op == "play":
+        _timeline.play()
+        return {"ok": True}
+
+    if op == "pause":
+        _timeline.pause()
+        return {"ok": True}
+
+    return {"ok": False, "error": f"comando sconosciuto: {op}"}
+
+
+def _tick(_event):
+    global _busy
+    if _busy or not os.path.exists(CMD):
+        return
+    try:
+        with open(CMD) as f:
+            cmd = json.load(f)
+    except (OSError, ValueError):
+        return
+    os.remove(CMD)
+    _busy = True
+
+    async def run():
+        global _busy
+        try:
+            res = await _handle(cmd)
+        except Exception as e:
+            import traceback
+            res = {"ok": False, "error": f"{type(e).__name__}: {e}",
+                   "trace": traceback.format_exc()}
+        res["id"] = cmd.get("id")
+        _reply(res)
+        _busy = False
+
+    asyncio.ensure_future(run())
+
+
+for _f in (CMD, REPLY):
+    if os.path.exists(_f):
+        os.remove(_f)
+
+if "attack_ctrl_sub" in dir():
+    try:
+        attack_ctrl_sub.unsubscribe()
+    except Exception:
+        pass
+
+attack_ctrl_sub = omni.kit.app.get_app().get_update_event_stream().create_subscription_to_pop(
+    _tick, name="attack_rollout_server")
+
+print("[attack_server] attivo")
+print(f"[attack_server]   comandi  : {CMD}")
+print(f"[attack_server]   risposte : {REPLY}")
+print("[attack_server]   save | restore | step n | pose | play | pause")

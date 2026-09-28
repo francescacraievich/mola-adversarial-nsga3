@@ -1,0 +1,85 @@
+In attesa di una nuvola su /carter/lidar_with_intensity ...
+Nuvola: 44970 punti   raggio mediano 4.5 m   90° pct 19.1 m   max 25.1 m
+
+=== tutta la nuvola (44970 punti) ===
+operatore da solo                        gene 0    gene +1   (cm, ultimo frame)
+--------------------------------------------------------------------------------
+tutti spenti                               0.00       0.00
+noise (dir 0-2, int 3, corr 11)            3.60       4.32
+curvature_strength (4)                     3.10       4.95
+dropout_rate (5)                           2.41       2.41
+ghost_ratio (6)                            0.00       1.75
+cluster (dir 7-9, str 10)                  0.96       1.84
+geometric_distortion (12)                 17.09      32.31
+edge_attack_strength (13)                  0.49       0.96
+temporal_drift_strength (14)              26.26      46.32  (dopo 12 frame)
+scanline_strength (15)                     2.05       3.78
+strategic_ghost (16)                       0.00       0.00
+
+=== entro 10 m (28530 punti) ===
+operatore da solo                        gene 0    gene +1   (cm, ultimo frame)
+--------------------------------------------------------------------------------
+tutti spenti                               0.00       0.00
+noise (dir 0-2, int 3, corr 11)            3.12       3.74
+curvature_strength (4)                     2.77       4.25
+dropout_rate (5)                           2.06       2.06
+ghost_ratio (6)                            0.00       1.72
+cluster (dir 7-9, str 10)                  1.50       2.87
+geometric_distortion (12)                  7.02      13.44
+edge_attack_strength (13)                  0.57       1.02
+temporal_drift_strength (14)              24.53      45.59  (dopo 12 frame)
+scanline_strength (15)                     1.86       3.35
+strategic_ghost (16)                       0.00       0.00
+
+=== ablazione sui genomi scelti in data/attack/attack_v3/history.json ===
+(Chamfer del genoma completo, poi con UN operatore spento per volta;
+ la differenza e' quanto quell'operatore pesa sulla percettibilita')
+
+finestra 0: riportata  122.20 cm   ricalcolata   45.67 cm
+    senza noise (dir 0-2, int 3, corr 11)      45.12 cm   delta   +0.54
+    senza curvature_strength (4)               44.52 cm   delta   +1.14
+    senza dropout_rate (5)                     44.84 cm   delta   +0.83
+    senza ghost_ratio (6)                      46.73 cm   delta   -1.07
+    senza cluster (dir 7-9, str 10)            45.67 cm   delta   +0.00
+    senza geometric_distortion (12)            43.03 cm   delta   +2.64
+    senza edge_attack_strength (13)            45.68 cm   delta   -0.01
+    senza temporal_drift_strength (14)         13.98 cm   delta  +31.69
+    senza scanline_strength (15)               45.70 cm   delta   -0.03
+    senza strategic_ghost (16)                 45.67 cm   delta   +0.00
+
+finestra 1: riportata  135.23 cm   ricalcolata   49.37 cm
+    senza noise (dir 0-2, int 3, corr 11)      49.64 cm   delta   -0.28
+    senza curvature_strength (4)               49.01 cm   delta   +0.36
+    senza dropout_rate (5)                     49.36 cm   delta   +0.01
+    senza ghost_ratio (6)                      50.02 cm   delta   -0.65
+    senza cluster (dir 7-9, str 10)            49.37 cm   delta   +0.00
+    senza geometric_distortion (12)            42.74 cm   delta   +6.62
+    senza edge_attack_strength (13)            49.41 cm   delta   -0.04
+    senza temporal_drift_strength (14)         22.76 cm   delta  +26.61
+    senza scanline_strength (15)               49.53 cm   delta   -0.17
+    senza strategic_ghost (16)                 49.37 cm   delta   +0.00
+
+finestra 2: riportata   84.30 cm   ricalcolata   36.70 cm
+    senza noise (dir 0-2, int 3, corr 11)      36.78 cm   delta   -0.07
+    senza curvature_strength (4)               36.52 cm   delta   +0.18
+    senza dropout_rate (5)                     36.61 cm   delta   +0.09
+    senza ghost_ratio (6)                      36.84 cm   delta   -0.13
+    senza cluster (dir 7-9, str 10)            36.70 cm   delta   +0.00
+    senza geometric_distortion (12)            26.57 cm   delta  +10.13
+    senza edge_attack_strength (13)            36.69 cm   delta   +0.01
+    senza temporal_drift_strength (14)         24.92 cm   delta  +11.79
+    senza scanline_strength (15)               37.04 cm   delta   -0.34
+    senza strategic_ghost (16)                 36.70 cm   delta   +0.00
+
+finestra 3: riportata   77.72 cm   ricalcolata   31.37 cm
+    senza noise (dir 0-2, int 3, corr 11)      31.83 cm   delta   -0.46
+    senza curvature_strength (4)               31.37 cm   delta   +0.00
+    senza dropout_rate (5)                     31.21 cm   delta   +0.16
+    senza ghost_ratio (6)                      31.42 cm   delta   -0.05
+    senza cluster (dir 7-9, str 10)            31.35 cm   delta   +0.03
+    senza geometric_distortion (12)            22.83 cm   delta   +8.55
+    senza edge_attack_strength (13)            31.41 cm   delta   -0.03
+    senza temporal_drift_strength (14)         21.65 cm   delta   +9.72
+    senza scanline_strength (15)               31.42 cm   delta   -0.04
+    senza strategic_ghost (16)                 31.18 cm   delta   +0.19
+

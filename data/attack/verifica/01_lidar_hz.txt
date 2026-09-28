@@ -1,0 +1,22 @@
+=== hz wall-clock
+WARNING: topic [/front_3d_lidar/lidar_points] does not appear to be published yet
+average rate: 6.223
+	min: 0.100s max: 0.300s std dev: 0.07624s window: 8
+average rate: 6.500
+	min: 0.083s max: 0.438s std dev: 0.09908s window: 15
+average rate: 6.930
+	min: 0.083s max: 0.438s std dev: 0.08567s window: 23
+average rate: 7.226
+	min: 0.083s max: 0.438s std dev: 0.07562s window: 32
+average rate: 6.734
+	min: 0.083s max: 0.507s std dev: 0.09165s window: 39
+average rate: 6.766
+	min: 0.083s max: 0.507s std dev: 0.08841s window: 47
+average rate: 6.795
+	min: 0.083s max: 0.507s std dev: 0.08658s window: 54
+average rate: 6.612
+	min: 0.083s max: 0.507s std dev: 0.08453s window: 60
+average rate: 6.652
+	min: 0.083s max: 0.507s std dev: 0.08110s window: 68
+average rate: 6.560
+	min: 0.083s max: 0.507s std dev: 0.08403s window: 74

@@ -1,0 +1,25 @@
+[22:11:39.8668|INFO |MolaLauncherApp] Setting up system from YAML config... (set DEBUG verbosity level to see full config)
+[22:11:39.8697|INFO |MolaLauncherApp] Instantiating module `lidar_odom` of type `mola::LidarOdometry`
+[22:11:39.8703|INFO |MolaLauncherApp] Instantiating module `state_estimation` of type `mola::state_estimation_simple::StateEstimationSimple`
+[22:11:39.8704|INFO |MolaLauncherApp] Instantiating module `ros2_bridge` of type `mola::BridgeROS2`
+[22:11:39.8707|INFO |MolaLauncherApp] 
+╔═══════════════════════════════════════╦═════════════════════════════════╗
+║  Entering main MOLA application loop  ║ > CTRL+C for mola-cli to quit < ║
+╚═══════════════════════════════════════╩═════════════════════════════════╝
+[22:11:39.8708|WARN |LidarOdometry] Your YAML pipeline references one or more deprecated *_sensor_* names (ESTIMATED_SENSOR_MAX_RANGE, INSTANTANEOUS_SENSOR_MAX_RANGE, max_sensor_range_filter_coefficient, absolute_minimum_sensor_range). They are aliases of ESTIMATED_OBSERVATION_RADIUS, INSTANTANEOUS_OBSERVATION_RADIUS, observation_radius_filter_coefficient, absolute_minimum_observation_radius respectively (all measured from base_link, not from the sensor) and will be removed in a future release. Please rename references in your pipeline files.
+[22:11:39.8708|INFO |LidarOdometry] 
+┌──────────────────────────────────────────────────────────────┐
+│              USING THIS LIDAR-ODOMETRY PIPELINE              │
+├──────────────────────────────────────────────────────────────┤
+│            GICP with cov-to-cov pairings with optimize_twist │
+└──────────────────────────────────────────────────────────────┘
+[22:11:39.8794|WARN |LidarOdometry] No YAML entry 'observations_deskew_pass', this filter stage will have no effect.
+[22:11:39.9210|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA localization source module 'mola::LidarOdometry:lidar_odom'
+[22:11:39.9210|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA map source module 'mola::LidarOdometry:lidar_odom'
+[22:11:39.9210|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA relocalization module 'mola::LidarOdometry:lidar_odom'
+[22:11:40.0436|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA map server module 'mola::LidarOdometry:lidar_odom'
+[22:11:40.0468|WARN |MolaLauncherApp] Could not achieve desired real-time execution rate (20 Hz) on thread for sensor named: ros2_bridge
+[22:11:40.0977|INFO |StateEstimationSimple] reset() called
+[22:11:40.0978|INFO |LidarOdometry] Initial re-localization done with pose: (x,y,z,yaw,pitch,roll)=(0.0000,0.0000,0.0000,0.00deg,0.00deg,0.00deg)
+[22:11:40.1093|INFO |LidarOdometry] Writing debug traces to: /home/missroot/mola-adversarial-nsga3/data/trajectories/logs/traces_run_7.csv
+[INFO] [1790107964.817198974] [rclcpp]: signal_handler(SIGINT/SIGTERM)

@@ -1,0 +1,44 @@
+
+========================================================================
+  PER RUN
+========================================================================
+   run   pose    ATE med    ATE max   chius.MOLA   chius.RIF      err
+     2    561     60.9mm    110.9mm       5.35cm      5.24cm   0.11cm
+     3    568     58.7mm    103.3mm       5.32cm      5.34cm   0.02cm
+     4    558     80.3mm    121.6mm       5.94cm      6.03cm   0.10cm
+     5    528     66.9mm    113.0mm       6.03cm      6.35cm   0.32cm
+     6    573     63.8mm    106.6mm       4.73cm      4.66cm   0.07cm
+
+========================================================================
+  AGGREGATO
+========================================================================
+  ATE medio           : 66.1 mm
+  deviazione standard : 8.5 mm
+  escursione          : 58.7 - 80.3 mm
+  chiusura media      : 5.47 cm  (sigma 0.53 cm)
+
+  SOGLIA ATTACCO (media + 3 sigma): 91.6 mm
+  un ATE sopra questo valore non e' spiegabile come rumore di baseline
+
+========================================================================
+  DIVERGENZA FRA RUN  (accoppiata per ascissa curvilinea)
+========================================================================
+  Se MOLA e riferimento divergono in misura simile, la variabilita'
+  e' fisica e non imputabile allo SLAM.
+
+      coppia   MOLA med   MOLA max    RIF med    RIF max   eccesso
+     2-3         18.4mm     43.6mm      1.7mm      3.4mm    16.7mm
+     2-4         11.0mm     37.2mm     23.9mm     27.2mm   -12.9mm
+     2-5         17.5mm     49.0mm      5.6mm     12.6mm    11.9mm
+     2-6         18.2mm     50.0mm     10.6mm     13.4mm     7.7mm
+     3-4         16.0mm     24.7mm     25.0mm     26.9mm    -9.0mm
+     3-5          7.2mm     27.0mm      4.2mm     10.6mm     3.0mm
+     3-6          7.0mm     38.6mm     12.1mm     16.5mm    -5.1mm
+     4-5         15.3mm     41.7mm     26.0mm     28.2mm   -10.7mm
+     4-6         15.8mm     31.5mm     15.4mm     22.7mm     0.3mm
+     5-6         12.4mm     39.3mm     15.2mm     24.5mm    -2.8mm
+
+  Eccesso medio di MOLA sul riferimento: -0.1 mm
+  Questa e' la parte di variabilita' attribuibile allo SLAM;
+  il resto e' il robot che percorre traiettorie leggermente diverse.
+

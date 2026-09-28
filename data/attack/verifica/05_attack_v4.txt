@@ -1,0 +1,204 @@
+======================================================================
+  ATTACCO RECEDING-HORIZON
+  bersaglio (5.0, 0.0)   orizzonte 1.0 m   4x2 = 8 candidati/finestra
+======================================================================
+  partenza      : [-5.964 -1.    -0.   ]
+  bersaglio rel : (5.0, 0.0)  ->  assoluto [-0.964 -1.001]
+  distanza      : 5.00 m  ->  5 finestre da 1.00 m (1.0 misurati)
+  assestamento  : 2.0s a robot fermo dopo l'avvio di MOLA
+  frame/finestra: ~12 a regime (10 Hz a 0.8 m/s = 8 cm fra uno scan e l'altro)
+  valutazioni   : 4 individui x 2 generazioni = 8, piu' nominale e applicazione
+  stima tempo   : ~1.7 min/finestra, ~8 min totali
+  genoma        : 17 geni in [-1, 1]
+  tracce        : data/attack/attack_v4/traces e data/attack/attack_v4/logs
+  seed          : 42
+
+── finestra 1/5 ──────────────────────────────────────────────
+  stato salvato in [-5.964 -1.    -0.   ]
+  nominale: arriva in [-4.829e+00 -1.001e+00  1.000e-03]  percorsi 1.10 m  16 frame  rotazione +0°  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    #00  SCARTATA  1.14 m   16 frame  [untracked(0.59)]
+    gen1 #01  dev   39.0  dir   -7.8  dmg   39.0 cm   pert  133.76 cm   1.06 m   16f  [ok]
+      cluster_direction          [+0.672, -0.737, -0.080]
+      cluster_strength           +0.0438
+      curvature_strength         +0.3545
+      dropout_rate               +0.0291
+      edge_attack_strength       +0.7448
+      geometric_distortion       +0.6830
+      ghost_ratio                +0.0179
+      noise_direction            [-0.777, +0.584, +0.235]
+      noise_intensity            +0.0379
+      scanline_strength          +0.3258
+      spatial_correlation        +0.1543
+      strategic_ghost            +0.3705
+      temporal_drift_strength    +0.9675
+    gen1 #02  dev   32.9  dir  -16.9  dmg   32.9 cm   pert  118.14 cm   1.13 m   18f  [ok]
+      cluster_direction          [+0.771, +0.464, -0.435]
+      cluster_strength           +0.8323
+      curvature_strength         +0.2269
+      dropout_rate               +0.0201
+      edge_attack_strength       +0.2883
+      geometric_distortion       +0.3875
+      ghost_ratio                +0.0087
+      noise_direction            [-0.063, -0.642, -0.765]
+      noise_intensity            +0.0238
+      scanline_strength          +0.1398
+      spatial_correlation        +0.8048
+      strategic_ghost            +0.1999
+      temporal_drift_strength    +0.6825
+    gen1 #03  dev   20.6  dir  -11.8  dmg   20.6 cm   pert   87.33 cm   1.05 m   16f  [ok]
+      cluster_direction          [-0.650, -0.696, +0.304]
+      cluster_strength           +0.4711
+      curvature_strength         +0.7807
+      dropout_rate               +0.0138
+      edge_attack_strength       +0.6347
+      geometric_distortion       +0.7650
+      ghost_ratio                +0.0114
+      noise_direction            [-0.830, +0.483, +0.278]
+      noise_intensity            +0.0353
+      scanline_strength          +0.5592
+      spatial_correlation        +0.5652
+      strategic_ghost            +0.3040
+      temporal_drift_strength    +0.5536
+    gen2 #04  dev   13.3  dir  -12.2  dmg   13.3 cm   pert   78.30 cm   1.02 m   15f  [ok]
+      cluster_direction          [-0.685, -0.660, +0.308]
+      cluster_strength           +0.3690
+      curvature_strength         +0.0942
+      dropout_rate               +0.0137
+      edge_attack_strength       +0.8228
+      geometric_distortion       +0.7644
+      ghost_ratio                +0.0151
+      noise_direction            [+0.602, -0.134, +0.787]
+      noise_intensity            +0.0349
+      scanline_strength          +0.5611
+      spatial_correlation        +0.9268
+      strategic_ghost            +0.5574
+      temporal_drift_strength    +0.4424
+    gen2 #05  dev   13.6  dir  -12.4  dmg   13.6 cm   pert  137.50 cm   1.02 m   16f  [ok]
+      cluster_direction          [+0.771, +0.464, -0.435]
+      cluster_strength           +0.8323
+      curvature_strength         +0.2269
+      dropout_rate               +0.0201
+      edge_attack_strength       +0.3134
+      geometric_distortion       +0.6343
+      ghost_ratio                +0.0087
+      noise_direction            [-0.081, -0.198, -0.977]
+      noise_intensity            +0.0246
+      scanline_strength          +0.2278
+      spatial_correlation        +0.9252
+      strategic_ghost            +0.5431
+      temporal_drift_strength    +0.6825
+    gen2 #06  dev   22.1  dir  -18.0  dmg   22.1 cm   pert   87.36 cm   1.09 m   17f  [ok]
+      cluster_direction          [+0.626, -0.772, -0.110]
+      cluster_strength           +0.4729
+      curvature_strength         +0.7807
+      dropout_rate               +0.0293
+      edge_attack_strength       +0.6347
+      geometric_distortion       +0.6444
+      ghost_ratio                +0.0115
+      noise_direction            [-0.830, +0.483, +0.278]
+      noise_intensity            +0.0353
+      scanline_strength          +0.2253
+      spatial_correlation        +0.5652
+      strategic_ghost            +0.3011
+      temporal_drift_strength    +0.5546
+    gen2 #07  dev   25.1  dir  -22.2  dmg   25.1 cm   pert   73.36 cm   1.14 m   17f  [ok]
+      cluster_direction          [+0.606, -0.788, -0.105]
+      cluster_strength           +0.3708
+      curvature_strength         +0.0942
+      dropout_rate               +0.0293
+      edge_attack_strength       +0.7977
+      geometric_distortion       +0.3970
+      ghost_ratio                +0.0152
+      noise_direction            [+0.510, -0.553, +0.659]
+      noise_intensity            +0.0341
+      scanline_strength          +0.1392
+      spatial_correlation        +0.8063
+      strategic_ghost            +0.2114
+      temporal_drift_strength    +0.4434
+
+  FRONTE DI PARETO: 3 soluzioni non dominate su 8 valutate (7 valide)
+    danno   39.04 cm   pert  133.760 cm   rapporto   0.29
+    danno   32.89 cm   pert  118.137 cm   rapporto   0.28
+    danno   25.09 cm   pert   73.358 cm   rapporto   0.34 <- scelto
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [+0.606, -0.788, -0.105]
+      cluster_strength           +0.3708
+      curvature_strength         +0.0942
+      dropout_rate               +0.0293
+      edge_attack_strength       +0.7977
+      geometric_distortion       +0.3970
+      ghost_ratio                +0.0152
+      noise_direction            [+0.510, -0.553, +0.659]
+      noise_intensity            +0.0341
+      scanline_strength          +0.1392
+      spatial_correlation        +0.8063
+      strategic_ghost            +0.2114
+      temporal_drift_strength    +0.4434
+
+  APPLICATO: il robot e' in [-4.721 -1.083 -0.171]
+  percorsi 1.01 m su 14 frame perturbati
+  deviazione reale dal nominale: 13.47 cm   (in valutazione era 25.09 cm)   [untracked(0.54)]
+  tempo finestra: 5.6 min
+
+── finestra 2/5 ──────────────────────────────────────────────
+  stato salvato in [-4.721 -1.083 -0.171]
+  nominale FALLITO (untracked(0.51)) — finestra saltata
+── finestra 3/5 ──────────────────────────────────────────────
+  stato salvato in [-3.421 -1.124  0.2  ]
+  nominale FALLITO (untracked(0.58)) — finestra saltata
+── finestra 4/5 ──────────────────────────────────────────────
+  stato salvato in [-2.11  -0.936 -0.012]
+  nominale: arriva in [-0.89  -1.048 -0.132]  percorsi 1.01 m  19 frame  rotazione -7°  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    gen1 #00  dev    2.9  dir   +1.6  dmg    4.5 cm   pert   82.71 cm   1.15 m   16f  [ok]
+      cluster_direction          [+0.606, -0.788, -0.105]
+      cluster_strength           +0.3708
+      curvature_strength         +0.0942
+      dropout_rate               +0.0293
+      edge_attack_strength       +0.8228
+      geometric_distortion       +0.6439
+      ghost_ratio                +0.0152
+      noise_direction            [+0.602, -0.134, +0.787]
+      noise_intensity            +0.0349
+      scanline_strength          +0.2272
+      spatial_correlation        +0.9268
+      strategic_ghost            +0.5546
+      temporal_drift_strength    +0.4434
+    #01  SCARTATA  0.03 m  385 frame  [timeout]
+    #02  SCARTATA  0.22 m   37 frame  [stopped_early(0.22m)]
+    #03  SCARTATA  0.00 m   14 frame  [stopped_early(0.00m)]
+    #04  SCARTATA  0.01 m    9 frame  [stopped_early(0.01m)]
+    #05  SCARTATA  0.02 m  379 frame  [timeout]
+    #06  SCARTATA  0.49 m   37 frame  [stopped_early(0.49m)]
+    #07  SCARTATA  0.01 m   11 frame  [stopped_early(0.01m)]
+
+  FRONTE DI PARETO: 1 soluzioni non dominate su 8 valutate (1 valide)
+    danno    4.52 cm   pert   82.707 cm   rapporto   0.05 <- scelto
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [+0.606, -0.788, -0.105]
+      cluster_strength           +0.3708
+      curvature_strength         +0.0942
+      dropout_rate               +0.0293
+      edge_attack_strength       +0.8228
+      geometric_distortion       +0.6439
+      ghost_ratio                +0.0152
+      noise_direction            [+0.602, -0.134, +0.787]
+      noise_intensity            +0.0349
+      scanline_strength          +0.2272
+      spatial_correlation        +0.9268
+      strategic_ghost            +0.5546
+      temporal_drift_strength    +0.4434
+
+  APPLICATO: il robot e' in [-1.082 -0.958 -0.147]
+  percorsi 1.02 m su 16 frame perturbati
+  deviazione reale dal nominale: 21.17 cm   (in valutazione era 4.52 cm)   [untracked(0.55)]
+  tempo finestra: 7.3 min
+
+── finestra 5/5 ──────────────────────────────────────────────
+  stato salvato in [-1.082 -0.958 -0.147]
+  nominale FALLITO (stopped_early(0.00m)) — finestra saltata
+
+Storico: data/attack/attack_v4/history.json

@@ -1,0 +1,85 @@
+[INFO] [1790105618.878546457] [add_intensity_node]: Add Intensity Node started (with scan aggregation)
+[INFO] [1790105618.878731570] [add_intensity_node]: Aggregation mode: FIXED COUNT (1 sub-scans/cycle)
+[INFO] [1790105618.878856952] [add_intensity_node]: Subscribing to: /front_3d_lidar/lidar_points
+[INFO] [1790105618.878977125] [add_intensity_node]: Publishing to: /carter/lidar_with_intensity
+[INFO] [1790105618.879106054] [add_intensity_node]: Output frame_id: chassis_link
+[INFO] [1790105620.270747493] [add_intensity_node]: [DIAG] First msg: point_step=12 width=44997 height=1 is_dense=True frame=front_3d_lidar stamp=5.400s fields=[('x', 0, 7, 1), ('y', 4, 7, 1), ('z', 8, 7, 1)]
+[INFO] [1790105620.270928489] [add_intensity_node]: [DIAG] Field layout cached: x@0 y@4 z@8 dtype=float32 size=4B point_step=12
+[INFO] [1790105620.273634275] [add_intensity_node]: [DIAG] agg_scan#0: t=5.400 sub_scans=1 total_pts=44997 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.815,-1.595,0.492)
+[INFO] [1790105620.372843540] [add_intensity_node]: [DIAG] agg_scan#1: t=5.500 sub_scans=1 total_pts=45013 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.813,-1.597,0.492)
+[INFO] [1790105620.535736313] [add_intensity_node]: [DIAG] agg_scan#2: t=5.600 sub_scans=1 total_pts=44996 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.815,-1.595,0.492)
+[INFO] [1790105620.619272454] [add_intensity_node]: [DIAG] agg_scan#3: t=5.700 sub_scans=1 total_pts=44997 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.814,-1.596,0.492)
+[INFO] [1790105620.848763838] [add_intensity_node]: [DIAG] agg_scan#4: t=5.800 sub_scans=1 total_pts=45004 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.814,-1.596,0.492)
+[INFO] [1790105621.069222314] [add_intensity_node]: [DIAG] agg_scan#5: t=5.900 sub_scans=1 total_pts=45006 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.814,-1.597,0.492)
+[INFO] [1790105621.142483455] [add_intensity_node]: [DIAG] agg_scan#6: t=6.000 sub_scans=1 total_pts=44999 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.814,-1.597,0.492)
+[INFO] [1790105621.447040881] [add_intensity_node]: [DIAG] agg_scan#7: t=6.100 sub_scans=1 total_pts=45001 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.814,-1.597,0.492)
+[INFO] [1790105621.530529492] [add_intensity_node]: [DIAG] agg_scan#8: t=6.200 sub_scans=1 total_pts=45001 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.813,-1.597,0.491)
+[INFO] [1790105621.695950239] [add_intensity_node]: [DIAG] agg_scan#9: t=6.300 sub_scans=1 total_pts=44997 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.814,-1.596,0.492)
+[INFO] [1790105626.615019225] [add_intensity_node]: [DIAG] agg_scan#50: t=10.400 sub_scans=1 total_pts=45013 z=[-0.53,5.61] dist=[1.41,24.92] centroid=(-2.816,-1.599,0.492)
+[INFO] [1790105628.872684515] [add_intensity_node]: [DIAG] recv=72 pub=72 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=12.5
+[INFO] [1790105628.872859479] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:72 (100%)   | modale=1
+[INFO] [1790105631.947227592] [add_intensity_node]: [DIAG] agg_scan#100: t=15.400 sub_scans=1 total_pts=45017 z=[-0.53,5.61] dist=[1.41,24.93] centroid=(-2.816,-1.602,0.492)
+[INFO] [1790105637.221545686] [add_intensity_node]: [DIAG] agg_scan#150: t=20.400 sub_scans=1 total_pts=44995 z=[-0.53,5.61] dist=[1.40,24.94] centroid=(-2.819,-1.603,0.491)
+[INFO] [1790105638.872832187] [add_intensity_node]: [DIAG] recv=167 pub=167 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=22.0
+[INFO] [1790105638.873147732] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:167 (100%)   | modale=1
+[INFO] [1790105642.517585493] [add_intensity_node]: [DIAG] agg_scan#200: t=25.400 sub_scans=1 total_pts=45022 z=[-0.53,5.61] dist=[1.40,24.95] centroid=(-2.819,-1.607,0.491)
+[INFO] [1790105647.621969719] [add_intensity_node]: [DIAG] agg_scan#250: t=30.400 sub_scans=1 total_pts=45029 z=[-0.53,5.61] dist=[1.40,24.96] centroid=(-2.824,-1.608,0.491)
+[INFO] [1790105648.873513276] [add_intensity_node]: [DIAG] recv=263 pub=263 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=31.6
+[INFO] [1790105648.873745427] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:263 (100%)   | modale=1
+[INFO] [1790105653.003655722] [add_intensity_node]: [DIAG] agg_scan#300: t=35.400 sub_scans=1 total_pts=45020 z=[-0.53,5.62] dist=[1.40,24.96] centroid=(-2.828,-1.610,0.491)
+[INFO] [1790105658.063820963] [add_intensity_node]: [DIAG] agg_scan#350: t=40.400 sub_scans=1 total_pts=44995 z=[-0.53,5.62] dist=[1.39,24.97] centroid=(-2.833,-1.612,0.490)
+[INFO] [1790105658.872697239] [add_intensity_node]: [DIAG] recv=358 pub=358 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=41.1
+[INFO] [1790105658.872993119] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:358 (100%)   | modale=1
+[INFO] [1790105663.175868633] [add_intensity_node]: [DIAG] agg_scan#400: t=45.400 sub_scans=1 total_pts=44999 z=[-0.53,5.62] dist=[1.39,24.98] centroid=(-2.836,-1.615,0.490)
+[INFO] [1790105668.238244786] [add_intensity_node]: [DIAG] agg_scan#450: t=50.400 sub_scans=1 total_pts=45021 z=[-0.53,5.62] dist=[1.39,24.99] centroid=(-2.837,-1.616,0.490)
+[INFO] [1790105668.872673679] [add_intensity_node]: [DIAG] recv=456 pub=456 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=50.9
+[INFO] [1790105668.872839847] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:456 (100%)   | modale=1
+[INFO] [1790105673.407213753] [add_intensity_node]: [DIAG] agg_scan#500: t=55.400 sub_scans=1 total_pts=45027 z=[-0.53,5.62] dist=[1.39,24.99] centroid=(-2.836,-1.621,0.489)
+[INFO] [1790105678.859746981] [add_intensity_node]: [DIAG] agg_scan#550: t=60.400 sub_scans=1 total_pts=45003 z=[-0.53,5.62] dist=[1.39,24.99] centroid=(-2.840,-1.627,0.489)
+[INFO] [1790105678.872689221] [add_intensity_node]: [DIAG] recv=551 pub=551 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=60.4
+[INFO] [1790105678.872928556] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:551 (100%)   | modale=1
+[INFO] [1790105684.148069012] [add_intensity_node]: [DIAG] agg_scan#600: t=65.400 sub_scans=1 total_pts=45016 z=[-0.53,5.62] dist=[1.38,24.99] centroid=(-2.845,-1.627,0.490)
+[INFO] [1790105688.872732161] [add_intensity_node]: [DIAG] recv=646 pub=646 drop_fwd=0 drop_empty=0 sub_scans_in_buf=0 last_t=69.9
+[INFO] [1790105688.872946991] [add_intensity_node]: [DIAG] SUB-SCAN per ciclo -> 1:646 (100%)   | modale=1
+[INFO] [1790105689.314965030] [add_intensity_node]: [DIAG] agg_scan#650: t=70.400 sub_scans=1 total_pts=45006 z=[-0.53,5.62] dist=[1.38,24.99] centroid=(-2.848,-1.627,0.489)
+Traceback (most recent call last):
+  File "/home/missroot/mola-adversarial-nsga3/src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py", line 506, in main
+    rclpy.spin(node)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+    executor.spin_once()
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 926, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 918, in _spin_once_impl
+    raise handler.exception()
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/task.py", line 286, in _execute_coroutine_step
+    result = coro.send(None)
+             ^^^^^^^^^^^^^^^
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 592, in handler
+    await call_coroutine()
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 480, in _execute
+    await await_or_execute(sub.callback, *msg_tuple)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 115, in await_or_execute
+    return callback(*args)
+           ^^^^^^^^^^^^^^^
+  File "/home/missroot/mola-adversarial-nsga3/src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py", line 418, in lidar_callback
+    self._publish_aggregated()
+  File "/home/missroot/mola-adversarial-nsga3/src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py", line 322, in _publish_aggregated
+    self.publisher.publish(new_msg)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/publisher.py", line 70, in publish
+    self.__publisher.publish(msg)
+rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:423
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/missroot/mola-adversarial-nsga3/src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py", line 515, in <module>
+    main()
+  File "/home/missroot/mola-adversarial-nsga3/src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py", line 510, in main
+    node.destroy_node()
+  File "/home/missroot/mola-adversarial-nsga3/src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py", line 441, in destroy_node
+    self._publish_aggregated()
+  File "/home/missroot/mola-adversarial-nsga3/src/rover_isaacsim/carter_mola_slam/scripts/add_intensity_node.py", line 322, in _publish_aggregated
+    self.publisher.publish(new_msg)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/publisher.py", line 70, in publish
+    self.__publisher.publish(msg)
+rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:423

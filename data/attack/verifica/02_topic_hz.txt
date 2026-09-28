@@ -1,0 +1,5 @@
+/front_3d_lidar/lidar_points : average rate: 5.269
+/carter/lidar_with_intensity : average rate: 2.675
+/carter/lidar_perturbed : average rate: 5.877
+/lidar_odometry/pose : average rate: 8.192
+/cmd_vel : MUTO

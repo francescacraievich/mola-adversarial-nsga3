@@ -1,53 +1,29 @@
-# Build artifacts
-build
-install
-log
-
 # Python
 .venv
+__pycache__/
 *.pyc
-__pycache__
 *.egg-info
-dist
 .pytest_cache
-.coverage
-htmlcov
-coverage.xml
 
-# IDE
+# IDE / tools
 .vscode
 .idea
 
-# MkDocs
-site/
 
-# MOLA/SLAM outputs
+# Large data and run artefacts
+*.mcap
+*.bag
+*.npy
 *.mm
 *.gv
 *.pdf
+bags/
+data/attack/*/logs/
+data/attack/*/traces/
+data/trajectories/bags/
+data/attack/verifica/*.log
 
-
-
-# Temporary files
+# Temporary
 *.tmp
 *.bak
 *~
-
-# Local scripts (not to be committed)
-scripts/check_ci.sh
-
-# Data files
-*.bag
-*.pcap
-*.mcap
-
-# Large data directories
-bags/
-
-
-# Node.js
-node_modules/
-package-lock.json
-
-# Test outputs
-junit.xml 

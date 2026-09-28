@@ -1,0 +1,414 @@
+/add_intensity_node
+/mola_bridge_ros2
+/perturbation_node
+
+/attack/enabled [std_msgs/msg/Bool]
+/attack/genome [std_msgs/msg/Float32MultiArray]
+/attack/status [std_msgs/msg/String]
+/back_stereo_camera/imu [sensor_msgs/msg/Imu]
+/carter/lidar_perturbed [sensor_msgs/msg/PointCloud2]
+/carter/lidar_with_intensity [sensor_msgs/msg/PointCloud2]
+/chassis/imu [sensor_msgs/msg/Imu]
+/chassis/odom [nav_msgs/msg/Odometry]
+/clock [rosgraph_msgs/msg/Clock]
+/cmd_vel [geometry_msgs/msg/Twist]
+/diagnostics [diagnostic_msgs/msg/DiagnosticArray]
+/front_3d_lidar/lidar_points [sensor_msgs/msg/PointCloud2]
+/front_stereo_camera/imu [sensor_msgs/msg/Imu]
+/front_stereo_camera/left/camera_info [sensor_msgs/msg/CameraInfo]
+/front_stereo_camera/left/image_raw [sensor_msgs/msg/Image]
+/front_stereo_camera/right/camera_info [sensor_msgs/msg/CameraInfo]
+/front_stereo_camera/right/image_raw [sensor_msgs/msg/Image]
+/gps [sensor_msgs/msg/NavSatFix]
+/gps_fix [gps_msgs/msg/GPSFix]
+/imu [sensor_msgs/msg/Imu]
+/initialpose [geometry_msgs/msg/PoseWithCovarianceStamped]
+/left_stereo_camera/imu [sensor_msgs/msg/Imu]
+/lidar_odometry/localmap_points [sensor_msgs/msg/PointCloud2]
+/lidar_odometry/metadata [std_msgs/msg/String]
+/lidar_odometry/pose [nav_msgs/msg/Odometry]
+/lidar_odometry/pose_quality [std_msgs/msg/Float32]
+/mola_diagnostics/lidar_odom/status [std_msgs/msg/String]
+/parameter_events [rcl_interfaces/msg/ParameterEvent]
+/right_stereo_camera/imu [sensor_msgs/msg/Imu]
+/rosout [rcl_interfaces/msg/Log]
+/tf [tf2_msgs/msg/TFMessage]
+/tf_static [tf2_msgs/msg/TFMessage]
+
+=== /cmd_vel
+Type: geometry_msgs/msg/Twist
+
+Publisher count: 0
+
+Subscription count: 1
+
+Node name: _World_Nova_Carter_ROS_differential_drive_ros2_subscribe_twist
+Node namespace: /
+Topic type: geometry_msgs/msg/Twist
+Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.f2.8a.02.fa.44.63.0f.00.0a.00.00.00.03.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+=== /chassis/odom
+Type: nav_msgs/msg/Odometry
+
+Publisher count: 1
+
+Node name: _World_Nova_Carter_ROS_transform_tree_odometry_ros2_publish_odometry
+Node namespace: /
+Topic type: nav_msgs/msg/Odometry
+Topic type hash: RIHS01_3cc97dc7fb7502f8714462c526d369e35b603cfc34d946e3f2eda2766dfec6e0
+Endpoint type: PUBLISHER
+GID: 01.0f.f2.8a.02.fa.44.63.0c.00.0a.00.00.00.03.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+
+=== /front_3d_lidar/lidar_points
+Type: sensor_msgs/msg/PointCloud2
+
+Publisher count: 1
+
+Node name: _Render_PostProcess_SDGPipeline_Replicator_02_NodeWriterWriter
+Node namespace: /front_3d_lidar
+Topic type: sensor_msgs/msg/PointCloud2
+Topic type hash: RIHS01_9198cabf7da3796ae6fe19c4cb3bdd3525492988c70522628af5daa124bae2b5
+Endpoint type: PUBLISHER
+GID: 01.0f.f2.8a.02.fa.44.63.13.00.0a.00.00.00.03.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: add_intensity_node
+Node namespace: /
+Topic type: sensor_msgs/msg/PointCloud2
+Topic type hash: RIHS01_9198cabf7da3796ae6fe19c4cb3bdd3525492988c70522628af5daa124bae2b5
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.f2.8a.f3.af.1a.90.00.00.00.00.00.00.13.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+=== /carter/lidar_with_intensity
+Type: sensor_msgs/msg/PointCloud2
+
+Publisher count: 1
+
+Node name: add_intensity_node
+Node namespace: /
+Topic type: sensor_msgs/msg/PointCloud2
+Topic type hash: RIHS01_9198cabf7da3796ae6fe19c4cb3bdd3525492988c70522628af5daa124bae2b5
+Endpoint type: PUBLISHER
+GID: 01.0f.f2.8a.f3.af.1a.90.00.00.00.00.00.00.14.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: perturbation_node
+Node namespace: /
+Topic type: sensor_msgs/msg/PointCloud2
+Topic type hash: RIHS01_9198cabf7da3796ae6fe19c4cb3bdd3525492988c70522628af5daa124bae2b5
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.f2.8a.18.b0.c2.72.00.00.00.00.00.00.13.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+=== /carter/lidar_perturbed
+Type: sensor_msgs/msg/PointCloud2
+
+Publisher count: 1
+
+Node name: perturbation_node
+Node namespace: /
+Topic type: sensor_msgs/msg/PointCloud2
+Topic type hash: RIHS01_9198cabf7da3796ae6fe19c4cb3bdd3525492988c70522628af5daa124bae2b5
+Endpoint type: PUBLISHER
+GID: 01.0f.f2.8a.18.b0.c2.72.00.00.00.00.00.00.14.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: mola_bridge_ros2
+Node namespace: /
+Topic type: sensor_msgs/msg/PointCloud2
+Topic type hash: RIHS01_9198cabf7da3796ae6fe19c4cb3bdd3525492988c70522628af5daa124bae2b5
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.00.01.4d.b0.fa.6a.00.00.00.00.00.00.19.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+=== /lidar_odometry/pose
+Type: nav_msgs/msg/Odometry
+
+Publisher count: 1
+
+Node name: mola_bridge_ros2
+Node namespace: /
+Topic type: nav_msgs/msg/Odometry
+Topic type hash: RIHS01_3cc97dc7fb7502f8714462c526d369e35b603cfc34d946e3f2eda2766dfec6e0
+Endpoint type: PUBLISHER
+GID: 01.0f.00.01.4d.b0.fa.6a.00.00.00.00.00.00.2e.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+
+=== /lidar_odometry/pose_quality
+Type: std_msgs/msg/Float32
+
+Publisher count: 1
+
+Node name: mola_bridge_ros2
+Node namespace: /
+Topic type: std_msgs/msg/Float32
+Topic type hash: RIHS01_7170d3d8f841f7be3172ce5f4f59f3a4d7f63b0447e8b33327601ad64d83d6e2
+Endpoint type: PUBLISHER
+GID: 01.0f.00.01.4d.b0.fa.6a.00.00.00.00.00.00.2f.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+
+=== /attack/status
+Type: std_msgs/msg/String
+
+Publisher count: 1
+
+Node name: perturbation_node
+Node namespace: /
+Topic type: std_msgs/msg/String
+Topic type hash: RIHS01_df668c740482bbd48fb39d76a70dfd4bd59db1288021743503259e948f6b1a18
+Endpoint type: PUBLISHER
+GID: 01.0f.f2.8a.18.b0.c2.72.00.00.00.00.00.00.17.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+
+=== /tf
+Type: tf2_msgs/msg/TFMessage
+
+Publisher count: 2
+
+Node name: mola_bridge_ros2
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: PUBLISHER
+GID: 01.0f.00.01.4d.b0.fa.6a.00.00.00.00.00.00.17.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _World_Nova_Carter_ROS_chassis_link_sensors_back_owl_ROS_TF_PublisherTF
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: PUBLISHER
+GID: 01.0f.f2.8a.02.fa.44.63.00.00.0a.00.00.00.03.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: mola_bridge_ros2
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.00.01.4d.b0.fa.6a.00.00.00.00.00.00.15.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+=== /perturbation_node
+/perturbation_node
+  Subscribers:
+    /attack/enabled: std_msgs/msg/Bool
+    /attack/genome: std_msgs/msg/Float32MultiArray
+    /carter/lidar_with_intensity: sensor_msgs/msg/PointCloud2
+  Publishers:
+    /attack/status: std_msgs/msg/String
+    /carter/lidar_perturbed: sensor_msgs/msg/PointCloud2
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+  Service Servers:
+    /perturbation_node/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /perturbation_node/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /perturbation_node/get_parameters: rcl_interfaces/srv/GetParameters
+    /perturbation_node/get_type_description: type_description_interfaces/srv/GetTypeDescription
+    /perturbation_node/list_parameters: rcl_interfaces/srv/ListParameters
+    /perturbation_node/set_parameters: rcl_interfaces/srv/SetParameters
+    /perturbation_node/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+
+
+=== /add_intensity_node
+/add_intensity_node
+  Subscribers:
+    /front_3d_lidar/lidar_points: sensor_msgs/msg/PointCloud2
+  Publishers:
+    /carter/lidar_with_intensity: sensor_msgs/msg/PointCloud2
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+  Service Servers:
+    /add_intensity_node/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /add_intensity_node/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /add_intensity_node/get_parameters: rcl_interfaces/srv/GetParameters
+    /add_intensity_node/get_type_description: type_description_interfaces/srv/GetTypeDescription
+    /add_intensity_node/list_parameters: rcl_interfaces/srv/ListParameters
+    /add_intensity_node/set_parameters: rcl_interfaces/srv/SetParameters
+    /add_intensity_node/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+
+
+=== /waypoint_follower
+Unable to find node '/waypoint_follower'
+
+=== /mola_bridge_ros2
+/mola_bridge_ros2
+  Subscribers:
+    /carter/lidar_perturbed: sensor_msgs/msg/PointCloud2
+    /clock: rosgraph_msgs/msg/Clock
+    /gps: sensor_msgs/msg/NavSatFix
+    /gps_fix: gps_msgs/msg/GPSFix
+    /imu: sensor_msgs/msg/Imu
+    /initialpose: geometry_msgs/msg/PoseWithCovarianceStamped
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /tf: tf2_msgs/msg/TFMessage
+    /tf_static: tf2_msgs/msg/TFMessage
+  Publishers:
+    /diagnostics: diagnostic_msgs/msg/DiagnosticArray
+    /lidar_odometry/localmap_points: sensor_msgs/msg/PointCloud2
+    /lidar_odometry/metadata: std_msgs/msg/String
+    /lidar_odometry/pose: nav_msgs/msg/Odometry
+    /lidar_odometry/pose_quality: std_msgs/msg/Float32
+    /mola_diagnostics/lidar_odom/status: std_msgs/msg/String
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+    /tf: tf2_msgs/msg/TFMessage
+    /tf_static: tf2_msgs/msg/TFMessage
+  Service Servers:
+    /map_load: mola_msgs/srv/MapLoad
+    /map_save: mola_msgs/srv/MapSave
+    /mola_bridge_ros2/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /mola_bridge_ros2/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /mola_bridge_ros2/get_parameters: rcl_interfaces/srv/GetParameters
+    /mola_bridge_ros2/get_type_description: type_description_interfaces/srv/GetTypeDescription
+    /mola_bridge_ros2/list_parameters: rcl_interfaces/srv/ListParameters
+    /mola_bridge_ros2/set_parameters: rcl_interfaces/srv/SetParameters
+    /mola_bridge_ros2/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+    /mola_runtime_param_get: mola_msgs/srv/MolaRuntimeParamGet
+    /mola_runtime_param_set: mola_msgs/srv/MolaRuntimeParamSet
+    /relocalize_from_state_estimator: mola_msgs/srv/RelocalizeFromStateEstimator
+    /relocalize_near_pose: mola_msgs/srv/RelocalizeNearPose
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+

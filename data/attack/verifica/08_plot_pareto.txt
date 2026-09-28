@@ -1,0 +1,10 @@
+/home/missroot/.local/lib/python3.12/site-packages/matplotlib/projections/__init__.py:63: UserWarning: Unable to import Axes3D. This may be due to multiple versions of Matplotlib being installed (e.g. as a system package and as a pip package). As a result, the 3D projection is not available.
+  warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+Traceback (most recent call last):
+  File "/home/missroot/mola-adversarial-nsga3/src/plots/plot_pareto.py", line 128, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/missroot/mola-adversarial-nsga3/src/plots/plot_pareto.py", line 58, in main
+    with open(args.history) as f:
+         ^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/attack/attack_v4/history.json'
