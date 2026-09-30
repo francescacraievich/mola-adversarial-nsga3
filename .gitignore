@@ -33,3 +33,9 @@ data/attack/prova_*/
 data/attack/smoke_*/
 data/attack/avviso_bersaglio/
 data/attack/g1_test_stallo/
+
+# Figure e script tenuti solo in locale
+docs/schema_pipeline.png
+docs/schema_pipeline.py
+docs/schema_catena.py
+docs/fitness_formule.py
