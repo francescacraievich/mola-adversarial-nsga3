@@ -1,0 +1,14 @@
+header:
+  stamp:
+    sec: 42
+    nanosec: 600000000
+  frame_id: base_link
+height: 1
+width: 42656
+fields: '<sequence type: sensor_msgs/msg/PointField, length: 4>'
+is_bigendian: false
+point_step: 16
+row_step: 682496
+data: '<sequence type: uint8, length: 682496>'
+is_dense: true
+---

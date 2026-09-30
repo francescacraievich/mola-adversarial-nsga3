@@ -1,0 +1,1 @@
+182 pose in 20 s wall = 9.10 Hz wall;  9.33 Hz sim-time  (span sim 19.4 s)

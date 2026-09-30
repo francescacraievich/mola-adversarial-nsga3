@@ -1,0 +1,58 @@
+======================================================================
+  ATTACCO RECEDING-HORIZON
+  bersaglio (2.0, 0.0)   orizzonte 1.0 m   4x2 = 8 candidati/finestra
+======================================================================
+  frame di lavoro: odom di Isaac (/chassis/odom), non la scena; posa nella scena [-5.989 -1.     0.   ]
+  partenza      : [ 0.011 -0.     0.   ]
+  waypoint rel  : [(2.0, 0.0)]
+  waypoint abs  : [(np.float64(2.011), np.float64(0.0))]
+  distanza      : 2.00 m  ->  2 finestre da 1.00 m (1.0 misurati)
+  assestamento  : 2.0s a robot fermo dopo l'avvio di MOLA
+  frame/finestra: ~12 a regime (10 Hz a 0.8 m/s = 8 cm fra uno scan e l'altro)
+  valutazioni   : 4 individui x 2 generazioni = 8, piu' nominale e applicazione
+  stima tempo   : ~1.7 min/finestra, ~3 min totali
+  genoma        : gruppo 3, 17 geni attivi su 17 (inattivi a -1)
+  tracce        : data/attack/gauss_test/traces e data/attack/gauss_test/logs
+  seed          : 42
+
+── finestra 1 (stima 2) ────────────────────────────────────────
+  waypoint corrente 1/1 [2.011 0.   ]  distanza al bersaglio finale 2.00 m
+  stato salvato in [ 0.011 -0.     0.   ]
+  nominale: parte da [0.018 0.    0.   ] (ripristino 0.7 cm dallo stato salvato)  arriva in [ 1.234e+00 -1.000e-03 -7.000e-03]  percorsi 1.01 m  22 frame  32 pose vere  rotazione -0° (bersaglio a +0°)  rapporto stima/verita' 1.00  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #00  rst  0.7  end   0.0 mean   0.0 max   0.0  dir   +0.0  dmg    0.1 cm   pert    3.88 cm   1.01 m   25f  rapp 1.00  [ok]
+
+  FRONTE DI PARETO: 1 soluzioni non dominate su 1 valutate (1 valide)
+    danno    0.06 cm   pert    3.876 cm   rapporto   0.02 <- scelto
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [+0.000, +0.000, +0.000]
+      cluster_strength           +0.5000
+      curvature_strength         +0.5000
+      dropout_rate               +0.0150
+      edge_attack_strength       +0.5000
+      geometric_distortion       +0.5000
+      ghost_ratio                +0.0100
+      noise_direction            [+0.000, +0.000, +0.000]
+      noise_intensity            +0.0250
+      scanline_strength          +0.5000
+      spatial_correlation        +0.5000
+      strategic_ghost            +0.5000
+      temporal_drift_strength    +0.5000
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+
+  APPLICATO: il robot e' in [ 1.26  -0.003 -0.011]
+  percorsi 1.04 m su 22 frame perturbati
+  deviazione reale dal nominale: fine 2.7  media 0.1  max 2.7 cm   danno 0.1 cm (in valutazione era 0.1 cm)   [ok]
+  tempo finestra: 1.1 min
+
+── finestra 2 (stima 2) ────────────────────────────────────────
+  waypoint corrente 1/1 [2.011 0.   ]  distanza al bersaglio finale 0.75 m
+  stato salvato in [ 1.26  -0.003 -0.011]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale FALLITO (stopped_early(0.49m)) — finestra saltata
+  bersaglio finale raggiunto (0.21 m): fine del task
+
+Storico: data/attack/gauss_test/history.json
+exit 0

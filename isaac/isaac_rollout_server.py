@@ -8,9 +8,11 @@ la scena ricaricata.
 Comunicazione via file, senza rclpy dentro Isaac Sim:
     /tmp/isaac_cmd.json    comando scritto dall'orchestratore (src/optimization/)
     /tmp/isaac_reply.json  risposta di questo script, con lo stesso campo "id"
+    /tmp/isaac_pose.json   posa vera corrente, riscritta a ogni frame senza richiesta
 
 Comandi: save (memorizza posa, velocita' e giunti), restore (ripristina lo stato
-salvato), step n (avanza di n frame), pose (posa vera corrente), play, pause.
+salvato), set_pose x y yaw (riporta il robot a una posa nota, da fermo), step n
+(avanza di n frame), pose (posa vera corrente), play, pause.
 NSGA-III prova piu' candidati dallo stesso stato e il robot e' uno solo, quindi
 dopo ogni prova viene riportato indietro. Il campo "id" permette all'orchestratore
 di distinguere la risposta nuova da quella del comando precedente.
@@ -19,6 +21,7 @@ di distinguere la risposta nuova da quella del comando precedente.
 import asyncio
 import json
 import os
+import time
 
 import numpy as np
 import omni.kit.app
@@ -28,6 +31,7 @@ from isaacsim.core.prims import SingleArticulation
 ROBOT = "/World/Nova_Carter_ROS"
 CMD = "/tmp/isaac_cmd.json"
 REPLY = "/tmp/isaac_reply.json"
+POSE = "/tmp/isaac_pose.json"
 
 _timeline = omni.timeline.get_timeline_interface()
 _art = None
@@ -117,6 +121,22 @@ async def _handle(cmd):
         return {"ok": True, "pose": [float(p[0]), float(p[1]), _yaw(s["orient"])],
                 "playing": bool(_timeline.is_playing())}
 
+    if op == "set_pose":
+        # Riporta il robot a una posa nota con velocita' e giunti azzerati:
+        # inizio ripetibile per le run di una campagna.
+        yaw = float(cmd.get("yaw", 0.0))
+        pos, _ = art.get_world_pose()
+        new_pos = np.array([float(cmd["x"]), float(cmd["y"]), float(pos[2])])
+        quat = np.array([np.cos(yaw / 2), 0.0, 0.0, np.sin(yaw / 2)])   # w, x, y, z
+        art.set_world_pose(position=new_pos, orientation=quat)
+        art.set_joint_velocities(np.zeros_like(art.get_joint_velocities()))
+        art.set_linear_velocity(np.zeros(3))
+        art.set_angular_velocity(np.zeros(3))
+        await omni.kit.app.get_app().next_update_async()
+        s = _snapshot(art)
+        p = s["pos"]
+        return {"ok": True, "pose": [float(p[0]), float(p[1]), _yaw(s["orient"])]}
+
     if op == "play":
         _timeline.play()
         return {"ok": True}
@@ -128,8 +148,28 @@ async def _handle(cmd):
     return {"ok": False, "error": f"comando sconosciuto: {op}"}
 
 
+def _write_pose():
+    """Posa vera a ogni frame, letta dall'orchestratore senza richiesta.
+
+    Serve alla traccia per tick e al criterio d'arresto: una richiesta per
+    frame bloccherebbe il ciclo di controllo per la latenza dello scambio a
+    file. Il campo wall permette di riconoscere un file vecchio.
+    """
+    try:
+        pos, orient = _get_art().get_world_pose()
+        tmp = POSE + ".tmp"
+        with open(tmp, "w") as f:
+            json.dump({"pose": [float(pos[0]), float(pos[1]), _yaw(orient)],
+                       "wall": time.time(),
+                       "playing": bool(_timeline.is_playing())}, f)
+        os.replace(tmp, POSE)
+    except Exception:
+        pass
+
+
 def _tick(_event):
     global _busy
+    _write_pose()
     if _busy or not os.path.exists(CMD):
         return
     try:
@@ -155,7 +195,7 @@ def _tick(_event):
     asyncio.ensure_future(run())
 
 
-for _f in (CMD, REPLY):
+for _f in (CMD, REPLY, POSE):
     if os.path.exists(_f):
         os.remove(_f)
 
@@ -171,4 +211,5 @@ attack_ctrl_sub = omni.kit.app.get_app().get_update_event_stream().create_subscr
 print("[attack_server] attivo")
 print(f"[attack_server]   comandi  : {CMD}")
 print(f"[attack_server]   risposte : {REPLY}")
-print("[attack_server]   save | restore | step n | pose | play | pause")
+print(f"[attack_server]   posa     : {POSE} (a ogni frame)")
+print("[attack_server]   save | restore | set_pose | step n | pose | play | pause")

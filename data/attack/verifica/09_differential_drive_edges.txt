@@ -1,0 +1,14 @@
+break_3_vector.outputs:z  ->  differential_controller_01.inputs:angularVelocity
+break_3_vector_01.outputs:x  ->  differential_controller_01.inputs:linearVelocity
+differential_controller_01.outputs:velocityCommand  ->  articulation_controller_01.inputs:velocityCommand
+joint_name_array.outputs:array  ->  articulation_controller_01.inputs:jointNames
+joint_wheel_left_name.inputs:value  ->  joint_name_array.inputs:input0
+joint_wheel_right_name.inputs:value  ->  joint_name_array.inputs:input1
+node_namespace.inputs:value  ->  ros2_subscribe_twist.inputs:nodeNamespace
+on_playback_tick.outputs:deltaSeconds  ->  differential_controller_01.inputs:dt
+on_playback_tick.outputs:tick  ->  articulation_controller_01.inputs:execIn
+on_playback_tick.outputs:tick  ->  differential_controller_01.inputs:execIn
+on_playback_tick.outputs:tick  ->  ros2_subscribe_twist.inputs:execIn
+ros2_context.outputs:context  ->  ros2_subscribe_twist.inputs:context
+ros2_subscribe_twist.outputs:angularVelocity  ->  break_3_vector.inputs:tuple
+ros2_subscribe_twist.outputs:linearVelocity  ->  break_3_vector_01.inputs:tuple

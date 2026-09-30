@@ -1,0 +1,56 @@
+Ritardo della stima di MOLA nell'orchestratore e danno: codice committato (1ef6076) contro codice corretto
+Data: 2026-09-30. Isaac standalone (limite 60 Hz), add_intensity_node e perturbation_node (albero di lavoro) accesi.
+Scenario: attack_v5 finestra 0. Partenza (-5.99, -1.0, 0) con set_pose, bersaglio 3 m avanti, orizzonte 1 m,
+settle 2 s, catch-up 0.8 s. Stato salvato una volta, poi 3 nominali + 3 rollout col genoma w0 di attack_v5,
+tutti dallo stesso stato. Codice corretto con --attack-from spawn (attacco acceso dall'avvio di MOLA come nel vecchio).
+Strumentazione: _est_cb e drive avvolti dall'esterno (lag_driver.py) per registrare istante di esecuzione e stamp;
+arrivo nel DDS e /clock registrati da un processo separato; posa vera per il danno letta dal file del server a 100 Hz,
+uguale per le due versioni. Dati grezzi: data/attack/ritardo_vecchio_nuovo/{old,new}/ (run.json, probe.jsonl, logs/).
+Colonne: "n cb" = callback di stima eseguiti durante drive(); "arrivate" = pose arrivate nel DDS durante drive().
+Il danno usa dev_mean (path_deviation) + max(0, dir) rispetto a nom0 della stessa versione.
+
+== VECCHIO (commit 1ef6076) ==
+Ritardo stima MOLA dentro drive(): stamp -> esecuzione di _est_cb (s, tempo simulato)
+  totale = stamp->arrivo nel DDS (misurato da processo indipendente) + coda (arrivo->callback, convertito in tempo sim)
+rollout   n cb arrivate tot media  tot max MOLA media coda media  coda max   andamento tot (media per terzo del drive)   drive (s)
+nom0        14       14      0.11     0.20       0.07       0.04      0.12             0.07 / 0.15 / 0.09               2.14
+nom1        14       17      0.22     0.38       0.06       0.16      0.32             0.11 / 0.21 / 0.33               2.02
+nom2        13       15      0.18     0.41       0.06       0.12      0.36             0.09 / 0.14 / 0.35               2.00
+gen0        40       50      0.71     1.27       0.14       0.57      1.21             0.36 / 0.71 / 1.05               5.96
+gen1        30       35      0.35     0.67       0.13       0.22      0.55             0.22 / 0.29 / 0.51               4.50
+gen2        32       36      0.43     0.81       0.14       0.29      0.65             0.23 / 0.38 / 0.65               4.81
+Danno (posa vera dal file del server, frame scena; riferimento = nom0; bersaglio 3 m avanti)
+rollout  esito  percorsi frame    pert dev_mean dev_end     dir   danno  (cm)   rapp
+nom0     ok         1.04    25       -      0.0     0.0    +0.0     0.0        1.00
+nom1     ok         1.12    25       -      0.4     8.0    -8.0     0.4        1.00
+nom2     ok         1.02    24       -      0.2     2.7    +2.6     2.8        1.00
+gen0     ok         1.03    59   125.6     40.8    69.7   +41.3    82.1        0.92
+gen1     ok         1.04    44   118.8     28.3    48.4   +28.9    57.2        1.59
+gen2     ok         1.06    47   120.4     31.7    52.1   +28.7    60.4        1.40
+danno col genoma: media 66.5 cm, dev.std 13.5 cm, CV 20%
+
+== CORRETTO (albero di lavoro, --attack-from spawn) ==
+Ritardo stima MOLA dentro drive(): stamp -> esecuzione di _est_cb (s, tempo simulato)
+  totale = stamp->arrivo nel DDS (misurato da processo indipendente) + coda (arrivo->callback, convertito in tempo sim)
+rollout   n cb arrivate tot media  tot max MOLA media coda media  coda max   andamento tot (media per terzo del drive)   drive (s)
+nom0        14       14      0.09     0.10       0.06       0.03      0.05             0.08 / 0.10 / 0.09               1.88
+nom1        14       14      0.09     0.11       0.06       0.03      0.05             0.10 / 0.09 / 0.08               1.83
+nom2        13       13      0.09     0.11       0.06       0.03      0.05             0.08 / 0.11 / 0.08               1.74
+gen0        26       26      0.14     0.23       0.13       0.01      0.04             0.16 / 0.13 / 0.14               3.43
+gen1        26       26      0.15     0.26       0.13       0.02      0.05             0.15 / 0.16 / 0.15               3.47
+gen2        25       25      0.15     0.22       0.13       0.02      0.05             0.16 / 0.15 / 0.15               3.19
+Danno (posa vera dal file del server, frame scena; riferimento = nom0; bersaglio 3 m avanti)
+rollout  esito  percorsi frame    pert dev_mean dev_end     dir   danno  (cm)   rapp
+nom0     ok         1.00    25       -      0.0     0.0    +0.0     0.0        1.00
+nom1     ok         1.02    23       -      0.1     1.3    -1.3     0.1        1.00
+nom2     ok         1.03    23       -      0.2     2.7    -2.6     0.2        1.00
+gen0     ok         1.02    36   115.9     20.4    37.5   +25.2    45.6        1.66
+gen1     ok         1.00    35   115.6     20.3    38.1   +26.4    46.7        1.69
+gen2     ok         1.01    33   112.8     19.5    36.6   +25.5    45.0        1.52
+danno col genoma: media 45.8 cm, dev.std 0.9 cm, CV 2%
+
+Posizioni finali vere (scena, x y yaw rad):
+  old nom0 (-4.725, -1.083, +0.006)  nom1 (-4.644, -1.082, +0.023)  nom2 (-4.751, -1.079, +0.006)  gen0 (-5.074, -0.480, -0.269)  gen1 (-4.988, -0.677, +0.168)  gen2 (-4.978, -0.627, +0.084)
+  new nom0 (-4.769, -0.928, +0.003)  nom1 (-4.756, -0.929, -0.003)  nom2 (-4.743, -0.924, +0.000)  gen0 (-4.989, -0.624, +0.295)  gen1 (-5.000, -0.625, +0.302)  gen2 (-4.994, -0.640, +0.199)
+
+Riferimento: attack_v5 finestra 0 in history.json: damage_cm 93.5 (in ricerca, danno = dev_end), dev_real_cm 49.0 (applicato).

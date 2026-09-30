@@ -1,0 +1,36 @@
+======================================================================
+  ATTACCO RECEDING-HORIZON
+  bersaglio (2.0, 0.0)   orizzonte 1.0 m   4x2 = 8 candidati/finestra
+======================================================================
+  frame di lavoro: odom di Isaac (/chassis/odom), non la scena; posa nella scena [-5.989 -1.    -0.   ]
+  partenza      : [ 0.011  0.    -0.   ]
+  waypoint rel  : [(2.0, 0.0)]
+  waypoint abs  : [(np.float64(2.011), np.float64(-0.0))]
+  distanza      : 2.00 m  ->  2 finestre da 1.00 m (1.0 misurati)
+  assestamento  : 2.0s a robot fermo dopo l'avvio di MOLA
+  frame/finestra: ~12 a regime (10 Hz a 0.8 m/s = 8 cm fra uno scan e l'altro)
+  valutazioni   : 4 individui x 2 generazioni = 8, piu' nominale e applicazione
+  stima tempo   : ~1.7 min/finestra, ~3 min totali
+  genoma        : gruppo 3, 17 geni attivi su 17 (inattivi a -1)
+  seed          : 42
+
+  TEST RIPETIBILITA': genoma dalla finestra 0 di data/attack/g1_test/history.json
+  3 rollout identici sulla prima finestra
+
+  nominale: [ 1.22  -0.019 -0.009]  percorsi 1.01 m
+
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    rollout 0: end   0.2 mean   0.1 max   0.2  dir   +0.0  dmg    0.1 cm   pert    3.41   1.01 m   23f  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    rollout 1: end   1.3 mean   0.1 max   1.3  dir   -1.3  dmg    0.1 cm   pert    3.40   1.02 m   23f  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    rollout 2: end   0.2 mean   0.1 max   0.2  dir   -0.0  dmg    0.1 cm   pert    3.15   1.01 m   24f  [ok]
+
+  danno: media 0.1 cm   dev.std 0.0 cm   CV 11%
+  deviazione: 0.6 +/- 0.6 cm
+  percettibilita': 3.32 +/- 0.15
+
+  Ripetibile: un rollout per candidato e' sufficiente.
+
+Storico: data/attack/repeat_mean_b/history.json
+exit 0

@@ -1,0 +1,72 @@
+======================================================================
+  ATTACCO RECEDING-HORIZON
+  bersaglio (3.0, 0.0)   orizzonte 1.0 m   2x1 = 2 candidati/finestra
+======================================================================
+  partenza      : [ 0.017 -0.    -0.   ]
+  waypoint rel  : [(1.5, 0.0), (1.5, 1.0)]
+  waypoint abs  : [(np.float64(1.517), np.float64(-0.0)), (np.float64(1.517), np.float64(1.0))]
+  distanza      : 2.50 m  ->  2 finestre da 1.00 m (1.0 misurati)
+  assestamento  : 2.0s a robot fermo dopo l'avvio di MOLA
+  frame/finestra: ~12 a regime (10 Hz a 0.8 m/s = 8 cm fra uno scan e l'altro)
+  valutazioni   : 2 individui x 1 generazioni = 2, piu' nominale e applicazione
+  stima tempo   : ~0.7 min/finestra, ~1 min totali
+  genoma        : gruppo 1, 6 geni attivi su 17 (inattivi a -1)
+  tracce        : data/attack/smoke_new/traces e data/attack/smoke_new/logs
+  seed          : 42
+
+── finestra 1 (stima 2) ────────────────────────────────────────
+  waypoint corrente 1/2 [ 1.517 -0.   ]  distanza al bersaglio finale 7.76 m
+  stato salvato in [-5.983 -1.    -0.   ]
+  nominale FALLITO (untracked(0.30)) — finestra saltata
+── finestra 2 (stima 2) ────────────────────────────────────────
+  waypoint corrente 1/2 [ 1.517 -0.   ]  distanza al bersaglio finale 5.14 m
+  stato salvato in [-3.369 -0.597  0.078]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale FALLITO (untracked(0.29)) — finestra saltata
+── finestra 3 (stima 2) ────────────────────────────────────────
+  waypoint corrente 1/2 [ 1.517 -0.   ]  distanza al bersaglio finale 2.68 m
+  stato salvato in [-0.872 -0.211  0.224]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale FALLITO (untracked(0.30)) — finestra saltata
+── finestra 4 (stima 2) ────────────────────────────────────────
+  waypoint corrente 2/2 [1.517 1.   ]  distanza al bersaglio finale 1.17 m
+  stato salvato in [ 1.714 -0.155  0.066]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale: arriva in [5.281 1.406 2.727]  percorsi 1.01 m  90 frame  37 pose vere  rotazione +152° (bersaglio a +96°)  rapporto stima/verita' 0.65  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #00  end  35.7 mean  17.0 max  35.7  dir  +16.2  dmg   33.2 cm   pert    3.92 cm   1.00 m   89f  rapp 0.60  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    #01  SCARTATA  0.00 m    0 frame  [no_pose]
+/home/missroot/.local/lib/python3.12/site-packages/pymoo/algorithms/moo/nsga3.py:283: RuntimeWarning: invalid value encountered in divide
+  N = (F - utopian_point) / denom
+
+  FRONTE DI PARETO: 1 soluzioni non dominate su 2 valutate (1 valide)
+    danno   33.18 cm   pert    3.920 cm   rapporto   8.46 <- scelto
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [-0.577, -0.577, -0.577]
+      cluster_strength           +0.0000
+      curvature_strength         +0.0000
+      dropout_rate               +0.0028
+      edge_attack_strength       +0.0000
+      geometric_distortion       +0.0000
+      ghost_ratio                +0.0000
+      noise_direction            [+0.602, -0.134, +0.787]
+      noise_intensity            +0.0349
+      scanline_strength          +0.0000
+      spatial_correlation        +0.9756
+      strategic_ghost            +0.0000
+      temporal_drift_strength    +0.0000
+  rivalutazione: SCARTATA [mola_not_ready: MOLA non pronto (data/attack/smoke_new/logs/mola_w3_reeval.log)]
+
+  APPLICAZIONE FALLITA [mola_not_ready: MOLA non pronto (data/attack/smoke_new/logs/mola_w3_applied.log)]
+  tempo finestra: 6.1 min
+
+── finestra 5 (stima 2) ────────────────────────────────────────
+  waypoint corrente 2/2 [1.517 1.   ]  distanza al bersaglio finale 1.17 m
+  stato salvato in [ 1.714 -0.155  0.066]
+  nominale FALLITO (mola_not_ready: MOLA non pronto (data/attack/smoke_new/logs/mola_w4_nominal.log)) — finestra saltata
+  limite di finestre raggiunto (5), bersaglio a 1.17 m: fine
+
+Storico: data/attack/smoke_new/history.json

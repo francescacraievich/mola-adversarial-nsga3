@@ -1,0 +1,12 @@
+new nom0: ok 1.00 m 24 frame pert nan fine [-4.764 -1.083 -0.007]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+new nom1: ok 1.00 m 24 frame pert nan fine [-4.765e+00 -1.083e+00  3.000e-03]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+new nom2: ok 1.00 m 23 frame pert nan fine [-4.764e+00 -1.083e+00  3.000e-03]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+new gen0: ok 1.01 m 41 frame pert 116.49 fine [-5.014 -0.617  0.317]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+new gen1: ok 1.01 m 41 frame pert 116.40 fine [-5.046 -0.613  0.349]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+new gen2: ok 1.02 m 35 frame pert 114.19 fine [-4.973 -0.605  0.229]
+salvato /home/missroot/mola-adversarial-nsga3/data/attack/lat85_w0/run.json

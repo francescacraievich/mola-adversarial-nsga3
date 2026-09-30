@@ -1,0 +1,5 @@
+campioni 685, in moto 198, offset yaw odom-scena 0.000
+errore medio senza ritardo 1.7 gradi (max 3.6); ritardo che lo minimizza 0.10 s (errore 0.7 gradi)
+/clock - stamp di odom ricevuto: mediana 0 ms, max 0 ms
+[drain attuale] campioni 239, in moto 120; errore senza ritardo 37.1 gradi; ritardo stimato 1.95 s
+[executor dedicato] campioni 237, in moto 128; errore senza ritardo 0.1 gradi; ritardo stimato 0.00 s

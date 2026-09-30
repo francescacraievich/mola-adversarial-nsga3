@@ -1,0 +1,11 @@
+  [nota] nessun messaggio su /chassis/odom: posa vera dal server via file
+======================================================================
+  ATTACCO RECEDING-HORIZON
+  bersaglio (2.0, 0.0)   orizzonte 1.0 m   4x1 = 4 candidati/finestra
+======================================================================
+
+STALLO DI ISAAC: il ciclo di Isaac non aggiorna /tmp/isaac_pose.json da 8.3 s
+  finestra - marcata fallita (isaac_stall); la run si ferma qui. History parziale salvata.
+
+Storico: data/attack/g1_test/history.json
+exit 3

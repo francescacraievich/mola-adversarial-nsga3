@@ -1,0 +1,2 @@
+call IsaacStall dopo 6.5 s: il ciclo di Isaac non aggiorna /tmp/isaac_pose.json da 5.4 s (in attesa della risposta a 'pose')
+spin IsaacStall dopo 5.1 s: nessuna nuvola su /carter/lidar_perturbed da 5.1 s a simulazione in corso

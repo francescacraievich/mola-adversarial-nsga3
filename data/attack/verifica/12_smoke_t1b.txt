@@ -1,0 +1,46 @@
+  [nota] nessun messaggio su /chassis/odom: posa vera dal server via file
+======================================================================
+  ATTACCO RECEDING-HORIZON
+  bersaglio (1.5, 1.0)   orizzonte 1.0 m   2x1 = 2 candidati/finestra
+======================================================================
+  partenza      : [-6.013 -0.98  -1.469]
+  waypoint rel  : [(1.5, 0.0), (1.5, 1.0)]
+  waypoint abs  : [(np.float64(-5.861), np.float64(-2.472)), (np.float64(-4.866), np.float64(-2.371))]
+  distanza      : 2.50 m  ->  2 finestre da 1.00 m (1.0 misurati)
+  assestamento  : 2.0s a robot fermo dopo l'avvio di MOLA
+  frame/finestra: ~12 a regime (10 Hz a 0.8 m/s = 8 cm fra uno scan e l'altro)
+  valutazioni   : 2 individui x 1 generazioni = 2, piu' nominale e applicazione
+  stima tempo   : ~0.7 min/finestra, ~1 min totali
+  genoma        : gruppo 1, 6 geni attivi su 17 (inattivi a -1)
+  tracce        : data/attack/smoke_t1b/traces e data/attack/smoke_t1b/logs
+  seed          : 42
+
+── finestra 1 (stima 2) ────────────────────────────────────────
+  waypoint corrente 1/2 [-5.861 -2.472]  distanza al bersaglio finale 1.80 m
+  stato salvato in [-6.013 -0.98  -1.469]
+  nominale: parte da [-5.967 -0.975  1.668] (ripristino 4.6 cm dallo stato salvato)  arriva in [-5.75   0.117  1.432]  percorsi 1.02 m  26 frame  39 pose vere  rotazione +166° (bersaglio a +0°)  rapporto stima/verita' 1.01  [ok]
+  ATTENZIONE: il nominale ruota molto con il bersaglio davanti. MOLA non e' a regime: alza --warmup o --horizon.
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #00  rst  0.1  end 220.7 mean 111.8 max 220.7  dir -218.8  dmg  111.8 cm   pert    3.19 cm   1.01 m   24f  rapp 1.00  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #01  rst  0.1  end 220.7 mean 111.8 max 220.7  dir -219.0  dmg  111.8 cm   pert    2.71 cm   1.01 m   25f  rapp 1.00  [ok]
+
+  FRONTE DI PARETO: 2 soluzioni non dominate su 2 valutate (2 valide)
+    danno  111.84 cm   pert    3.188 cm   rapporto  35.08
+    danno  111.80 cm   pert    2.707 cm   rapporto  41.30 <- scelto
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [-0.577, -0.577, -0.577]
+      cluster_strength           +0.0000
+      curvature_strength         +0.0000
+      dropout_rate               +0.0111
+      edge_attack_strength       +0.0000
+      geometric_distortion       +0.0000
+      ghost_ratio                +0.0000
+      noise_direction            [+0.486, +0.533, -0.693]
+      noise_intensity            +0.0225
+      scanline_strength          +0.0000
+      spatial_correlation        +0.9268
+      strategic_ghost            +0.0000
+      temporal_drift_strength    +0.0000

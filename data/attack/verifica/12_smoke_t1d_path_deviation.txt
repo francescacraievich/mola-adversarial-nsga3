@@ -1,0 +1,7 @@
+finestra  rollout      punti percorso  dev_end dev_mean  dev_max
+       0  applied         36    1.12m     0.8      0.2      0.8   cm   (nominale: 33 punti, 1.11 m)
+       0  e00             39    1.14m     2.2      0.2      2.2   cm   (nominale: 33 punti, 1.11 m)
+       0  e01             35    1.11m     0.7      0.1      0.7   cm   (nominale: 33 punti, 1.11 m)
+       1  applied         79    0.85m     1.9      0.5      1.9   cm   (nominale: 76 punti, 0.83 m)
+       1  e00             84    0.87m     4.0      0.7      4.0   cm   (nominale: 76 punti, 0.83 m)
+       1  e01             79    0.85m     1.8      1.0      1.8   cm   (nominale: 76 punti, 0.83 m)

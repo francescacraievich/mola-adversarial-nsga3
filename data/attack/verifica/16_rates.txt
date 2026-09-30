@@ -1,0 +1,11 @@
+lidar: 173 msg in 19.8 s wall / 22.70 s sim -> 8.68 Hz wall, 7.58 Hz sim; passo stamp min 100 max 500 ms; RTF 1.15; punti 44987-45033
+odom: 1373 msg in 19.9 s wall / 22.85 s sim -> 69.01 Hz wall, 60.04 Hz sim; passo stamp min 0 max 17 ms; RTF 1.15
+pose -> {'ok': True, 'pose': [-5.916533946990967, -1.000018835067749, -0.0003856515271429594], 'playing': True, 'id': 1} 20 ms
+[reliable] lidar: 135 msg in 11.0 s wall / 13.40 s sim -> 12.15 Hz wall, 10.00 Hz sim; passo stamp min 100 max 100 ms; RTF 1.21; punti 45022-45061
+[reliable] odom: 809 msg in 21.0 s wall / 13.45 s sim -> 38.51 Hz wall, 60.07 Hz sim; passo stamp min 0 max 17 ms; RTF 0.64
+Traceback (most recent call last):
+  File "<stdin>", line 7, in <module>
+ZeroDivisionError: float division by zero
+/clock: 2 msg, 0.02 s sim in 9.61 s wall -> RTF 0.00
+[limite 60 Hz] lidar: 211 msg in 24.9 s wall / 21.00 s sim -> 8.42 Hz wall, 10.00 Hz sim; passo stamp min 100 max 100 ms; RTF 0.84; punti 44948-44986
+[limite 60 Hz] odom: 1263 msg in 24.8 s wall / 21.02 s sim -> 50.85 Hz wall, 60.05 Hz sim; passo stamp min 0 max 17 ms; RTF 0.85

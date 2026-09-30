@@ -1,0 +1,22 @@
+/waypoint_follower
+  Subscribers:
+    /chassis/odom: nav_msgs/msg/Odometry
+    /lidar_odometry/pose: nav_msgs/msg/Odometry
+  Publishers:
+    /cmd_vel: geometry_msgs/msg/Twist
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+  Service Servers:
+    /waypoint_follower/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /waypoint_follower/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /waypoint_follower/get_parameters: rcl_interfaces/srv/GetParameters
+    /waypoint_follower/get_type_description: type_description_interfaces/srv/GetTypeDescription
+    /waypoint_follower/list_parameters: rcl_interfaces/srv/ListParameters
+    /waypoint_follower/set_parameters: rcl_interfaces/srv/SetParameters
+    /waypoint_follower/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+

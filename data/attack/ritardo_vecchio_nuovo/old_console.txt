@@ -1,0 +1,12 @@
+old nom0: ok 1.04 m 25 frame pert 0.00 fine [-4.725 -1.083  0.006]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+old nom1: ok 1.12 m 25 frame pert 0.00 fine [-4.644 -1.082  0.023]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+old nom2: ok 1.02 m 24 frame pert 0.00 fine [-4.751 -1.079  0.006]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+old gen0: ok 1.03 m 59 frame pert 125.62 fine [-5.074 -0.48  -0.269]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+old gen1: ok 1.04 m 44 frame pert 118.79 fine [-4.988 -0.677  0.168]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+old gen2: ok 1.06 m 47 frame pert 120.39 fine [-4.978 -0.627  0.084]
+salvato /home/missroot/mola-adversarial-nsga3/data/attack/ritardo_vecchio_nuovo/old/run.json

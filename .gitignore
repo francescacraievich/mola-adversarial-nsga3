@@ -27,3 +27,9 @@ data/attack/verifica/*.log
 *.tmp
 *.bak
 *~
+
+# Prove di collaudo, non risultati
+data/attack/prova_*/
+data/attack/smoke_*/
+data/attack/avviso_bersaglio/
+data/attack/g1_test_stallo/

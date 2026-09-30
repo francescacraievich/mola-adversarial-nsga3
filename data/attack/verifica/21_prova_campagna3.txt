@@ -1,0 +1,87 @@
+== straight / none / gruppo 1 / ripetizione 1 (tentativo 1)  ->  data/attack/prova_campagna3/straight/none_g1/rep_01
+======================================================================
+  ATTACCO RECEDING-HORIZON
+  bersaglio (5.0, 0.0)   orizzonte 1.0 m   4x2 = 8 candidati/finestra
+======================================================================
+  frame di lavoro: odom di Isaac (/chassis/odom), non la scena; posa nella scena [-5.989 -1.    -0.   ]
+  partenza      : [ 0.011  0.    -0.   ]
+  waypoint rel  : [(5.0, 0.0)]
+  waypoint abs  : [(np.float64(5.011), np.float64(-0.0))]
+  distanza      : 5.00 m  ->  5 finestre da 1.00 m (1.0 misurati)
+  assestamento  : 2.0s a robot fermo dopo l'avvio di MOLA
+  frame/finestra: ~12 a regime (10 Hz a 0.8 m/s = 8 cm fra uno scan e l'altro)
+  MODALITA' PASSTHROUGH: nessun attacco, solo i nominali
+  stima tempo   : ~0.3 min/finestra, ~2 min totali
+  genoma        : gruppo 3, 17 geni attivi su 17 (inattivi a -1)
+  tracce        : data/attack/prova_campagna3/straight/none_g1/rep_01/traces e data/attack/prova_campagna3/straight/none_g1/rep_01/logs
+  seed          : 1001
+
+── finestra 1 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 5.00 m
+  stato salvato in [ 0.011  0.    -0.   ]
+
+STALLO DI ISAAC: il ciclo di Isaac non aggiorna /tmp/isaac_pose.json da 5.3 s
+  finestra 1 marcata fallita (isaac_stall); la run si ferma qui. History parziale salvata.
+
+Storico: data/attack/prova_campagna3/straight/none_g1/rep_01/history.json
+== stallo di Isaac nella ripetizione 1 (tentativo 1)
+== straight / none / gruppo 1 / ripetizione 1 (tentativo 2)  ->  data/attack/prova_campagna3/straight/none_g1/rep_01
+======================================================================
+  ATTACCO RECEDING-HORIZON
+  bersaglio (5.0, 0.0)   orizzonte 1.0 m   4x2 = 8 candidati/finestra
+======================================================================
+  frame di lavoro: odom di Isaac (/chassis/odom), non la scena; posa nella scena [-5.989 -1.    -0.   ]
+  partenza      : [ 0.011  0.    -0.   ]
+  waypoint rel  : [(5.0, 0.0)]
+  waypoint abs  : [(np.float64(5.011), np.float64(-0.0))]
+  distanza      : 5.00 m  ->  5 finestre da 1.00 m (1.0 misurati)
+  assestamento  : 2.0s a robot fermo dopo l'avvio di MOLA
+  frame/finestra: ~12 a regime (10 Hz a 0.8 m/s = 8 cm fra uno scan e l'altro)
+  MODALITA' PASSTHROUGH: nessun attacco, solo i nominali
+  stima tempo   : ~0.3 min/finestra, ~2 min totali
+  genoma        : gruppo 3, 17 geni attivi su 17 (inattivi a -1)
+  tracce        : data/attack/prova_campagna3/straight/none_g1/rep_01/traces e data/attack/prova_campagna3/straight/none_g1/rep_01/logs
+  seed          : 1001
+
+── finestra 1 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 5.00 m
+  stato salvato in [ 0.011  0.    -0.   ]
+  nominale: parte da [ 0.018 -0.    -0.   ] (ripristino 0.7 cm dallo stato salvato)  arriva in [ 1.247 -0.003 -0.002]  percorsi 1.04 m  23 frame  31 pose vere  rotazione -0° (bersaglio a +0°)  rapporto stima/verita' 1.00  [ok]
+  tempo finestra: 0.4 min
+
+── finestra 2 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 3.76 m
+  stato salvato in [ 1.247 -0.003 -0.002]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale: parte da [ 1.254e+00 -3.000e-03 -1.000e-03] (ripristino 0.7 cm dallo stato salvato)  arriva in [ 2.456e+00 -4.000e-03  2.000e-03]  percorsi 1.01 m  23 frame  31 pose vere  rotazione +0° (bersaglio a +0°)  rapporto stima/verita' 1.00  [ok]
+  tempo finestra: 0.4 min
+
+── finestra 3 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 2.55 m
+  stato salvato in [ 2.456e+00 -4.000e-03  2.000e-03]
+  nominale FALLITO (mola_spawn_fail: 1 processi mola-cli ancora vivi prima dell'avvio: pubblicherebbero sullo stesso topic e le pose si mescolerebbero. Controlla con: ps aux | grep '[m]ola-cli') — finestra saltata
+── finestra 4 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 2.55 m
+  stato salvato in [ 2.456e+00 -4.000e-03  2.000e-03]
+  nominale FALLITO (mola_spawn_fail: 1 processi mola-cli ancora vivi prima dell'avvio: pubblicherebbero sullo stesso topic e le pose si mescolerebbero. Controlla con: ps aux | grep '[m]ola-cli') — finestra saltata
+── finestra 5 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 2.55 m
+  stato salvato in [ 2.456e+00 -4.000e-03  2.000e-03]
+  nominale FALLITO (mola_spawn_fail: 1 processi mola-cli ancora vivi prima dell'avvio: pubblicherebbero sullo stesso topic e le pose si mescolerebbero. Controlla con: ps aux | grep '[m]ola-cli') — finestra saltata
+── finestra 6 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 2.55 m
+  stato salvato in [ 2.456e+00 -4.000e-03  2.000e-03]
+  nominale FALLITO (mola_spawn_fail: 1 processi mola-cli ancora vivi prima dell'avvio: pubblicherebbero sullo stesso topic e le pose si mescolerebbero. Controlla con: ps aux | grep '[m]ola-cli') — finestra saltata
+── finestra 7 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 2.55 m
+  stato salvato in [ 2.456e+00 -4.000e-03  2.000e-03]
+  nominale FALLITO (mola_spawn_fail: 1 processi mola-cli ancora vivi prima dell'avvio: pubblicherebbero sullo stesso topic e le pose si mescolerebbero. Controlla con: ps aux | grep '[m]ola-cli') — finestra saltata
+── finestra 8 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 2.55 m
+  stato salvato in [ 2.456e+00 -4.000e-03  2.000e-03]
+  nominale FALLITO (mola_spawn_fail: 1 processi mola-cli ancora vivi prima dell'avvio: pubblicherebbero sullo stesso topic e le pose si mescolerebbero. Controlla con: ps aux | grep '[m]ola-cli') — finestra saltata
+  limite di finestre raggiunto (8), bersaglio a 2.55 m: fine
+
+Storico: data/attack/prova_campagna3/straight/none_g1/rep_01/history.json
+== campagna straight / none / gruppo 1 completata
+exit script 0

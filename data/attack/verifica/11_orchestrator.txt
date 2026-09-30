@@ -1,0 +1,24 @@
+/attack_orchestrator
+  Subscribers:
+    /attack/status: std_msgs/msg/String
+    /lidar_odometry/pose: nav_msgs/msg/Odometry
+    /lidar_odometry/pose_quality: std_msgs/msg/Float32
+  Publishers:
+    /attack/genome: std_msgs/msg/Float32MultiArray
+    /cmd_vel: geometry_msgs/msg/Twist
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+  Service Servers:
+    /attack_orchestrator/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /attack_orchestrator/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /attack_orchestrator/get_parameters: rcl_interfaces/srv/GetParameters
+    /attack_orchestrator/get_type_description: type_description_interfaces/srv/GetTypeDescription
+    /attack_orchestrator/list_parameters: rcl_interfaces/srv/ListParameters
+    /attack_orchestrator/set_parameters: rcl_interfaces/srv/SetParameters
+    /attack_orchestrator/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+

@@ -86,10 +86,14 @@ class PerturbationNode(Node):
         self.genome_id = 0
         self.n_in = 0
         self.n_out = 0
-        self.proc_times = []
+        self.proc_times = []       # calcolo della perturbazione
+        self.lat_times = []        # dalla ricezione alla pubblicazione, attese incluse
         # Percettibilita' dell'ultima nuvola misurata: secondo obiettivo di
         # NSGA-III, letto dall'orchestratore su /attack/status.
         self._chamfer_every = args.chamfer_every
+        self._passthrough_delay = args.passthrough_delay_ms / 1000.0
+        self._min_latency_ms = args.min_latency_ms
+        self._gaussian_sigma = args.gaussian_sigma
         self._chamfer = float("nan")
 
         if args.genome_file:
@@ -123,6 +127,8 @@ class PerturbationNode(Node):
         self.get_logger().info(f"  out : {args.output_topic}")
         self.get_logger().info(
             f"  attacco {'ATTIVO' if self.enabled else 'PASSTHROUGH (nuvole invariate)'}")
+        if self._min_latency_ms > 0:
+            self.get_logger().info(f"  latenza minima per scan: {self._min_latency_ms:.0f} ms")
 
     # ------------------------------------------------------------------
     # Gestione del genoma
@@ -193,11 +199,19 @@ class PerturbationNode(Node):
         cloud[:, 3] = arr["intensity"]
 
         if self.enabled:
-            out = self.generator.apply_perturbation(
-                cloud, self.params,
-                # Riproducibile a parita' di (genoma, frame), diverso fra frame.
-                seed=(self.base_seed + self.frame_idx) % (2**31 - 1),
-            )
+            if self._gaussian_sigma > 0.0:
+                # Braccio di confronto: rumore gaussiano isotropo per punto,
+                # senza genoma ne' analisi della scena. Stessa Chamfer, stesso
+                # seme per frame.
+                rng = np.random.default_rng((self.base_seed + self.frame_idx) % (2**31 - 1))
+                out = cloud.copy()
+                out[:, :3] += rng.normal(0.0, self._gaussian_sigma, size=(len(cloud), 3))
+            else:
+                out = self.generator.apply_perturbation(
+                    cloud, self.params,
+                    # Riproducibile a parita' di (genoma, frame), diverso fra frame.
+                    seed=(self.base_seed + self.frame_idx) % (2**31 - 1),
+                )
             # Percettibilita' campionata ogni chamfer_every frame: due KD-tree
             # per nuvola sforerebbero il budget di 100 ms, e all'orchestratore
             # basta un valore medio sulla finestra.
@@ -212,13 +226,28 @@ class PerturbationNode(Node):
         else:
             out = cloud
             self._chamfer = 0.0
+            # Ritardo artificiale a attacco spento: il nominale paga la stessa
+            # latenza dei candidati, cosi' il ritardo dell'elaborazione non
+            # entra nel danno. Il valore va preso da proc_ms_mean dello status.
+            if self._passthrough_delay > 0.0:
+                time.sleep(self._passthrough_delay)
 
+        t_proc = time.perf_counter() - t0
+        # Latenza minima uguale per nominale e candidati, qualunque sia il
+        # braccio: la differenza di tempo di calcolo non entra nel danno. Gli
+        # scan che la superano gia' non vengono accorciati.
+        if self._min_latency_ms > 0:
+            wait = self._min_latency_ms / 1000.0 - (time.perf_counter() - t0)
+            if wait > 0:
+                time.sleep(wait)
         self._publish_cloud(out, msg.header)
         self.frame_idx += 1
         self.n_out += 1
-        self.proc_times.append(time.perf_counter() - t0)
+        self.proc_times.append(t_proc)
+        self.lat_times.append(time.perf_counter() - t0)
         if len(self.proc_times) > 200:
             self.proc_times.pop(0)
+            self.lat_times.pop(0)
 
     def _publish_cloud(self, cloud: np.ndarray, header):
         if cloud.shape[1] == 3:
@@ -253,6 +282,9 @@ class PerturbationNode(Node):
             "frames_out": self.n_out,
             "proc_ms_mean": round(mean_ms, 2),
             "proc_ms_max": round(max_ms, 2),
+            "latency_ms_mean": round(float(np.mean(self.lat_times)) * 1000.0, 2),
+            "latency_ms_max": round(float(np.max(self.lat_times)) * 1000.0, 2),
+            "min_latency_ms": self._min_latency_ms,
             "chamfer_cm": (None if self._chamfer != self._chamfer
                            else round(self._chamfer, 3)),
         }
@@ -282,6 +314,19 @@ def main():
     ap.add_argument("--max-point-shift", type=float, default=0.05)
     ap.add_argument("--noise-std", type=float, default=0.02)
     ap.add_argument("--dropout-rate", type=float, default=0.15)
+    ap.add_argument("--gaussian-sigma", type=float, default=0.0,
+                    help="se > 0, con attacco acceso applica solo rumore gaussiano "
+                         "isotropo per punto con questa deviazione standard (m), "
+                         "ignorando il genoma: braccio di confronto")
+    ap.add_argument("--passthrough-delay-ms", type=float, default=0.0,
+                    help="ritardo aggiunto a ogni nuvola quando l'attacco e' spento, "
+                         "per dare al rollout nominale la latenza dei candidati "
+                         "(tipicamente proc_ms_mean dello status, ~85 ms). Tenuto per "
+                         "compatibilita': per la campagna --min-latency-ms")
+    ap.add_argument("--min-latency-ms", type=float, default=0.0,
+                    help="durata minima di ogni scan dalla ricezione alla pubblicazione, "
+                         "ad attacco acceso o spento e per ogni braccio; gli scan piu' "
+                         "lenti non vengono accorciati (campagna: 85)")
     ap.add_argument("--chamfer-every", type=int, default=5,
                     help="calcola la percettibilita' ogni N frame (0 = mai). "
                          "Costa due KD-tree su ~45k punti: ad ogni nuvola "

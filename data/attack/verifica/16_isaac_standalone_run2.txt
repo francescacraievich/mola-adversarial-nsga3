@@ -1,0 +1,415 @@
+Starting kit application with the following args:  ['/home/missroot/.local/lib/python3.12/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py', '/home/missroot/.local/lib/python3.12/site-packages/isaacsim/apps/isaacsim.exp.base.python.kit', '--/app/tokens/exe-path=/home/missroot/.local/lib/python3.12/site-packages/isaacsim/kit', '--/persistent/app/viewport/displayOptions=3094', '--/rtx/materialDb/syncLoads=True', '--/rtx/hydra/materialSyncLoads=True', '--/omni/kit/plugin/syncUsdLoads=True', '--/app/renderer/resolution/width=1280', '--/app/renderer/resolution/height=720', '--/app/window/width=1440', '--/app/window/height=900', '--/renderer/multiGpu/enabled=True', '--/app/fastShutdown=True', '--/app/installSignalHandlers=0', '--ext-folder', '/home/missroot/.local/lib/python3.12/site-packages/isaacsim/exts', '--ext-folder', '/home/missroot/.local/lib/python3.12/site-packages/isaacsim/apps', '--/physics/cudaDevice=0', '--/plugins/carb.tasking.plugin/threadCount=16', '--/plugins/omni.tbb.globalcontrol/maxThreadCount=16', '--portable']
+Passing the following args to the base kit application:  []
+2026-09-30T09:34:35Z [Info] [carb] Logging to file: /home/missroot/.local/lib/python3.12/site-packages/isaacsim/kit/logs/Kit/Isaac-Sim Python/6.1/kit_20260930_113435.log
+[0.041s] [ext: omni.assets.plugins-0.0.0] startup
+[0.042s] [ext: omni.blobkey-1.1.2] startup
+[0.043s] [ext: omni.kit.async_engine-0.0.3] startup
+[0.322s] [ext: omni.client.lib-1.1.1] startup
+[0.328s] [ext: omni.client-1.3.0] startup
+[0.331s] [ext: omni.protobuf.lib-1.0.1] startup
+[0.332s] [ext: omni.grpc.lib-1.0.0] startup
+[0.335s] [ext: omni.metrics.core-0.0.3] startup
+[0.335s] [ext: omni.datastore-0.0.0] startup
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1790760875.461178 2155613 descriptor_database.cc:633] File already exists in database: grpc/health/v1/health.proto
+W0000 00:00:1790760875.461199 2155613 message.cc:301] Protobuf GeneratedMessageFactory: File is already registered: grpc/health/v1/health.proto
+[0.336s] [ext: omni.gpu_foundation.shadercache.vulkan-1.0.0] startup
+[0.337s] [ext: omni.hsscclient-1.1.4] startup
+[0.337s] [ext: omni.stats-1.0.1] startup
+[0.338s] [ext: omni.ujitso.default-1.0.0] startup
+[0.340s] [ext: omni.gpu_foundation-0.0.0] startup
+[0.481s] [ext: carb.windowing.plugins-1.0.1] startup
+[0.492s] [ext: omni.kit.renderer.init-1.0.1] startup
+2026-09-30T09:34:35Z [833ms] [Warning] [omni.rtx] Skipping unsupported non-NVIDIA GPU: AMD Ryzen 7 9800X3D 8-Core Processor (RADV RAPHAEL_MENDOCINO)
+2026-09-30T09:34:35Z [834ms] [Warning] [omni.rtx] Skipping unsupported non-NVIDIA GPU: AMD Ryzen 7 9800X3D 8-Core Processor (RADV RAPHAEL_MENDOCINO)
+
+|---------------------------------------------------------------------------------------------|
+| Driver Version: 595.91.07     | Graphics API: Vulkan
+|=============================================================================================|
+| GPU | Name                             | Active | LDA | GPU Memory | Vendor-ID | LUID       |
+|     |                                  |        |     |            | Device-ID | UUID       |
+|     |                                  |        |     |            | Bus-ID    |            |
+|---------------------------------------------------------------------------------------------|
+| 0   | NVIDIA GeForce RTX 5070 Ti       | Yes: 0 |     | 16303   MB | 10de      | 0          |
+|     |                                  |        |     |            | 2c05      | a3a938e6.. |
+|     |                                  |        |     |            | 1         |            |
+|---------------------------------------------------------------------------------------------|
+| 1   | AMD Ryzen 7 9800X3D 8-Core Pro.. |        |     | 22004   MB | 1002      | 0          |
+|     |                                  |        |     |            | 13c0      | 00000000.. |
+|     |                                  |        |     |            | 11        |            |
+|=============================================================================================|
+| OS: 24.04.5 LTS (Noble Numbat) ubuntu, Version: 24.04.5, Kernel: 7.0.0-34-generic
+| XServer Vendor: The X.Org Foundation, XServer Version: 12101011 (1.21.1.11)
+| Processor: AMD Ryzen 7 9800X3D 8-Core Processor
+| Cores: 8 | Logical Cores: 16
+|---------------------------------------------------------------------------------------------|
+| Total Memory (MB): 61918 | Free Memory: 45705
+| Total Page/Swap (MB): 8191 | Free Page/Swap: 8111
+|---------------------------------------------------------------------------------------------|
+2026-09-30T09:34:36Z [1,012ms] [Warning] [omni.rtx] CPU performance profile is set to powersave. This profile sets the CPU to the lowest frequency reducing performance.
+2026-09-30T09:34:36Z [1,032ms] [Warning] [omni.rtx] PCIe link width current (2) and maximum (16) for device 0 don't match.
+2026-09-30T09:34:36Z [1,032ms] [Warning] [omni.rtx] IOMMU is enabled.
+[1.109s] [ext: omni.kit.pipapi-0.0.0] startup
+[1.110s] [ext: omni.kit.telemetry-0.5.2] startup
+[1.139s] [ext: omni.kit.loop-isaac-1.6.2] startup
+[1.140s] [ext: omni.kit.test-2.1.1] startup
+[1.170s] [ext: omni.materialx.libs-1.0.9] startup
+[1.175s] [ext: omni.gpucompute.plugins-0.0.0] startup
+[1.175s] [ext: omni.usd.config-1.0.8] startup
+[1.178s] [ext: omni.usd.libs-1.0.3] startup
+[1.234s] [ext: omni.iray.libs-0.0.1] startup
+[1.237s] [ext: omni.mdl-57.0.6] startup
+[1.292s] [ext: omni.mdl.neuraylib-0.2.22] startup
+[1.293s] [ext: omni.kit.usd.mdl-1.1.11] startup
+[1.367s] [ext: omni.appwindow-1.2.2] startup
+[1.495s] [ext: omni.kit.renderer.core-1.3.1] startup
+[1.660s] [ext: omni.kit.renderer.capture-2.0.1] startup
+[1.662s] [ext: omni.kit.renderer.imgui-2.1.0] startup
+[1.730s] [ext: omni.ui-3.3.1] startup
+[1.736s] [ext: omni.kit.mainwindow-1.0.4] startup
+[1.737s] [ext: carb.audio-0.1.0] startup
+[1.739s] [ext: omni.uiaudio-1.0.0] startup
+[1.740s] [ext: omni.kit.uiapp-0.0.0] startup
+[1.740s] [ext: omni.usd.schema.metrics.assembler-110.1.0] startup
+[1.741s] [ext: omni.usd.schema.audio-0.0.1] startup
+[1.743s] [ext: omni.usd_resolver-1.0.0] startup
+[1.746s] [ext: omni.usd.core-1.10.10] startup
+[1.748s] [ext: omni.metropolis.schema-0.0.3] startup
+[1.749s] [ext: isaacsim.anim.robot.schema-0.1.1] startup
+[1.749s] [ext: isaacsim.common-6.2.0] startup
+[1.750s] [ext: omni.usd.schema.anim-0.0.1] startup
+[1.761s] [ext: omni.usd.schema.geospatial-0.0.1] startup
+[1.763s] [ext: omni.usd.schema.omnigraph-1.0.1] startup
+[1.766s] [ext: omni.usd.schema.semantics-0.0.0] startup
+[1.768s] [ext: omni.activity.core-1.0.4] startup
+[1.769s] [ext: omni.cubric-0.1.0] startup
+[1.769s] [ext: omni.graph.exec-0.9.6] startup
+[1.769s] [ext: omni.hydra.scene_delegate-0.3.5] startup
+[1.771s] [ext: usdrt.scenegraph-7.6.3] startup
+[1.787s] [ext: omni.hydra.usdrt_delegate-7.5.2] startup
+[1.791s] [ext: omni.inspect-1.0.2] startup
+[1.792s] [ext: omni.kit.actions.core-1.2.0] startup
+[1.793s] [ext: omni.kit.audiodeviceenum-1.0.2] startup
+[1.794s] [ext: omni.kit.commands-1.5.0] startup
+[1.796s] [ext: omni.kit.exec.core-0.13.6] startup
+[1.796s] [ext: omni.kit.usd_undo-0.1.8] startup
+[1.797s] [ext: omni.kit.window.popup_dialog-2.0.26] startup
+[1.799s] [ext: omni.kit.widget.connection_manager-1.0.3] startup
+[1.802s] [ext: omni.timeline-1.1.0] startup
+[1.804s] [ext: omni.usd-1.18.0] startup
+[1.828s] [ext: omni.graph.core-3.1.5] startup
+[1.830s] [ext: omni.kit.notification_manager-1.0.16] startup
+[1.831s] [ext: isaacsim.core.deprecation_manager-0.4.4] startup
+[1.831s] [ext: isaacsim.replicator.agent.schema-0.1.1] startup
+[1.832s] [ext: isaacsim.robot.schema-7.0.2] startup
+[1.834s] [ext: isaacsim.robot_motion.schema-0.2.2] startup
+[1.835s] [ext: omni.anim.behavior.schema-110.3.0] startup
+[1.837s] [ext: omni.anim.graph.schema-110.3.0] startup
+[1.841s] [ext: omni.anim.navigation.schema-110.3.0] startup
+[1.843s] [ext: omni.behavior.tree.schema-110.3.0] startup
+[1.843s] [ext: omni.kit.asset_converter-6.0.5] startup
+2026-09-30T09:34:36Z [1,826ms] [Warning] [asset_converter_native_bindings._bootstrap] A different OpenUSD (pxr) build was already imported from /home/missroot/.local/lib/python3.12/site-packages/isaacsim/extscache/omni.usd.libs-1.0.3+00c488ae.lx64.r.cp312/pxr before usd-convert-asset loaded. The host pxr bindings will remain in use rather than reloading the bundled OpenUSD at /home/missroot/.local/lib/python3.12/site-packages/isaacsim/extscache/omni.kit.asset_converter-6.0.5+110.1.1.lx64.r.cp312.u7f4/asset_converter_native_bindings/libs/lib/python/pxr, /home/missroot/.local/lib/python3.12/site-packages/isaacsim/extscache/omni.kit.asset_converter-6.0.5+110.1.1.lx64.r.cp312.u7f4/asset_converter_native_bindings/libs/python/pxr. Mixing USD builds in one process can cause ABI and singleton conflicts; prefer importing usd_convert_asset first, or run the converter in a separate process/venv when mixing unrelated USD builds.
+[1.853s] [ext: omni.usd.schema.flow-110.0.0] startup
+[1.853s] [ext: omni.usd.schema.newton-1.4.0] startup
+[1.853s] [ext: omni.usd.schema.mujoco-1.1.4] startup
+[1.854s] [ext: omni.usd.schema.omni_dome_light-1.0.0] startup
+[1.854s] [ext: omni.usd.schema.omni_lens_distortion-1.0.0] startup
+[1.855s] [ext: omni.usd.schema.omni_projectors-1.0.0] startup
+[1.855s] [ext: omni.usd.schema.omni_sensors-0.0.0] startup
+[1.859s] [ext: omni.usd.schema.omniscripting-1.0.1] startup
+[1.862s] [ext: omni.usd.schema.physical_lighting-0.1.0] startup
+[1.864s] [ext: omni.usd.schema.physx-110.3.2] startup
+[1.882s] [ext: omni.usd.schema.render_settings.rtx-1.0.3] startup
+[1.884s] [ext: omni.usd.schema.usd_particle_field-1.0.0] startup
+[1.884s] [ext: isaacsim.core.version-2.2.1] startup
+[1.886s] [ext: omni.kit.menu.core-1.3.0] startup
+[1.886s] [ext: omni.kit.menu.utils-2.2.8] startup
+[1.890s] [ext: isaacsim.app.about-2.3.2] startup
+[1.893s] [ext: isaacsim.asset.transformer-6.1.0] startup
+[1.895s] [ext: omni.scene.optimizer.core-110.2.1] startup
+[1.926s] [ext: isaacsim.asset.importer.utils-1.9.1] startup
+[1.927s] [ext: omni.convexdecomposition-110.3.2] startup
+[1.928s] [ext: omni.physics-110.3.2] startup
+[1.930s] [ext: omni.physx.gpu-110.3.2] startup
+[1.930s] [ext: omni.physx.foundation-110.3.2] startup
+[1.931s] [ext: omni.usdphysics-110.3.2] startup
+[1.932s] [ext: omni.physx.cooking-110.3.2] startup
+[1.934s] [ext: omni.physx-110.3.2] startup
+[1.939s] [ext: omni.physics.physx-110.3.2] startup
+[1.941s] [ext: isaacsim.asset.exporter.urdf-2.2.6] startup
+[1.946s] [ext: omni.kit.clipboard-1.1.1] startup
+[1.946s] [ext: omni.kit.usd.layers-2.7.2] startup
+[1.950s] [ext: omni.kit.widget.context_menu-1.5.0] startup
+[1.951s] [ext: omni.kit.context_menu-1.10.0] startup
+[1.952s] [ext: omni.kit.helper.file_utils-0.1.10] startup
+[1.953s] [ext: omni.kit.widget.nucleus_info-2.0.2] startup
+[1.954s] [ext: omni.kit.search_core-1.0.8] startup
+[1.954s] [ext: omni.kit.widget.path_field-2.0.13] startup
+[1.954s] [ext: omni.kit.widget.browser_bar-2.0.11] startup
+[1.955s] [ext: omni.kit.widget.filebrowser-2.14.0] startup
+[1.957s] [ext: omni.kit.widget.nucleus_connector-2.4.0] startup
+[1.957s] [ext: omni.kit.widget.options_menu-1.1.7] startup
+[1.959s] [ext: omni.kit.widget.options_button-1.0.3] startup
+[1.959s] [ext: omni.kit.widget.search_delegate-1.0.10] startup
+[1.960s] [ext: omni.ui.scene-2.0.4] startup
+[1.963s] [ext: omni.kit.window.filepicker-3.0.14] startup
+[1.972s] [ext: omni.kit.window.file_importer-1.1.22] startup
+[1.973s] [ext: omni.kit.material.library-3.1.7] startup
+[1.976s] [ext: isaacsim.asset.transformer.rules-1.7.18] startup
+[1.982s] [ext: omni.usdex.libs-2.3.0] startup
+[1.987s] [ext: isaacsim.asset.importer.mjcf-3.12.1] startup
+[1.988s] [ext: omni.kit.primitive.mesh-1.1.1] startup
+[1.989s] [ext: omni.kit.stage_template.core-1.1.23] startup
+[1.990s] [ext: omni.kit.stage_templates-2.0.3] startup
+[1.991s] [ext: omni.usd.metrics.assembler-110.1.2] startup
+[1.992s] [ext: omni.warp.core-1.16.0] startup
+[2.092s] [ext: isaacsim.core.experimental.utils-0.23.0] startup
+[2.093s] [ext: isaacsim.asset.importer.urdf-3.11.10] startup
+[2.095s] [ext: omni.physics.stageupdate-110.3.2] startup
+[2.096s] [ext: omni.physics.tensors-110.3.2] startup
+[2.099s] [ext: omni.physx.tensors-110.3.2] startup
+[2.101s] [ext: isaacsim.core.simulation_manager-1.17.1] startup
+[2.108s] [ext: isaacsim.storage.native-1.11.0] startup
+[2.109s] [ext: omni.usd.metrics.assembler.physics-110.3.2] startup
+[2.110s] [ext: isaacsim.core.utils-4.1.9] startup
+[2.112s] [ext: isaacsim.core.prims-0.11.7] startup
+[2.822s] [ext: isaacsim.core.api-5.3.2] startup
+[2.825s] [ext: isaacsim.core.cloner-1.7.5] startup
+[2.826s] [ext: isaacsim.test.docstring-1.3.2] startup
+[2.829s] [ext: isaacsim.core.experimental.prims-1.10.8] startup
+[2.838s] [ext: isaacsim.core.experimental.primdata-0.3.6] startup
+[2.840s] [ext: omni.graph.tools-1.81.0] startup
+[2.852s] [ext: omni.graph-1.142.5] startup
+[2.873s] [ext: isaacsim.core.experimental.actuators-0.1.6] startup
+[2.883s] [ext: isaacsim.core.experimental.materials-0.10.0] startup
+[2.885s] [ext: isaacsim.core.experimental.objects-0.9.0] startup
+[2.931s] [ext: omni.hydra.engine.stats-1.0.5] startup
+[2.933s] [ext: omni.hydra.rtx.shadercache.vulkan-1.0.0] startup
+[2.933s] [ext: omni.index.libs-392300.961.0] startup
+[2.934s] [ext: omni.index-1.0.1] startup
+[2.934s] [ext: omni.ujitso.client-0.0.0] startup
+[2.934s] [ext: omni.usd.schema.playback-1.1.0] startup
+[2.935s] [ext: omni.volume-0.5.2] startup
+[2.938s] [ext: omni.hydra.rtx-1.0.4] startup
+2026-09-30T09:34:38Z [2,931ms] [Warning] [omni.log] Source: omni.hydra was already registered.
+[2.961s] [ext: omni.kit.hydra_texture-1.6.2] startup
+[2.963s] [ext: omni.kit.raycast.query-1.2.0] startup
+[2.966s] [ext: omni.kit.viewport.legacy_gizmos-1.0.24] startup
+[2.967s] [ext: omni.kit.viewport.registry-104.0.6] startup
+[2.968s] [ext: omni.kit.viewport.scene_camera_model-1.0.7] startup
+[2.970s] [ext: omni.kit.widget.viewport-110.0.0] startup
+[2.973s] [ext: omni.kit.window.drop_support-1.0.8] startup
+[2.973s] [ext: omni.kit.viewport.window-110.0.1] startup
+[2.984s] [ext: omni.kit.viewport.utility-2.1.0] startup
+[2.985s] [ext: isaacsim.core.rendering_manager-0.5.1] startup
+[2.992s] [ext: omni.graph.action_core-1.1.9] startup
+[2.993s] [ext: omni.graph.action_nodes_core-2.11.0] startup
+[2.995s] [ext: omni.graph.action_nodes-2.11.0] startup
+[3.007s] [ext: omni.graph.action-2.10.2] startup
+[3.008s] [ext: omni.graph.image.core-0.6.1] startup
+[3.009s] [ext: omni.graph.image.nodes-1.3.2] startup
+[3.009s] [ext: omni.graph.nodes_core-2.11.0] startup
+[3.013s] [ext: omni.graph.nodes-2.12.0] startup
+[3.030s] [ext: omni.kit.hotkeys.core-1.4.0] startup
+[3.030s] [ext: omni.kit.property.adapter.core-1.1.1] startup
+[3.032s] [ext: omni.kit.property.adapter.usd-1.0.6] startup
+[3.033s] [ext: omni.kit.widget.filter-1.1.8] startup
+[3.033s] [ext: omni.kit.widget.highlight_label-1.0.3] startup
+[3.034s] [ext: omni.kit.widget.searchfield-1.1.8] startup
+[3.035s] [ext: omni.kit.window.file_exporter-1.0.38] startup
+[3.035s] [ext: omni.kit.widget.stage-4.6.5] startup
+[3.040s] [ext: omni.kit.window.content_browser_registry-0.0.6] startup
+[3.041s] [ext: omni.kit.window.file-2.0.15] startup
+[3.043s] [ext: omni.kit.window.content_browser-3.1.12] startup
+[3.049s] [ext: omni.kit.window.property-1.15.2] startup
+[3.057s] [ext: omni.kit.property.usd-4.9.14] startup
+[3.063s] [ext: omni.graph.scriptnode-2.10.2] startup
+[3.068s] [ext: omni.kit.widget.searchable_combobox-1.0.7] startup
+[3.069s] [ext: omni.kit.widget.settings-2.0.1] startup
+[3.070s] [ext: omni.kit.window.preferences-1.8.5] startup
+[3.073s] [ext: omni.kit.viewport.menubar.core-110.0.3] startup
+[3.080s] [ext: omni.syntheticdata-0.6.17] startup
+[3.097s] [ext: omni.replicator.nv-1.1.6] startup
+[3.100s] [ext: omni.videoencoding-0.2.1] startup
+[3.101s] [ext: omni.replicator.core-1.13.36] startup
+2026-09-30T09:34:38Z [3,088ms] [Warning] [pxr.Semantics] pxr.Semantics is deprecated - please use Semantics instead
+Warp 1.16.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.2
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 5070 Ti" (15 GiB, sm_120, mempool enabled)
+   Kernel cache:
+     /home/missroot/.cache/warp/1.16.0
+2026-09-30T09:34:38Z [3,125ms] [Warning] [omni.replicator.core.scripts.extension] No material configuration file, adding configuration to material settings directly.
+[3.214s] [ext: isaacsim.core.nodes-5.10.13] startup
+[3.233s] [ext: isaacsim.core.throttling-2.3.7] startup
+[3.235s] [ext: omni.kit.manipulator.viewport-107.0.1] startup
+[3.235s] [ext: omni.graph.visualization.nodes-2.1.4] startup
+[3.244s] [ext: omni.kit.window.extensions-1.5.16] startup
+[3.247s] [ext: isaacsim.gui.components-1.8.9] startup
+[3.250s] [ext: isaacsim.robot.surface_gripper-3.6.3] startup
+[3.258s] [ext: isaacsim.robot.manipulators-3.4.5] startup
+[3.264s] [ext: isaacsim.robot_motion.lula-4.1.4] startup
+[3.269s] [ext: isaacsim.robot_motion.motion_generation-8.2.9] startup
+[3.273s] [ext: isaacsim.cortex.framework-1.0.20] startup
+[3.274s] [ext: isaacsim.cortex.behaviors-2.0.18] startup
+[3.275s] [ext: isaacsim.examples.base-1.3.4] startup
+[3.277s] [ext: omni.kit.widget.zoombar-1.0.7] startup
+[3.278s] [ext: omni.kit.browser.core-2.3.18] startup
+[3.280s] [ext: omni.kit.browser.folder.core-2.0.3] startup
+[3.283s] [ext: omni.kit.widget.stage_icons-1.0.8] startup
+[3.283s] [ext: omni.kit.window.stage-2.6.1] startup
+[3.286s] [ext: omni.kit.menu.stage-1.2.7] startup
+[3.287s] [ext: omni.kit.usd.collect-3.0.6] startup
+[3.288s] [ext: omni.kit.widget.prompt-1.0.7] startup
+[3.289s] [ext: omni.kit.tool.collect-2.2.19] startup
+[3.290s] [ext: isaacsim.examples.browser-0.3.4] startup
+[3.292s] [ext: omni.kit.search.files-1.0.4] startup
+[3.293s] [ext: omni.kit.widget.calendar-1.0.9] startup
+[3.293s] [ext: omni.kit.widget.extended_searchfield-1.0.31] startup
+[3.299s] [ext: omni.simready.content.browser-0.3.8] startup
+[3.378s] [ext: isaacsim.gui.content_browser-0.5.1] startup
+[3.379s] [ext: omni.kit.selection-0.1.6] startup
+[3.380s] [ext: isaacsim.gui.menu-2.10.12] startup
+[3.385s] [ext: isaacsim.gui.property-1.6.4] startup
+[3.390s] [ext: omni.kit.viewport.actions-110.1.0] startup
+[3.392s] [ext: omni.kit.viewport.menubar.display-110.0.0] startup
+[3.394s] [ext: isaacsim.gui.sensors.icon-2.2.4] startup
+[3.396s] [ext: omni.behavior.scripting.core-110.3.0] startup
+[3.397s] [ext: isaacsim.replicator.behavior-1.6.2] startup
+[3.400s] [ext: isaacsim.replicator.experimental.domain_randomization-1.2.10] startup
+[3.410s] [ext: isaacsim.replicator.domain_randomization-1.2.3] startup
+[3.462s] [ext: isaacsim.replicator.writers-1.5.6] startup
+[3.477s] [ext: isaacsim.robot.experimental.wheeled_robots-0.2.14] startup
+[3.492s] [ext: isaacsim.robot_motion.experimental.motion_generation-7.1.2] startup
+[3.497s] [ext: isaacsim.robot.policy.examples-7.2.0] startup
+[7.601s] [ext: isaacsim.robot.wheeled_robots-5.2.5] startup
+[7.605s] [ext: isaacsim.robot.wheeled_robots.nodes-0.1.12] startup
+[7.621s] [ext: isaacsim.robot_motion.controllers-0.3.2] startup
+[7.628s] [ext: isaacsim.robot_motion.cumotion-1.4.0] startup
+[7.638s] [ext: omni.kit.numpy.common-0.1.3] startup
+[7.639s] [ext: omni.rtx.spg-0.4.0] startup
+[7.644s] [ext: omni.sensors.nv.camera-1.0.0] startup
+[7.648s] [ext: isaacsim.sensors.camera-1.7.13] startup
+[7.666s] [ext: isaacsim.sensors.experimental.physics-3.3.0] startup
+[7.672s] [ext: omni.sensors.net-1.0.1] startup
+[7.674s] [ext: omni.sensors.nv.common-3.0.0] startup
+[7.684s] [ext: omni.sensors.nv.materials-2.0.0] startup
+[7.686s] [ext: omni.sensors.nv.acoustic-3.0.0] startup
+[7.689s] [ext: omni.sensors.nv.ids-2.0.1] startup
+[7.690s] [ext: omni.sensors.nv.lidar-3.0.0] startup
+[7.693s] [ext: omni.sensors.nv.radar-3.0.0] startup
+[7.696s] [ext: isaacsim.sensors.experimental.rtx-1.9.0] startup
+2026-09-30T09:34:42Z [7,782ms] [Error] [omni.kit.app._impl] [py stderr]: /home/missroot/.local/lib/python3.12/site-packages/matplotlib/projections/__init__.py:63: UserWarning: Unable to import Axes3D. This may be due to multiple versions of Matplotlib being installed (e.g. as a system package and as a pip package). As a result, the 3D projection is not available.
+  warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+[7.817s] [ext: isaacsim.sensors.physics.nodes-1.6.2] startup
+[7.821s] [ext: isaacsim.util.debug_draw-3.2.6] startup
+[7.825s] [ext: isaacsim.sensors.physx-2.5.7] startup
+[7.830s] [ext: isaacsim.sensors.rtx-15.17.5] startup
+[7.838s] [ext: isaacsim.simulation_app-2.19.0] startup
+[7.838s] [ext: omni.anim.curve.core-1.6.1] startup
+[7.844s] [ext: omni.graph.ui_nodes-2.11.1] startup
+[7.860s] [ext: omni.kit.manipulator.camera-110.1.0] startup
+[7.862s] [ext: omni.kit.manipulator.selector-1.1.4] startup
+[7.863s] [ext: omni.kit.manipulator.transform-107.0.1] startup
+[7.866s] [ext: omni.kit.widget.toolbar-2.1.0] startup
+[7.869s] [ext: omni.kit.manipulator.tool.snap-1.5.15] startup
+[7.872s] [ext: omni.kit.viewport.manipulator.transform-107.0.4] startup
+[7.873s] [ext: omni.kit.manipulator.prim.core-108.0.2] startup
+[7.877s] [ext: omni.kit.manipulator.prim.usd-107.0.3] startup
+[7.878s] [ext: omni.kit.manipulator.prim-108.0.0] startup
+[7.878s] [ext: omni.kit.manipulator.selection-110.0.0] startup
+[7.878s] [ext: omni.kit.menu.create-2.0.2] startup
+[7.879s] [ext: omni.kit.property.audio-1.0.18] startup
+[7.882s] [ext: omni.kit.property.camera-1.0.14] startup
+[7.883s] [ext: omni.kit.property.geometry-2.1.2] startup
+[7.885s] [ext: omni.kit.property.light-1.0.16] startup
+[7.907s] [ext: omni.kit.property.material-1.14.10] startup
+[7.910s] [ext: omni.kit.property.render-1.2.2] startup
+[7.911s] [ext: omni.kit.property.transform-1.6.12] startup
+[7.913s] [ext: omni.kit.property.bundle-1.5.2] startup
+[7.914s] [ext: omni.kit.usdz_export-1.1.1] startup
+[7.915s] [ext: omni.kit.tool.asset_importer-6.0.2] startup
+[7.919s] [ext: omni.kit.ui.actions-1.0.5] startup
+[7.920s] [ext: omni.kit.viewport.menubar.camera-107.0.14] startup
+[7.923s] [ext: omni.kit.viewport.menubar.lighting-107.3.2] startup
+[7.924s] [ext: omni.kit.viewport.menubar.render-110.1.1] startup
+[7.926s] [ext: omni.kit.viewport.menubar.settings-110.0.1] startup
+[7.928s] [ext: omni.kit.window.console-1.1.10] startup
+[7.930s] [ext: omni.kit.window.status_bar-0.1.11] startup
+[7.932s] [ext: omni.kit.window.toolbar-3.0.3] startup
+[7.934s] [ext: omni.ocio-0.1.1] startup
+[7.934s] [ext: omni.physx.commands-110.3.2] startup
+[7.936s] [ext: omni.replicator.replicator_yaml-2.0.12] startup
+[7.943s] [ext: omni.rtx.window.settings-0.8.2] startup
+[7.945s] [ext: omni.rtx.settings.core-0.7.1] startup
+[7.947s] [ext: omni.usd.metrics.assembler.ui-110.1.1] startup
+[7.951s] [ext: semantics.schema.editor-2.0.2] startup
+[7.953s] [ext: semantics.schema.property-2.0.2] startup
+[7.954s] [ext: omni.kit.menu.common-2.0.2] startup
+[7.955s] [ext: isaacsim.exp.base-6.1.0] startup
+[7.955s] [ext: isaacsim.exp.base.python-6.1.0] startup
+[7.956s] Simulation App Starting
+2026-09-30T09:34:43Z [8,356ms] [Warning] [usdrt.population.plugin] [UsdNoticeHandler] Unhandled attribute type VtArray<std::string> (prim attribute: omni:rtx:material:db:flattener:reflection_roughness_constant)
+2026-09-30T09:34:43Z [8,356ms] [Warning] [usdrt.population.plugin] [UsdNoticeHandler] Unhandled attribute type VtArray<std::string> (prim attribute: omni:rtx:material:db:flattener:transmittance_color)
+2026-09-30T09:34:43Z [8,356ms] [Warning] [usdrt.population.plugin] [UsdNoticeHandler] Unhandled attribute type VtArray<std::string> (prim attribute: omni:rtx:material:db:flattener:ior_constant)
+[8.716s] Simulation App Startup Complete
+[8.723s] app ready
+[9.054s] [ext: isaacsim.core.includes-2.9.4] startup
+[9.055s] [ext: isaacsim.sensors.rtx.nodes-0.1.7] startup
+[9.070s] [ext: isaacsim.ros2.core-1.11.0] startup
+[9.122s] Attempting to load system rclpy
+[9.146s] rclpy loaded
+[9.148s] [ext: isaacsim.ros2.control-0.1.6] startup
+[9.152s] [ext: isaacsim.ros2.nodes-1.22.7] startup
+[9.183s] [ext: isaacsim.ros2.examples-1.2.9] startup
+[9.186s] [ext: isaacsim.ros2.ui-1.9.2] startup
+[9.346s] [ext: isaacsim.ros2.bridge-5.1.4] startup
+[standalone] apro /home/missroot/mola-adversarial-nsga3/isaac/carter_warehouse.usd
+2026-09-30T09:34:52Z [17,817ms] [Warning] [omni.usd] Encountered USD Warnings but USD Diagnostics are currently muted. To view USD Warnings, please set the '/persistent/app/usd/muteUsdDiagnostics' setting to false in Preferences page.
+2026-09-30T09:34:56Z [21,597ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/right/camera_right': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,597ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/left/camera_left': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,597ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/right/camera_right': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,597ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/right/camera_right': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,597ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/camera': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,597ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/right/camera_right': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,597ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/left/camera_left': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,597ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/camera': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,597ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/left/camera_left': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,597ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/camera': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,598ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/left/camera_left': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:56Z [21,598ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/camera': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+[standalone] pronto: comandi su /tmp/isaac_cmd.json
+2026-09-30T09:34:58Z [23,237ms] [Warning] [isaacsim.core.experimental.primdata.plugin] PrimDataReader: DOF effort readings are not available on the Newton backend. The dof_efforts field will be unavailable.
+2026-09-30T09:34:58Z [23,291ms] [Warning] [isaacsim.ros2.nodes.ogn.python.nodes.OgnROS2RtxLidarHelper] fullScan is deprecated. RTX Lidar now always produces full scans via accumulateOutputs. This setting is ignored.
+2026-09-30T09:34:58Z [23,511ms] [Warning] [isaacsim.ros2.core.impl.camera_info_utils] Forcing fy to fx (957.8116193827423 != 957.8115559493878) when computing CameraInfo, as renderer assumes square pixels.
+2026-09-30T09:34:58Z [23,511ms] [Warning] [isaacsim.ros2.core.impl.camera_info_utils] Forcing fy to fx (959.3266105473468 != 959.3265470136585) when computing CameraInfo, as renderer assumes square pixels.
+2026-09-30T09:34:58Z [23,742ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/left/camera_left': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:58Z [23,742ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/right/camera_right': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T09:34:58Z [23,829ms] [Warning] [rtx.rtxsensor.plugin] Multi-tick is enabled but motion BVH is not active. This is not supported.
+2026-09-30T09:34:58Z [23,829ms] [Warning] [rtx.sensors.lidar.core.plugin] MotionBVH for lidar model not enabled. This will result in an incorrect point cloud without motion effects!
+2026-09-30T09:34:59Z [24,815ms] [Warning] [omni.timeline.plugin] Deprecated: direct use of ITimeline callbacks is deprecated. Use ITimeline::getTimeline (Python: omni.timeline.get_timeline_interface) instead.
+2026-09-30T09:35:14Z [39,852ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:35:29Z [54,645ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:35:43Z [68,745ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:35:58Z [83,143ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:36:12Z [96,874ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:36:25Z [110,151ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:36:39Z [123,991ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:36:52Z [137,695ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:37:06Z [151,372ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:37:20Z [165,313ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:37:34Z [179,576ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:37:48Z [193,537ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:38:02Z [207,813ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:38:16Z [221,628ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:38:31Z [236,032ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:38:45Z [250,010ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:38:59Z [264,033ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:39:13Z [277,907ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:39:27Z [291,896ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:39:41Z [306,255ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:39:55Z [320,547ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:40:09Z [334,350ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:40:22Z [347,854ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T09:40:36Z [361,531ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step

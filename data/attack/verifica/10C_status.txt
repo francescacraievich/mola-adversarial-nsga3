@@ -1,0 +1,2 @@
+data: '{"enabled": true, "genome_id": 1, "frames_in": 354, "frames_out": 354, "proc_ms_mean": 85.52, "proc_ms_max": 274.77, "chamfer_cm...'
+---

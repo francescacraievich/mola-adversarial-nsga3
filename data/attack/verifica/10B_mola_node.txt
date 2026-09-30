@@ -1,0 +1,42 @@
+/mola_bridge_ros2
+  Subscribers:
+    /carter/lidar_with_intensity: sensor_msgs/msg/PointCloud2
+    /clock: rosgraph_msgs/msg/Clock
+    /gps: sensor_msgs/msg/NavSatFix
+    /gps_fix: gps_msgs/msg/GPSFix
+    /imu: sensor_msgs/msg/Imu
+    /initialpose: geometry_msgs/msg/PoseWithCovarianceStamped
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /tf: tf2_msgs/msg/TFMessage
+    /tf_static: tf2_msgs/msg/TFMessage
+  Publishers:
+    /diagnostics: diagnostic_msgs/msg/DiagnosticArray
+    /lidar_odometry/localmap_points: sensor_msgs/msg/PointCloud2
+    /lidar_odometry/metadata: std_msgs/msg/String
+    /lidar_odometry/pose: nav_msgs/msg/Odometry
+    /lidar_odometry/pose_quality: std_msgs/msg/Float32
+    /mola_diagnostics/lidar_odom/status: std_msgs/msg/String
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+    /tf: tf2_msgs/msg/TFMessage
+    /tf_static: tf2_msgs/msg/TFMessage
+  Service Servers:
+    /map_load: mola_msgs/srv/MapLoad
+    /map_save: mola_msgs/srv/MapSave
+    /mola_bridge_ros2/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /mola_bridge_ros2/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /mola_bridge_ros2/get_parameters: rcl_interfaces/srv/GetParameters
+    /mola_bridge_ros2/get_type_description: type_description_interfaces/srv/GetTypeDescription
+    /mola_bridge_ros2/list_parameters: rcl_interfaces/srv/ListParameters
+    /mola_bridge_ros2/set_parameters: rcl_interfaces/srv/SetParameters
+    /mola_bridge_ros2/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+    /mola_runtime_param_get: mola_msgs/srv/MolaRuntimeParamGet
+    /mola_runtime_param_set: mola_msgs/srv/MolaRuntimeParamSet
+    /relocalize_from_state_estimator: mola_msgs/srv/RelocalizeFromStateEstimator
+    /relocalize_near_pose: mola_msgs/srv/RelocalizeNearPose
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+

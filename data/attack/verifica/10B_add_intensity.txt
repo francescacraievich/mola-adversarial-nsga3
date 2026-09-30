@@ -1,0 +1,21 @@
+/add_intensity_node
+  Subscribers:
+    /front_3d_lidar/lidar_points: sensor_msgs/msg/PointCloud2
+  Publishers:
+    /carter/lidar_with_intensity: sensor_msgs/msg/PointCloud2
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+  Service Servers:
+    /add_intensity_node/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /add_intensity_node/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /add_intensity_node/get_parameters: rcl_interfaces/srv/GetParameters
+    /add_intensity_node/get_type_description: type_description_interfaces/srv/GetTypeDescription
+    /add_intensity_node/list_parameters: rcl_interfaces/srv/ListParameters
+    /add_intensity_node/set_parameters: rcl_interfaces/srv/SetParameters
+    /add_intensity_node/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+

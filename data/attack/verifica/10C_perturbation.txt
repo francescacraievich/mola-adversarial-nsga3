@@ -1,0 +1,24 @@
+/perturbation_node
+  Subscribers:
+    /attack/enabled: std_msgs/msg/Bool
+    /attack/genome: std_msgs/msg/Float32MultiArray
+    /carter/lidar_with_intensity: sensor_msgs/msg/PointCloud2
+  Publishers:
+    /attack/status: std_msgs/msg/String
+    /carter/lidar_perturbed: sensor_msgs/msg/PointCloud2
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+  Service Servers:
+    /perturbation_node/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /perturbation_node/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /perturbation_node/get_parameters: rcl_interfaces/srv/GetParameters
+    /perturbation_node/get_type_description: type_description_interfaces/srv/GetTypeDescription
+    /perturbation_node/list_parameters: rcl_interfaces/srv/ListParameters
+    /perturbation_node/set_parameters: rcl_interfaces/srv/SetParameters
+    /perturbation_node/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+

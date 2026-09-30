@@ -1,0 +1,14 @@
+header:
+  stamp:
+    sec: 0
+    nanosec: 300000000
+  frame_id: front_3d_lidar
+height: 1
+width: 44978
+fields: '<sequence type: sensor_msgs/msg/PointField, length: 3>'
+is_bigendian: false
+point_step: 12
+row_step: 539736
+data: '<sequence type: uint8, length: 539736>'
+is_dense: true
+---

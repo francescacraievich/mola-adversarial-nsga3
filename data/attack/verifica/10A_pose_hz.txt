@@ -1,0 +1,9 @@
+WARNING: topic [/lidar_odometry/pose] does not appear to be published yet
+average rate: 3.856
+	min: 0.098s max: 0.558s std dev: 0.19465s window: 6
+average rate: 4.236
+	min: 0.098s max: 0.558s std dev: 0.16425s window: 11
+average rate: 4.605
+	min: 0.098s max: 0.765s std dev: 0.18507s window: 20
+average rate: 4.450
+	min: 0.098s max: 0.765s std dev: 0.17600s window: 26

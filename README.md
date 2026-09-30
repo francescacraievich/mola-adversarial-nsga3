@@ -23,8 +23,9 @@ Isaac state) is used for measurement only.
 The attack runs as a receding horizon. For every window of H metres the
 orchestrator saves the simulator state, runs one nominal rollout (no attack) and
 N×G candidate rollouts (restore state, restart MOLA, load genome, drive H metres),
-scores each candidate by physical deviation from the nominal end point plus a
-directional term, and by perturbation magnitude (Chamfer distance); NSGA-III
+scores each candidate by the physical deviation of its true trajectory from the
+nominal one, compared at equal distance travelled (`--damage mean|max|end`), plus
+a directional term, and by perturbation magnitude (Chamfer distance); NSGA-III
 selects the Pareto front, the chosen genome is applied for a real H-metre stretch,
 and the next window starts from the new state.
 
@@ -95,12 +96,51 @@ python3 -u src/optimization/attack_orchestrator.py --goal "5,0" --horizon 1.0 \
     --settle-sec 2.0 --pop 4 --gen 2 --trace --out data/attack/run_01
 ```
 
+Main options: `--goals "5,0; 5,2.5; 10,2.5"` (waypoints), `--start-pose=x,y,yaw_deg`
+(teleport before the run; the `=` is needed because a value starting with `-`
+would be parsed as an option), `--genome-group 1|2|3` (active genes: 6, 15, 17),
+`--search nsga3|random|gaussian` (comparison arms; gaussian needs
+`perturbation_node.py --gaussian-sigma S`), `--damage mean|max|end`,
+`--untracked discard|nominal|damage`, `--attack-from motion|spawn`, `--reeval`,
+`--true-pose ros|file`. The true pose is read from `/chassis/odom`; the file
+channel to `isaac_rollout_server.py` is used only for pause, play, save,
+restore and set_pose.
+
+Campaign (repetitions of one arm on one scenario, resumable). Every arm must pay
+the same latency per scan, otherwise the computation time of the perturbation
+enters the damage: the node runs with `--min-latency-ms 85`, which holds each
+scan (attack on or off, any `--search`) for at least 85 ms before publishing it
+and never shortens slower scans. The value is published in `/attack/status`
+(`min_latency_ms`, with `latency_ms_mean`/`latency_ms_max`), and
+`run_campaign.sh` refuses to start if the running node does not match
+`MIN_LATENCY_MS` (default 85). `--passthrough-delay-ms` (delay with the attack
+off only) is kept for compatibility.
+
+The script starts Isaac Sim from the terminal (`isaac/run_isaac_standalone.py`,
+extra options in `ISAAC_ARGS`, e.g. `--headless`) at the beginning of every
+repetition and closes it at the end, so each Isaac process lives for one run;
+it refuses to start if another Isaac is already running. Results go to
+`CAMPAIGN_DIR` (default `data/attack/campaign`). The orchestrator watches the
+simulator: if the pose written by the Isaac loop or the clouds on
+`/carter/lidar_perturbed` (while playing) stop for more than 5 s, or a server
+command takes longer than that, the window is marked `isaac_stall`, the partial
+`history.json` is saved and it exits with code 3. The script then reruns that
+repetition once; the stalled attempt is kept as `rep_NN_stallo1`
+(`rep_NN_stallo2` if the retry stalls too, and the script moves on).
+
+```bash
+python3 -u src/nodes/perturbation_node.py --min-latency-ms 85
+scripts/run_campaign.sh straight nsga3 1 10 4 2
+python3 src/analysis/aggregate_campaign.py data/attack/campaign --plot
+```
+
 Plots and diagnostics:
 
 ```bash
 python3 src/plots/plot_trajectory.py data/attack/run_01/history.json
 python3 src/plots/plot_pareto.py data/attack/run_01/history.json
 python3 src/analysis/diagnose_rollout.py data/attack/run_01/traces/*.csv
+python3 src/analysis/path_deviation.py data/attack/run_01/traces
 python3 src/perturbations/chamfer_by_operator.py --history data/attack/run_01/history.json
 ```
 
