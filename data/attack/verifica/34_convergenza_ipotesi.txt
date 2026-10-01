@@ -1,0 +1,36 @@
+TEST DI CONVERGENZA — finestra 1, 92 candidati (pop 8 x gen 12), attacco da spawn
+
+== IPOTESI 1: danno saturo e spostamenti veri ==
+danno (cm): min 2, 25% 23, mediana 104, 75% 159, max 210
+spostamento vero (m): min 0.00, mediana 0.46, max 1.04
+robot fermo sotto 5 cm (trav<0.05): 33/92; sotto 20 cm: 37/92
+danno max 210 cm raggiunto per la prima volta alla generazione 9
+danno max per gen: [210, 169, 210, 158, 210, 210, 210, 159, 210, 159, 210, 210]
+esiti: {'ok': 22, 'arrived': 13, 'stopped_early': 54, 'timeout': 3}
+
+== IPOTESI 2: convergenza sulla Chamfer (2o obiettivo) ==
+ gen   n   Chamfer media±std    min    min Chamfer dmg>150 (n)
+   1   7        82 ±    31     51                   82 (n=3)
+   2   7        85 ±    30     48                   79 (n=4)
+   3   8        72 ±    13     54                   72 (n=3)
+   4   8        61 ±    14     36                   68 (n=1)
+   5   8        66 ±    12     41                   69 (n=4)
+   6   8        70 ±    14     44                   71 (n=5)
+   7   7        53 ±    14     36                   61 (n=3)
+   8   8        60 ±    10     50                   69 (n=2)
+   9   8        62 ±    12     42                   60 (n=4)
+  10   8        60 ±    24     34                   85 (n=1)
+  11   7        61 ±    19     36                   78 (n=3)
+  12   8        66 ±    37     36                   79 (n=2)
+
+Chamfer media gen 1-2: 83 ± 31 cm (n=14); gen 11-12: 63 ± 30 (n=15)
+
+== IPOTESI 3: genoma applicato (finestra 1) ==
+Chamfer applicata (history): 77 cm; danno applicato 210 cm; esito stopped_early(0.00m)
+genoma applicato del test (rigenerato offline sulla nuvola di riferimento, frame 10):
+  Chamfer 16 cm; shift_frac 0.82; shift_med 9 cm; aggiunti 34615; tolti 30876 su 45210 punti
+  operatori globali: distorsione geometrica 0.38, drift temporale 0.86, noise 3.6 cm, dropout 3.2%, ghost 0.2%
+Accumulo del drift temporale (genoma applicato del test), nuvola di riferimento:
+ frame  Chamfer shift_frac shift_med  aggiunti   tolti  generatore
+    30       86       0.99        58     41889   44709  limiti NUOVI
+    30       86       0.99        58     40302   44735  limiti VECCHI (test)

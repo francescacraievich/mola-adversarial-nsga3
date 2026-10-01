@@ -1,0 +1,19 @@
+Candidati validi di ieri notte (nsga3 g3, senza budget): 1227
+Chamfer: min 4.8, mediana 30.0, max 70.7 cm
+Danno:   min 0.0, mediana 1.8, max 75.5 cm
+
+Per ogni budget EPS: quanti candidati ammissibili, e il danno fra gli ammissibili
+  EPS  n amm.  quota   danno max danno p90 danno mediano
+    2       0     0%           -         -             -
+    5       1     0%         0.4       0.4           0.4
+   10      20     2%         1.8       1.4           0.2
+   15     138    11%        18.9       3.0           0.6
+   20     288    23%        27.5       5.4           1.0
+   30     614    50%        43.5       8.2           1.3
+   45    1098    89%        71.1      12.1           1.7
+
+Riferimento gaussiano (ieri notte, Chamfer media e danno applicato medio per braccio):
+  gaussian_s0.01: Chamfer 2.1 cm, danno applicato 0.33 cm/finestra
+  gaussian_s0.02: Chamfer 3.8 cm, danno applicato 0.57 cm/finestra
+  gaussian_s0.05: Chamfer 8.0 cm, danno applicato 0.31 cm/finestra
+  gaussian_s0.10: Chamfer 14.4 cm, danno applicato 0.33 cm/finestra

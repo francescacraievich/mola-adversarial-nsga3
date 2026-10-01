@@ -101,10 +101,26 @@ Main options: `--goals "5,0; 5,2.5; 10,2.5"` (waypoints), `--start-pose=x,y,yaw_
 would be parsed as an option), `--genome-group 1|2|3` (active genes: 6, 15, 17),
 `--search nsga3|random|gaussian` (comparison arms; gaussian needs
 `perturbation_node.py --gaussian-sigma S`), `--damage mean|max|end`,
-`--untracked discard|nominal|damage`, `--attack-from motion|spawn`, `--reeval`,
+`--attack-from spawn|motion` (default spawn: the attack is on from MOLA start,
+the compromised node is always active in the threat model), `--discard-policy
+infra|legacy` (default infra: only infrastructure failures and windows with an
+anomalous nominal are discarded; timeout, short path and lost tracking count as
+damage via path_deviation, each with an outcome label in the history),
+`--untracked discard|nominal|damage` (only with legacy),
+`--chamfer-budget EPS` (candidates whose mean Chamfer exceeds EPS cm are
+inadmissible: kept out of the Pareto front and never applied, but still
+evaluated and logged with an `admissible` flag), `--reeval`,
 `--true-pose ros|file`. The true pose is read from `/chassis/odom`; the file
 channel to `isaac_rollout_server.py` is used only for pause, play, save,
-restore and set_pose.
+restore and set_pose. Each rollout also records the localization error
+(MOLA estimate minus true pose in the world frame, mean and final over the
+window) for nominal, candidates, reevaluation and applied. With the attack on,
+`perturbation_node` publishes in `/attack/status` the fraction of points moved
+more than 5 cm, the median point shift, and the number of points added and
+removed; the orchestrator stores them per window. The perturbation stays plausible by
+construction: the ghost-point offset is capped at MAX_GHOST_OFFSET_M (0.10 m)
+and the dropout fraction at MAX_DROPOUT_RATE (0.05), documented constants in
+`perturbation_generator.py`.
 
 Campaign (repetitions of one arm on one scenario, resumable). Every arm must pay
 the same latency per scan, otherwise the computation time of the perturbation

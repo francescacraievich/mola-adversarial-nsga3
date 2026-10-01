@@ -49,6 +49,7 @@ GEN="${6:-2}"
 START_POSE="${START_POSE:--5.99,-1.0,0}"   # posa iniziale assoluta x,y,yaw_deg
 MIN_LATENCY_MS="${MIN_LATENCY_MS:-85}"     # latenza minima per scan del perturbation_node
 SIGMAS="${SIGMAS:-0.01 0.02 0.05 0.10}"    # deviazioni standard del braccio gaussiano (m)
+CHAMFER_BUDGET="${CHAMFER_BUDGET:-}"       # budget di percettibilita' (cm) per random/nsga3; vuoto = nessuno
 ISAAC_ARGS="${ISAAC_ARGS:-}"               # opzioni extra per run_isaac_standalone.py
 ISAAC_READY_SEC="${ISAAC_READY_SEC:-300}"  # attesa massima dell'avvio di Isaac
 CAMPAIGN_DIR="${CAMPAIGN_DIR:-data/attack/campaign}"   # radice dei risultati
@@ -65,6 +66,14 @@ case "$ARM" in
   gaussian) EXTRA="--search gaussian" ;;
   random)   EXTRA="--search random --pop $POP --gen $GEN --genome-group $GROUP" ;;
   nsga3)    EXTRA="--search nsga3 --pop $POP --gen $GEN --genome-group $GROUP" ;;
+esac
+BUDGET_SUFFIX=""
+if [[ -n "$CHAMFER_BUDGET" && ( "$ARM" == "random" || "$ARM" == "nsga3" ) ]]; then
+  EXTRA="$EXTRA --chamfer-budget $CHAMFER_BUDGET"
+  BUDGET_SUFFIX="_eps${CHAMFER_BUDGET}"
+fi
+case "$ARM" in
+  none|gaussian|random|nsga3) : ;;
   *) echo "braccio sconosciuto: $ARM"; exit 1 ;;
 esac
 
@@ -181,7 +190,7 @@ for SIGMA in $VARIANTS; do
   case "$ARM" in
     none)          DIR="none_g${GROUP}" ;;
     gaussian)      DIR="gaussian_s${SIGMA}" ;;
-    random|nsga3)  DIR="${ARM}_g${GROUP}_p${POP}x${GEN}" ;;
+    random|nsga3)  DIR="${ARM}_g${GROUP}_p${POP}x${GEN}${BUDGET_SUFFIX}" ;;
   esac
   [[ "$SIGMA" == "-" ]] && SIGMA=""
   OUT_BASE="$CAMPAIGN_DIR/$SCENARIO/$DIR"
@@ -205,7 +214,7 @@ for SIGMA in $VARIANTS; do
       check_latency || exit 1
       set +e
       ( trap - INT; exec python3 -u src/optimization/attack_orchestrator.py \
-        --goals "$GOALS" --start-pose="$START_POSE" --horizon 1.0 --settle-sec 2.0 \
+        --goals "$GOALS" --start-pose="$START_POSE" --horizon 1.0 --settle-sec 5.0 \
         --seed "$((1000 + i))" --trace --reeval --out "$OUT" $EXTRA ) \
         > >(tee "$OUT_BASE/${NAME}.log") 2>&1 &
       ORCH_PID=$!

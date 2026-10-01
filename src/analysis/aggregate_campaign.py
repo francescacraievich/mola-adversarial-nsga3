@@ -54,6 +54,9 @@ def summarize_run(path: Path):
     n_eval = n_disc = n_par = n_untr = 0
     last_end = None
     per_window = []
+    from collections import Counter
+    outcomes = Counter()
+    loc_app, loc_nom, loc_nom_raw = [], [], []
     for w in hist:
         goal_final = w.get("goal", goal_final)
         if w.get("applied_end"):
@@ -75,12 +78,30 @@ def summarize_run(path: Path):
             times.append(w["window_time_s"])
         ev = w.get("evaluations", [])
         n_eval += len(ev)
-        n_disc += sum(1 for e in ev if e.get("status") not in VALID)
+        for e in ev:
+            base = str(e.get("status", "?")).split("(")[0]
+            outcomes[base] += 1
+            counted = e.get("counted", e.get("status") in VALID)
+            if not counted:
+                n_disc += 1
         n_par += w.get("n_stopped_early", 0)
         n_untr += w.get("n_untracked", 0)
-        if w.get("damage_real_cm") is not None:
-            per_window.append({"window": w["window"], "damage_real_cm": w["damage_real_cm"],
-                               "chamfer_cm": w.get("perturbation", NAN)})
+        for k in ("applied_loc_err_mean_cm", "loc_err_mean_cm"):
+            if w.get(k) is not None:
+                loc_app.append(w[k]); break
+        if w.get("nominal_loc_err_mean_cm") is not None:
+            loc_nom.append(w["nominal_loc_err_mean_cm"])
+        if w.get("loc_err_mean_cm") is not None and w.get("search") == "none":
+            loc_nom.append(w["loc_err_mean_cm"])
+        for k in ("nominal_loc_err_mean_raw_cm", "loc_err_mean_raw_cm"):
+            if w.get(k) is not None:
+                loc_nom_raw.append(w[k]); break
+        if w.get("damage_real_cm") is not None or w.get("search") == "none":
+            per_window.append({"window": w["window"],
+                               "damage_real_cm": w.get("damage_real_cm", 0.0),
+                               "chamfer_cm": w.get("perturbation", NAN),
+                               "loc_err_app_cm": w.get("applied_loc_err_mean_cm", NAN),
+                               "loc_err_nom_cm": w.get("nominal_loc_err_mean_cm", NAN)})
     final_dist = (math.hypot(goal_final[0] - last_end[0], goal_final[1] - last_end[1])
                   if goal_final and last_end else NAN)
     total = lambda k: float(np.sum(sums[k])) if sums[k] else NAN
@@ -99,6 +120,10 @@ def summarize_run(path: Path):
         "frames_per_m": float(np.mean(fpm)) if fpm else NAN,
         "paralysis_frac": n_par / n_eval if n_eval else NAN,
         "untracked_frac": n_untr / n_eval if n_eval else NAN,
+        "loc_err_app_cm": float(np.sum(loc_app)) if loc_app else NAN,
+        "loc_err_nom_cm": float(np.sum(loc_nom)) if loc_nom else NAN,
+        "loc_err_nom_raw_cm": float(np.sum(loc_nom_raw)) if loc_nom_raw else NAN,
+        "outcomes": dict(outcomes),
     }, per_window
 
 
@@ -112,6 +137,7 @@ def stat(values, fmt="{:.2f}"):
 
 
 def main():
+    from collections import Counter
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("root", type=Path)
     ap.add_argument("--plot", action="store_true", help="salva le distribuzioni in <root>/summary.png")
@@ -138,7 +164,7 @@ def main():
     cols = [("damage_real_cm", "danno appl. cm"), ("dev_real_mean_cm", "dev media cm"),
             ("dev_real_end_cm", "dev fine cm"), ("final_dist_m", "dist. finale m"),
             ("windows", "finestre"), ("discarded", "scartati"), ("chamfer_cm", "Chamfer cm"),
-            ("time_min", "tempo min")]
+            ("loc_err_app_cm", "err.localizz cm"), ("time_min", "tempo min")]
     print("Medie per braccio (media ± dev.std sulle ripetizioni; danni e deviazioni sommati sulle finestre)")
     print(f"{'scenario':<10}{'braccio':<16}{'n':>3}  " + "  ".join(f"{h:>17}" for _, h in cols))
     groups = {}
@@ -147,6 +173,24 @@ def main():
     for (sc, arm), rs in sorted(groups.items()):
         cells = [stat([x[k] for x in rs]) for k, _ in cols]
         print(f"{sc:<10}{arm:<16}{len(rs):>3}  " + "  ".join(f"{c:>17}" for c in cells))
+
+    print("\nFrequenza degli esiti delle valutazioni per braccio (quota sul totale)")
+    for (sc, arm), rs in sorted(groups.items()):
+        tot = Counter()
+        for r in rs:
+            tot.update(r.get("outcomes", {}))
+        n = sum(tot.values())
+        if n:
+            quote = "  ".join(f"{k} {v}/{n} ({100*v/n:.0f}%)" for k, v in sorted(tot.items()))
+            print(f"  {sc}/{arm}: {quote}")
+
+    print("\nErrore di localizzazione (divario stima-verità, somma sulle finestre, cm). "
+          "nom allineato = allo stamp dello scan (errore vero); nom grezzo = alla posa corrente (con latenza)")
+    print(f"{'scenario':<10}{'braccio':<16}{'n':>3}  {'nom allineato':>17}  {'nom grezzo':>17}  {'applicato':>17}")
+    for (sc, arm), rs in sorted(groups.items()):
+        print(f"{sc:<10}{arm:<16}{len(rs):>3}  {stat([x['loc_err_nom_cm'] for x in rs]):>17}  "
+              f"{stat([x['loc_err_nom_raw_cm'] for x in rs]):>17}  "
+              f"{stat([x['loc_err_app_cm'] for x in rs]):>17}")
 
     if windows:
         print("\nDanno applicato e Chamfer del genoma applicato per finestra")
@@ -159,6 +203,13 @@ def main():
             d = np.array([w["damage_real_cm"] for w in ws], dtype=float)
             print(f"{sc:<10}{arm:<16}{k + 1:>4}{len(ws):>4}  {stat(d):>22}  {d.min():6.2f} "
                   f"{np.median(d):7.2f} {d.max():6.2f}  {stat([w['chamfer_cm'] for w in ws]):>24}")
+
+        print("\nErrore di localizzazione per finestra (divario stima-verità, cm): "
+              "nominale e applicato")
+        print(f"{'scenario':<10}{'braccio':<16}{'fin.':>4}{'n':>4}  {'nominale':>17}  {'applicato':>17}")
+        for (sc, arm, k), ws in sorted(wg.items()):
+            print(f"{sc:<10}{arm:<16}{k + 1:>4}{len(ws):>4}  {stat([w['loc_err_nom_cm'] for w in ws]):>17}  "
+                  f"{stat([w['loc_err_app_cm'] for w in ws]):>17}")
 
     if skipped:
         print(f"\nignorate {len(skipped)} cartelle rep_NN senza 'completata': " + ", ".join(skipped))

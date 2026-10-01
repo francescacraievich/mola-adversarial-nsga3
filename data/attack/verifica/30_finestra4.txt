@@ -1,0 +1,20 @@
+Finestra 4 di ogni run nsga3_g3_p8x4 (applicato contro nominale della stessa finestra)
+run       esito   danno dev_mean   dir+ quota dir  dev_end    prua dist vera dist nom percorsi
+rep_01  arrived   19.69     2.23  17.45       89%    17.52    -4.4     0.499    0.324     0.83
+rep_02  timeout   73.03    33.25  39.78       54%    57.58   +23.5     0.662    0.264     0.98
+rep_03  arrived   22.46     4.52  17.95       80%    19.35   -17.4     0.417    0.238     0.81
+rep_04  arrived   28.23     3.57  24.66       87%    24.66    +1.5     0.566    0.319     0.79
+rep_05  arrived   34.89     4.57  30.32       87%    30.47    +0.1     0.463    0.159     0.87
+rep_06  arrived   28.76     3.46  25.30       88%    25.30    +1.5     0.481    0.228     0.82
+rep_07       ok    4.05     1.15   2.90       72%     4.15    -5.3     0.127    0.098     1.01
+rep_08       ok   13.66     3.69   9.97       73%    13.45   +15.0     0.291    0.192     1.02
+rep_09       ok    6.25     3.61   2.64       42%    10.84   +11.1     0.276    0.249     1.00
+rep_10 stopped_early(0.49m)   76.36    17.22  59.14       77%    59.32   +35.9     0.835    0.243     0.49
+
+controllo: danno - (dev_mean + dir+) max 0.0000 cm
+danno 30.74 ± 25.15 cm; dev_mean 7.73 ± 10.02; termine direzionale 23.01 ± 17.30; quota direzionale media 75% del totale
+dev_end 26.26 ± 18.59 cm; |prua| 11.6 ± 11.6 gradi
+distanza vera dal bersaglio: applicato 0.462 ± 0.202 m, nominale 0.232 ± 0.069 m
+correlazione danno-distanza vera dell'applicato: 0.91; danno-dev_end: 1.00; danno-dev_mean: 0.86
+esiti applicato: {np.str_('timeout'): 1, np.str_('arrived'): 5, np.str_('ok'): 3, np.str_('stopped_early(0.49m)'): 1}
+finestre 1-3 per confronto: danno 2.80 cm medio, di cui dev_mean 2.01 (quota direzionale 28%)

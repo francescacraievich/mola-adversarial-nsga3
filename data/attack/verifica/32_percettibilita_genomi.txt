@@ -1,0 +1,15 @@
+Metriche di percettibilità (nuvola di riferimento 45210 punti; soglia 5 cm; drift azzerato per genoma, frame 10)
+braccio            n shift_frac shift_med_cm  n_added  n_removed Chamfer_cm
+nsga3_g3_p8x4     41      0.619         7.65    25997      24219      17.92
+gaussian_s0.01     3      0.000         1.44        0          0       2.27
+gaussian_s0.02     3      0.053         2.65     2394       1151       4.11
+gaussian_s0.05     3      0.617         5.92    27912      17391       8.68
+gaussian_s0.10     3      0.866        10.56    39147      31995      14.91
+
+nsga3, per finestra (genomi applicati):
+ fin   n shift_frac shift_med_cm  n_added  n_removed Chamfer_cm
+  f1              10      0.666         8.55    28143      26222      21.25
+  f2              10      0.595         7.58    24734      23735      18.09
+  f3              10      0.614         7.61    26175      23703      17.79
+  f4              10      0.574         6.56    23910      21748      13.46
+  f5               1      0.889        10.39    36250      38879      28.85

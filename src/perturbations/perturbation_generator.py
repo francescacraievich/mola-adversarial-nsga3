@@ -28,6 +28,22 @@ import numpy as np
 from scipy.spatial import cKDTree
 
 
+# Limiti di plausibilita' della perturbazione (costanti documentate): un
+# attaccante che sostituisce la nuvola non e' realistico. La distanza di un
+# punto fantasma dal suo punto base e la frazione di punti eliminabili sono
+# limitate indipendentemente dal genoma.
+MAX_GHOST_OFFSET_M = 0.10   # distanza massima di un punto fantasma (m)
+MAX_DROPOUT_RATE = 0.05     # frazione massima di punti eliminabili
+
+
+def _clip_offsets(offsets):
+    """Limita la norma di ogni offset a MAX_GHOST_OFFSET_M."""
+    import numpy as _np
+    norm = _np.linalg.norm(offsets, axis=1, keepdims=True)
+    scale = _np.minimum(1.0, MAX_GHOST_OFFSET_M / _np.maximum(norm, 1e-9))
+    return offsets * scale
+
+
 class PerturbationGenerator:
     """
     Adversarial perturbation generator for LiDAR point clouds.
@@ -75,7 +91,8 @@ class PerturbationGenerator:
         self.noise_std = noise_std
         self.target_high_curvature = target_high_curvature
         self.curvature_percentile = curvature_percentile
-        self.max_dropout_rate = max_dropout_rate
+        # Mai oltre il limite di plausibilita', qualunque sia il valore richiesto.
+        self.max_dropout_rate = min(max_dropout_rate, MAX_DROPOUT_RATE)
         self.max_ghost_points_ratio = max_ghost_points_ratio
         self.cluster_shift_std = cluster_shift_std
         self.n_clusters = n_clusters
@@ -425,7 +442,7 @@ class PerturbationGenerator:
         ghost_points = point_cloud[base_indices].copy()
 
         # Small offsets: close enough to real features to create ambiguous matches
-        offsets = np.random.randn(n_ghost, 3) * 0.025  # 2.5 cm std
+        offsets = _clip_offsets(np.random.randn(n_ghost, 3) * 0.025)  # 2.5 cm std
         ghost_points[:, :3] += offsets
 
         # Slight intensity change
@@ -742,12 +759,12 @@ class PerturbationGenerator:
         # Near-duplicates: small offsets
         if n_near > 0:
             near_offsets = np.random.randn(n_near, 3) * 0.035  # 3.5 cm std
-            ghost_points[:n_near, :3] += near_offsets
+            ghost_points[:n_near, :3] += _clip_offsets(near_offsets)
 
-        # Outliers: large offsets
+        # Outliers: larger offsets, comunque entro il limite di plausibilita'
         if n_far > 0:
-            far_offsets = np.random.randn(n_far, 3) * 0.15  # 15 cm std
-            ghost_points[n_near:, :3] += far_offsets
+            far_offsets = np.random.randn(n_far, 3) * 0.08  # 8 cm std
+            ghost_points[n_near:, :3] += _clip_offsets(far_offsets)
 
         # Plausible but different intensity
         ghost_points[:, 3] += np.random.randn(n_ghost) * 20

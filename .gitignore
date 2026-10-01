@@ -39,3 +39,9 @@ docs/schema_pipeline.png
 docs/schema_pipeline.py
 docs/schema_catena.py
 docs/fitness_formule.py
+
+# Sonde e test diagnostici (non risultati di campagna)
+data/attack/convergenza_w4/
+data/attack/sonda_eps/
+data/attack/campaign/*/*/rep_*_incompleta_*
+data/attack/campaign/*/*/rep_*_stallo*

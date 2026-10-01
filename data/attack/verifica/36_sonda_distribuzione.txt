@@ -1,0 +1,8 @@
+SONDA (pop 8 gen 2, gruppo 3, limiti nuovi, senza budget), finestra straight 1
+candidati con Chamfer finita: 16 (in moto ~1 m: 3; paralizzati/timeout: 11)
+
+Chamfer di TUTTI (cm): min 47  25% 54  mediana 78  75% 130  max 156
+Chamfer dei candidati in MOTO (applicabili): [np.float64(47.0), np.float64(48.0), np.float64(50.0)] cm; danno 5.6-10.7 cm
+Chamfer dei PARALIZZATI (gonfiata dal drift accumulato nei frame da fermo): min 50 mediana 79 max 156 cm
+esiti: {'ok': 2, 'timeout': 5, 'stopped_early': 6, 'pose_stale': 2, 'arrived': 1}
+nominale: settle 0.6114580631256104s (convergiuto True), rapporto stima/vero 1.0199812511289905, loc err allineato 3.43725 cm

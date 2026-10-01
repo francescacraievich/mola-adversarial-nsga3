@@ -95,6 +95,8 @@ class PerturbationNode(Node):
         self._min_latency_ms = args.min_latency_ms
         self._gaussian_sigma = args.gaussian_sigma
         self._chamfer = float("nan")
+        # Metriche geometriche di percettibilita' dell'ultima nuvola misurata.
+        self._perc = None
 
         if args.genome_file:
             g = np.load(args.genome_file)
@@ -221,11 +223,14 @@ class PerturbationNode(Node):
                     self._chamfer = float(
                         self.generator.compute_perturbation_magnitude(
                             cloud, out, self.params))
+                    self._perc = self._perception_metrics(cloud, out)
                 except Exception:
                     pass
         else:
             out = cloud
             self._chamfer = 0.0
+            self._perc = {"shift_frac": 0.0, "shift_med_cm": 0.0,
+                          "n_added": 0, "n_removed": 0}
             # Ritardo artificiale a attacco spento: il nominale paga la stessa
             # latenza dei candidati, cosi' il ritardo dell'elaborazione non
             # entra nel danno. Il valore va preso da proc_ms_mean dello status.
@@ -248,6 +253,34 @@ class PerturbationNode(Node):
         if len(self.proc_times) > 200:
             self.proc_times.pop(0)
             self.lat_times.pop(0)
+
+    def _perception_metrics(self, clean: np.ndarray, pert: np.ndarray):
+        """Metriche geometriche fra nuvola pulita e perturbata, definite al vero
+        nearest-neighbour (soglia 5 cm):
+          shift_frac    frazione di punti perturbati a piu' di 5 cm dal punto
+                        pulito piu' vicino
+          shift_med_cm  spostamento mediano di un punto perturbato dal pulito
+                        piu' vicino
+          n_added       punti perturbati senza alcun pulito entro 5 cm (ghost,
+                        o punti spostati lontano)
+          n_removed     punti puliti senza alcun perturbato entro 5 cm (dropout,
+                        o superfici spostate)
+        Due KD-tree su ~45k punti: stesso costo della Chamfer, calcolata con la
+        stessa cadenza.
+        """
+        from scipy.spatial import cKDTree
+        a, b = clean[:, :3], pert[:, :3]
+        if len(a) == 0 or len(b) == 0:
+            return None
+        d_b, _ = cKDTree(a).query(b, k=1, workers=-1)   # perturbato -> pulito
+        d_a, _ = cKDTree(b).query(a, k=1, workers=-1)   # pulito -> perturbato
+        thr = 0.05
+        return {
+            "shift_frac": float(np.mean(d_b > thr)),
+            "shift_med_cm": float(np.median(d_b) * 100.0),
+            "n_added": int(np.sum(d_b > thr)),
+            "n_removed": int(np.sum(d_a > thr)),
+        }
 
     def _publish_cloud(self, cloud: np.ndarray, header):
         if cloud.shape[1] == 3:
@@ -288,6 +321,11 @@ class PerturbationNode(Node):
             "chamfer_cm": (None if self._chamfer != self._chamfer
                            else round(self._chamfer, 3)),
         }
+        if self._perc is not None:
+            st["shift_frac"] = round(self._perc["shift_frac"], 4)
+            st["shift_med_cm"] = round(self._perc["shift_med_cm"], 3)
+            st["n_added"] = self._perc["n_added"]
+            st["n_removed"] = self._perc["n_removed"]
         self.status_pub.publish(String(data=json.dumps(st)))
         # A 10 Hz il budget per nuvola e' 100 ms: oltre, il nodo stesso causa
         # scan persi e l'effetto dell'attacco non e' separabile dal ritardo.

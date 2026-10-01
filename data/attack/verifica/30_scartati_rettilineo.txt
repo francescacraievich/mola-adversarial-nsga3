@@ -1,0 +1,114 @@
+controllo metodo: |ricalcolato - registrato| su 1227 validi, max 0.006 cm
+
+Valutazioni scartate con traccia: 85 (su 1312 valutazioni con traccia)
+per motivo: {'untracked': 43, 'stopped_early': 35, 'timeout': 7}
+
+Dettaglio degli scartati (danno ricalcolato come se contato)
+run     fin gen   #  motivo          danno dev_med dev_fin sp.vero sp.stim  rapp  Chamfer
+rep_01    3   1   6  untracked        1.22    0.92    3.52    1.19    0.55  0.46    23.55
+rep_02    4   3  19  stopped_early   72.68   15.73   57.06    0.51    1.16  2.25    58.51
+rep_02    4   3  23  timeout         30.82    6.99   23.84    0.84    1.96  2.34   162.63
+rep_02    4   4  26  timeout         73.88   34.56   55.45    0.94    1.05  1.11   167.24
+rep_03    1   1   5  untracked        0.64    0.60    1.91    1.24    0.49  0.40    35.91
+rep_03    2   1   5  untracked        0.86    0.86    2.54    1.24    0.38  0.31    40.37
+rep_03    2   2  15  untracked        1.09    1.09    3.20    1.24    0.49  0.40    42.64
+rep_03    3   1   5  untracked        3.78    1.00    4.08    1.22    0.43  0.35    39.26
+rep_03    3   2  15  untracked        3.65    0.91    3.90    1.22    0.43  0.35    37.43
+rep_03    4   1   1  untracked        3.70    3.70   21.37    1.24    0.06  0.05    28.21
+rep_03    4   1   5  untracked        3.17    3.17   18.75    1.21    0.45  0.37    42.09
+rep_03    4   2  10  stopped_early   45.04    7.91   37.27    0.66    1.15  1.73    43.29
+rep_03    4   2  12  stopped_early   54.53   10.67   44.01    0.60    1.23  2.06    45.10
+rep_03    4   2  15  untracked        2.62    2.62   15.84    1.19    0.47  0.40    38.81
+rep_04    1   2  15  untracked        1.46    0.16    1.37    1.20    0.30  0.25    16.27
+rep_04    1   3  18  untracked        2.22    0.86    2.83    1.20    0.43  0.36    49.78
+rep_04    2   4  27  untracked        0.53    0.50    1.14    1.20    0.39  0.33    51.23
+rep_04    3   3  18  untracked        1.31    1.31    3.96    1.21    0.49  0.41    52.28
+rep_04    4   1   4  stopped_early   52.75    9.66   43.11    0.65    0.98  1.50    40.80
+rep_04    4   2   8  untracked        3.74    3.74   15.57    1.21    0.23  0.19    32.17
+rep_04    4   4  25  untracked        3.24    3.24   18.74    1.20    0.26  0.22    19.79
+rep_05    3   3  21  untracked        0.15    0.15    2.64    1.23    0.20  0.16     5.31
+rep_05    4   1   4  stopped_early   60.10   10.60   49.72    0.73    1.01  1.38    45.58
+rep_06    1   1   1  untracked        2.29    0.90    3.06    1.20    0.20  0.16    38.59
+rep_06    1   2  11  untracked        1.51    1.37    4.46    1.22    0.08  0.07    38.19
+rep_06    1   3  18  untracked        2.59    1.16    3.97    1.20    0.16  0.13    37.05
+rep_06    3   1   1  untracked        0.60    0.60    1.72    1.20    0.53  0.44    48.50
+rep_06    3   2  11  untracked        0.73    0.73    3.21    1.23    0.15  0.12    38.53
+rep_06    3   2  12  untracked        1.29    1.29    4.47    1.23    0.18  0.15    38.72
+rep_06    4   1   1  untracked        1.93    1.93    7.99    1.18    0.50  0.43    50.56
+rep_06    4   1   2  stopped_early   47.32    7.81   39.51    0.73    0.99  1.36    32.19
+rep_06    4   2  11  stopped_early   49.84    8.52   41.33    0.71    0.95  1.34    35.95
+rep_06    4   2  12  stopped_early   52.80    9.38   43.43    0.69    0.97  1.41    40.53
+rep_07    1   1   3  untracked        2.42    2.09    6.52    1.24    0.30  0.24    38.62
+rep_07    1   3  17  untracked        1.81    1.60    5.12    1.24    0.38  0.31    36.64
+rep_07    3   4  27  untracked        4.65    4.42   14.15    1.23    0.28  0.23    47.76
+rep_07    3   4  30  untracked        3.93    3.93   12.74    1.24    0.31  0.25    34.10
+rep_07    4   1   0  stopped_early   72.16   15.11   57.38    0.65    0.70  1.07    50.71
+rep_07    4   4  30  stopped_early   71.08   16.68   54.48    0.65    1.12  1.71    39.31
+rep_08    1   1   2  untracked        0.08    0.08    0.11    1.20    0.24  0.20    42.83
+rep_08    1   2  12  untracked        0.27    0.27    1.57    1.22    0.57  0.47    13.25
+rep_08    4   1   2  timeout         30.15    7.23   23.59    0.95    2.20  2.32   161.50
+rep_08    4   2  13  timeout         26.51    6.23   20.74    0.97    1.81  1.86   154.80
+rep_09    1   1   2  untracked        1.07    0.98    3.22    1.24    0.11  0.09    41.94
+rep_09    1   2   8  untracked        0.79    0.73    2.47    1.24    0.26  0.21    34.96
+rep_09    1   2  10  untracked        2.56    2.21    7.11    1.24    0.18  0.15    39.41
+rep_09    1   2  12  untracked        2.71    2.39    7.67    1.24    0.37  0.30    39.38
+rep_09    1   2  14  untracked        0.83    0.83    2.67    1.24    0.45  0.36    37.85
+rep_09    2   2  13  untracked        1.27    1.27    4.32    1.24    0.19  0.16    39.17
+rep_09    2   3  17  untracked        2.36    1.16    4.21    1.23    0.21  0.17    39.39
+rep_09    2   4  25  untracked        3.13    1.94    6.97    1.23    0.37  0.30    40.23
+rep_09    3   1   2  untracked        1.04    1.04    3.53    1.25    0.22  0.17    39.30
+rep_09    4   1   2  untracked        3.28    3.28   18.38    1.24    0.11  0.09    40.74
+rep_09    4   2   8  untracked        3.94    3.94   17.38    1.22    0.20  0.17    27.58
+rep_09    4   2  14  untracked        3.27    3.27   14.49    1.19    0.48  0.40    34.73
+rep_09    4   3  19  stopped_early   45.98    7.32   38.73    0.68    0.96  1.41    52.27
+rep_09    4   4  24  timeout         24.84    6.71   19.95    0.94    2.09  2.21   150.05
+rep_10    1   3  20  untracked        1.57    1.57    5.61    1.23    0.10  0.08    35.07
+rep_10    4   3  16  untracked        3.66    3.66   15.31    1.19    0.53  0.44    34.39
+rep_10    4   4  28  stopped_early   65.93   13.74   52.34    0.58    1.08  1.85    54.91
+rep_10    4   4  30  stopped_early   91.73   22.55   69.29    0.41    1.05  2.54    55.17
+rep_10    5   1   0  stopped_early  105.39   52.38  103.54    0.01    0.43 38.29    38.54
+rep_10    5   1   1  stopped_early  107.47   53.45  104.71    0.02    0.71 30.93    48.53
+rep_10    5   1   3  stopped_early  103.38   51.38  102.52    0.00    0.47473.52    47.37
+rep_10    5   1   4  stopped_early   34.51   24.58   65.95    0.43    0.59  1.36    44.38
+rep_10    5   1   5  stopped_early   12.64   12.64   38.91    0.70    0.50  0.73    36.59
+rep_10    5   1   6  stopped_early   61.48   31.80   79.29    0.23    0.51  2.19    43.78
+rep_10    5   1   7  stopped_early   14.74   11.98   33.94    0.71    0.61  0.86    29.99
+rep_10    5   2   8  stopped_early  107.03   53.21  104.44    0.02    0.82 40.48    57.40
+rep_10    5   2   9  stopped_early   53.63   28.49   74.65    0.28    0.60  2.16    36.42
+rep_10    5   2  10  stopped_early   99.49   49.52  100.69    0.02    0.44 22.31    48.41
+rep_10    5   2  11  stopped_early    9.57    9.57   33.98    0.69    0.67  0.96    29.54
+rep_10    5   2  12  stopped_early   68.33   36.31   85.25    0.21    0.62  2.97    50.75
+rep_10    5   2  14  stopped_early   15.56   12.17   35.39    0.69    0.69  0.99    28.16
+rep_10    5   2  15  stopped_early   49.11   28.02   74.25    0.31    0.72  2.32    51.61
+rep_10    5   3  16  stopped_early   35.98   24.86   66.82    0.42    0.52  1.25    43.03
+rep_10    5   3  17  stopped_early   63.54   33.31   82.13    0.22    0.78  3.60    50.38
+rep_10    5   3  19  timeout         22.94   19.03   57.78    0.48    1.03  2.14   103.27
+rep_10    5   3  20  stopped_early   78.55   39.42   87.17    0.16    0.59  3.65    51.49
+rep_10    5   3  23  stopped_early   14.83   11.97   35.60    0.69    0.64  0.93    28.70
+rep_10    5   4  24  timeout         85.58   39.19   65.37    0.85    1.52  1.79   179.69
+rep_10    5   4  25  stopped_early   60.53   31.49   68.03    0.43    0.55  1.28    38.61
+rep_10    5   4  26  stopped_early   35.73   18.52   38.21    0.79    0.51  0.64    35.63
+rep_10    5   4  28  stopped_early   19.47   19.47   55.71    0.55    0.57  1.03    39.65
+rep_10    5   4  30  stopped_early   96.86   48.22   99.33    0.03    0.49 15.15    37.95
+
+Per finestra: massimo fra gli scartati (se contati) contro massimo fra i validi
+ fin n scart max scart n valid max valid  motivi scartati
+   1      16      2.71     304      6.20  {'untracked': 16}
+   2       6      3.13     314      6.57  {'untracked': 6}
+   3      11      4.65     309      8.65  {'untracked': 11}
+   4      28     91.73     292     75.48  {'stopped_early': 13, 'timeout': 5, 'untracked': 10}
+   5      24    107.47       8     47.72  {'stopped_early': 22, 'timeout': 2}
+
+Danno per generazione (solo valutazioni valide; convergenza della ricerca)
+ gen    n  danno medio  danno max  Chamfer medio
+   1  302         5.00      67.45          31.20
+   2  300         5.06      75.48          33.44
+   3  312         5.05      64.64          28.69
+   4  313         5.48      74.08          26.90
+
+Danno per generazione, solo finestra 4 (dove la ricerca ha piu' margine)
+ gen    n  danno medio  danno max
+   1   71        15.70      67.45
+   2   71        15.48      75.48
+   3   76        14.54      64.64
+   4   74        16.10      74.08

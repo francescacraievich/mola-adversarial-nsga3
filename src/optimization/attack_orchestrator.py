@@ -34,6 +34,7 @@ traces/ nella cartella --out.
 import argparse
 import json
 import math
+from collections import deque
 import os
 import signal
 import subprocess
@@ -65,6 +66,21 @@ STALL_SEC = 5.0
 
 class IsaacStall(RuntimeError):
     """Ciclo di Isaac fermo o nuvole assenti: la run non puo' proseguire."""
+
+
+# Esiti di un rollout. VALID: tratto completato. COUNTABLE: tratto non completato
+# ma misurato (il robot si e' mosso e c'e' una posa finale), conta come danno con
+# la regola nuova. Tutto il resto e' un guasto d'infrastruttura: scartato sempre.
+VALID = ("ok", "arrived")
+COUNTABLE = ("timeout", "stopped_early", "untracked", "est_capped")
+
+
+def outcome_kind(status: str) -> str:
+    if status in VALID:
+        return "valid"
+    if status.split("(")[0] in COUNTABLE:
+        return "countable"
+    return "infra"
 
 
 # ---------------------------------------------------------------------------
@@ -373,6 +389,19 @@ class AttackNode:
         # nuvola originale ma vede se lo SLAM registra bene.
         self.pose_quality = float("nan")
         self.last_track_ratio = float("nan")   # rapporto stima/verita' dell'ultimo rollout
+        # Errore di localizzazione (divario stima-verita' in frame mondo, m) e
+        # metriche geometriche di percettibilita' dell'ultimo rollout.
+        self.last_loc_err_mean = float("nan")      # errore allineato allo stamp (m)
+        self.last_loc_err_end = float("nan")
+        self.last_loc_err_mean_raw = float("nan")  # non allineato (latenza inclusa)
+        self.last_loc_err_end_raw = float("nan")
+        self.last_track_thr = float("nan")         # soglia di tracking usata
+        self.last_settle_waited = 0.0              # attesa di convergenza (s)
+        self.last_settle_ok = True
+        self.est_stamp = float("nan")              # stamp sim dell'ultima stima
+        self.true_buf = deque(maxlen=400)          # (stamp_sim, x, y) per interpolare
+        self.perc_samples = []                 # campioni di shift_frac ecc. dal nodo
+        self.last_perc = {}
 
         self.node.create_subscription(Odometry, "/lidar_odometry/pose",
                                       self._est_cb, 100)
@@ -415,6 +444,7 @@ class AttackNode:
                          1.0 - 2.0 * (q.y * q.y + q.z * q.z))
         self.est = (p.position.x, p.position.y, yaw)
         self.est_t = time.time()
+        self.est_stamp = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
         self._n_cb += 1
 
     def _true_cb(self, msg):
@@ -424,6 +454,8 @@ class AttackNode:
                          1.0 - 2.0 * (q.y * q.y + q.z * q.z))
         self.true = (p.position.x, p.position.y, yaw)
         self.true_t = time.time()
+        st = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
+        self.true_buf.append((st, p.position.x, p.position.y))
         self._n_cb += 1
 
     def true_pose(self, isaac, max_age=0.5):
@@ -453,6 +485,29 @@ class AttackNode:
                 return self.true
         return isaac.pose()
 
+    def true_at(self, stamp):
+        """Posa vera (x, y) interpolata allo stamp sim dello scan (frame odom).
+
+        /chassis/odom e /lidar_odometry/pose sono entrambi in sim-time: la posa
+        vera all'istante dello scan, non quella corrente, toglie la latenza dal
+        divario stima-verita'. Fuori dall'intervallo del buffer: estremo piu'
+        vicino. Buffer vuoto o stamp assente: None.
+        """
+        buf = self.true_buf
+        if not buf or stamp != stamp:
+            return None
+        if stamp <= buf[0][0]:
+            return (buf[0][1], buf[0][2])
+        if stamp >= buf[-1][0]:
+            return (buf[-1][1], buf[-1][2])
+        for i in range(len(buf) - 1):
+            t0, x0, y0 = buf[i]
+            t1, x1, y1 = buf[i + 1]
+            if t0 <= stamp <= t1:
+                a = (stamp - t0) / (t1 - t0) if t1 > t0 else 0.0
+                return (x0 + a * (x1 - x0), y0 + a * (y1 - y0))
+        return (buf[-1][1], buf[-1][2])
+
     def _status_cb(self, msg):
         self._n_cb += 1
         try:
@@ -472,6 +527,10 @@ class AttackNode:
             self.chamfer.append(float(v))
         except (TypeError, ValueError):
             pass
+        if d.get("shift_frac") is not None:
+            self.perc_samples.append({k: d[k] for k in
+                                      ("shift_frac", "shift_med_cm", "n_added", "n_removed")
+                                      if d.get(k) is not None})
 
     def _cloud_cb(self, _msg):
         self._n_cb += 1
@@ -564,9 +623,95 @@ class AttackNode:
             self.stop_robot()
             self.spin(0.05)
 
+    def _trace_row(self, x, y, yaw, local_wp, v, w, travelled, start_pose, c0, s0, t0):
+        """Una riga di traccia: stima di MOLA, posa vera e comandi sullo stesso asse."""
+        if self.trace_rows is None:
+            return
+        tp = self._last_true if self._last_true else (float("nan"),) * 3
+        est_wx = start_pose[0] + c0 * x - s0 * y
+        est_wy = start_pose[1] + s0 * x + c0 * y
+        ta = self.true_at(self.est_stamp) if self.true_source == "ros" else None
+        self.trace_rows.append({
+            "t": round(time.time() - t0, 3),
+            "est_x": round(x, 4), "est_y": round(y, 4),
+            "est_yaw_deg": round(math.degrees(yaw), 2),
+            "est_wx": round(est_wx, 4), "est_wy": round(est_wy, 4),
+            "true_x": round(tp[0], 4), "true_y": round(tp[1], 4),
+            "true_yaw_deg": round(math.degrees(tp[2]), 2),
+            "wp_x": round(local_wp[0], 3), "wp_y": round(local_wp[1], 3),
+            "cmd_v": round(v, 3), "cmd_w": round(w, 3),
+            "travelled": round(travelled, 4),
+            "est_true_gap": round(math.hypot(est_wx - tp[0], est_wy - tp[1]), 4)
+            if tp[0] == tp[0] else float("nan"),
+            "est_true_gap_al": (round(math.hypot(est_wx - ta[0], est_wy - ta[1]), 4)
+                                if ta is not None else float("nan")),
+            "pose_quality": (round(self.pose_quality, 4)
+                             if self.pose_quality == self.pose_quality else float("nan")),
+            "chamfer_cm": (round(self.chamfer[-1], 3) if self.chamfer else float("nan")),
+        })
+
+    def _coast(self, isaac, start_pose, true_start, c0, s0, t0, catchup_sec,
+               local_wp, rate=20.0, tol=0.03, need=3):
+        """Dopo lo stop: si continua a registrare tick e stima mentre il robot
+        frena e MOLA raggiunge la posa, finche' la stima insegue la verita'
+        entro `tol` per `need` scan o scade catchup_sec. Cosi' stima e verita'
+        finali sono allo stesso istante e MOLA e' arrivata. Aggiorna la posa
+        vera finale in _last_true e restituisce i metri veri percorsi."""
+        dt = 1.0 / rate
+        t_end = time.time() + catchup_sec
+        hits = 0
+        travelled = float(np.linalg.norm(np.array(self._last_true[:2]) - true_start)) \
+            if self._last_true else 0.0
+        while time.time() < t_end:
+            self.stop_robot()
+            self.drain()
+            try:
+                p = self.true_pose(isaac)
+                self._last_true = p
+                travelled = float(np.linalg.norm(np.array(p[:2]) - true_start))
+            except IsaacStall:
+                raise
+            except Exception:
+                p = self._last_true
+            if self.est is not None and p is not None:
+                x, y, _ = self.est
+                est_wx = start_pose[0] + c0 * x - s0 * y
+                est_wy = start_pose[1] + s0 * x + c0 * y
+                gap = math.hypot(est_wx - p[0], est_wy - p[1])
+                self._trace_row(x, y, self.est[2], local_wp, 0.0, 0.0, travelled,
+                                start_pose, c0, s0, t0)
+                hits = hits + 1 if gap < tol else 0
+                if hits >= need:
+                    break
+            time.sleep(dt)
+        return travelled
+
+    def wait_converged(self, isaac, max_sec, tol=0.015, need=4, rate=20.0):
+        """Attende, a robot fermo, che la stima di MOLA sia stabile (spostamento
+        fra scan consecutivi < tol) per `need` scan: MOLA ha agganciato prima di
+        partire. Cap a max_sec. Restituisce i secondi attesi e se ha convergiuto."""
+        dt = 1.0 / rate
+        t0 = time.time()
+        prev = self.est
+        prev_t = self.est_t
+        hits = 0
+        while time.time() - t0 < max_sec:
+            self.drain()
+            if self.est is not None and self.est_t != prev_t:
+                if prev is not None:
+                    d = math.hypot(self.est[0] - prev[0], self.est[1] - prev[1])
+                    hits = hits + 1 if d < tol else 0
+                prev = self.est
+                prev_t = self.est_t
+                if hits >= need:
+                    return time.time() - t0, True
+            time.sleep(dt)
+        return time.time() - t0, False
+
     def drive(self, local_wps, distance, isaac: IsaacClient,
-              mola: MolaRunner, timeout=45.0, rate=20.0,
-              check_every=None, over_run=1.30, arrival_tol=ARRIVAL_TOL):
+              mola: MolaRunner, timeout=45.0, rate=20.0, catchup_sec=0.0,
+              check_every=None, over_run=1.30, arrival_tol=ARRIVAL_TOL,
+              stop_on="true", true_cap=1.5):
         """Guida il robot fino a `distance` metri veri dal punto di partenza.
 
         L'arresto usa la posa vera di Isaac Sim e non la stima di MOLA: fermarsi
@@ -610,6 +755,10 @@ class AttackNode:
         start_pose = self.true_pose(isaac)
         true_start = np.array(start_pose[:2])
         self._last_true = start_pose
+        # Stima iniziale: con --stop-on estimate il tratto si chiude quando la
+        # distanza STIMATA da MOLA raggiunge l'orizzonte (togliendo all'attacco
+        # il vantaggio della nostra misura della distanza vera).
+        est0 = np.array(self.est[:2]) if self.est is not None else np.zeros(2)
         # La stima di MOLA parte da (0,0,0) nella posa vera iniziale: per il
         # confronto stima/verita' nella traccia va riportata nel frame del mondo.
         c0, s0 = math.cos(start_pose[2]), math.sin(start_pose[2])
@@ -631,6 +780,17 @@ class AttackNode:
 
             x, y, yaw = self.est
 
+            # Arresto sulla distanza stimata (ogni tick) con tetto sulla verita'
+            # a true_cap x orizzonte per i casi in cui la stima si congela.
+            if stop_on == "estimate":
+                est_dist = float(math.hypot(x - est0[0], y - est0[1]))
+                if est_dist >= distance:
+                    self.stop_robot()
+                    if catchup_sec > 0:
+                        travelled = self._coast(isaac, start_pose, true_start, c0, s0,
+                                                t0, catchup_sec, local_wp)
+                    return "ok", travelled
+
             # Waypoint entro la tolleranza: il follower comanda velocita' nulla
             # e il tratto non verrebbe mai completato.
             if math.hypot(local_wp[0] - x, local_wp[1] - y) < arrival_tol:
@@ -639,6 +799,9 @@ class AttackNode:
                     local_wp = wps[0]
                 else:
                     self.stop_robot()
+                    if catchup_sec > 0:
+                        travelled = self._coast(isaac, start_pose, true_start, c0, s0,
+                                                t0, catchup_sec, local_wp)
                     return "arrived", travelled
 
             now = time.time() - t0
@@ -653,42 +816,26 @@ class AttackNode:
                     raise
                 except Exception:
                     pass
-                if travelled >= distance:
-                    self.stop_robot()
-                    return "ok", travelled
-                if travelled >= distance * over_run:
-                    self.stop_robot()
-                    return "overrun", travelled
+                if stop_on == "estimate":
+                    if travelled >= distance * true_cap:
+                        self.stop_robot()
+                        if catchup_sec > 0:
+                            travelled = self._coast(isaac, start_pose, true_start, c0, s0,
+                                                    t0, catchup_sec, local_wp)
+                        return "est_capped", travelled
+                else:
+                    if travelled >= distance:
+                        self.stop_robot()
+                        if catchup_sec > 0:
+                            travelled = self._coast(isaac, start_pose, true_start, c0, s0,
+                                                    t0, catchup_sec, local_wp)
+                        return "ok", travelled
+                    if travelled >= distance * over_run:
+                        self.stop_robot()
+                        return "overrun", travelled
 
             v, w, _ = self.follower.command(x, y, yaw, local_wp[0], local_wp[1])
-
-            # Traccia per-tick: stima di MOLA, posa vera e comandi sullo stesso
-            # asse dei tempi.
-            if self.trace_rows is not None:
-                tp = self._last_true if self._last_true else (float("nan"),) * 3
-                est_wx = start_pose[0] + c0 * x - s0 * y
-                est_wy = start_pose[1] + s0 * x + c0 * y
-                self.trace_rows.append({
-                    "t": round(time.time() - t0, 3),
-                    "est_x": round(x, 4), "est_y": round(y, 4),
-                    "est_yaw_deg": round(math.degrees(yaw), 2),
-                    "est_wx": round(est_wx, 4), "est_wy": round(est_wy, 4),
-                    "true_x": round(tp[0], 4), "true_y": round(tp[1], 4),
-                    "true_yaw_deg": round(math.degrees(tp[2]), 2),
-                    "wp_x": round(local_wp[0], 3), "wp_y": round(local_wp[1], 3),
-                    "cmd_v": round(v, 3), "cmd_w": round(w, 3),
-                    "travelled": round(travelled, 4),
-                    # Divario stima/verita' (stima nel frame del mondo) e
-                    # qualita' di registrazione: legano perturbazione, errore
-                    # SLAM e deviazione.
-                    "est_true_gap": round(math.hypot(est_wx - tp[0], est_wy - tp[1]), 4)
-                    if tp[0] == tp[0] else float("nan"),
-                    "pose_quality": (round(self.pose_quality, 4)
-                                     if self.pose_quality == self.pose_quality
-                                     else float("nan")),
-                    "chamfer_cm": (round(self.chamfer[-1], 3)
-                                   if self.chamfer else float("nan")),
-                })
+            self._trace_row(x, y, yaw, local_wp, v, w, travelled, start_pose, c0, s0, t0)
 
             m = self._Twist()
             m.linear.x = v
@@ -730,9 +877,10 @@ def to_local(goal, true_pose):
 
 
 def rollout(genome, isaac, mola, node, goal, horizon, tag, warmup=0.0,
-            trace_path=None, track_min=0.60, track_max=None,
-            settle_sec=2.0, min_travel_frac=MIN_TRAVEL_FRAC, catchup_sec=0.8,
-            attack_from="motion", untracked="discard", nominal_ok=True):
+            trace_path=None, track_min=0.60, track_max=None, track_ref=None,
+            settle_sec=5.0, settle_fixed=None, min_travel_frac=MIN_TRAVEL_FRAC, catchup_sec=0.8,
+            stop_on="true",
+            attack_from="spawn", untracked="discard", nominal_ok=True):
     """Valuta un candidato: ripristina, riavvia MOLA, percorre H metri, misura.
 
     Con warmup > 0 il robot percorre prima quel tratto senza perturbazione e la
@@ -769,7 +917,7 @@ def rollout(genome, isaac, mola, node, goal, horizon, tag, warmup=0.0,
         node.set_genome(genome)
     node.set_attack_enabled(attack_from == "spawn" and warmup <= 0.0
                             and genome is not None)
-    node.chamfer = []
+    node.chamfer = []; node.perc_samples = []
 
     isaac.play()
     try:
@@ -809,13 +957,21 @@ def rollout(genome, isaac, mola, node, goal, horizon, tag, warmup=0.0,
 
     track_ratio = float("nan")
 
-    # Assestamento a robot fermo: wait_ready ritorna dopo la prima scansione,
-    # con mappa locale vuota e sigma al valore iniziale. Non deve essere lungo:
-    # a robot fermo il sigma adattivo decade verso il pavimento e la soglia di
-    # accoppiamento ICP diventa confrontabile con il moto fra due scan. E' tempo,
-    # non distanza: non consuma frame senza attacco.
-    if settle_sec > 0:
-        node.spin(settle_sec)
+    # Assestamento. Con l'attacco acceso dall'avvio la stima attaccata non
+    # converge mai e scadrebbe sempre al tetto, pagando piu' warm-up e piu'
+    # deriva temporale del nominale: il confronto non sarebbe a parita' di
+    # condizioni. Percio' la convergenza si misura solo sul nominale della
+    # finestra (settle_fixed None) e quella stessa durata, fissa, si applica a
+    # candidati, rivalutazione e applicato (settle_fixed = quel tempo).
+    if settle_fixed is not None:
+        if settle_fixed > 0:
+            node.spin(settle_fixed)
+        node.last_settle_waited = settle_fixed
+        node.last_settle_ok = True
+    elif settle_sec > 0:
+        node.last_settle_waited, node.last_settle_ok = node.wait_converged(isaac, settle_sec)
+    else:
+        node.last_settle_waited, node.last_settle_ok = 0.0, True
 
     # Posa di partenza nel frame di lavoro, letta a simulazione in corso e
     # robot fermo: dopo il ripristino il topic pubblica solo al primo tick.
@@ -834,31 +990,26 @@ def rollout(genome, isaac, mola, node, goal, horizon, tag, warmup=0.0,
         true_start = node.settled_pose(isaac)
         local_wps = [to_local(g, true_start) for g in goals]
         node.set_attack_enabled(genome is not None)
-        node.chamfer = []
+        node.chamfer = []; node.perc_samples = []
 
     if attack_from == "motion" and warmup <= 0.0 and genome is not None:
         node.set_attack_enabled(True)
-        node.chamfer = []
+        node.chamfer = []; node.perc_samples = []
 
     frames_before = node.frames_out
     # La traccia serve sempre: la deviazione lungo il tratto si calcola su di
     # essa. Su file solo se richiesto.
     node.trace_rows = []
     est_before = node.est
-    status, travelled = node.drive(local_wps, horizon, isaac, mola)
-
-    # La stima di MOLA segue il moto vero con 0.3-0.5 s di latenza (LiDAR a
-    # 10 Hz, ICP, stimatore): letta all'istante dell'arresto sottostima il
-    # tratto anche a tracking perfetto. Il robot ha gia' ricevuto lo stop; si
-    # lascia alla stima il tempo di raggiungerlo.
-    if status in ("ok", "arrived") and catchup_sec > 0:
-        node.spin(catchup_sec)
+    # Il catch-up avviene dentro drive(): dopo lo stop si registrano tick e
+    # stima mentre il robot frena e MOLA raggiunge la posa, fino a convergenza.
+    status, travelled = node.drive(local_wps, horizon, isaac, mola,
+                                   catchup_sec=catchup_sec, stop_on=stop_on)
     est_after = node.est
     isaac.pause()
     node.spin(0.05)
     true_end_now = node.true_pose(isaac)
-    # Spostamento vero letto nello stesso istante della stima finale, cosi' il
-    # rapporto resta coerente anche con il coasting dopo lo stop.
+    # Stima e verita' finali allo stesso istante (ultimo tick del coast).
     true_disp = math.hypot(true_end_now[0] - true_start[0],
                            true_end_now[1] - true_start[1])
 
@@ -871,38 +1022,50 @@ def rollout(genome, isaac, mola, node, goal, horizon, tag, warmup=0.0,
         est_d = math.hypot(est_after[0] - est_before[0],
                            est_after[1] - est_before[1])
         ratio = est_d / max(true_disp, 1e-6)
-        lost = ratio < track_min or (track_max is not None and ratio > track_max)
-        # Tracking perso: scartato sempre (discard), solo se anche il nominale
-        # della finestra era anomalo (nominal), oppure mai (damage): negli
-        # ultimi due casi la deviazione resta e conta come danno dell'attacco.
-        if lost and (untracked == "discard"
-                     or (untracked == "nominal" and not nominal_ok)):
+        # Soglia assoluta: con stima e verita' lette allo stesso istante finale
+        # (coast registrato) e allineate allo stamp, il rapporto del nominale
+        # torna ~1, quindi 0.60 separa un tracking perso vero. Il nominale
+        # (track_ref None) non viene mai etichettato untracked.
+        track_ratio = ratio
+        node.last_track_thr = track_min
+        if track_ref is not None and (ratio < track_min
+                                      or (track_max is not None and ratio > track_max)):
             status = f"untracked({ratio:.2f})"
-        else:
-            track_ratio = ratio
-            if lost:
-                print(f"    [nota] tracking perso (rapporto {ratio:.2f}) contato come danno")
+    else:
+        node.last_track_thr = track_min
     # Esposto anche per i rollout validi, da riportare accanto alla deviazione.
     node.last_track_ratio = track_ratio
 
     # Tratto troppo breve per misurare una deviazione di rotta: l'attacco ha
     # paralizzato il robot (tipicamente `arrived` a zero metri). Senza questa
     # marcatura NSGA-III sceglie il genoma che ferma il robot.
-    if status in ("ok", "arrived") and travelled < min_travel_frac * horizon:
+    if (stop_on == "true" and status in ("ok", "arrived")
+            and travelled < min_travel_frac * horizon):
         status = f"stopped_early({travelled:.2f}m)"
 
     true_end = true_end_now
-    # L'ultima riga della traccia e' la posa finale letta a simulazione ferma,
-    # dopo il coasting: cosi' la deviazione al termine del tratto coincide con
-    # quella calcolata sulle pose finali.
-    if node.trace_rows:
-        last = dict(node.trace_rows[-1])
-        last.update({"t": round(last["t"] + catchup_sec, 3),
-                     "true_x": round(true_end[0], 4), "true_y": round(true_end[1], 4),
-                     "true_yaw_deg": round(math.degrees(true_end[2]), 2),
-                     "cmd_v": 0.0, "cmd_w": 0.0})
-        node.trace_rows.append(last)
+    # L'ultima riga della traccia e' gia' l'ultimo tick del coast (stima e posa
+    # vera allo stesso istante, dopo che il robot si e' fermato e MOLA ha
+    # raggiunto la posa): niente riga posticcia.
     node.last_trace = node.trace_rows or []
+    # Errore di localizzazione: divario stima-verita' lungo il tratto (m).
+    # Allineato (stima contro posa vera allo stamp dello scan): e' l'errore
+    # vero. Non allineato (contro posa vera corrente): include la latenza.
+    def _finite(key):
+        return [r[key] for r in node.last_trace
+                if isinstance(r.get(key), (int, float)) and r[key] == r[key]]
+    ga = _finite("est_true_gap_al")
+    gr = _finite("est_true_gap")
+    node.last_loc_err_mean = float(np.mean(ga)) if ga else float("nan")
+    node.last_loc_err_end = ga[-1] if ga else float("nan")
+    node.last_loc_err_mean_raw = float(np.mean(gr)) if gr else float("nan")
+    node.last_loc_err_end_raw = gr[-1] if gr else float("nan")
+    # Metriche geometriche di percettibilita', media sui campioni del rollout.
+    if node.perc_samples:
+        node.last_perc = {k: float(np.mean([p[k] for p in node.perc_samples]))
+                          for k in node.perc_samples[0]}
+    else:
+        node.last_perc = {}
     if trace_path is not None and node.trace_rows:
         import csv
         Path(trace_path).parent.mkdir(parents=True, exist_ok=True)
@@ -961,18 +1124,29 @@ def expand_genome(g_active, active, n_genes=17):
     return full
 
 
-def build_problem(n_genes: int, eval_fn):
-    """Stessa struttura di MOLAPerturbationProblem in run_nsga3.py."""
+def build_problem(n_genes: int, eval_fn, has_constraint: bool = False):
+    """Stessa struttura di MOLAPerturbationProblem in run_nsga3.py.
+
+    Con has_constraint il budget di percettibilita' e' un vincolo (G = Chamfer -
+    EPS <= 0): la dominanza vincolata di NSGA-III ordina i fattibili per i due
+    obiettivi e gli infattibili per violazione del vincolo, cosi' la popolazione
+    converge verso la zona ammissibile anche quando nessun candidato lo e'.
+    eval_fn restituisce (f1, f2, g).
+    """
     from pymoo.core.problem import Problem
 
     class WindowProblem(Problem):
         def __init__(self):
             super().__init__(n_var=n_genes, n_obj=2,
+                            n_ieq_constr=1 if has_constraint else 0,
                             xl=-1.0 * np.ones(n_genes),
                             xu=1.0 * np.ones(n_genes))
 
         def _evaluate(self, X, out, *a, **kw):
-            out["F"] = np.array([eval_fn(g) for g in X])
+            res = [eval_fn(g) for g in X]
+            out["F"] = np.array([(r[0], r[1]) for r in res])
+            if has_constraint:
+                out["G"] = np.array([[r[2]] for r in res])
 
     return WindowProblem()
 
@@ -1018,13 +1192,13 @@ def pareto_front(F, X):
     return F[keep], X[keep]
 
 
-def pick_best(F, X):
+def pick_best(F, X, budget=None):
     """Dal fronte, la soluzione con il rapporto danno/percettibilita' piu' alto.
 
     F[:,0] e' il danno negato in metri (pymoo minimizza), F[:,1] la
-    percettibilita' in cm: il rapporto si calcola in cm su cm perche' il valore
-    riportato abbia significato fisico (il fattore 100 e' monotono e non cambia
-    la scelta). Le soluzioni con fitness infinita sono rollout scartati.
+    percettibilita' in cm. Con budget si scelgono solo gli ammissibili
+    (F[:,1] <= budget): un genoma oltre il budget non viene mai applicato.
+    Le soluzioni con fitness infinita sono rollout scartati.
 
     Restituisce (genoma, F, rapporto) oppure (None, None, None).
     """
@@ -1033,6 +1207,8 @@ def pick_best(F, X):
     F = np.atleast_2d(F)
     X = np.atleast_2d(X)
     ok = np.all(np.isfinite(F), axis=1)
+    if budget is not None:
+        ok = ok & (F[:, 1] <= budget)
     if not ok.any():
         return None, None, None
     F, X = F[ok], X[ok]
@@ -1069,9 +1245,9 @@ def main():
     ap.add_argument("--warmup", type=float, default=0.0,
                     help="metri percorsi senza perturbazione prima di misurare "
                          "(default 0: assestamento a robot fermo con --settle-sec).")
-    ap.add_argument("--settle-sec", type=float, default=2.0,
-                    help="secondi di scansioni a robot fermo fra l'avvio di MOLA "
-                         "e la partenza (default 2.0).")
+    ap.add_argument("--settle-sec", type=float, default=5.0,
+                    help="attesa massima (s) perche' la stima di MOLA si stabilizzi "
+                         "prima di partire; si parte appena converge (default 5.0).")
     ap.add_argument("--initial-sigma", type=float, default=None,
                     help="valore iniziale della soglia adattiva di ICP (default "
                          "della pipeline 0.20). Con valori bassi sigma cade subito "
@@ -1088,6 +1264,11 @@ def main():
     ap.add_argument("--chamfer-max", type=float, default=5.0,
                     help="non usato nella selezione (si usa il rapporto "
                          "danno/percettibilita'); tenuto per compatibilita'.")
+    ap.add_argument("--chamfer-budget", type=float, default=None,
+                    help="budget di percettibilita' (cm): i candidati con Chamfer "
+                         "media oltre questo valore sono inammissibili (esclusi dal "
+                         "fronte e mai scelti, ma valutati e registrati). Default: "
+                         "nessun budget.")
     ap.add_argument("--reeval", action="store_true",
                     help="rivaluta il genoma scelto con un rollout in piu' prima di applicarlo")
     ap.add_argument("--search", choices=["nsga3", "random", "gaussian"], default="nsga3",
@@ -1108,15 +1289,21 @@ def main():
                     help="gruppo di geni attivi: 1 = rumore per punto e dropout (6), "
                          "2 = + operatori sulla geometria dello scan (15), "
                          "3 = tutti (17, default)")
+    ap.add_argument("--discard-policy", choices=["infra", "legacy"], default="infra",
+                    help="regola degli scarti. infra (default): si scarta solo per "
+                         "guasti d'infrastruttura (isaac_stall, mola_not_ready, no_pose, "
+                         "mola_crash) e quando il nominale della finestra e' anomalo; gli "
+                         "altri esiti (timeout, percorso corto, tracking perso) contano "
+                         "come danno con path_deviation. legacy: ogni esito diverso da "
+                         "ok/arrived e' scartato (regola fino al 30/09).")
     ap.add_argument("--untracked", choices=["discard", "nominal", "damage"], default="discard",
-                    help="rollout con tracking perso (rapporto stima/verita' < 0.6): "
-                         "discard = scartato (default); nominal = scartato solo se anche "
-                         "il nominale della finestra era anomalo; damage = mai scartato, "
-                         "la deviazione conta come danno")
-    ap.add_argument("--attack-from", choices=["motion", "spawn"], default="motion",
-                    help="quando accendere la perturbazione: all'inizio del tratto "
-                         "misurato (default) o gia' dall'avvio di MOLA (assestamento "
-                         "incluso, come nelle run fino ad attack_v5)")
+                    help="(solo con --discard-policy legacy) rollout con tracking perso: "
+                         "discard, nominal o damage")
+    ap.add_argument("--attack-from", choices=["spawn", "motion"], default="spawn",
+                    help="quando accendere la perturbazione: dall'avvio di MOLA "
+                         "(default, assestamento incluso: il nodo compromesso e' sempre "
+                         "attivo nel threat model) o solo all'inizio del tratto misurato "
+                         "(motion)")
     ap.add_argument("--true-pose", choices=["ros", "file"], default="ros",
                     help="sorgente della posa vera: /chassis/odom (default) o il "
                          "server via file; la fisica e' la stessa")
@@ -1130,6 +1317,12 @@ def main():
                          "quanto conta allontanare il robot dal bersaglio finale "
                          "oltre alla deviazione dal nominale (default 1.0; 0 = "
                          "solo deviazione).")
+    ap.add_argument("--stop-on", choices=["true", "estimate"], default="true",
+                    help="dove si ferma il rollout nella finestra: alla distanza vera "
+                         "percorsa (default, strumentazione nostra) o quando la distanza "
+                         "STIMATA da MOLA raggiunge l'orizzonte (piu' realistico: il robot "
+                         "si ferma dove crede di essere arrivato), con tetto sulla distanza "
+                         "vera a 1.5x l'orizzonte se la stima si congela.")
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--verbose", action="store_true",
                     help="stampa i parametri decodificati per ogni candidato, "
@@ -1302,7 +1495,8 @@ def main():
             isaac.save()
             _, nom_end, _, st, nom_trav, _ = rollout(
                 None, isaac, mola, node, goal, args.horizon, "rep_nominal",
-                settle_sec=args.settle_sec, catchup_sec=args.catchup_sec, attack_from=args.attack_from)
+                settle_sec=args.settle_sec, catchup_sec=args.catchup_sec, attack_from=args.attack_from, stop_on=args.stop_on)
+            rep_settle = node.last_settle_waited
             if nom_end is None or st not in ("ok", "arrived"):
                 print(f"  nominale FALLITO ({st})")
                 return 1
@@ -1313,7 +1507,8 @@ def main():
             for r in range(args.repeat_n):
                 _, end, ch, st, trav, frames = rollout(
                     g_rep, isaac, mola, node, goal, args.horizon,
-                    f"rep_{r}", settle_sec=args.settle_sec, catchup_sec=args.catchup_sec, attack_from=args.attack_from)
+                    f"rep_{r}", settle_sec=args.settle_sec, settle_fixed=rep_settle,
+                    catchup_sec=args.catchup_sec, attack_from=args.attack_from, stop_on=args.stop_on)
                 if end is None or st not in ("ok", "arrived"):
                     print(f"    rollout {r}: SCARTATO [{st}]  {trav:.2f} m")
                     continue
@@ -1384,7 +1579,7 @@ def main():
             # deviazione. Ricalcolato per finestra perche' la geometria cambia.
             nom_start, nom_end, _, st, nom_trav, nom_frames = rollout(
                 None, isaac, mola, node, wps, args.horizon, f"w{k}_nominal",
-                warmup=args.warmup, settle_sec=args.settle_sec, catchup_sec=args.catchup_sec, attack_from=args.attack_from,
+                warmup=args.warmup, settle_sec=args.settle_sec, catchup_sec=args.catchup_sec, attack_from=args.attack_from, stop_on=args.stop_on,
                 trace_path=(out / "traces" / f"w{k}_nominal.csv")
                 if args.trace else None)
             if nom_end is None or st not in ("ok", "arrived"):
@@ -1392,6 +1587,13 @@ def main():
                 continue
             nom_path = true_path(node.last_trace)
             nominal_ok = node.last_track_ratio == node.last_track_ratio   # non NaN
+            nom_loc_mean = node.last_loc_err_mean * 100 if node.last_loc_err_mean == node.last_loc_err_mean else None
+            nom_loc_end = node.last_loc_err_end * 100 if node.last_loc_err_end == node.last_loc_err_end else None
+            nom_loc_mean_raw = node.last_loc_err_mean_raw * 100 if node.last_loc_err_mean_raw == node.last_loc_err_mean_raw else None
+            nom_loc_end_raw = node.last_loc_err_end_raw * 100 if node.last_loc_err_end_raw == node.last_loc_err_end_raw else None
+            nom_ratio = node.last_track_ratio
+            nom_settle_s = node.last_settle_waited
+            nom_settle_ok = node.last_settle_ok
             nom_yaw_deg = math.degrees(angle_diff(nom_end[2], saved[2]))
             # Rotazione attesa: quella verso il bersaglio dallo stato salvato.
             # Dopo una finestra attaccata il robot puo' trovarsi storto e il
@@ -1411,11 +1613,22 @@ def main():
 
             if args.passthrough:
                 # Solo i nominali: verifica che il robot percorra il tratto
-                # dritto senza alcuna perturbazione.
+                # dritto senza alcuna perturbazione. Bersaglio e tempo servono
+                # al braccio "none" della campagna (distanza finale, durata).
                 history.append({"window": k,
                                 "nominal_end": list(map(float, nom_end)),
                                 "travelled": nom_trav, "frames": nom_frames,
-                                "status": st})
+                                "status": st,
+                                "goal": list(map(float, goal)),
+                                "waypoint_index": wp_idx,
+                                "search": "none",
+                                "loc_err_mean_cm": nom_loc_mean,
+                                "loc_err_end_cm": nom_loc_end,
+                                "loc_err_mean_raw_cm": nom_loc_mean_raw,
+                                "nominal_track_ratio": nom_ratio,
+                                "nominal_settle_s": node.last_settle_waited,
+                                "nominal_settle_ok": node.last_settle_ok,
+                                "window_time_s": time.time() - t_win})
                 with open(out / "history.json", "w") as f:
                     json.dump(history, f, indent=2)
                 print(f"  tempo finestra: {(time.time()-t_win)/60:.1f} min\n")
@@ -1440,21 +1653,42 @@ def main():
                 g = expand_genome(g_active, active_genes, n_genes)
                 c_start, end, ch, st, trav, frames = rollout(
                     g, isaac, mola, node, wps, args.horizon, f"w{k}_e{idx}",
-                    warmup=args.warmup, settle_sec=args.settle_sec, catchup_sec=args.catchup_sec, attack_from=args.attack_from,
-                    untracked=args.untracked, nominal_ok=nominal_ok,
+                    warmup=args.warmup, settle_sec=args.settle_sec, catchup_sec=args.catchup_sec, attack_from=args.attack_from, stop_on=args.stop_on,
+                    untracked=args.untracked, nominal_ok=nominal_ok, track_ref=nom_ratio,
+                    settle_fixed=nom_settle_s,
                     trace_path=(out / "traces" / f"w{k}_e{idx:02d}.csv")
                     if args.trace else None)
 
-                # Un rollout che non completa il tratto (tracking perso, crash,
-                # stopped_early) non e' confrontabile con uno che l'ha percorso:
-                # escluso con fitness infinita.
-                if end is None or st not in ("ok", "arrived"):
+                # Metriche comuni a ogni esito, registrate anche negli scarti.
+                loc_mean = node.last_loc_err_mean * 100 if node.last_loc_err_mean == node.last_loc_err_mean else None
+                loc_end = node.last_loc_err_end * 100 if node.last_loc_err_end == node.last_loc_err_end else None
+                loc_mean_raw = node.last_loc_err_mean_raw * 100 if node.last_loc_err_mean_raw == node.last_loc_err_mean_raw else None
+                kind = outcome_kind(st)
+                if end is None or kind == "infra":
+                    discard = True
+                elif kind == "valid":
+                    discard = False
+                elif args.discard_policy == "infra":
+                    # Esito misurabile ma non completo: conta come danno, tranne
+                    # quando il nominale della finestra era anomalo.
+                    discard = not nominal_ok
+                else:  # legacy: solo ok/arrived contano (untracked secondo --untracked)
+                    base = st.split("(")[0]
+                    discard = (base != "untracked"
+                               or args.untracked == "discard"
+                               or (args.untracked == "nominal" and not nominal_ok))
+
+                if discard:
                     eval_log.append({"genome": [float(v) for v in g],
                                      "dev": None, "chamfer": ch, "status": st,
-                                     "travelled": trav, "frames": frames})
+                                     "track_ratio": node.last_track_ratio,
+                                     "loc_err_mean_cm": loc_mean, "loc_err_end_cm": loc_end,
+                                     "loc_err_mean_raw_cm": loc_mean_raw,
+                                     "perc": node.last_perc or None,
+                                     "travelled": trav, "frames": frames, "counted": False})
                     print(f"    #{idx:02d}  SCARTATA  {trav:.2f} m  "
                           f"{frames:3d} frame  [{st}]")
-                    return (np.inf, np.inf)
+                    return (np.inf, np.inf, 1e6)
 
                 dm = window_damage(end, nom_end, goal, nom_path,
                                    true_path(node.last_trace),
@@ -1462,14 +1696,22 @@ def main():
                 damage = dm["damage"]
 
                 pert = ch if ch == ch else 1e3
+                # Budget di percettibilita': i candidati con Chamfer media oltre
+                # il budget sono inammissibili (fuori dal fronte, mai scelti),
+                # ma valutati e registrati con il flag admissible.
+                admissible = args.chamfer_budget is None or pert <= args.chamfer_budget
                 eval_log.append({"genome": [float(v) for v in g],
                                  "dev": dm["dev_end"], "dev_mean": dm["dev_mean"],
                                  "dev_max": dm["dev_max"], "damage_mode": args.damage,
                                  "directional": dm["directional"],
                                  "damage": damage, "chamfer": ch, "status": st,
                                  "track_ratio": node.last_track_ratio,
+                                 "loc_err_mean_cm": loc_mean, "loc_err_end_cm": loc_end,
+                                 "loc_err_mean_raw_cm": loc_mean_raw,
+                                 "perc": node.last_perc or None,
                                  "travelled": trav, "frames": frames,
-                                 "path_points": dm["path_points"],
+                                 "path_points": dm["path_points"], "counted": True,
+                                 "admissible": admissible,
                                  "end": list(map(float, end))})
                 gen_no = idx // args.pop + 1
                 # Rapporto in unita' coerenti: danno in cm su percettibilita'
@@ -1480,12 +1722,20 @@ def main():
                       f"dir {dm['directional']*100:+6.1f}  dmg {damage*100:6.1f} cm   "
                       f"pert {pert:7.2f} cm   {trav:.2f} m  {frames:3d}f  "
                       f"rapp {node.last_track_ratio:.2f}  [{st}]")
+                if not admissible:
+                    print(f"      -> oltre il budget: Chamfer {pert:.1f} > {args.chamfer_budget:.0f} cm "
+                          f"(vincolo, non scelto)")
                 if args.verbose:
                     print(describe_params(gen_obj.encode_perturbation(g)))
-                return (-damage, pert)
+                # Obiettivi veri + violazione del vincolo (Chamfer - budget):
+                # NSGA-III ordina gli infattibili per violazione, la popolazione
+                # converge verso la zona ammissibile.
+                g_viol = (pert - args.chamfer_budget) if args.chamfer_budget is not None else -1.0
+                return (-damage, pert, g_viol)
 
             if args.search == "nsga3":
-                problem = build_problem(n_search, eval_genome)
+                problem = build_problem(n_search, eval_genome,
+                                        has_constraint=args.chamfer_budget is not None)
                 algorithm = build_nsga3(args.pop)
                 res = minimize(problem, algorithm, ("n_gen", args.gen),
                                seed=args.seed, verbose=False)
@@ -1496,19 +1746,19 @@ def main():
                 # calcolato sulle valutazioni valide.
                 rng = np.random.default_rng(args.seed + k)
                 X_all = rng.uniform(-1.0, 1.0, size=(args.pop * args.gen, n_search))
-                F_all = np.array([eval_genome(x) for x in X_all])
+                F_all = np.array([eval_genome(x) for x in X_all])[:, :2]
                 ok = np.all(np.isfinite(F_all), axis=1)
                 res_F, res_X = pareto_front(F_all[ok], X_all[ok])
             else:
                 # Gaussiano: nessuna ricerca, un solo rollout con il rumore
                 # isotropo del nodo (--gaussian-sigma sul perturbation_node).
                 # Il genoma pubblicato e' ignorato dal nodo in quella modalita'.
-                F_all = np.array([eval_genome(np.zeros(n_search))])
+                F_all = np.array([eval_genome(np.zeros(n_search))])[:, :2]
                 X_all = np.zeros((1, n_search))
                 ok = np.all(np.isfinite(F_all), axis=1)
                 res_F, res_X = F_all[ok], X_all[ok]
 
-            best_g, best_F, ratio = pick_best(res_F, res_X)
+            best_g, best_F, ratio = pick_best(res_F, res_X, budget=args.chamfer_budget)
             if best_g is not None:
                 best_g = expand_genome(best_g, active_genes, n_genes)
             if best_g is None or not np.all(np.isfinite(best_F)):
@@ -1535,12 +1785,17 @@ def main():
                 _, re_end, re_ch, re_st, re_trav, re_frames = rollout(
                     best_g, isaac, mola, node, wps, args.horizon, f"w{k}_reeval",
                     warmup=args.warmup, settle_sec=args.settle_sec, catchup_sec=args.catchup_sec,
-                    attack_from=args.attack_from, untracked=args.untracked, nominal_ok=nominal_ok)
+                    attack_from=args.attack_from, stop_on=args.stop_on, untracked=args.untracked, nominal_ok=nominal_ok,
+                    track_ref=nom_ratio, settle_fixed=nom_settle_s)
                 if re_end is not None and re_st in ("ok", "arrived"):
                     dm_re = window_damage(re_end, nom_end, goal, nom_path,
                                           true_path(node.last_trace), args.damage, args.dir_weight)
                     reeval = {"damage_cm": dm_re["damage"] * 100, "dev_mean_cm": dm_re["dev_mean"] * 100,
-                              "chamfer": re_ch, "status": re_st, "frames": re_frames}
+                              "chamfer": re_ch, "status": re_st, "frames": re_frames,
+                              "loc_err_mean_cm": node.last_loc_err_mean * 100 if node.last_loc_err_mean == node.last_loc_err_mean else None,
+                              "loc_err_end_cm": node.last_loc_err_end * 100 if node.last_loc_err_end == node.last_loc_err_end else None,
+                              "loc_err_mean_raw_cm": node.last_loc_err_mean_raw * 100 if node.last_loc_err_mean_raw == node.last_loc_err_mean_raw else None,
+                              "perc": node.last_perc or None}
                     print(f"  rivalutazione: danno {dm_re['damage']*100:.1f} cm "
                           f"(in ricerca {-best_F[0]*100:.1f})  pert {re_ch:.2f}  [{re_st}]")
                 else:
@@ -1552,10 +1807,15 @@ def main():
             # nominale.
             _, real_end, ch, st, trav, frames = rollout(
                 best_g, isaac, mola, node, wps, args.horizon, f"w{k}_applied",
-                warmup=args.warmup, settle_sec=args.settle_sec, catchup_sec=args.catchup_sec, attack_from=args.attack_from,
-                untracked=args.untracked, nominal_ok=nominal_ok,
+                warmup=args.warmup, settle_sec=args.settle_sec, catchup_sec=args.catchup_sec, attack_from=args.attack_from, stop_on=args.stop_on,
+                untracked=args.untracked, nominal_ok=nominal_ok, track_ref=nom_ratio,
+                settle_fixed=nom_settle_s,
                 trace_path=(out / "traces" / f"w{k}_applied.csv")
                 if args.trace else None)
+            applied_loc_mean = node.last_loc_err_mean * 100 if node.last_loc_err_mean == node.last_loc_err_mean else None
+            applied_loc_end = node.last_loc_err_end * 100 if node.last_loc_err_end == node.last_loc_err_end else None
+            applied_loc_mean_raw = node.last_loc_err_mean_raw * 100 if node.last_loc_err_mean_raw == node.last_loc_err_mean_raw else None
+            applied_perc = node.last_perc or None
             if real_end is not None:
                 dm_real = window_damage(real_end, nom_end, goal, nom_path,
                                         true_path(node.last_trace),
@@ -1601,8 +1861,10 @@ def main():
                 "frames_per_m_applied": (frames / max(trav, 1e-6)) if real_end is not None else None,
                 "n_stopped_early": sum(1 for st_ in statuses if str(st_).startswith("stopped_early")),
                 "n_untracked": sum(1 for st_ in statuses if str(st_).startswith("untracked")),
-                "n_failed": sum(1 for st_ in statuses if st_ not in ("ok", "arrived")
-                                and not str(st_).startswith(("stopped_early", "untracked"))),
+                "n_timeout": sum(1 for st_ in statuses if str(st_).startswith("timeout")),
+                "n_failed": sum(1 for e in eval_log if outcome_kind(str(e["status"])) == "infra"),
+                "n_counted": sum(1 for e in eval_log if e.get("counted")),
+                "n_discarded": sum(1 for e in eval_log if not e.get("counted")),
                 "reeval": reeval,
                 "nominal_end": list(map(float, nom_end)),
                 "applied_end": list(map(float, real_end)) if real_end else None,
@@ -1617,6 +1879,19 @@ def main():
                 "damage_real_cm": (dm_real["damage"] * 100) if dm_real else None,
                 "applied_status": st,
                 "applied_travelled": trav,
+                "nominal_loc_err_mean_cm": nom_loc_mean,
+                "nominal_loc_err_end_cm": nom_loc_end,
+                "nominal_loc_err_mean_raw_cm": nom_loc_mean_raw,
+                "nominal_loc_err_end_raw_cm": nom_loc_end_raw,
+                "applied_loc_err_mean_cm": applied_loc_mean,
+                "applied_loc_err_end_cm": applied_loc_end,
+                "applied_loc_err_mean_raw_cm": applied_loc_mean_raw,
+                "nominal_track_ratio": nom_ratio,
+                "track_threshold": 0.60,
+                "nominal_settle_s": nom_settle_s,
+                "nominal_settle_ok": nom_settle_ok,
+                "settle_used_s": nom_settle_s,
+                "applied_perc": applied_perc,
                 "perturbation": float(best_F[1]),
                 "ratio": float(ratio),
                 "pareto_F": np.atleast_2d(res_F).tolist(),
@@ -1631,6 +1906,10 @@ def main():
                 "active_genes": active_genes,
                 "attack_from": args.attack_from,
                 "untracked_policy": args.untracked,
+                "discard_policy": args.discard_policy,
+                "chamfer_budget": args.chamfer_budget,
+                "n_inadmissible": sum(1 for e in eval_log if e.get("admissible") is False),
+                "stop_on": args.stop_on,
             })
             with open(out / "history.json", "w") as f:
                 json.dump(history, f, indent=2)
