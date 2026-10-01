@@ -1,0 +1,159 @@
+======================================================================
+  ATTACCO RECEDING-HORIZON
+  bersaglio (5.0, 0.0)   orizzonte 1.0 m   4x2 = 8 candidati/finestra
+======================================================================
+  frame di lavoro: odom di Isaac (/chassis/odom), non la scena; posa nella scena [-5.989 -1.    -0.   ]
+  partenza      : [ 0.011  0.    -0.   ]
+  waypoint rel  : [(5.0, 0.0)]
+  waypoint abs  : [(np.float64(5.011), np.float64(-0.0))]
+  distanza      : 5.00 m  ->  5 finestre da 1.00 m (1.0 misurati)
+  assestamento  : 2.0s a robot fermo dopo l'avvio di MOLA
+  frame/finestra: ~12 a regime (10 Hz a 0.8 m/s = 8 cm fra uno scan e l'altro)
+  valutazioni   : 4 individui x 2 generazioni = 8, piu' nominale e applicazione
+  stima tempo   : ~1.7 min/finestra, ~8 min totali
+  genoma        : gruppo 3, 17 geni attivi su 17 (inattivi a -1)
+  tracce        : data/attack/campaign/straight/gaussian_s0.01/rep_01/traces e data/attack/campaign/straight/gaussian_s0.01/rep_01/logs
+  seed          : 1001
+
+── finestra 1 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 5.00 m
+  stato salvato in [ 0.011  0.    -0.   ]
+  nominale: parte da [ 0.018  0.    -0.   ] (ripristino 0.7 cm dallo stato salvato)  arriva in [ 1.22  -0.003 -0.002]  percorsi 1.01 m  25 frame  35 pose vere  rotazione -0° (bersaglio a +0°)  rapporto stima/verita' 1.00  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #00  rst  0.7  end   0.0 mean   0.0 max   0.0  dir   -0.0  dmg    0.0 cm   pert    1.98 cm   1.01 m   24f  rapp 1.00  [ok]
+
+  FRONTE DI PARETO: 1 soluzioni non dominate su 1 valutate (1 valide)
+    danno    0.01 cm   pert    1.980 cm   rapporto   0.01 <- scelto
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [+0.000, +0.000, +0.000]
+      cluster_strength           +0.5000
+      curvature_strength         +0.5000
+      dropout_rate               +0.0150
+      edge_attack_strength       +0.5000
+      geometric_distortion       +0.5000
+      ghost_ratio                +0.0100
+      noise_direction            [+0.000, +0.000, +0.000]
+      noise_intensity            +0.0250
+      scanline_strength          +0.5000
+      spatial_correlation        +0.5000
+      strategic_ghost            +0.5000
+      temporal_drift_strength    +0.5000
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  rivalutazione: danno 0.0 cm (in ricerca 0.0)  pert 2.16  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+
+  APPLICATO: il robot e' in [ 1.221 -0.003 -0.002]
+  percorsi 1.01 m su 26 frame perturbati
+  deviazione reale dal nominale: fine 0.0  media 0.0  max 0.0 cm   danno 0.0 cm (in valutazione era 0.0 cm)   [ok]
+  tempo finestra: 1.5 min
+
+── finestra 2 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 3.79 m
+  stato salvato in [ 1.221 -0.003 -0.002]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale: parte da [ 1.228 -0.003 -0.002] (ripristino 0.7 cm dallo stato salvato)  arriva in [ 2.431e+00 -4.000e-03  2.000e-03]  percorsi 1.01 m  24 frame  32 pose vere  rotazione +0° (bersaglio a +0°)  rapporto stima/verita' 1.00  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #00  rst  0.7  end   0.0 mean   0.0 max   0.0  dir   -0.0  dmg    0.0 cm   pert    2.06 cm   1.01 m   24f  rapp 1.00  [ok]
+
+  FRONTE DI PARETO: 1 soluzioni non dominate su 1 valutate (1 valide)
+    danno    0.02 cm   pert    2.057 cm   rapporto   0.01 <- scelto
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [+0.000, +0.000, +0.000]
+      cluster_strength           +0.5000
+      curvature_strength         +0.5000
+      dropout_rate               +0.0150
+      edge_attack_strength       +0.5000
+      geometric_distortion       +0.5000
+      ghost_ratio                +0.0100
+      noise_direction            [+0.000, +0.000, +0.000]
+      noise_intensity            +0.0250
+      scanline_strength          +0.5000
+      spatial_correlation        +0.5000
+      strategic_ghost            +0.5000
+      temporal_drift_strength    +0.5000
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  rivalutazione: danno 0.1 cm (in ricerca 0.0)  pert 2.23  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+
+  APPLICATO: il robot e' in [ 2.431e+00 -4.000e-03  2.000e-03]
+  percorsi 1.01 m su 24 frame perturbati
+  deviazione reale dal nominale: fine 0.0  media 0.0  max 0.0 cm   danno 0.0 cm (in valutazione era 0.0 cm)   [ok]
+  tempo finestra: 1.5 min
+
+── finestra 3 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 2.58 m
+  stato salvato in [ 2.431e+00 -4.000e-03  2.000e-03]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale: parte da [ 2.438e+00 -4.000e-03  2.000e-03] (ripristino 0.7 cm dallo stato salvato)  arriva in [ 3.641e+00 -3.000e-03  0.000e+00]  percorsi 1.01 m  23 frame  31 pose vere  rotazione -0° (bersaglio a -0°)  rapporto stima/verita' 1.00  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #00  rst  0.7  end   0.0 mean   0.0 max   0.0  dir   -0.0  dmg    0.0 cm   pert    2.26 cm   1.01 m   24f  rapp 1.00  [ok]
+
+  FRONTE DI PARETO: 1 soluzioni non dominate su 1 valutate (1 valide)
+    danno    0.02 cm   pert    2.259 cm   rapporto   0.01 <- scelto
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [+0.000, +0.000, +0.000]
+      cluster_strength           +0.5000
+      curvature_strength         +0.5000
+      dropout_rate               +0.0150
+      edge_attack_strength       +0.5000
+      geometric_distortion       +0.5000
+      ghost_ratio                +0.0100
+      noise_direction            [+0.000, +0.000, +0.000]
+      noise_intensity            +0.0250
+      scanline_strength          +0.5000
+      spatial_correlation        +0.5000
+      strategic_ghost            +0.5000
+      temporal_drift_strength    +0.5000
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  rivalutazione: danno 0.0 cm (in ricerca 0.0)  pert 2.26  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+
+  APPLICATO: il robot e' in [ 3.641e+00 -3.000e-03  0.000e+00]
+  percorsi 1.01 m su 25 frame perturbati
+  deviazione reale dal nominale: fine 0.0  media 0.0  max 0.0 cm   danno 0.0 cm (in valutazione era 0.0 cm)   [ok]
+  tempo finestra: 1.5 min
+
+── finestra 4 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 1.37 m
+  stato salvato in [ 3.641e+00 -3.000e-03  0.000e+00]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale: parte da [ 3.648e+00 -3.000e-03  0.000e+00] (ripristino 0.7 cm dallo stato salvato)  arriva in [ 4.707e+00 -3.000e-03  2.000e-03]  percorsi 1.01 m  25 frame  36 pose vere  rotazione +0° (bersaglio a +0°)  rapporto stima/verita' 1.00  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #00  rst  0.7  end   0.8 mean   0.0 max   0.9  dir   -0.8  dmg    0.0 cm   pert    2.11 cm   1.02 m   25f  rapp 1.00  [ok]
+
+  FRONTE DI PARETO: 1 soluzioni non dominate su 1 valutate (1 valide)
+    danno    0.03 cm   pert    2.113 cm   rapporto   0.01 <- scelto
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [+0.000, +0.000, +0.000]
+      cluster_strength           +0.5000
+      curvature_strength         +0.5000
+      dropout_rate               +0.0150
+      edge_attack_strength       +0.5000
+      geometric_distortion       +0.5000
+      ghost_ratio                +0.0100
+      noise_direction            [+0.000, +0.000, +0.000]
+      noise_intensity            +0.0250
+      scanline_strength          +0.5000
+      spatial_correlation        +0.5000
+      strategic_ghost            +0.5000
+      temporal_drift_strength    +0.5000
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  rivalutazione: danno 0.0 cm (in ricerca 0.0)  pert 2.27  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+
+  APPLICATO: il robot e' in [ 4.708e+00 -3.000e-03  2.000e-03]
+  percorsi 1.01 m su 26 frame perturbati
+  deviazione reale dal nominale: fine 0.1  media 0.0  max 0.1 cm   danno 0.0 cm (in valutazione era 0.0 cm)   [ok]
+  tempo finestra: 1.5 min
+
+  bersaglio finale raggiunto (0.30 m): fine del task
+
+Storico: data/attack/campaign/straight/gaussian_s0.01/rep_01/history.json

@@ -1,0 +1,809 @@
+Starting kit application with the following args:  ['/home/missroot/.local/lib/python3.12/site-packages/isaacsim/exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py', '/home/missroot/.local/lib/python3.12/site-packages/isaacsim/apps/isaacsim.exp.base.python.kit', '--/app/tokens/exe-path=/home/missroot/.local/lib/python3.12/site-packages/isaacsim/kit', '--/persistent/app/viewport/displayOptions=3094', '--/rtx/materialDb/syncLoads=True', '--/rtx/hydra/materialSyncLoads=True', '--/omni/kit/plugin/syncUsdLoads=True', '--/app/renderer/resolution/width=1280', '--/app/renderer/resolution/height=720', '--/app/window/width=1440', '--/app/window/height=900', '--/renderer/multiGpu/enabled=True', '--/app/fastShutdown=True', '--/app/installSignalHandlers=0', '--ext-folder', '/home/missroot/.local/lib/python3.12/site-packages/isaacsim/exts', '--ext-folder', '/home/missroot/.local/lib/python3.12/site-packages/isaacsim/apps', '--/physics/cudaDevice=0', '--/plugins/carb.tasking.plugin/threadCount=16', '--/plugins/omni.tbb.globalcontrol/maxThreadCount=16', '--portable', '--no-window', '--/app/window/hideUi=1']
+Passing the following args to the base kit application:  ['--headless']
+2026-09-30T16:12:02Z [Info] [carb] Logging to file: /home/missroot/.local/lib/python3.12/site-packages/isaacsim/kit/logs/Kit/Isaac-Sim Python/6.1/kit_20260930_181202.log
+[0.041s] [ext: omni.assets.plugins-0.0.0] startup
+[0.042s] [ext: omni.blobkey-1.1.2] startup
+[0.042s] [ext: omni.kit.async_engine-0.0.3] startup
+[0.107s] [ext: omni.client.lib-1.1.1] startup
+[0.114s] [ext: omni.client-1.3.0] startup
+[0.116s] [ext: omni.protobuf.lib-1.0.1] startup
+[0.117s] [ext: omni.grpc.lib-1.0.0] startup
+[0.120s] [ext: omni.metrics.core-0.0.3] startup
+[0.120s] [ext: omni.datastore-0.0.0] startup
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1790784723.046649  262523 descriptor_database.cc:633] File already exists in database: grpc/health/v1/health.proto
+W0000 00:00:1790784723.046670  262523 message.cc:301] Protobuf GeneratedMessageFactory: File is already registered: grpc/health/v1/health.proto
+[0.120s] [ext: omni.gpu_foundation.shadercache.vulkan-1.0.0] startup
+[0.121s] [ext: omni.hsscclient-1.1.4] startup
+[0.122s] [ext: omni.stats-1.0.1] startup
+[0.122s] [ext: omni.ujitso.default-1.0.0] startup
+[0.125s] [ext: omni.gpu_foundation-0.0.0] startup
+[0.253s] [ext: carb.windowing.plugins-1.0.1] startup
+[0.253s] [ext: omni.kit.renderer.init-1.0.1] startup
+2026-09-30T16:12:03Z [428ms] [Warning] [omni.rtx] Skipping unsupported non-NVIDIA GPU: AMD Ryzen 7 9800X3D 8-Core Processor (RADV RAPHAEL_MENDOCINO)
+2026-09-30T16:12:03Z [428ms] [Warning] [omni.rtx] Skipping unsupported non-NVIDIA GPU: AMD Ryzen 7 9800X3D 8-Core Processor (RADV RAPHAEL_MENDOCINO)
+
+|---------------------------------------------------------------------------------------------|
+| Driver Version: 595.91.07     | Graphics API: Vulkan
+|=============================================================================================|
+| GPU | Name                             | Active | LDA | GPU Memory | Vendor-ID | LUID       |
+|     |                                  |        |     |            | Device-ID | UUID       |
+|     |                                  |        |     |            | Bus-ID    |            |
+|---------------------------------------------------------------------------------------------|
+| 0   | NVIDIA GeForce RTX 5070 Ti       | Yes: 0 |     | 16303   MB | 10de      | 0          |
+|     |                                  |        |     |            | 2c05      | a3a938e6.. |
+|     |                                  |        |     |            | 1         |            |
+|---------------------------------------------------------------------------------------------|
+| 1   | AMD Ryzen 7 9800X3D 8-Core Pro.. |        |     | 22004   MB | 1002      | 0          |
+|     |                                  |        |     |            | 13c0      | 00000000.. |
+|     |                                  |        |     |            | 11        |            |
+|=============================================================================================|
+| OS: 24.04.5 LTS (Noble Numbat) ubuntu, Version: 24.04.5, Kernel: 7.0.0-34-generic
+| XServer Vendor: The X.Org Foundation, XServer Version: 12101011 (1.21.1.11)
+| Processor: AMD Ryzen 7 9800X3D 8-Core Processor
+| Cores: 8 | Logical Cores: 16
+|---------------------------------------------------------------------------------------------|
+| Total Memory (MB): 61918 | Free Memory: 53933
+| Total Page/Swap (MB): 8191 | Free Page/Swap: 8191
+|---------------------------------------------------------------------------------------------|
+2026-09-30T16:12:03Z [587ms] [Warning] [omni.rtx] CPU performance profile is set to powersave. This profile sets the CPU to the lowest frequency reducing performance.
+2026-09-30T16:12:03Z [594ms] [Warning] [omni.rtx] IOMMU is enabled.
+[0.666s] [ext: omni.kit.pipapi-0.0.0] startup
+[0.667s] [ext: omni.kit.telemetry-0.5.2] startup
+[0.687s] [ext: omni.kit.loop-isaac-1.6.2] startup
+[0.688s] [ext: omni.kit.test-2.1.1] startup
+[0.717s] [ext: omni.materialx.libs-1.0.9] startup
+[0.721s] [ext: omni.gpucompute.plugins-0.0.0] startup
+[0.722s] [ext: omni.usd.config-1.0.8] startup
+[0.724s] [ext: omni.usd.libs-1.0.3] startup
+[0.777s] [ext: omni.iray.libs-0.0.1] startup
+[0.780s] [ext: omni.mdl-57.0.6] startup
+[0.819s] [ext: omni.mdl.neuraylib-0.2.22] startup
+[0.820s] [ext: omni.kit.usd.mdl-1.1.11] startup
+[0.892s] [ext: omni.appwindow-1.2.2] startup
+[0.893s] [ext: omni.kit.renderer.core-1.3.1] startup
+[1.146s] [ext: omni.kit.renderer.capture-2.0.1] startup
+[1.147s] [ext: omni.kit.renderer.imgui-2.1.0] startup
+[1.183s] [ext: omni.ui-3.3.1] startup
+[1.189s] [ext: omni.kit.mainwindow-1.0.4] startup
+[1.190s] [ext: carb.audio-0.1.0] startup
+[1.192s] [ext: omni.uiaudio-1.0.0] startup
+[1.193s] [ext: omni.kit.uiapp-0.0.0] startup
+[1.193s] [ext: omni.usd.schema.metrics.assembler-110.1.0] startup
+[1.194s] [ext: omni.usd.schema.audio-0.0.1] startup
+[1.196s] [ext: omni.usd_resolver-1.0.0] startup
+[1.199s] [ext: omni.usd.core-1.10.10] startup
+[1.201s] [ext: omni.metropolis.schema-0.0.3] startup
+[1.201s] [ext: isaacsim.anim.robot.schema-0.1.1] startup
+[1.202s] [ext: isaacsim.common-6.2.0] startup
+[1.202s] [ext: omni.usd.schema.anim-0.0.1] startup
+[1.213s] [ext: omni.usd.schema.geospatial-0.0.1] startup
+[1.215s] [ext: omni.usd.schema.omnigraph-1.0.1] startup
+[1.218s] [ext: omni.usd.schema.semantics-0.0.0] startup
+[1.220s] [ext: omni.activity.core-1.0.4] startup
+[1.220s] [ext: omni.cubric-0.1.0] startup
+[1.221s] [ext: omni.graph.exec-0.9.6] startup
+[1.221s] [ext: omni.hydra.scene_delegate-0.3.5] startup
+[1.223s] [ext: usdrt.scenegraph-7.6.3] startup
+[1.239s] [ext: omni.hydra.usdrt_delegate-7.5.2] startup
+[1.242s] [ext: omni.inspect-1.0.2] startup
+[1.243s] [ext: omni.kit.actions.core-1.2.0] startup
+[1.245s] [ext: omni.kit.audiodeviceenum-1.0.2] startup
+[1.245s] [ext: omni.kit.commands-1.5.0] startup
+[1.247s] [ext: omni.kit.exec.core-0.13.6] startup
+[1.248s] [ext: omni.kit.usd_undo-0.1.8] startup
+[1.248s] [ext: omni.kit.window.popup_dialog-2.0.26] startup
+[1.250s] [ext: omni.kit.widget.connection_manager-1.0.3] startup
+[1.254s] [ext: omni.timeline-1.1.0] startup
+[1.255s] [ext: omni.usd-1.18.0] startup
+[1.276s] [ext: omni.graph.core-3.1.5] startup
+[1.278s] [ext: omni.kit.notification_manager-1.0.16] startup
+[1.279s] [ext: isaacsim.core.deprecation_manager-0.4.4] startup
+[1.279s] [ext: isaacsim.replicator.agent.schema-0.1.1] startup
+[1.280s] [ext: isaacsim.robot.schema-7.0.2] startup
+[1.282s] [ext: isaacsim.robot_motion.schema-0.2.2] startup
+[1.283s] [ext: omni.anim.behavior.schema-110.3.0] startup
+[1.285s] [ext: omni.anim.graph.schema-110.3.0] startup
+[1.289s] [ext: omni.anim.navigation.schema-110.3.0] startup
+[1.290s] [ext: omni.behavior.tree.schema-110.3.0] startup
+[1.291s] [ext: omni.kit.asset_converter-6.0.5] startup
+2026-09-30T16:12:04Z [1,273ms] [Warning] [asset_converter_native_bindings._bootstrap] A different OpenUSD (pxr) build was already imported from /home/missroot/.local/lib/python3.12/site-packages/isaacsim/extscache/omni.anim.graph.schema-110.3.0+110.3.0.lx64.r.cp312.u7f4/pxr before usd-convert-asset loaded. The host pxr bindings will remain in use rather than reloading the bundled OpenUSD at /home/missroot/.local/lib/python3.12/site-packages/isaacsim/extscache/omni.kit.asset_converter-6.0.5+110.1.1.lx64.r.cp312.u7f4/asset_converter_native_bindings/libs/lib/python/pxr, /home/missroot/.local/lib/python3.12/site-packages/isaacsim/extscache/omni.kit.asset_converter-6.0.5+110.1.1.lx64.r.cp312.u7f4/asset_converter_native_bindings/libs/python/pxr. Mixing USD builds in one process can cause ABI and singleton conflicts; prefer importing usd_convert_asset first, or run the converter in a separate process/venv when mixing unrelated USD builds.
+[1.300s] [ext: omni.usd.schema.flow-110.0.0] startup
+[1.300s] [ext: omni.usd.schema.newton-1.4.0] startup
+[1.301s] [ext: omni.usd.schema.mujoco-1.1.4] startup
+[1.301s] [ext: omni.usd.schema.omni_dome_light-1.0.0] startup
+[1.301s] [ext: omni.usd.schema.omni_lens_distortion-1.0.0] startup
+[1.302s] [ext: omni.usd.schema.omni_projectors-1.0.0] startup
+[1.302s] [ext: omni.usd.schema.omni_sensors-0.0.0] startup
+[1.307s] [ext: omni.usd.schema.omniscripting-1.0.1] startup
+[1.309s] [ext: omni.usd.schema.physical_lighting-0.1.0] startup
+[1.311s] [ext: omni.usd.schema.physx-110.3.2] startup
+[1.329s] [ext: omni.usd.schema.render_settings.rtx-1.0.3] startup
+[1.331s] [ext: omni.usd.schema.usd_particle_field-1.0.0] startup
+[1.332s] [ext: isaacsim.core.version-2.2.1] startup
+[1.333s] [ext: omni.kit.menu.core-1.3.0] startup
+[1.333s] [ext: omni.kit.menu.utils-2.2.8] startup
+[1.337s] [ext: isaacsim.app.about-2.3.2] startup
+[1.341s] [ext: isaacsim.asset.transformer-6.1.0] startup
+[1.342s] [ext: omni.scene.optimizer.core-110.2.1] startup
+[1.373s] [ext: isaacsim.asset.importer.utils-1.9.1] startup
+[1.375s] [ext: omni.convexdecomposition-110.3.2] startup
+[1.376s] [ext: omni.physics-110.3.2] startup
+[1.378s] [ext: omni.physx.gpu-110.3.2] startup
+[1.378s] [ext: omni.physx.foundation-110.3.2] startup
+[1.379s] [ext: omni.usdphysics-110.3.2] startup
+[1.380s] [ext: omni.physx.cooking-110.3.2] startup
+[1.382s] [ext: omni.physx-110.3.2] startup
+[1.387s] [ext: omni.physics.physx-110.3.2] startup
+[1.389s] [ext: isaacsim.asset.exporter.urdf-2.2.6] startup
+[1.394s] [ext: omni.kit.clipboard-1.1.1] startup
+[1.394s] [ext: omni.kit.usd.layers-2.7.2] startup
+[1.398s] [ext: omni.kit.widget.context_menu-1.5.0] startup
+[1.399s] [ext: omni.kit.context_menu-1.10.0] startup
+[1.400s] [ext: omni.kit.helper.file_utils-0.1.10] startup
+[1.401s] [ext: omni.kit.widget.nucleus_info-2.0.2] startup
+[1.401s] [ext: omni.kit.search_core-1.0.8] startup
+[1.402s] [ext: omni.kit.widget.path_field-2.0.13] startup
+[1.402s] [ext: omni.kit.widget.browser_bar-2.0.11] startup
+[1.403s] [ext: omni.kit.widget.filebrowser-2.14.0] startup
+[1.405s] [ext: omni.kit.widget.nucleus_connector-2.4.0] startup
+[1.405s] [ext: omni.kit.widget.options_menu-1.1.7] startup
+[1.407s] [ext: omni.kit.widget.options_button-1.0.3] startup
+[1.407s] [ext: omni.kit.widget.search_delegate-1.0.10] startup
+[1.408s] [ext: omni.ui.scene-2.0.4] startup
+[1.411s] [ext: omni.kit.window.filepicker-3.0.14] startup
+[1.419s] [ext: omni.kit.window.file_importer-1.1.22] startup
+[1.420s] [ext: omni.kit.material.library-3.1.7] startup
+[1.423s] [ext: isaacsim.asset.transformer.rules-1.7.18] startup
+[1.429s] [ext: omni.usdex.libs-2.3.0] startup
+[1.434s] [ext: isaacsim.asset.importer.mjcf-3.12.1] startup
+[1.435s] [ext: omni.kit.primitive.mesh-1.1.1] startup
+[1.436s] [ext: omni.kit.stage_template.core-1.1.23] startup
+[1.436s] [ext: omni.kit.stage_templates-2.0.3] startup
+[1.437s] [ext: omni.usd.metrics.assembler-110.1.2] startup
+[1.440s] [ext: omni.warp.core-1.16.0] startup
+[1.543s] [ext: isaacsim.core.experimental.utils-0.23.0] startup
+[1.544s] [ext: isaacsim.asset.importer.urdf-3.11.10] startup
+[1.546s] [ext: omni.physics.stageupdate-110.3.2] startup
+[1.548s] [ext: omni.physics.tensors-110.3.2] startup
+[1.550s] [ext: omni.physx.tensors-110.3.2] startup
+[1.553s] [ext: isaacsim.core.simulation_manager-1.17.1] startup
+[1.560s] [ext: isaacsim.storage.native-1.11.0] startup
+[1.561s] [ext: omni.usd.metrics.assembler.physics-110.3.2] startup
+[1.562s] [ext: isaacsim.core.utils-4.1.9] startup
+[1.564s] [ext: isaacsim.core.prims-0.11.7] startup
+[2.285s] [ext: isaacsim.core.api-5.3.2] startup
+[2.288s] [ext: isaacsim.core.cloner-1.7.5] startup
+[2.289s] [ext: isaacsim.test.docstring-1.3.2] startup
+[2.292s] [ext: isaacsim.core.experimental.prims-1.10.8] startup
+[2.302s] [ext: isaacsim.core.experimental.primdata-0.3.6] startup
+[2.303s] [ext: omni.graph.tools-1.81.0] startup
+[2.315s] [ext: omni.graph-1.142.5] startup
+[2.337s] [ext: isaacsim.core.experimental.actuators-0.1.6] startup
+[2.348s] [ext: isaacsim.core.experimental.materials-0.10.0] startup
+[2.350s] [ext: isaacsim.core.experimental.objects-0.9.0] startup
+[2.394s] [ext: omni.hydra.engine.stats-1.0.5] startup
+[2.396s] [ext: omni.hydra.rtx.shadercache.vulkan-1.0.0] startup
+[2.397s] [ext: omni.index.libs-392300.961.0] startup
+[2.397s] [ext: omni.index-1.0.1] startup
+[2.397s] [ext: omni.ujitso.client-0.0.0] startup
+[2.397s] [ext: omni.usd.schema.playback-1.1.0] startup
+[2.398s] [ext: omni.volume-0.5.2] startup
+[2.401s] [ext: omni.hydra.rtx-1.0.4] startup
+2026-09-30T16:12:05Z [2,393ms] [Warning] [omni.log] Source: omni.hydra was already registered.
+[2.423s] [ext: omni.kit.hydra_texture-1.6.2] startup
+[2.425s] [ext: omni.kit.raycast.query-1.2.0] startup
+[2.427s] [ext: omni.kit.viewport.legacy_gizmos-1.0.24] startup
+[2.429s] [ext: omni.kit.viewport.registry-104.0.6] startup
+[2.429s] [ext: omni.kit.viewport.scene_camera_model-1.0.7] startup
+[2.432s] [ext: omni.kit.widget.viewport-110.0.0] startup
+[2.434s] [ext: omni.kit.window.drop_support-1.0.8] startup
+[2.435s] [ext: omni.kit.viewport.window-110.0.1] startup
+[2.445s] [ext: omni.kit.viewport.utility-2.1.0] startup
+[2.446s] [ext: isaacsim.core.rendering_manager-0.5.1] startup
+[2.452s] [ext: omni.graph.action_core-1.1.9] startup
+[2.454s] [ext: omni.graph.action_nodes_core-2.11.0] startup
+[2.455s] [ext: omni.graph.action_nodes-2.11.0] startup
+[2.468s] [ext: omni.graph.action-2.10.2] startup
+[2.469s] [ext: omni.graph.image.core-0.6.1] startup
+[2.470s] [ext: omni.graph.image.nodes-1.3.2] startup
+[2.470s] [ext: omni.graph.nodes_core-2.11.0] startup
+[2.474s] [ext: omni.graph.nodes-2.12.0] startup
+[2.478s] [ext: omni.kit.hotkeys.core-1.4.0] startup
+[2.479s] [ext: omni.kit.property.adapter.core-1.1.1] startup
+[2.480s] [ext: omni.kit.property.adapter.usd-1.0.6] startup
+[2.481s] [ext: omni.kit.widget.filter-1.1.8] startup
+[2.481s] [ext: omni.kit.widget.highlight_label-1.0.3] startup
+[2.482s] [ext: omni.kit.widget.searchfield-1.1.8] startup
+[2.483s] [ext: omni.kit.window.file_exporter-1.0.38] startup
+[2.484s] [ext: omni.kit.widget.stage-4.6.5] startup
+[2.489s] [ext: omni.kit.window.content_browser_registry-0.0.6] startup
+[2.489s] [ext: omni.kit.window.file-2.0.15] startup
+[2.491s] [ext: omni.kit.window.content_browser-3.1.12] startup
+[2.497s] [ext: omni.kit.window.property-1.15.2] startup
+[2.504s] [ext: omni.kit.property.usd-4.9.14] startup
+[2.510s] [ext: omni.graph.scriptnode-2.10.2] startup
+[2.516s] [ext: omni.kit.widget.searchable_combobox-1.0.7] startup
+[2.516s] [ext: omni.kit.widget.settings-2.0.1] startup
+[2.518s] [ext: omni.kit.window.preferences-1.8.5] startup
+[2.521s] [ext: omni.kit.viewport.menubar.core-110.0.3] startup
+[2.529s] [ext: omni.syntheticdata-0.6.17] startup
+[2.545s] [ext: omni.replicator.nv-1.1.6] startup
+[2.549s] [ext: omni.videoencoding-0.2.1] startup
+[2.550s] [ext: omni.replicator.core-1.13.36] startup
+2026-09-30T16:12:05Z [2,536ms] [Warning] [pxr.Semantics] pxr.Semantics is deprecated - please use Semantics instead
+Warp 1.16.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.2
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 5070 Ti" (15 GiB, sm_120, mempool enabled)
+   Kernel cache:
+     /home/missroot/.cache/warp/1.16.0
+2026-09-30T16:12:05Z [2,573ms] [Warning] [omni.replicator.core.scripts.extension] No material configuration file, adding configuration to material settings directly.
+[2.660s] [ext: isaacsim.core.nodes-5.10.13] startup
+[2.679s] [ext: isaacsim.core.throttling-2.3.7] startup
+[2.680s] [ext: omni.kit.manipulator.viewport-107.0.1] startup
+[2.681s] [ext: omni.graph.visualization.nodes-2.1.4] startup
+[2.689s] [ext: omni.kit.window.extensions-1.5.16] startup
+[2.692s] [ext: isaacsim.gui.components-1.8.9] startup
+[2.695s] [ext: isaacsim.robot.surface_gripper-3.6.3] startup
+[2.702s] [ext: isaacsim.robot.manipulators-3.4.5] startup
+[2.709s] [ext: isaacsim.robot_motion.lula-4.1.4] startup
+[2.713s] [ext: isaacsim.robot_motion.motion_generation-8.2.9] startup
+[2.717s] [ext: isaacsim.cortex.framework-1.0.20] startup
+[2.718s] [ext: isaacsim.cortex.behaviors-2.0.18] startup
+[2.719s] [ext: isaacsim.examples.base-1.3.4] startup
+[2.721s] [ext: omni.kit.widget.zoombar-1.0.7] startup
+[2.722s] [ext: omni.kit.browser.core-2.3.18] startup
+[2.724s] [ext: omni.kit.browser.folder.core-2.0.3] startup
+[2.727s] [ext: omni.kit.widget.stage_icons-1.0.8] startup
+[2.727s] [ext: omni.kit.window.stage-2.6.1] startup
+[2.730s] [ext: omni.kit.menu.stage-1.2.7] startup
+[2.731s] [ext: omni.kit.usd.collect-3.0.6] startup
+[2.732s] [ext: omni.kit.widget.prompt-1.0.7] startup
+[2.733s] [ext: omni.kit.tool.collect-2.2.19] startup
+[2.734s] [ext: isaacsim.examples.browser-0.3.4] startup
+[2.736s] [ext: omni.kit.search.files-1.0.4] startup
+[2.736s] [ext: omni.kit.widget.calendar-1.0.9] startup
+[2.737s] [ext: omni.kit.widget.extended_searchfield-1.0.31] startup
+[2.742s] [ext: omni.simready.content.browser-0.3.8] startup
+[2.803s] [ext: isaacsim.gui.content_browser-0.5.1] startup
+[2.804s] [ext: omni.kit.selection-0.1.6] startup
+[2.805s] [ext: isaacsim.gui.menu-2.10.12] startup
+[2.810s] [ext: isaacsim.gui.property-1.6.4] startup
+[2.814s] [ext: omni.kit.viewport.actions-110.1.0] startup
+[2.817s] [ext: omni.kit.viewport.menubar.display-110.0.0] startup
+[2.818s] [ext: isaacsim.gui.sensors.icon-2.2.4] startup
+[2.820s] [ext: omni.behavior.scripting.core-110.3.0] startup
+[2.822s] [ext: isaacsim.replicator.behavior-1.6.2] startup
+[2.825s] [ext: isaacsim.replicator.experimental.domain_randomization-1.2.10] startup
+[2.835s] [ext: isaacsim.replicator.domain_randomization-1.2.3] startup
+[2.884s] [ext: isaacsim.replicator.writers-1.5.6] startup
+[2.899s] [ext: isaacsim.robot.experimental.wheeled_robots-0.2.14] startup
+[2.912s] [ext: isaacsim.robot_motion.experimental.motion_generation-7.1.2] startup
+[2.917s] [ext: isaacsim.robot.policy.examples-7.2.0] startup
+[4.112s] [ext: isaacsim.robot.wheeled_robots-5.2.5] startup
+[4.115s] [ext: isaacsim.robot.wheeled_robots.nodes-0.1.12] startup
+[4.141s] [ext: isaacsim.robot_motion.controllers-0.3.2] startup
+[4.148s] [ext: isaacsim.robot_motion.cumotion-1.4.0] startup
+[4.155s] [ext: omni.kit.numpy.common-0.1.3] startup
+[4.156s] [ext: omni.rtx.spg-0.4.0] startup
+[4.160s] [ext: omni.sensors.nv.camera-1.0.0] startup
+[4.163s] [ext: isaacsim.sensors.camera-1.7.13] startup
+[4.178s] [ext: isaacsim.sensors.experimental.physics-3.3.0] startup
+[4.183s] [ext: omni.sensors.net-1.0.1] startup
+[4.184s] [ext: omni.sensors.nv.common-3.0.0] startup
+[4.192s] [ext: omni.sensors.nv.materials-2.0.0] startup
+[4.195s] [ext: omni.sensors.nv.acoustic-3.0.0] startup
+[4.196s] [ext: omni.sensors.nv.ids-2.0.1] startup
+[4.198s] [ext: omni.sensors.nv.lidar-3.0.0] startup
+[4.200s] [ext: omni.sensors.nv.radar-3.0.0] startup
+[4.202s] [ext: isaacsim.sensors.experimental.rtx-1.9.0] startup
+2026-09-30T16:12:07Z [4,290ms] [Error] [omni.kit.app._impl] [py stderr]: /home/missroot/.local/lib/python3.12/site-packages/matplotlib/projections/__init__.py:63: UserWarning: Unable to import Axes3D. This may be due to multiple versions of Matplotlib being installed (e.g. as a system package and as a pip package). As a result, the 3D projection is not available.
+  warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+[4.326s] [ext: isaacsim.sensors.physics.nodes-1.6.2] startup
+[4.331s] [ext: isaacsim.util.debug_draw-3.2.6] startup
+[4.334s] [ext: isaacsim.sensors.physx-2.5.7] startup
+[4.339s] [ext: isaacsim.sensors.rtx-15.17.5] startup
+[4.347s] [ext: isaacsim.simulation_app-2.19.0] startup
+[4.347s] [ext: omni.anim.curve.core-1.6.1] startup
+[4.353s] [ext: omni.graph.ui_nodes-2.11.1] startup
+[4.369s] [ext: omni.kit.manipulator.camera-110.1.0] startup
+[4.371s] [ext: omni.kit.manipulator.selector-1.1.4] startup
+[4.372s] [ext: omni.kit.manipulator.transform-107.0.1] startup
+[4.375s] [ext: omni.kit.widget.toolbar-2.1.0] startup
+[4.378s] [ext: omni.kit.manipulator.tool.snap-1.5.15] startup
+[4.381s] [ext: omni.kit.viewport.manipulator.transform-107.0.4] startup
+[4.382s] [ext: omni.kit.manipulator.prim.core-108.0.2] startup
+[4.385s] [ext: omni.kit.manipulator.prim.usd-107.0.3] startup
+[4.386s] [ext: omni.kit.manipulator.prim-108.0.0] startup
+[4.386s] [ext: omni.kit.manipulator.selection-110.0.0] startup
+[4.387s] [ext: omni.kit.menu.create-2.0.2] startup
+[4.388s] [ext: omni.kit.property.audio-1.0.18] startup
+[4.391s] [ext: omni.kit.property.camera-1.0.14] startup
+[4.392s] [ext: omni.kit.property.geometry-2.1.2] startup
+[4.394s] [ext: omni.kit.property.light-1.0.16] startup
+[4.416s] [ext: omni.kit.property.material-1.14.10] startup
+[4.420s] [ext: omni.kit.property.render-1.2.2] startup
+[4.421s] [ext: omni.kit.property.transform-1.6.12] startup
+[4.423s] [ext: omni.kit.property.bundle-1.5.2] startup
+[4.424s] [ext: omni.kit.usdz_export-1.1.1] startup
+[4.425s] [ext: omni.kit.tool.asset_importer-6.0.2] startup
+[4.429s] [ext: omni.kit.ui.actions-1.0.5] startup
+[4.430s] [ext: omni.kit.viewport.menubar.camera-107.0.14] startup
+[4.433s] [ext: omni.kit.viewport.menubar.lighting-107.3.2] startup
+[4.434s] [ext: omni.kit.viewport.menubar.render-110.1.1] startup
+[4.436s] [ext: omni.kit.viewport.menubar.settings-110.0.1] startup
+[4.438s] [ext: omni.kit.window.console-1.1.10] startup
+[4.441s] [ext: omni.kit.window.status_bar-0.1.11] startup
+[4.442s] [ext: omni.kit.window.toolbar-3.0.3] startup
+[4.444s] [ext: omni.ocio-0.1.1] startup
+[4.445s] [ext: omni.physx.commands-110.3.2] startup
+[4.447s] [ext: omni.replicator.replicator_yaml-2.0.12] startup
+[4.453s] [ext: omni.rtx.window.settings-0.8.2] startup
+[4.456s] [ext: omni.rtx.settings.core-0.7.1] startup
+[4.458s] [ext: omni.usd.metrics.assembler.ui-110.1.1] startup
+[4.463s] [ext: semantics.schema.editor-2.0.2] startup
+[4.465s] [ext: semantics.schema.property-2.0.2] startup
+[4.466s] [ext: omni.kit.menu.common-2.0.2] startup
+[4.466s] [ext: isaacsim.exp.base-6.1.0] startup
+[4.467s] [ext: isaacsim.exp.base.python-6.1.0] startup
+[4.468s] Simulation App Starting
+[5.108s] Simulation App Startup Complete
+[5.114s] app ready
+[5.451s] [ext: isaacsim.core.includes-2.9.4] startup
+[5.451s] [ext: isaacsim.sensors.rtx.nodes-0.1.7] startup
+[5.458s] [ext: isaacsim.ros2.core-1.11.0] startup
+[5.502s] Attempting to load system rclpy
+[5.526s] rclpy loaded
+[5.528s] [ext: isaacsim.ros2.control-0.1.6] startup
+[5.532s] [ext: isaacsim.ros2.nodes-1.22.7] startup
+[5.563s] [ext: isaacsim.ros2.examples-1.2.9] startup
+[5.566s] [ext: isaacsim.ros2.ui-1.9.2] startup
+[5.725s] [ext: isaacsim.ros2.bridge-5.1.4] startup
+[standalone] apro /home/missroot/mola-adversarial-nsga3/isaac/carter_warehouse.usd
+2026-09-30T16:12:12Z [9,853ms] [Warning] [omni.usd] Encountered USD Warnings but USD Diagnostics are currently muted. To view USD Warnings, please set the '/persistent/app/usd/muteUsdDiagnostics' setting to false in Preferences page.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/left/camera_left': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/left/camera_left': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/camera': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/right/camera_right': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/camera': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/left/camera_left': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/right/camera_right': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/camera': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/left/camera_left': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/right/camera_right': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/right/camera_right': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:13Z [10,899ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/camera': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+[standalone] pronto: comandi su /tmp/isaac_cmd.json
+2026-09-30T16:12:15Z [12,559ms] [Warning] [isaacsim.ros2.nodes.ogn.python.nodes.OgnROS2RtxLidarHelper] fullScan is deprecated. RTX Lidar now always produces full scans via accumulateOutputs. This setting is ignored.
+2026-09-30T16:12:15Z [12,754ms] [Warning] [isaacsim.ros2.core.impl.camera_info_utils] Forcing fy to fx (957.8116193827423 != 957.8115559493878) when computing CameraInfo, as renderer assumes square pixels.
+2026-09-30T16:12:15Z [12,754ms] [Warning] [isaacsim.ros2.core.impl.camera_info_utils] Forcing fy to fx (959.3266105473468 != 959.3265470136585) when computing CameraInfo, as renderer assumes square pixels.
+2026-09-30T16:12:15Z [12,782ms] [Warning] [isaacsim.core.experimental.primdata.plugin] PrimDataReader: DOF effort readings are not available on the Newton backend. The dof_efforts field will be unavailable.
+2026-09-30T16:12:15Z [12,961ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/left/camera_left': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:15Z [12,961ms] [Warning] [rtx.hydra] Camera '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/right/camera_right': Projection type 'fisheyePolynomial' is deprecated. Please use 'opencvFisheye', 'opencvPinhole', 'lut', or 'omniDirectionalStereo' instead.
+2026-09-30T16:12:15Z [13,046ms] [Warning] [rtx.rtxsensor.plugin] Multi-tick is enabled but motion BVH is not active. This is not supported.
+2026-09-30T16:12:15Z [13,046ms] [Warning] [rtx.sensors.lidar.core.plugin] MotionBVH for lidar model not enabled. This will result in an incorrect point cloud without motion effects!
+2026-09-30T16:12:16Z [13,745ms] [Warning] [omni.timeline.plugin] Deprecated: direct use of ITimeline callbacks is deprecated. Use ITimeline::getTimeline (Python: omni.timeline.get_timeline_interface) instead.
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:26Z [23,419ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 549
+2026-09-30T16:12:35Z [32,494ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:37Z [34,361ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 1143
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:39Z [36,397ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 1263
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:41Z [38,441ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 1383
+2026-09-30T16:12:43Z [40,487ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,487ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,487ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,487ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,487ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,488ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,488ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,488ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,488ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,488ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,488ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,488ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,488ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,488ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:43Z [40,488ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 1503
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:45Z [42,587ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 1623
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:47Z [44,639ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 1743
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:49Z [46,689ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 1863
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:12:59Z [56,646ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 2403
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:01Z [58,779ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 2523
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:03Z [60,873ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 2643
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:05Z [62,922ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 2763
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:07Z [65,017ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 2883
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:10Z [67,114ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 3003
+2026-09-30T16:13:18Z [75,712ms] [Warning] [omni.graph.core.plugin] /World/Nova_Carter_ROS/differential_drive/differential_controller_01: [/World/Nova_Carter_ROS/differential_drive] Invalid deltaTime 0.000000, cannot check for acceleration limits, skipping current step
+2026-09-30T16:13:21Z [78,631ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:21Z [78,632ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 3636
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:23Z [80,715ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 3756
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:25Z [82,758ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 3876
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:27Z [84,803ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 3996
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:29Z [86,856ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 4116
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:31Z [88,904ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 4236
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:33Z [91,000ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 4356
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:43Z [100,938ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 4901
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:45Z [103,024ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 5021
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:48Z [105,066ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 5141
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:50Z [107,159ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 5261
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:52Z [109,211ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 5381
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:54Z [111,357ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 5501
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/rear_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/XT_32/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/right_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/front_RPLidar/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/ros2_publish_raw_transform_tree' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/left_hawk/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/chassis_link/sensors/back_owl/ROS_TF/PublisherTF' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_sensors' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_chassis' did not submit transforms for topic '/tf' on flush cycle 5621
+2026-09-30T16:13:56Z [113,407ms] [Warning] [isaacsim.ros2.nodes] ROS2 TF aggregation contributor '/World/Nova_Carter_ROS/transform_tree_odometry/tf_tree_base_link_to_wheel_base' did not submit transforms for topic '/tf' on flush cycle 5621

@@ -1,0 +1,8 @@
+[INFO] [1790784271.753222952] [perturbation_node]: [genoma #1 da avvio]  noise 3.13 cm  dropout 10.7%  ghost 1.0%  geom 0.368  edge 0.62  drift 0.58
+[INFO] [1790784271.756336619] [perturbation_node]: ================================================================
+[INFO] [1790784271.756562259] [perturbation_node]:   PERTURBATION NODE
+[INFO] [1790784271.756764264] [perturbation_node]: ================================================================
+[INFO] [1790784271.756966650] [perturbation_node]:   in  : /carter/lidar_with_intensity
+[INFO] [1790784271.757176190] [perturbation_node]:   out : /carter/lidar_perturbed
+[INFO] [1790784271.757390518] [perturbation_node]:   attacco PASSTHROUGH (nuvole invariate)
+[INFO] [1790784271.757614085] [perturbation_node]:   latenza minima per scan: 85 ms

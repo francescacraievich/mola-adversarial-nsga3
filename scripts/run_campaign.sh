@@ -1,21 +1,28 @@
 #!/usr/bin/env bash
 # Ripetizioni di un braccio della campagna su uno scenario.
 #
-# Isaac Sim viene avviato da terminale (isaac/run_isaac_standalone.py, opzioni
-# extra in ISAAC_ARGS, es. --headless) all'inizio di ogni ripetizione e chiuso
-# alla fine: ogni processo vive una sola run. Se l'orchestratore si ferma per
-# stallo di Isaac (codice 3) la ripetizione viene rilanciata una volta; la
-# cartella della prova fallita resta come rep_NN_stallo1 (rep_NN_stallo2 se
-# fallisce anche la seconda, e lo script passa alla ripetizione successiva).
+# A ogni ripetizione lo script avvia Isaac Sim da terminale
+# (isaac/run_isaac_standalone.py, opzioni extra in ISAAC_ARGS, es. --headless)
+# e il perturbation_node con --min-latency-ms $MIN_LATENCY_MS (default 85; per
+# il braccio gaussiano anche --gaussian-sigma), lancia l'orchestratore e alla
+# fine chiude orchestratore, nodo e Isaac: ogni processo vive una sola run e
+# tutti i bracci pagano la stessa latenza per scan. L'add_intensity_node resta
+# un prerequisito in esecuzione.
 #
-# Prerequisiti in esecuzione: add_intensity_node, perturbation_node con
-# --min-latency-ms $MIN_LATENCY_MS (default 85; piu' --gaussian-sigma per il
-# braccio gaussiano): tutti i bracci pagano la stessa latenza per scan, e lo
-# script si rifiuta di partire se il nodo in esecuzione ha un valore diverso.
-# Ogni ripetizione riporta il
-# robot alla posa iniziale (--start-pose) e riparte da zero; una ripetizione
-# gia' presente (history.json) viene saltata, cosi' lo script si puo'
-# rilanciare dopo un'interruzione.
+# Il braccio gaussiano gira per ogni valore di SIGMAS (metri, default
+# "0.01 0.02 0.05 0.10"), una sottocartella per valore: gaussian_s<sigma>.
+# Cartelle: none_g<gruppo>, gaussian_s<sigma>, <arm>_g<gruppo>_p<pop>x<gen>
+# per random e nsga3 (configurazioni diverse non si mescolano).
+#
+# Una ripetizione e' completa quando l'orchestratore esce con codice 0: lo
+# script scrive allora il file "completata" nella sua cartella, e le
+# ripetizioni con quel file vengono saltate (lo script si puo' rilanciare dopo
+# un'interruzione). Una cartella senza "completata" (run interrotta: la
+# history.json viene scritta dopo ogni finestra, quindi puo' esistere anche
+# parziale) viene rinominata rep_NN_incompleta_<data> e la ripetizione rifatta.
+# Se l'orchestratore si ferma per stallo di Isaac (codice 3) la ripetizione
+# viene rilanciata una volta; la prova fallita resta come rep_NN_stallo1
+# (rep_NN_stallo2 se fallisce anche la seconda, e si passa oltre).
 #
 # Uso:
 #   scripts/run_campaign.sh <scenario> <arm> <gruppo> <ripetizioni> [pop] [gen]
@@ -26,7 +33,7 @@
 #
 # Esempi:
 #   scripts/run_campaign.sh straight nsga3 1 10 4 2
-#   scripts/run_campaign.sh rect none 3 10
+#   SIGMAS="0.02 0.05" scripts/run_campaign.sh straight gaussian 1 3
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -41,9 +48,10 @@ POP="${5:-4}"
 GEN="${6:-2}"
 START_POSE="${START_POSE:--5.99,-1.0,0}"   # posa iniziale assoluta x,y,yaw_deg
 MIN_LATENCY_MS="${MIN_LATENCY_MS:-85}"     # latenza minima per scan del perturbation_node
+SIGMAS="${SIGMAS:-0.01 0.02 0.05 0.10}"    # deviazioni standard del braccio gaussiano (m)
 ISAAC_ARGS="${ISAAC_ARGS:-}"               # opzioni extra per run_isaac_standalone.py
 ISAAC_READY_SEC="${ISAAC_READY_SEC:-300}"  # attesa massima dell'avvio di Isaac
-# CAMPAIGN_DIR: radice dei risultati (default data/attack/campaign)
+CAMPAIGN_DIR="${CAMPAIGN_DIR:-data/attack/campaign}"   # radice dei risultati
 
 case "$SCENARIO" in
   straight) GOALS="5,0" ;;
@@ -65,11 +73,40 @@ if pgrep -f "^python3( -u)? .*run_isaac_standalone\.py" >/dev/null || pgrep -x i
   echo "Chiuderlo prima di lanciare la campagna."
   exit 1
 fi
+if pgrep -f "^python3( -u)? .*perturbation_node\.py" >/dev/null; then
+  echo "perturbation_node gia' in esecuzione: lo script lo avvia e chiude a ogni ripetizione"
+  echo "(due nodi pubblicherebbero sullo stesso topic). Chiuderlo prima di lanciare la campagna."
+  exit 1
+fi
+if ! pgrep -f "^python3( -u)? .*add_intensity_node\.py" >/dev/null; then
+  echo "add_intensity_node non in esecuzione: e' un prerequisito della campagna."
+  exit 1
+fi
 
 ISAAC_PID=""
+NODE_PID=""
+ORCH_PID=""
+
+# In uno script i comandi lanciati con & partono con SIGINT ignorato: senza
+# "trap - INT" l'INT di stop_pid non arriverebbe e i processi verrebbero
+# chiusi solo con TERM, senza la loro chiusura ordinata.
+
+# Termina un processo: prima il segnale dato, poi TERM, poi KILL.
+stop_pid() {   # $1 = pid, $2 = primo segnale, $3 = secondi di attesa
+  local pid="$1"
+  [[ -z "$pid" ]] && return 0
+  if kill -0 "$pid" 2>/dev/null; then
+    kill -"$2" "$pid" 2>/dev/null || true
+    for _ in $(seq 1 "$3"); do kill -0 "$pid" 2>/dev/null || break; sleep 1; done
+    kill -TERM "$pid" 2>/dev/null || true
+    for _ in $(seq 1 15); do kill -0 "$pid" 2>/dev/null || break; sleep 1; done
+    kill -KILL "$pid" 2>/dev/null || true
+  fi
+  wait "$pid" 2>/dev/null || true
+}
 
 isaac_start() {   # $1 = file di log
-  python3 -u isaac/run_isaac_standalone.py $ISAAC_ARGS > "$1" 2>&1 &
+  ( trap - INT; exec python3 -u isaac/run_isaac_standalone.py $ISAAC_ARGS ) > "$1" 2>&1 &
   ISAAC_PID=$!
   local t0=$SECONDS
   until grep -q "\[standalone\] pronto" "$1" 2>/dev/null; do
@@ -84,63 +121,109 @@ isaac_start() {   # $1 = file di log
   sleep 5   # prime nuvole e prima posa
 }
 
-isaac_stop() {
-  [[ -z "$ISAAC_PID" ]] && return 0
-  if kill -0 "$ISAAC_PID" 2>/dev/null; then
-    kill -INT "$ISAAC_PID" 2>/dev/null || true
-    for _ in $(seq 1 30); do kill -0 "$ISAAC_PID" 2>/dev/null || break; sleep 1; done
-    kill -TERM "$ISAAC_PID" 2>/dev/null || true
-    for _ in $(seq 1 15); do kill -0 "$ISAAC_PID" 2>/dev/null || break; sleep 1; done
-    kill -KILL "$ISAAC_PID" 2>/dev/null || true
-  fi
-  wait "$ISAAC_PID" 2>/dev/null || true
-  ISAAC_PID=""
-}
-trap isaac_stop EXIT
+isaac_stop() { stop_pid "$ISAAC_PID" INT 30; ISAAC_PID=""; }
 
-# Latenza del nodo in esecuzione, letta dallo stato che pubblica (il nodo
-# pubblica lo stato solo dopo le prime nuvole: si controlla con Isaac avviato).
+# Il nodo parte ad attacco spento: e' l'orchestratore ad accenderlo per i
+# rollout che lo richiedono.
+node_start() {   # $1 = file di log, $2 = sigma del rumore gaussiano (vuoto = genoma)
+  local extra=""
+  [[ -n "$2" ]] && extra="--gaussian-sigma $2"
+  ( trap - INT; exec python3 -u src/nodes/perturbation_node.py --min-latency-ms "$MIN_LATENCY_MS" \
+    --start-disabled $extra ) > "$1" 2>&1 &
+  NODE_PID=$!
+}
+
+node_stop() { stop_pid "$NODE_PID" INT 10; NODE_PID=""; }
+
+cleanup() {
+  stop_pid "$ORCH_PID" INT 30; ORCH_PID=""
+  node_stop
+  isaac_stop
+}
+trap cleanup EXIT
+trap 'echo "== interrotto"; exit 130' INT
+trap 'echo "== terminato"; exit 143' TERM HUP
+
+# Latenza del nodo appena avviato, letta dallo stato che pubblica (lo stato
+# arriva solo dopo le prime nuvole): fino a 60 s di attesa.
 check_latency() {
-  local lat
-  lat="$(timeout 10 ros2 topic echo --once --field data /attack/status std_msgs/msg/String 2>/dev/null \
-    | python3 -c 'import json,sys; print(json.loads(sys.stdin.readline()).get("min_latency_ms", 0))' 2>/dev/null || true)"
+  local lat="" t0=$SECONDS
+  while (( SECONDS - t0 < 60 )); do
+    lat="$(timeout 10 ros2 topic echo --once --field data /attack/status std_msgs/msg/String 2>/dev/null \
+      | python3 -c 'import json,sys; print(json.loads(sys.stdin.readline()).get("min_latency_ms", 0))' 2>/dev/null || true)"
+    [[ -n "$lat" ]] && break
+    sleep 2
+  done
   if ! python3 -c "import sys; sys.exit(0 if abs(float('${lat:-nan}') - $MIN_LATENCY_MS) < 1e-6 else 1)" 2>/dev/null; then
     echo "perturbation_node senza la latenza minima richiesta (letta: '${lat:-nessuno stato}', attesa: $MIN_LATENCY_MS ms)."
-    echo "Rilanciarlo con: python3 -u src/nodes/perturbation_node.py --min-latency-ms $MIN_LATENCY_MS"
     return 1
   fi
 }
 
-OUT_BASE="${CAMPAIGN_DIR:-data/attack/campaign}/$SCENARIO/${ARM}_g${GROUP}"
-mkdir -p "$OUT_BASE"
+# Sposta cartella e log di una ripetizione sotto un nuovo nome.
+move_rep() {   # $1 = base, $2 = nome, $3 = nuovo nome
+  local tag="$3"
+  [[ -e "$1/$tag" ]] && tag="${tag}_$(date +%Y%m%d_%H%M%S)"
+  [[ -e "$1/$2" ]] && mv "$1/$2" "$1/$tag"
+  for suf in .log _isaac.log _pert.log; do
+    [[ -e "$1/$2$suf" ]] && mv "$1/$2$suf" "$1/$tag$suf"
+  done
+  return 0
+}
 
-for i in $(seq 1 "$REPS"); do
-  NAME="rep_$(printf '%02d' "$i")"
-  OUT="$OUT_BASE/$NAME"
-  if [[ -f "$OUT/history.json" ]]; then
-    echo "== $OUT gia' presente, salto"
-    continue
-  fi
-  for attempt in 1 2; do
-    echo "== $SCENARIO / $ARM / gruppo $GROUP / ripetizione $i (tentativo $attempt)  ->  $OUT"
-    isaac_start "$OUT_BASE/${NAME}_isaac.log" || exit 1
-    check_latency || exit 1
-    set +e
-    python3 -u src/optimization/attack_orchestrator.py \
-      --goals "$GOALS" --start-pose="$START_POSE" --horizon 1.0 --settle-sec 2.0 \
-      --seed "$((1000 + i))" --trace --reeval --out "$OUT" $EXTRA \
-      2>&1 | tee "$OUT_BASE/${NAME}.log"
-    rc=${PIPESTATUS[0]}
-    set -e
-    isaac_stop
-    [[ $rc -ne 3 ]] && break
-    # Stallo di Isaac: la prova resta, rinominata, e la ripetizione riparte.
-    echo "== stallo di Isaac nella ripetizione $i (tentativo $attempt)"
-    TAG="${NAME}_stallo${attempt}"
-    [[ -e "$OUT_BASE/$TAG" ]] && TAG="${TAG}_$(date +%Y%m%d_%H%M%S)"   # da un lancio precedente
-    mv "$OUT" "$OUT_BASE/$TAG"
-    mv "$OUT_BASE/${NAME}.log" "$OUT_BASE/${TAG}.log"
-    mv "$OUT_BASE/${NAME}_isaac.log" "$OUT_BASE/${TAG}_isaac.log"
+if [[ "$ARM" == "gaussian" ]]; then
+  VARIANTS="$SIGMAS"
+else
+  VARIANTS="-"
+fi
+
+for SIGMA in $VARIANTS; do
+  case "$ARM" in
+    none)          DIR="none_g${GROUP}" ;;
+    gaussian)      DIR="gaussian_s${SIGMA}" ;;
+    random|nsga3)  DIR="${ARM}_g${GROUP}_p${POP}x${GEN}" ;;
+  esac
+  [[ "$SIGMA" == "-" ]] && SIGMA=""
+  OUT_BASE="$CAMPAIGN_DIR/$SCENARIO/$DIR"
+  mkdir -p "$OUT_BASE"
+
+  for i in $(seq 1 "$REPS"); do
+    NAME="rep_$(printf '%02d' "$i")"
+    OUT="$OUT_BASE/$NAME"
+    if [[ -f "$OUT/completata" ]]; then
+      echo "== $OUT gia' completata, salto"
+      continue
+    fi
+    if [[ -e "$OUT" || -e "$OUT_BASE/$NAME.log" ]]; then
+      echo "== $OUT incompleta da un lancio precedente: rinominata e rifatta"
+      move_rep "$OUT_BASE" "$NAME" "${NAME}_incompleta_$(date +%Y%m%d_%H%M%S)"
+    fi
+    for attempt in 1 2; do
+      echo "== $(date +%T) $SCENARIO / $DIR / ripetizione $i (tentativo $attempt)  ->  $OUT"
+      isaac_start "$OUT_BASE/${NAME}_isaac.log" || exit 1
+      node_start "$OUT_BASE/${NAME}_pert.log" "$SIGMA"
+      check_latency || exit 1
+      set +e
+      ( trap - INT; exec python3 -u src/optimization/attack_orchestrator.py \
+        --goals "$GOALS" --start-pose="$START_POSE" --horizon 1.0 --settle-sec 2.0 \
+        --seed "$((1000 + i))" --trace --reeval --out "$OUT" $EXTRA ) \
+        > >(tee "$OUT_BASE/${NAME}.log") 2>&1 &
+      ORCH_PID=$!
+      wait "$ORCH_PID"
+      rc=$?
+      ORCH_PID=""
+      set -e
+      node_stop
+      isaac_stop
+      if [[ $rc -eq 0 ]]; then
+        date +%FT%T > "$OUT/completata"
+        break
+      fi
+      [[ $rc -ne 3 ]] && { echo "== orchestratore uscito con codice $rc: ripetizione $i non completata"; break; }
+      # Stallo di Isaac: la prova resta, rinominata, e la ripetizione riparte.
+      echo "== stallo di Isaac nella ripetizione $i (tentativo $attempt)"
+      move_rep "$OUT_BASE" "$NAME" "${NAME}_stallo${attempt}"
+    done
   done
 done
 echo "== campagna $SCENARIO / $ARM / gruppo $GROUP completata"

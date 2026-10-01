@@ -1,0 +1,426 @@
+======================================================================
+  ATTACCO RECEDING-HORIZON
+  bersaglio (5.0, 0.0)   orizzonte 1.0 m   8x4 = 32 candidati/finestra
+======================================================================
+  frame di lavoro: odom di Isaac (/chassis/odom), non la scena; posa nella scena [-5.989 -1.    -0.   ]
+  partenza      : [ 0.011 -0.    -0.   ]
+  waypoint rel  : [(5.0, 0.0)]
+  waypoint abs  : [(np.float64(5.011), np.float64(-0.0))]
+  distanza      : 5.00 m  ->  5 finestre da 1.00 m (1.0 misurati)
+  assestamento  : 2.0s a robot fermo dopo l'avvio di MOLA
+  frame/finestra: ~12 a regime (10 Hz a 0.8 m/s = 8 cm fra uno scan e l'altro)
+  valutazioni   : 8 individui x 4 generazioni = 32, piu' nominale e applicazione
+  stima tempo   : ~5.7 min/finestra, ~28 min totali
+  genoma        : gruppo 3, 17 geni attivi su 17 (inattivi a -1)
+  tracce        : data/attack/campaign/straight/nsga3_g3_p8x4/rep_07/traces e data/attack/campaign/straight/nsga3_g3_p8x4/rep_07/logs
+  seed          : 1007
+
+── finestra 1 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 5.00 m
+  stato salvato in [ 0.011 -0.    -0.   ]
+  nominale: parte da [ 0.019 -0.    -0.   ] (ripristino 0.8 cm dallo stato salvato)  arriva in [ 1.261 -0.004 -0.004]  percorsi 1.04 m  18 frame  31 pose vere  rotazione -0° (bersaglio a +0°)  rapporto stima/verita' 0.65  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #00  rst  0.7  end   8.4 mean   2.7 max   8.4  dir   +0.6  dmg    3.3 cm   pert   47.91 cm   1.03 m   19f  rapp 1.40  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #01  rst  0.8  end   4.9 mean   1.4 max   4.9  dir   +1.5  dmg    2.9 cm   pert   26.94 cm   1.01 m   30f  rapp 1.11  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #02  rst  0.7  end   7.1 mean   2.1 max   7.1  dir   +3.0  dmg    5.1 cm   pert   37.31 cm   1.01 m   23f  rapp 0.92  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    #03  SCARTATA  1.04 m   20 frame  [untracked(0.58)]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #04  rst  0.8  end   8.4 mean   2.7 max   8.4  dir   +3.1  dmg    5.8 cm   pert   42.35 cm   1.01 m   20f  rapp 0.64  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #05  rst  0.7  end   0.4 mean   0.1 max   0.4  dir   -0.1  dmg    0.1 cm   pert   14.41 cm   1.04 m   26f  rapp 0.84  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #06  rst  0.7  end   3.6 mean   0.8 max   3.6  dir   +2.7  dmg    3.5 cm   pert   12.55 cm   1.01 m   26f  rapp 1.02  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #07  rst  0.7  end   3.7 mean   0.7 max   3.7  dir   +2.7  dmg    3.5 cm   pert   31.25 cm   1.01 m   27f  rapp 1.24  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #08  rst  0.7  end   5.4 mean   1.7 max   5.4  dir   +0.3  dmg    1.9 cm   pert   38.64 cm   1.04 m   24f  rapp 1.55  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #09  rst  0.8  end   0.7 mean   0.1 max   0.7  dir   -0.0  dmg    0.1 cm   pert   21.96 cm   1.04 m   21f  rapp 0.90  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #10  rst  0.7  end   9.5 mean   2.9 max   9.5  dir   +3.3  dmg    6.2 cm   pert   53.54 cm   1.01 m   30f  rapp 0.85  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #11  rst  0.7  end   3.2 mean   0.9 max   3.2  dir   +0.1  dmg    1.0 cm   pert   40.83 cm   1.04 m   22f  rapp 1.27  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #12  rst  0.7  end   9.3 mean   2.9 max   9.3  dir   +0.7  dmg    3.6 cm   pert   44.83 cm   1.03 m   23f  rapp 0.96  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #13  rst  0.7  end   5.5 mean   1.8 max   5.5  dir   +0.3  dmg    2.1 cm   pert   34.20 cm   1.04 m   18f  rapp 1.09  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #14  rst  0.7  end   7.5 mean   2.4 max   7.5  dir   +0.4  dmg    2.8 cm   pert   36.77 cm   1.03 m   20f  rapp 0.85  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #15  rst  0.7  end   6.7 mean   2.0 max   6.7  dir   +3.0  dmg    5.0 cm   pert   40.47 cm   1.01 m   24f  rapp 0.87  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #16  rst  0.7  end   8.6 mean   2.8 max   8.6  dir   +0.6  dmg    3.3 cm   pert   50.82 cm   1.03 m   24f  rapp 0.98  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    #17  SCARTATA  1.04 m   22 frame  [untracked(0.56)]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #18  rst  0.7  end   9.8 mean   3.1 max   9.8  dir   +0.7  dmg    3.9 cm   pert   39.43 cm   1.03 m   16f  rapp 0.62  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #19  rst  0.7  end   6.5 mean   2.0 max   6.5  dir   +2.9  dmg    4.9 cm   pert   33.79 cm   1.01 m   25f  rapp 1.17  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #20  rst  0.7  end   4.9 mean   1.6 max   4.9  dir   +1.5  dmg    3.1 cm   pert   19.64 cm   1.02 m   19f  rapp 0.89  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #21  rst  0.7  end   5.7 mean   1.5 max   5.7  dir   +2.9  dmg    4.4 cm   pert   33.09 cm   1.01 m   24f  rapp 1.04  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #22  rst  0.7  end   2.5 mean   0.8 max   2.6  dir   +0.1  dmg    0.9 cm   pert   32.67 cm   1.04 m   21f  rapp 0.97  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #23  rst  0.7  end   5.3 mean   1.6 max   5.3  dir   +0.2  dmg    1.7 cm   pert   23.80 cm   1.04 m   28f  rapp 0.71  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #24  rst  0.7  end   4.8 mean   1.5 max   4.8  dir   +1.5  dmg    3.0 cm   pert   27.02 cm   1.02 m   22f  rapp 1.28  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #25  rst  0.7  end   3.3 mean   1.0 max   3.3  dir   +0.1  dmg    1.1 cm   pert   31.12 cm   1.04 m   23f  rapp 0.98  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #26  rst  0.7  end   6.5 mean   2.0 max   6.5  dir   +3.0  dmg    5.0 cm   pert   34.79 cm   1.01 m   23f  rapp 0.97  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #27  rst  0.7  end   4.1 mean   0.8 max   4.1  dir   +2.8  dmg    3.6 cm   pert   41.49 cm   1.01 m   25f  rapp 0.96  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #28  rst  0.7  end   2.4 mean   0.7 max   2.4  dir   +0.0  dmg    0.7 cm   pert    9.90 cm   1.04 m   26f  rapp 0.97  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #29  rst  0.7  end  10.0 mean   3.2 max  10.0  dir   +0.8  dmg    4.0 cm   pert   43.61 cm   1.03 m   23f  rapp 1.38  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #30  rst  0.7  end   7.9 mean   2.5 max   7.9  dir   +0.5  dmg    3.0 cm   pert   41.37 cm   1.03 m   19f  rapp 0.66  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #31  rst  0.7  end   7.6 mean   2.2 max   7.6  dir   +0.4  dmg    2.6 cm   pert   39.80 cm   1.05 m   32f  rapp 1.15  [ok]
+
+  FRONTE DI PARETO: 6 soluzioni non dominate su 32 valutate (30 valide)
+    danno    5.76 cm   pert   42.346 cm   rapporto   0.14
+    danno    3.52 cm   pert   12.551 cm   rapporto   0.28 <- scelto
+    danno    6.20 cm   pert   53.545 cm   rapporto   0.12
+    danno    4.38 cm   pert   33.087 cm   rapporto   0.13
+    danno    4.98 cm   pert   34.791 cm   rapporto   0.14
+    danno    0.75 cm   pert    9.897 cm   rapporto   0.08
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [-0.864, -0.467, +0.186]
+      cluster_strength           +0.6918
+      curvature_strength         +0.0952
+      dropout_rate               +0.0138
+      edge_attack_strength       +0.5711
+      geometric_distortion       +0.2568
+      ghost_ratio                +0.0115
+      noise_direction            [+0.042, +0.994, -0.105]
+      noise_intensity            +0.0490
+      scanline_strength          +0.9540
+      spatial_correlation        +0.4892
+      strategic_ghost            +0.1652
+      temporal_drift_strength    +0.1340
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  rivalutazione: danno 3.6 cm (in ricerca 3.5)  pert 13.28  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+
+  APPLICATO: il robot e' in [1.261 0.021 0.038]
+  percorsi 1.04 m su 27 frame perturbati
+  deviazione reale dal nominale: fine 2.5  media 0.8  max 2.5 cm   danno 0.8 cm (in valutazione era 3.5 cm)   [ok]
+  tempo finestra: 13.1 min
+
+── finestra 2 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 3.75 m
+  stato salvato in [1.261 0.021 0.038]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale: parte da [1.268 0.021 0.038] (ripristino 0.7 cm dallo stato salvato)  arriva in [ 2.51   0.022 -0.031]  percorsi 1.04 m  25 frame  33 pose vere  rotazione -4° (bersaglio a -2°)  rapporto stima/verita' 1.00  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #00  rst  0.7  end   8.9 mean   2.7 max   8.9  dir   +3.2  dmg    5.9 cm   pert   51.01 cm   1.01 m   23f  rapp 1.63  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #01  rst  0.7  end   4.8 mean   1.3 max   4.8  dir   +2.8  dmg    4.1 cm   pert   23.27 cm   1.01 m   22f  rapp 1.16  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #02  rst  0.7  end   6.3 mean   1.9 max   6.3  dir   -1.1  dmg    1.9 cm   pert   24.47 cm   1.04 m   19f  rapp 0.70  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #03  rst  0.7  end   6.7 mean   2.2 max   6.7  dir   +1.6  dmg    3.8 cm   pert   43.17 cm   1.02 m   24f  rapp 0.77  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #04  rst  0.7  end   8.4 mean   2.5 max   8.4  dir   +0.5  dmg    3.1 cm   pert   52.10 cm   1.04 m   28f  rapp 0.82  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #05  rst  0.7  end   3.1 mean   0.5 max   3.1  dir   +2.7  dmg    3.1 cm   pert   13.13 cm   1.01 m   28f  rapp 1.05  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #06  rst  0.7  end   2.7 mean   0.9 max   2.7  dir   +0.0  dmg    0.9 cm   pert   11.91 cm   1.04 m   27f  rapp 0.95  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #07  rst  0.7  end   6.9 mean   2.0 max   6.9  dir   +0.4  dmg    2.4 cm   pert   27.17 cm   1.03 m   28f  rapp 1.27  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #08  rst  0.7  end   7.2 mean   2.0 max   7.2  dir   +0.5  dmg    2.5 cm   pert   45.12 cm   1.03 m   25f  rapp 1.60  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #09  rst  0.7  end   8.3 mean   2.6 max   8.3  dir   +0.5  dmg    3.1 cm   pert   55.61 cm   1.04 m   26f  rapp 0.67  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #10  rst  0.7  end   5.2 mean   1.5 max   5.2  dir   +2.8  dmg    4.2 cm   pert   24.33 cm   1.01 m   29f  rapp 1.19  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #11  rst  0.7  end   7.3 mean   2.2 max   7.3  dir   +3.0  dmg    5.2 cm   pert   42.67 cm   1.01 m   23f  rapp 0.63  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #12  rst  0.8  end   7.8 mean   2.4 max   7.8  dir   +3.0  dmg    5.4 cm   pert   36.75 cm   1.01 m   24f  rapp 1.22  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #13  rst  0.7  end   8.2 mean   2.5 max   8.2  dir   +3.1  dmg    5.6 cm   pert   42.37 cm   1.01 m   24f  rapp 0.79  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #14  rst  0.8  end   7.7 mean   2.5 max   7.7  dir   +0.4  dmg    2.9 cm   pert   37.96 cm   1.04 m   19f  rapp 1.10  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #15  rst  0.7  end   9.6 mean   3.0 max   9.6  dir   +0.6  dmg    3.7 cm   pert   46.84 cm   1.04 m   32f  rapp 0.72  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #16  rst  0.7  end   1.9 mean   0.6 max   1.9  dir   +0.0  dmg    0.7 cm   pert   14.50 cm   1.04 m   25f  rapp 1.06  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #17  rst  0.7  end   3.2 mean   1.1 max   3.3  dir   +0.1  dmg    1.2 cm   pert   20.04 cm   1.04 m   21f  rapp 0.92  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #18  rst  0.7  end   3.2 mean   1.0 max   3.2  dir   +0.1  dmg    1.1 cm   pert   23.34 cm   1.04 m   23f  rapp 1.15  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #19  rst  0.7  end   2.8 mean   0.7 max   2.8  dir   +0.1  dmg    0.8 cm   pert   35.78 cm   1.04 m   23f  rapp 1.13  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #20  rst  0.7  end   2.8 mean   0.7 max   2.8  dir   +0.1  dmg    0.8 cm   pert   33.16 cm   1.04 m   21f  rapp 1.24  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #21  rst  0.7  end  11.7 mean   3.8 max  11.7  dir   +1.1  dmg    4.9 cm   pert   46.38 cm   1.03 m   21f  rapp 0.91  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #22  rst  0.7  end   8.2 mean   2.7 max   8.2  dir   +0.4  dmg    3.1 cm   pert   44.19 cm   1.02 m   23f  rapp 0.92  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #23  rst  0.7  end   2.0 mean   0.7 max   2.0  dir   +0.0  dmg    0.8 cm   pert   11.64 cm   1.04 m   17f  rapp 0.82  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #24  rst  0.7  end   4.4 mean   1.5 max   4.4  dir   +1.4  dmg    2.9 cm   pert   25.05 cm   1.02 m   27f  rapp 0.88  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #25  rst  0.7  end   3.1 mean   1.0 max   3.1  dir   +0.1  dmg    1.1 cm   pert   13.57 cm   1.04 m   21f  rapp 0.98  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #26  rst  0.7  end  10.0 mean   3.1 max  10.0  dir   +0.7  dmg    3.8 cm   pert   47.31 cm   1.04 m   25f  rapp 0.72  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #27  rst  0.7  end   7.5 mean   2.2 max   7.5  dir   +3.0  dmg    5.2 cm   pert   45.46 cm   1.01 m   26f  rapp 1.67  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #28  rst  0.7  end   5.4 mean   1.7 max   5.4  dir   +0.2  dmg    1.9 cm   pert   27.58 cm   1.04 m   23f  rapp 1.29  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #29  rst  0.7  end   3.0 mean   0.4 max   3.0  dir   +2.7  dmg    3.1 cm   pert   16.04 cm   1.01 m   21f  rapp 0.93  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #30  rst  0.7  end   2.1 mean   0.7 max   2.1  dir   -0.0  dmg    0.7 cm   pert   14.43 cm   1.04 m   19f  rapp 0.96  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #31  rst  0.7  end   4.9 mean   1.6 max   4.9  dir   +0.2  dmg    1.8 cm   pert   25.00 cm   1.04 m   18f  rapp 0.97  [ok]
+
+  FRONTE DI PARETO: 4 soluzioni non dominate su 32 valutate (32 valide)
+    danno    5.92 cm   pert   51.006 cm   rapporto   0.12
+    danno    4.11 cm   pert   23.268 cm   rapporto   0.18 <- scelto
+    danno    5.43 cm   pert   36.752 cm   rapporto   0.15
+    danno    0.78 cm   pert   11.640 cm   rapporto   0.07
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [+0.498, +0.722, +0.481]
+      cluster_strength           +0.1344
+      curvature_strength         +0.6314
+      dropout_rate               +0.0217
+      edge_attack_strength       +0.1866
+      geometric_distortion       +0.4453
+      ghost_ratio                +0.0083
+      noise_direction            [-0.588, +0.727, -0.355]
+      noise_intensity            +0.0317
+      scanline_strength          +0.2023
+      spatial_correlation        +0.1290
+      strategic_ghost            +0.9226
+      temporal_drift_strength    +0.3564
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  rivalutazione: danno 3.9 cm (in ricerca 4.1)  pert 20.22  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+
+  APPLICATO: il robot e' in [2.511 0.061 0.037]
+  percorsi 1.04 m su 29 frame perturbati
+  deviazione reale dal nominale: fine 3.9  media 1.3  max 4.0 cm   danno 1.3 cm (in valutazione era 4.1 cm)   [ok]
+  tempo finestra: 13.1 min
+
+── finestra 3 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 2.50 m
+  stato salvato in [2.511 0.061 0.037]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale: parte da [2.518 0.061 0.037] (ripristino 0.7 cm dallo stato salvato)  arriva in [ 3.733  0.029 -0.095]  percorsi 1.01 m  29 frame  31 pose vere  rotazione -8° (bersaglio a -4°)  rapporto stima/verita' 0.96  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #00  rst  0.7  end   9.9 mean   3.1 max   9.9  dir   +0.7  dmg    3.8 cm   pert   38.19 cm   1.01 m   18f  rapp 1.26  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #01  rst  0.7  end   6.4 mean   1.8 max   6.4  dir   -2.5  dmg    1.8 cm   pert   22.61 cm   1.04 m   22f  rapp 1.15  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #02  rst  0.7  end  13.4 mean   4.0 max  13.4  dir   -1.3  dmg    4.0 cm   pert   39.84 cm   1.04 m   27f  rapp 0.88  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #03  rst  0.7  end  11.2 mean   3.4 max  11.2  dir   -1.8  dmg    3.4 cm   pert   51.99 cm   1.04 m   25f  rapp 0.73  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #04  rst  0.7  end  12.0 mean   3.6 max  12.0  dir   -1.6  dmg    3.6 cm   pert   49.42 cm   1.04 m   20f  rapp 0.83  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #05  rst  0.7  end   2.7 mean   0.2 max   2.7  dir   -2.6  dmg    0.2 cm   pert   15.59 cm   1.03 m   22f  rapp 1.06  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #06  rst  0.7  end   4.6 mean   1.4 max   4.6  dir   +0.0  dmg    1.4 cm   pert   11.60 cm   1.01 m   29f  rapp 1.00  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #07  rst  0.7  end   7.0 mean   2.0 max   7.0  dir   -2.0  dmg    2.0 cm   pert   31.26 cm   1.03 m   24f  rapp 1.29  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #08  rst  0.7  end  10.2 mean   2.9 max  10.2  dir   -1.2  dmg    2.9 cm   pert   46.06 cm   1.03 m   25f  rapp 1.62  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #09  rst  0.7  end  11.1 mean   3.4 max  11.1  dir   -1.8  dmg    3.4 cm   pert   49.12 cm   1.04 m   24f  rapp 0.78  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #10  rst  0.7  end   7.8 mean   2.3 max   7.8  dir   -2.3  dmg    2.3 cm   pert   25.95 cm   1.04 m   23f  rapp 1.17  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #11  rst  0.7  end  10.7 mean   3.3 max  10.7  dir   -1.9  dmg    3.3 cm   pert   52.01 cm   1.04 m   26f  rapp 0.87  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #12  rst  0.7  end   6.9 mean   2.1 max   6.9  dir   -2.5  dmg    2.1 cm   pert   28.15 cm   1.04 m   26f  rapp 1.07  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #13  rst  0.7  end  15.1 mean   4.7 max  15.1  dir   -0.8  dmg    4.7 cm   pert   52.01 cm   1.03 m   27f  rapp 0.77  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #14  rst  0.7  end  17.1 mean   5.0 max  17.0  dir   -0.2  dmg    5.0 cm   pert   49.51 cm   1.03 m   28f  rapp 1.80  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #15  rst  0.7  end  16.8 mean   5.2 max  16.8  dir   -0.3  dmg    5.2 cm   pert   50.54 cm   1.03 m   29f  rapp 0.81  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #16  rst  0.7  end   9.8 mean   3.1 max   9.8  dir   -2.1  dmg    3.1 cm   pert   18.31 cm   1.04 m   19f  rapp 0.63  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #17  rst  0.7  end   6.2 mean   1.8 max   6.2  dir   +0.2  dmg    2.0 cm   pert   27.14 cm   1.01 m   28f  rapp 1.09  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #18  rst  0.7  end   5.9 mean   1.8 max   5.9  dir   +0.1  dmg    1.9 cm   pert   22.41 cm   1.01 m   20f  rapp 1.15  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #19  rst  0.7  end  16.4 mean   4.9 max  16.4  dir   +2.3  dmg    7.1 cm   pert   54.23 cm   1.01 m   24f  rapp 0.98  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #20  rst  0.7  end  16.9 mean   4.9 max  16.9  dir   -1.6  dmg    4.9 cm   pert   59.62 cm   1.05 m   26f  rapp 1.70  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #21  rst  0.7  end  14.7 mean   4.4 max  14.7  dir   +1.8  dmg    6.2 cm   pert   48.73 cm   1.01 m   22f  rapp 0.63  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #22  rst  0.7  end  14.4 mean   4.5 max  14.4  dir   +0.3  dmg    4.8 cm   pert   41.10 cm   1.02 m   16f  rapp 0.67  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #23  rst  0.7  end  10.0 mean   2.7 max  10.0  dir   +0.8  dmg    3.5 cm   pert   41.30 cm   1.01 m   28f  rapp 1.63  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #24  rst  0.7  end  13.6 mean   4.1 max  13.6  dir   +0.1  dmg    4.3 cm   pert   51.66 cm   1.02 m   23f  rapp 0.79  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #25  rst  0.7  end  14.5 mean   4.6 max  14.5  dir   -1.1  dmg    4.6 cm   pert   41.80 cm   1.03 m   21f  rapp 1.32  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #26  rst  0.7  end  14.0 mean   4.2 max  14.0  dir   -1.1  dmg    4.2 cm   pert   38.73 cm   1.03 m   25f  rapp 0.89  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    #27  SCARTATA  1.02 m   24 frame  [untracked(0.44)]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #28  rst  0.7  end   6.6 mean   1.8 max   6.6  dir   -2.5  dmg    1.8 cm   pert   22.76 cm   1.04 m   23f  rapp 1.18  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #29  rst  0.7  end  17.4 mean   5.4 max  17.4  dir   -0.1  dmg    5.4 cm   pert   54.79 cm   1.03 m   26f  rapp 0.94  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    #30  SCARTATA  1.04 m   19 frame  [untracked(0.55)]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #31  rst  0.7  end  20.5 mean   5.9 max  20.5  dir   +2.5  dmg    8.4 cm   pert   58.36 cm   1.02 m   31f  rapp 1.20  [ok]
+
+  FRONTE DI PARETO: 7 soluzioni non dominate su 32 valutate (30 valide)
+    danno    3.77 cm   pert   38.193 cm   rapporto   0.10
+    danno    1.41 cm   pert   11.602 cm   rapporto   0.12
+    danno    3.11 cm   pert   18.311 cm   rapporto   0.17 <- scelto
+    danno    7.13 cm   pert   54.231 cm   rapporto   0.13
+    danno    6.20 cm   pert   48.726 cm   rapporto   0.13
+    danno    4.82 cm   pert   41.102 cm   rapporto   0.12
+    danno    8.43 cm   pert   58.360 cm   rapporto   0.14
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [-0.943, +0.274, -0.188]
+      cluster_strength           +0.2557
+      curvature_strength         +0.7500
+      dropout_rate               +0.0176
+      edge_attack_strength       +0.4086
+      geometric_distortion       +0.3384
+      ghost_ratio                +0.0083
+      noise_direction            [+0.496, +0.842, +0.214]
+      noise_intensity            +0.0464
+      scanline_strength          +0.8215
+      spatial_correlation        +0.0992
+      strategic_ghost            +0.1732
+      temporal_drift_strength    +0.8318
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  rivalutazione: danno 3.9 cm (in ricerca 3.1)  pert 33.30  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+
+  APPLICATO: il robot e' in [3.729 0.157 0.169]
+  percorsi 1.01 m su 25 frame perturbati
+  deviazione reale dal nominale: fine 12.8  media 3.7  max 12.8 cm   danno 4.9 cm (in valutazione era 3.1 cm)   [ok]
+  tempo finestra: 13.1 min
+
+── finestra 4 (stima 5) ────────────────────────────────────────
+  waypoint corrente 1/1 [ 5.011 -0.   ]  distanza al bersaglio finale 1.29 m
+  stato salvato in [3.729 0.157 0.169]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  nominale: parte da [3.736 0.158 0.17 ] (ripristino 0.7 cm dallo stato salvato)  arriva in [ 4.913  0.012 -0.471]  percorsi 1.02 m  30 frame  31 pose vere  rotazione -37° (bersaglio a -17°)  rapporto stima/verita' 0.94  [ok]
+  — le deviazioni qui sotto sono misurate rispetto a questo punto
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    #00  SCARTATA  0.57 m   24 frame  [stopped_early(0.57m)]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #01  rst  0.7  end  27.5 mean   4.4 max  27.5  dir  +26.8  dmg   31.2 cm   pert   26.54 cm   0.90 m   26f  rapp 1.22  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #02  rst  0.7  end  28.0 mean   8.3 max  28.0  dir  +19.0  dmg   27.3 cm   pert   34.46 cm   1.03 m   17f  rapp 0.65  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #03  rst  0.7  end  17.4 mean   5.3 max  17.4  dir   +8.2  dmg   13.6 cm   pert   45.06 cm   1.03 m   20f  rapp 0.76  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #04  rst  0.7  end  27.9 mean   8.5 max  27.9  dir  +20.1  dmg   28.6 cm   pert   51.11 cm   1.03 m   22f  rapp 0.84  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #05  rst  0.7  end   5.3 mean   1.2 max   5.3  dir   +4.4  dmg    5.6 cm   pert   14.45 cm   1.02 m   20f  rapp 0.96  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #06  rst  0.7  end  17.3 mean   3.2 max  17.3  dir  +15.7  dmg   18.9 cm   pert   14.72 cm   1.01 m   29f  rapp 0.98  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen1 #07  rst  0.7  end  39.4 mean   8.3 max  39.4  dir  +39.3  dmg   47.6 cm   pert   34.25 cm   0.80 m   34f  rapp 1.78  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #08  rst  0.7  end  22.4 mean   4.4 max  22.4  dir  +20.9  dmg   25.3 cm   pert   27.91 cm   0.96 m   34f  rapp 1.31  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #09  rst  0.7  end  32.1 mean   9.5 max  32.1  dir  +23.4  dmg   32.9 cm   pert   46.24 cm   1.03 m   25f  rapp 0.69  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #10  rst  0.7  end  22.0 mean   3.0 max  22.0  dir  +21.9  dmg   24.9 cm   pert   15.64 cm   0.93 m   23f  rapp 1.11  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #11  rst  0.8  end  37.0 mean   7.4 max  37.0  dir  +36.4  dmg   43.8 cm   pert   40.63 cm   0.79 m   24f  rapp 1.86  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #12  rst  0.7  end  25.3 mean   7.4 max  25.3  dir  +18.7  dmg   26.1 cm   pert   45.48 cm   1.00 m   20f  rapp 0.76  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #13  rst  0.7  end  26.0 mean   5.6 max  26.0  dir  +24.2  dmg   29.8 cm   pert   47.37 cm   0.96 m   26f  rapp 1.62  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #14  rst  0.7  end  19.4 mean   3.1 max  19.4  dir  +18.4  dmg   21.5 cm   pert   24.17 cm   0.98 m   26f  rapp 1.16  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen2 #15  rst  0.7  end  29.1 mean   8.5 max  29.1  dir  +23.3  dmg   31.8 cm   pert   54.57 cm   1.01 m   25f  rapp 0.90  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #16  rst  0.7  end  46.4 mean  16.2 max  46.4  dir  +45.7  dmg   61.9 cm   pert   37.81 cm   0.76 m   36f  rapp 1.82  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #17  rst  0.7  end   8.1 mean   2.0 max   8.0  dir   +5.4  dmg    7.4 cm   pert   21.98 cm   1.01 m   22f  rapp 1.08  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #18  rst  0.7  end  11.8 mean   1.5 max  11.8  dir  +11.8  dmg   13.3 cm   pert   15.12 cm   1.01 m   25f  rapp 1.10  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #19  rst  0.7  end  17.2 mean   4.9 max  17.2  dir   +9.2  dmg   14.1 cm   pert   21.98 cm   1.02 m   20f  rapp 0.75  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #20  rst  0.7  end  12.6 mean   1.9 max  12.6  dir  +12.6  dmg   14.5 cm   pert   16.60 cm   1.01 m   22f  rapp 1.06  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #21  rst  0.7  end  11.3 mean   1.5 max  11.3  dir  +11.3  dmg   12.9 cm   pert   15.48 cm   1.01 m   26f  rapp 1.14  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #22  rst  0.7  end  29.4 mean   8.4 max  29.4  dir  +23.4  dmg   31.9 cm   pert   42.44 cm   1.01 m   24f  rapp 0.94  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen3 #23  rst  0.7  end   1.2 mean   0.6 max   1.3  dir   -0.5  dmg    0.6 cm   pert   12.44 cm   1.02 m   19f  rapp 0.82  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #24  rst  0.7  end  16.5 mean   1.6 max  16.5  dir  +16.1  dmg   17.7 cm   pert   13.47 cm   0.99 m   28f  rapp 1.07  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #25  rst  0.7  end  13.2 mean   3.0 max  13.2  dir  +10.6  dmg   13.6 cm   pert   20.93 cm   1.00 m   27f  rapp 0.96  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #26  rst  0.7  end   5.9 mean   1.5 max   5.9  dir   +4.7  dmg    6.2 cm   pert   14.16 cm   1.00 m   22f  rapp 0.97  [ok]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #27  rst  0.7  end  16.5 mean   1.7 max  16.5  dir  +16.0  dmg   17.8 cm   pert   12.88 cm   0.99 m   29f  rapp 1.07  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #28  rst  0.7  end  25.8 mean   4.2 max  25.7  dir  +24.9  dmg   29.1 cm   pert   26.54 cm   0.92 m   26f  rapp 1.21  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #29  rst  0.7  end  15.4 mean   2.2 max  15.4  dir  +15.4  dmg   17.6 cm   pert   17.17 cm   0.99 m   28f  rapp 1.12  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    #30  SCARTATA  0.62 m   31 frame  [stopped_early(0.62m)]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+    gen4 #31  rst  0.6  end  24.2 mean   3.4 max  24.2  dir  +24.1  dmg   27.5 cm   pert   16.61 cm   0.91 m   22f  rapp 1.15  [arrived]
+
+  FRONTE DI PARETO: 6 soluzioni non dominate su 32 valutate (30 valide)
+    danno   31.21 cm   pert   26.544 cm   rapporto   1.18
+    danno   47.62 cm   pert   34.251 cm   rapporto   1.39
+    danno   24.88 cm   pert   15.644 cm   rapporto   1.59
+    danno   61.93 cm   pert   37.807 cm   rapporto   1.64
+    danno    0.59 cm   pert   12.436 cm   rapporto   0.05
+    danno   27.47 cm   pert   16.607 cm   rapporto   1.65 <- scelto
+
+  Genoma scelto (tutti i 17 geni decodificati):
+      cluster_direction          [-0.531, +0.550, +0.645]
+      cluster_strength           +0.3724
+      curvature_strength         +0.6666
+      dropout_rate               +0.0129
+      edge_attack_strength       +0.0925
+      geometric_distortion       +0.2780
+      ghost_ratio                +0.0117
+      noise_direction            [-0.488, -0.664, +0.567]
+      noise_intensity            +0.0319
+      scanline_strength          +0.7181
+      spatial_correlation        +0.8725
+      strategic_ghost            +0.6021
+      temporal_drift_strength    +0.1641
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+  rivalutazione: danno 18.8 cm (in ricerca 27.5)  pert 17.35  [arrived]
+    [nota] 2 publisher su /lidar_odometry/pose nel grafo (1 processi mola-cli): voce stantia, si prosegue perche' la posa arriva
+
+  APPLICATO: il robot e' in [ 4.885 -0.018 -0.564]
+  percorsi 1.01 m su 26 frame perturbati
+  deviazione reale dal nominale: fine 4.1  media 1.1  max 4.1 cm   danno 4.0 cm (in valutazione era 27.5 cm)   [ok]
+  tempo finestra: 13.3 min
+
+  bersaglio finale raggiunto (0.13 m): fine del task
+
+Storico: data/attack/campaign/straight/nsga3_g3_p8x4/rep_07/history.json

@@ -1,0 +1,41 @@
+─────────────────────────────────────────────────────────────
+  topic LiDAR : /carter/lidar_perturbed
+  local map   : 25.0 m
+  sigma       : iniziale 0.20, max 0.25
+  lidar pose  : (-0.2317, 0, 0.526)
+  pipeline    : lidar3d-gicp-optimize-twist-local.yaml
+  tracce      : data/attack/campaign/straight/gaussian_s0.10/rep_03/logs/traces_w1_reeval.csv
+─────────────────────────────────────────────────────────────
+  Controlla che il riquadro all'avvio dica 'with optimize_twist'.
+
+[19:35:22.1122|INFO |MolaLauncherApp] Setting up system from YAML config... (set DEBUG verbosity level to see full config)
+[19:35:22.1145|INFO |MolaLauncherApp] Instantiating module `lidar_odom` of type `mola::LidarOdometry`
+[19:35:22.1152|INFO |MolaLauncherApp] Instantiating module `state_estimation` of type `mola::state_estimation_simple::StateEstimationSimple`
+[19:35:22.1154|INFO |MolaLauncherApp] Instantiating module `ros2_bridge` of type `mola::BridgeROS2`
+[19:35:22.1156|INFO |MolaLauncherApp] 
+╔═══════════════════════════════════════╦═════════════════════════════════╗
+║  Entering main MOLA application loop  ║ > CTRL+C for mola-cli to quit < ║
+╚═══════════════════════════════════════╩═════════════════════════════════╝
+[19:35:22.1158|WARN |LidarOdometry] Your YAML pipeline references one or more deprecated *_sensor_* names (ESTIMATED_SENSOR_MAX_RANGE, INSTANTANEOUS_SENSOR_MAX_RANGE, max_sensor_range_filter_coefficient, absolute_minimum_sensor_range). They are aliases of ESTIMATED_OBSERVATION_RADIUS, INSTANTANEOUS_OBSERVATION_RADIUS, observation_radius_filter_coefficient, absolute_minimum_observation_radius respectively (all measured from base_link, not from the sensor) and will be removed in a future release. Please rename references in your pipeline files.
+[19:35:22.1158|INFO |LidarOdometry] 
+┌──────────────────────────────────────────────────────────────┐
+│              USING THIS LIDAR-ODOMETRY PIPELINE              │
+├──────────────────────────────────────────────────────────────┤
+│            GICP with cov-to-cov pairings with optimize_twist │
+└──────────────────────────────────────────────────────────────┘
+[19:35:22.1236|WARN |LidarOdometry] No YAML entry 'observations_deskew_pass', this filter stage will have no effect.
+[19:35:22.1659|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA localization source module 'mola::LidarOdometry:lidar_odom'
+[19:35:22.1659|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA map source module 'mola::LidarOdometry:lidar_odom'
+[19:35:22.1660|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA relocalization module 'mola::LidarOdometry:lidar_odom'
+[19:35:22.1666|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA map server module 'mola::LidarOdometry:lidar_odom'
+[19:35:22.8287|INFO |StateEstimationSimple] reset() called
+[19:35:22.8288|INFO |LidarOdometry] Initial re-localization done with pose: (x,y,z,yaw,pitch,roll)=(0.0000,0.0000,0.0000,0.00deg,0.00deg,0.00deg)
+[19:35:22.8419|INFO |LidarOdometry] Writing debug traces to: data/attack/campaign/straight/gaussian_s0.10/rep_03/logs/traces_w1_reeval.csv
+[19:35:30.3752|WARN |LidarOdometry] Not able to use velocity motion model for this timestep (pathStep=60, timestamp=1970/01/01,00:01:10.700000 UTC)
+[19:35:32.4116|WARN |LidarOdometry] Not able to use velocity motion model for this timestep (pathStep=60, timestamp=1970/01/01,00:01:12.600000 UTC)
+[19:35:34.5115|WARN |LidarOdometry] Not able to use velocity motion model for this timestep (pathStep=60, timestamp=1970/01/01,00:01:14.500000 UTC)
+[19:35:36.5544|WARN |LidarOdometry] Not able to use velocity motion model for this timestep (pathStep=60, timestamp=1970/01/01,00:01:16.400000 UTC)
+[19:35:38.6993|WARN |LidarOdometry] Not able to use velocity motion model for this timestep (pathStep=60, timestamp=1970/01/01,00:01:18.200000 UTC)
+[19:35:40.7295|WARN |LidarOdometry] Not able to use velocity motion model for this timestep (pathStep=60, timestamp=1970/01/01,00:01:20.000000 UTC)
+[INFO] [1790789744.785080164] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[19:35:42.7710|WARN |LidarOdometry] Not able to use velocity motion model for this timestep (pathStep=60, timestamp=1970/01/01,00:01:21.900000 UTC)

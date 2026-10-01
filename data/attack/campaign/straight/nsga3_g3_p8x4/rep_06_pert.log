@@ -1,0 +1,415 @@
+[INFO] [1790805980.172275608] [perturbation_node]: [genoma #1 da avvio]  noise 2.46 cm  dropout 7.0%  ghost 0.7%  geom 0.477  edge 0.29  drift 0.28
+[INFO] [1790805980.175127394] [perturbation_node]: ================================================================
+[INFO] [1790805980.175282615] [perturbation_node]:   PERTURBATION NODE
+[INFO] [1790805980.175411676] [perturbation_node]: ================================================================
+[INFO] [1790805980.175542360] [perturbation_node]:   in  : /carter/lidar_with_intensity
+[INFO] [1790805980.175674256] [perturbation_node]:   out : /carter/lidar_perturbed
+[INFO] [1790805980.175807675] [perturbation_node]:   attacco PASSTHROUGH (nuvole invariate)
+[INFO] [1790805980.175948007] [perturbation_node]:   latenza minima per scan: 85 ms
+[INFO] [1790806005.471715248] [perturbation_node]: [genoma #2 da /attack/genome]  noise 1.19 cm  dropout 5.0%  ghost 0.8%  geom 0.083  edge 0.47  drift 0.79
+[INFO] [1790806012.900582413] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806027.662465023] [perturbation_node]: [genoma #3 da /attack/genome]  noise 0.70 cm  dropout 13.1%  ghost 1.0%  geom 0.941  edge 0.19  drift 0.75
+[INFO] [1790806027.866889252] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806035.177459034] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806049.981425063] [perturbation_node]: [genoma #4 da /attack/genome]  noise 1.26 cm  dropout 2.0%  ghost 0.8%  geom 0.318  edge 0.39  drift 0.79
+[INFO] [1790806050.185810757] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806057.467209858] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806072.249019645] [perturbation_node]: [genoma #5 da /attack/genome]  noise 4.51 cm  dropout 12.8%  ghost 1.4%  geom 0.274  edge 0.16  drift 0.71
+[INFO] [1790806072.456489879] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806079.655228164] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806094.505136036] [perturbation_node]: [genoma #6 da /attack/genome]  noise 1.93 cm  dropout 10.6%  ghost 0.9%  geom 0.816  edge 0.07  drift 0.43
+[INFO] [1790806094.708129663] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806102.011827247] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806116.848549555] [perturbation_node]: [genoma #7 da /attack/genome]  noise 2.14 cm  dropout 8.7%  ghost 0.9%  geom 0.260  edge 1.00  drift 0.25
+[INFO] [1790806117.057411719] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806124.230737386] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806139.106768220] [perturbation_node]: [genoma #8 da /attack/genome]  noise 3.76 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.52  drift 0.54
+[INFO] [1790806139.307419077] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806146.631773514] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806161.388926217] [perturbation_node]: [genoma #9 da /attack/genome]  noise 2.43 cm  dropout 4.1%  ghost 0.6%  geom 0.322  edge 0.60  drift 0.65
+[INFO] [1790806161.596038188] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806168.786152622] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806184.071989003] [perturbation_node]: [genoma #10 da /attack/genome]  noise 3.76 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.18  drift 0.53
+[INFO] [1790806184.276898234] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806191.649870156] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806206.428612810] [perturbation_node]: [genoma #11 da /attack/genome]  noise 2.14 cm  dropout 8.7%  ghost 0.9%  geom 0.320  edge 1.00  drift 0.25
+[INFO] [1790806206.636419696] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806214.124774318] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806228.803882233] [perturbation_node]: [genoma #12 da /attack/genome]  noise 2.64 cm  dropout 4.1%  ghost 1.5%  geom 0.276  edge 0.60  drift 0.65
+[INFO] [1790806229.006006852] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806236.172383145] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806251.086565581] [perturbation_node]: [genoma #13 da /attack/genome]  noise 1.92 cm  dropout 13.1%  ghost 1.0%  geom 0.942  edge 0.19  drift 0.74
+[INFO] [1790806251.287103020] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806258.601246202] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806273.377161096] [perturbation_node]: [genoma #14 da /attack/genome]  noise 0.70 cm  dropout 13.0%  ghost 1.0%  geom 0.941  edge 0.53  drift 0.75
+[INFO] [1790806273.585809190] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806280.795803266] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806295.877464762] [perturbation_node]: [genoma #15 da /attack/genome]  noise 1.26 cm  dropout 2.0%  ghost 0.8%  geom 0.258  edge 0.39  drift 0.79
+[INFO] [1790806296.087230815] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806303.520462609] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806318.173678600] [perturbation_node]: [genoma #16 da /attack/genome]  noise 4.30 cm  dropout 12.8%  ghost 0.5%  geom 0.320  edge 0.16  drift 0.71
+[INFO] [1790806318.375662130] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806325.668485843] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806340.331593544] [perturbation_node]: [genoma #17 da /attack/genome]  noise 0.71 cm  dropout 10.5%  ghost 0.9%  geom 0.814  edge 0.07  drift 0.44
+[INFO] [1790806340.537625235] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806347.808333809] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806362.618817461] [perturbation_node]: [genoma #18 da /attack/genome]  noise 1.93 cm  dropout 10.6%  ghost 0.9%  geom 0.941  edge 0.06  drift 0.75
+[INFO] [1790806362.826190613] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806370.008381513] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806384.821763496] [perturbation_node]: [genoma #19 da /attack/genome]  noise 2.43 cm  dropout 4.1%  ghost 0.6%  geom 0.322  edge 0.60  drift 0.65
+[INFO] [1790806385.026256316] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806392.334553495] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806407.126604399] [perturbation_node]: [genoma #20 da /attack/genome]  noise 0.70 cm  dropout 13.0%  ghost 0.9%  geom 0.941  edge 0.53  drift 0.75
+[INFO] [1790806407.328452576] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806414.733372142] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806429.431203476] [perturbation_node]: [genoma #21 da /attack/genome]  noise 0.70 cm  dropout 13.0%  ghost 1.0%  geom 0.816  edge 0.54  drift 0.44
+[INFO] [1790806429.636312682] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806437.351794827] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806452.104526086] [perturbation_node]: [genoma #22 da /attack/genome]  noise 3.76 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.18  drift 0.53
+[INFO] [1790806452.307215725] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806459.506775473] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806474.311995694] [perturbation_node]: [genoma #23 da /attack/genome]  noise 1.93 cm  dropout 10.6%  ghost 1.0%  geom 0.816  edge 0.07  drift 0.43
+[INFO] [1790806474.517277501] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806481.735722298] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806496.750940969] [perturbation_node]: [genoma #24 da /attack/genome]  noise 0.71 cm  dropout 13.1%  ghost 1.0%  geom 0.816  edge 0.07  drift 0.74
+[INFO] [1790806496.957675517] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806504.177757257] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806519.152189426] [perturbation_node]: [genoma #25 da /attack/genome]  noise 1.92 cm  dropout 10.5%  ghost 0.9%  geom 0.941  edge 0.53  drift 0.44
+[INFO] [1790806519.357754896] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806526.669958390] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806541.437255465] [perturbation_node]: [genoma #26 da /attack/genome]  noise 3.78 cm  dropout 1.1%  ghost 0.9%  geom 0.401  edge 0.53  drift 0.27
+[INFO] [1790806541.646502123] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806548.888385383] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806563.817152085] [perturbation_node]: [genoma #27 da /attack/genome]  noise 1.93 cm  dropout 3.4%  ghost 0.9%  geom 0.320  edge 0.07  drift 0.43
+[INFO] [1790806564.026294012] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806571.281691772] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806586.001199273] [perturbation_node]: [genoma #28 da /attack/genome]  noise 2.14 cm  dropout 8.7%  ghost 0.7%  geom 0.260  edge 1.00  drift 0.25
+[INFO] [1790806586.206176833] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806593.385858213] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806608.601293355] [perturbation_node]: [genoma #29 da /attack/genome]  noise 2.12 cm  dropout 8.7%  ghost 0.9%  geom 0.306  edge 0.98  drift 0.52
+[INFO] [1790806608.806141055] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806616.123724760] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806630.901188837] [perturbation_node]: [genoma #30 da /attack/genome]  noise 2.43 cm  dropout 11.3%  ghost 0.6%  geom 0.817  edge 0.60  drift 0.65
+[INFO] [1790806631.106963327] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806639.186590846] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806654.023685428] [perturbation_node]: [genoma #31 da /attack/genome]  noise 1.91 cm  dropout 3.3%  ghost 0.9%  geom 0.816  edge 0.16  drift 0.43
+[INFO] [1790806654.226235020] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806661.654058338] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806676.698560070] [perturbation_node]: [genoma #32 da /attack/genome]  noise 2.14 cm  dropout 0.9%  ghost 0.9%  geom 0.320  edge 1.00  drift 0.25
+[INFO] [1790806676.907008880] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806684.091906751] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806698.905331996] [perturbation_node]: [genoma #33 da /attack/genome]  noise 2.44 cm  dropout 11.4%  ghost 0.6%  geom 0.322  edge 0.51  drift 0.65
+[INFO] [1790806699.107193399] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806707.001344707] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806721.867559657] [perturbation_node]: [genoma #34 da /attack/genome]  noise 1.91 cm  dropout 3.3%  ghost 0.9%  geom 0.816  edge 0.16  drift 0.43
+[INFO] [1790806722.076974550] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806729.236642504] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806744.348960172] [perturbation_node]: [genoma #35 da /attack/genome]  noise 1.91 cm  dropout 3.3%  ghost 0.9%  geom 0.816  edge 0.16  drift 0.43
+[INFO] [1790806744.558158373] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806751.796642949] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806766.959115535] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806789.165990008] [perturbation_node]: [genoma #36 da /attack/genome]  noise 1.19 cm  dropout 5.0%  ghost 0.8%  geom 0.083  edge 0.47  drift 0.79
+[INFO] [1790806796.538995076] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806811.448222388] [perturbation_node]: [genoma #37 da /attack/genome]  noise 0.70 cm  dropout 13.1%  ghost 1.0%  geom 0.941  edge 0.19  drift 0.75
+[INFO] [1790806811.656677919] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806819.792840770] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806834.650006488] [perturbation_node]: [genoma #38 da /attack/genome]  noise 1.26 cm  dropout 2.0%  ghost 0.8%  geom 0.318  edge 0.39  drift 0.79
+[INFO] [1790806834.856798015] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806842.119544445] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806856.800545398] [perturbation_node]: [genoma #39 da /attack/genome]  noise 4.51 cm  dropout 12.8%  ghost 1.4%  geom 0.274  edge 0.16  drift 0.71
+[INFO] [1790806857.006075597] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806864.299884025] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806879.100701655] [perturbation_node]: [genoma #40 da /attack/genome]  noise 1.93 cm  dropout 10.6%  ghost 0.9%  geom 0.816  edge 0.07  drift 0.43
+[INFO] [1790806879.307125586] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806886.493839297] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806901.865041496] [perturbation_node]: [genoma #41 da /attack/genome]  noise 2.14 cm  dropout 8.7%  ghost 0.9%  geom 0.260  edge 1.00  drift 0.25
+[INFO] [1790806902.066717375] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806909.304998722] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806924.169087485] [perturbation_node]: [genoma #42 da /attack/genome]  noise 3.76 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.52  drift 0.54
+[INFO] [1790806924.376294785] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806932.740244321] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806947.687285047] [perturbation_node]: [genoma #43 da /attack/genome]  noise 2.43 cm  dropout 4.1%  ghost 0.6%  geom 0.322  edge 0.60  drift 0.65
+[INFO] [1790806947.896956222] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806955.055917992] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806970.025244492] [perturbation_node]: [genoma #44 da /attack/genome]  noise 3.76 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.15  drift 0.53
+[INFO] [1790806970.226422729] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806977.391079367] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790806992.144664678] [perturbation_node]: [genoma #45 da /attack/genome]  noise 2.14 cm  dropout 8.7%  ghost 0.9%  geom 0.320  edge 1.00  drift 0.25
+[INFO] [1790806992.347464213] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790806999.666577629] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807014.431773257] [perturbation_node]: [genoma #46 da /attack/genome]  noise 0.82 cm  dropout 10.6%  ghost 1.0%  geom 0.820  edge 0.07  drift 0.43
+[INFO] [1790807014.636376248] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807021.874379601] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807036.691893460] [perturbation_node]: [genoma #47 da /attack/genome]  noise 4.49 cm  dropout 12.9%  ghost 1.4%  geom 0.276  edge 0.16  drift 0.79
+[INFO] [1790807036.896902383] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807044.163504351] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807059.038430789] [perturbation_node]: [genoma #48 da /attack/genome]  noise 4.51 cm  dropout 12.8%  ghost 1.4%  geom 0.274  edge 0.53  drift 0.71
+[INFO] [1790807059.246423609] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807066.579469878] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807081.348686951] [perturbation_node]: [genoma #49 da /attack/genome]  noise 1.26 cm  dropout 2.0%  ghost 0.8%  geom 0.258  edge 0.39  drift 0.79
+[INFO] [1790807081.557994265] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807088.877356092] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807103.816312850] [perturbation_node]: [genoma #50 da /attack/genome]  noise 1.81 cm  dropout 13.1%  ghost 0.9%  geom 0.937  edge 0.19  drift 0.76
+[INFO] [1790807104.016452805] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807111.184409739] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807126.172833179] [perturbation_node]: [genoma #51 da /attack/genome]  noise 1.21 cm  dropout 4.9%  ghost 0.8%  geom 0.081  edge 0.47  drift 0.71
+[INFO] [1790807126.375627605] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807133.659699878] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807148.416394527] [perturbation_node]: [genoma #52 da /attack/genome]  noise 3.75 cm  dropout 8.7%  ghost 0.9%  geom 0.261  edge 1.00  drift 0.25
+[INFO] [1790807148.616216456] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807156.616314681] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807171.358142681] [perturbation_node]: [genoma #53 da /attack/genome]  noise 3.69 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.15  drift 0.53
+[INFO] [1790807171.568132410] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807178.883969885] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807193.578340506] [perturbation_node]: [genoma #54 da /attack/genome]  noise 3.70 cm  dropout 8.3%  ghost 0.9%  geom 0.261  edge 1.00  drift 0.53
+[INFO] [1790807193.786069012] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807200.999105968] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807215.778319726] [perturbation_node]: [genoma #55 da /attack/genome]  noise 2.15 cm  dropout 1.1%  ghost 0.9%  geom 0.394  edge 0.50  drift 0.54
+[INFO] [1790807215.985992470] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807223.265765664] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807238.393251086] [perturbation_node]: [genoma #56 da /attack/genome]  noise 2.50 cm  dropout 4.1%  ghost 0.6%  geom 0.322  edge 0.59  drift 0.65
+[INFO] [1790807238.596093834] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807245.763469407] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807260.835816365] [perturbation_node]: [genoma #57 da /attack/genome]  noise 2.20 cm  dropout 1.5%  ghost 0.9%  geom 0.394  edge 0.15  drift 0.26
+[INFO] [1790807261.036367106] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807268.210160754] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807283.427612460] [perturbation_node]: [genoma #58 da /attack/genome]  noise 1.13 cm  dropout 8.7%  ghost 0.8%  geom 0.077  edge 1.00  drift 0.25
+[INFO] [1790807283.636367904] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807290.838778313] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807305.864499454] [perturbation_node]: [genoma #59 da /attack/genome]  noise 2.22 cm  dropout 4.8%  ghost 0.9%  geom 0.264  edge 0.47  drift 0.71
+[INFO] [1790807306.066703895] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807313.692071834] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807328.267235204] [perturbation_node]: [genoma #60 da /attack/genome]  noise 1.16 cm  dropout 4.6%  ghost 0.8%  geom 0.262  edge 0.47  drift 0.25
+[INFO] [1790807328.477142560] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807335.663384316] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807350.424294961] [perturbation_node]: [genoma #61 da /attack/genome]  noise 1.21 cm  dropout 5.0%  ghost 0.8%  geom 0.259  edge 1.00  drift 0.80
+[INFO] [1790807350.626492079] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807357.839788747] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807372.861322166] [perturbation_node]: [genoma #62 da /attack/genome]  noise 3.69 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.15  drift 0.26
+[INFO] [1790807373.066579970] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807380.282236803] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807395.252873207] [perturbation_node]: [genoma #63 da /attack/genome]  noise 2.17 cm  dropout 9.1%  ghost 0.9%  geom 0.081  edge 1.00  drift 0.80
+[INFO] [1790807395.456645161] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807402.672552832] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807417.651517866] [perturbation_node]: [genoma #64 da /attack/genome]  noise 2.12 cm  dropout 8.7%  ghost 0.9%  geom 0.084  edge 0.44  drift 0.25
+[INFO] [1790807417.856593257] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807425.070991039] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807440.071492212] [perturbation_node]: [genoma #65 da /attack/genome]  noise 2.20 cm  dropout 1.5%  ghost 0.9%  geom 0.394  edge 0.15  drift 0.52
+[INFO] [1790807440.276924017] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807447.546013159] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807462.316116671] [perturbation_node]: [genoma #66 da /attack/genome]  noise 3.75 cm  dropout 8.7%  ghost 0.6%  geom 0.261  edge 1.00  drift 0.25
+[INFO] [1790807462.517137585] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807469.732161924] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807484.449022413] [perturbation_node]: [genoma #67 da /attack/genome]  noise 2.43 cm  dropout 4.1%  ghost 0.9%  geom 0.322  edge 0.60  drift 0.65
+[INFO] [1790807484.656580474] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807491.954799738] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807506.706725159] [perturbation_node]: [genoma #68 da /attack/genome]  noise 3.69 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.15  drift 0.26
+[INFO] [1790807506.907134216] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807514.152742258] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807528.990724557] [perturbation_node]: [genoma #69 da /attack/genome]  noise 3.69 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.15  drift 0.26
+[INFO] [1790807529.195921385] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807536.480005629] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807551.370661896] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807573.468813407] [perturbation_node]: [genoma #70 da /attack/genome]  noise 1.19 cm  dropout 5.0%  ghost 0.8%  geom 0.083  edge 0.47  drift 0.79
+[INFO] [1790807580.851509341] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807595.720834877] [perturbation_node]: [genoma #71 da /attack/genome]  noise 0.70 cm  dropout 13.1%  ghost 1.0%  geom 0.941  edge 0.19  drift 0.75
+[INFO] [1790807595.927722300] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807603.185315430] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807617.928215141] [perturbation_node]: [genoma #72 da /attack/genome]  noise 1.26 cm  dropout 2.0%  ghost 0.8%  geom 0.318  edge 0.39  drift 0.79
+[INFO] [1790807618.137663158] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807625.389368240] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807640.415748268] [perturbation_node]: [genoma #73 da /attack/genome]  noise 4.51 cm  dropout 12.8%  ghost 1.4%  geom 0.274  edge 0.16  drift 0.71
+[INFO] [1790807640.616338980] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807647.793783123] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807662.622973308] [perturbation_node]: [genoma #74 da /attack/genome]  noise 1.93 cm  dropout 10.6%  ghost 0.9%  geom 0.816  edge 0.07  drift 0.43
+[INFO] [1790807662.826235126] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807670.406167974] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807685.392699142] [perturbation_node]: [genoma #75 da /attack/genome]  noise 2.14 cm  dropout 8.7%  ghost 0.9%  geom 0.260  edge 1.00  drift 0.25
+[INFO] [1790807685.595964467] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807692.775716715] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807707.824393603] [perturbation_node]: [genoma #76 da /attack/genome]  noise 3.76 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.52  drift 0.54
+[INFO] [1790807708.026197415] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807715.192572776] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807730.151533483] [perturbation_node]: [genoma #77 da /attack/genome]  noise 2.43 cm  dropout 4.1%  ghost 0.6%  geom 0.322  edge 0.60  drift 0.65
+[INFO] [1790807730.358288009] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807737.523078701] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807752.865915486] [perturbation_node]: [genoma #78 da /attack/genome]  noise 1.19 cm  dropout 5.0%  ghost 0.8%  geom 0.083  edge 0.19  drift 0.75
+[INFO] [1790807753.066769955] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807760.313014861] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807775.210624064] [perturbation_node]: [genoma #79 da /attack/genome]  noise 4.51 cm  dropout 4.1%  ghost 0.6%  geom 0.324  edge 0.60  drift 0.65
+[INFO] [1790807775.416148261] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807783.029059293] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807797.873503748] [perturbation_node]: [genoma #80 da /attack/genome]  noise 2.11 cm  dropout 10.6%  ghost 1.0%  geom 0.409  edge 0.07  drift 0.43
+[INFO] [1790807798.076775461] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807805.436535116] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807820.176717027] [perturbation_node]: [genoma #81 da /attack/genome]  noise 2.13 cm  dropout 13.1%  ghost 1.0%  geom 0.947  edge 0.19  drift 0.73
+[INFO] [1790807820.385958734] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807828.535978095] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807843.270497747] [perturbation_node]: [genoma #82 da /attack/genome]  noise 0.70 cm  dropout 13.0%  ghost 1.0%  geom 0.941  edge 0.47  drift 0.80
+[INFO] [1790807843.476973590] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807850.663991048] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807866.468003426] [perturbation_node]: [genoma #83 da /attack/genome]  noise 2.43 cm  dropout 12.8%  ghost 1.4%  geom 0.272  edge 0.16  drift 0.71
+[INFO] [1790807866.676696159] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807874.000303097] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807889.285648669] [perturbation_node]: [genoma #84 da /attack/genome]  noise 3.58 cm  dropout 1.1%  ghost 0.9%  geom 0.802  edge 0.52  drift 0.54
+[INFO] [1790807889.486886596] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807896.652511651] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807911.621527040] [perturbation_node]: [genoma #85 da /attack/genome]  noise 0.71 cm  dropout 8.6%  ghost 0.9%  geom 0.252  edge 1.00  drift 0.27
+[INFO] [1790807911.826256664] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807919.123816925] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807934.082238558] [perturbation_node]: [genoma #86 da /attack/genome]  noise 2.14 cm  dropout 8.7%  ghost 0.9%  geom 0.261  edge 0.46  drift 0.79
+[INFO] [1790807934.287167555] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807941.988337020] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807956.692900301] [perturbation_node]: [genoma #87 da /attack/genome]  noise 1.26 cm  dropout 2.0%  ghost 0.8%  geom 0.318  edge 0.39  drift 0.78
+[INFO] [1790807956.897021776] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807964.170111785] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790807978.991358767] [perturbation_node]: [genoma #88 da /attack/genome]  noise 1.19 cm  dropout 5.0%  ghost 0.8%  geom 0.261  edge 0.47  drift 0.79
+[INFO] [1790807979.195885692] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790807986.360073238] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808002.003293972] [perturbation_node]: [genoma #89 da /attack/genome]  noise 1.19 cm  dropout 5.0%  ghost 0.8%  geom 0.083  edge 0.99  drift 0.26
+[INFO] [1790808002.206032806] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808009.375599608] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808024.160973919] [perturbation_node]: [genoma #90 da /attack/genome]  noise 0.71 cm  dropout 8.6%  ghost 0.9%  geom 0.252  edge 1.00  drift 0.28
+[INFO] [1790808024.368274610] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808031.533263826] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808046.379137143] [perturbation_node]: [genoma #91 da /attack/genome]  noise 2.14 cm  dropout 8.7%  ghost 0.9%  geom 0.083  edge 1.00  drift 0.25
+[INFO] [1790808046.585875096] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808053.797854433] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808068.696820566] [perturbation_node]: [genoma #92 da /attack/genome]  noise 1.20 cm  dropout 8.8%  ghost 0.9%  geom 0.260  edge 1.00  drift 0.78
+[INFO] [1790808068.897061604] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808076.203583377] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808090.823581087] [perturbation_node]: [genoma #93 da /attack/genome]  noise 2.13 cm  dropout 4.9%  ghost 0.8%  geom 0.083  edge 0.47  drift 0.27
+[INFO] [1790808091.026285629] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808098.227191627] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808113.148762270] [perturbation_node]: [genoma #94 da /attack/genome]  noise 1.19 cm  dropout 5.0%  ghost 0.8%  geom 0.400  edge 0.46  drift 0.79
+[INFO] [1790808113.357653458] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808121.561041427] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808136.328919599] [perturbation_node]: [genoma #95 da /attack/genome]  noise 1.15 cm  dropout 8.5%  ghost 0.8%  geom 0.252  edge 0.99  drift 0.27
+[INFO] [1790808136.537460607] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808144.442757975] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808159.093660789] [perturbation_node]: [genoma #96 da /attack/genome]  noise 1.19 cm  dropout 1.3%  ghost 0.8%  geom 0.083  edge 0.99  drift 0.26
+[INFO] [1790808159.296950033] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808166.522618222] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808181.413956833] [perturbation_node]: [genoma #97 da /attack/genome]  noise 2.11 cm  dropout 10.6%  ghost 1.0%  geom 0.092  edge 0.07  drift 0.43
+[INFO] [1790808181.616321514] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808188.801793987] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808203.779121080] [perturbation_node]: [genoma #98 da /attack/genome]  noise 0.75 cm  dropout 5.5%  ghost 0.9%  geom 0.083  edge 1.00  drift 0.26
+[INFO] [1790808203.985862460] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808211.254902595] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808226.070178042] [perturbation_node]: [genoma #99 da /attack/genome]  noise 3.58 cm  dropout 4.7%  ghost 0.9%  geom 0.802  edge 0.52  drift 0.54
+[INFO] [1790808226.276938950] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808233.594204763] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808248.331765385] [perturbation_node]: [genoma #100 da /attack/genome]  noise 2.43 cm  dropout 4.1%  ghost 0.6%  geom 0.322  edge 0.60  drift 0.65
+[INFO] [1790808248.537567418] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808255.838430487] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808270.707810854] [perturbation_node]: [genoma #101 da /attack/genome]  noise 4.51 cm  dropout 4.1%  ghost 0.6%  geom 0.324  edge 0.60  drift 0.65
+[INFO] [1790808270.917230331] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808278.160600669] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808292.975433692] [perturbation_node]: [genoma #102 da /attack/genome]  noise 2.43 cm  dropout 4.1%  ghost 0.6%  geom 0.322  edge 0.60  drift 0.65
+[INFO] [1790808293.175706568] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808300.342156672] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808315.209583426] [perturbation_node]: [genoma #103 da /attack/genome]  noise 2.43 cm  dropout 4.1%  ghost 0.6%  geom 0.322  edge 0.60  drift 0.65
+[INFO] [1790808315.416139469] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808322.686286627] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808337.611381113] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808359.875205655] [perturbation_node]: [genoma #104 da /attack/genome]  noise 1.19 cm  dropout 5.0%  ghost 0.8%  geom 0.083  edge 0.47  drift 0.79
+[INFO] [1790808367.360258667] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808381.989692659] [perturbation_node]: [genoma #105 da /attack/genome]  noise 0.70 cm  dropout 13.1%  ghost 1.0%  geom 0.941  edge 0.19  drift 0.75
+[INFO] [1790808382.196273867] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808389.390418265] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808404.471320742] [perturbation_node]: [genoma #106 da /attack/genome]  noise 1.26 cm  dropout 2.0%  ghost 0.8%  geom 0.318  edge 0.39  drift 0.79
+[INFO] [1790808404.676741926] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808411.995145721] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808426.764955917] [perturbation_node]: [genoma #107 da /attack/genome]  noise 4.51 cm  dropout 12.8%  ghost 1.4%  geom 0.274  edge 0.16  drift 0.71
+[INFO] [1790808426.967671259] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808434.261971887] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808449.422755971] [perturbation_node]: [genoma #108 da /attack/genome]  noise 1.93 cm  dropout 10.6%  ghost 0.9%  geom 0.816  edge 0.07  drift 0.43
+[INFO] [1790808449.626267984] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808456.982328985] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808472.323382517] [perturbation_node]: [genoma #109 da /attack/genome]  noise 2.14 cm  dropout 8.7%  ghost 0.9%  geom 0.260  edge 1.00  drift 0.25
+[INFO] [1790808472.527550482] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808480.180487420] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808494.769667967] [perturbation_node]: [genoma #110 da /attack/genome]  noise 3.76 cm  dropout 1.1%  ghost 0.9%  geom 0.395  edge 0.52  drift 0.54
+[INFO] [1790808494.975652229] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808502.391996156] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808517.503954300] [perturbation_node]: [genoma #111 da /attack/genome]  noise 2.43 cm  dropout 4.1%  ghost 0.6%  geom 0.322  edge 0.60  drift 0.65
+[INFO] [1790808517.707121233] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808524.875364548] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808540.152063263] [perturbation_node]: [genoma #112 da /attack/genome]  noise 2.14 cm  dropout 2.0%  ghost 0.9%  geom 0.260  edge 0.38  drift 0.24
+[INFO] [1790808540.357975445] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808547.628777848] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808562.477682748] [perturbation_node]: [genoma #113 da /attack/genome]  noise 4.50 cm  dropout 12.8%  ghost 1.4%  geom 0.966  edge 0.16  drift 0.71
+[INFO] [1790808562.686961485] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808569.962234842] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808584.890634895] [perturbation_node]: [genoma #114 da /attack/genome]  noise 1.98 cm  dropout 4.1%  ghost 0.9%  geom 0.338  edge 0.60  drift 0.43
+[INFO] [1790808585.096822249] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808593.047413197] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808608.073260813] [perturbation_node]: [genoma #115 da /attack/genome]  noise 1.26 cm  dropout 5.1%  ghost 0.8%  geom 0.321  edge 0.39  drift 0.79
+[INFO] [1790808608.276908619] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808615.490349883] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808630.153365182] [perturbation_node]: [genoma #116 da /attack/genome]  noise 1.26 cm  dropout 8.6%  ghost 0.8%  geom 0.318  edge 0.99  drift 0.80
+[INFO] [1790808630.357927907] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808637.924166603] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808652.401440273] [perturbation_node]: [genoma #117 da /attack/genome]  noise 0.71 cm  dropout 13.1%  ghost 1.0%  geom 0.244  edge 0.19  drift 0.75
+[INFO] [1790808652.606216994] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808659.949232191] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808674.853338110] [perturbation_node]: [genoma #118 da /attack/genome]  noise 2.38 cm  dropout 10.6%  ghost 0.6%  geom 0.800  edge 0.07  drift 0.66
+[INFO] [1790808675.056631518] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808682.322976434] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808697.517403968] [perturbation_node]: [genoma #119 da /attack/genome]  noise 1.19 cm  dropout 1.9%  ghost 0.8%  geom 0.080  edge 0.47  drift 0.79
+[INFO] [1790808697.717487888] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808705.317637646] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808720.320412469] [perturbation_node]: [genoma #120 da /attack/genome]  noise 4.50 cm  dropout 12.8%  ghost 0.9%  geom 0.967  edge 0.16  drift 0.71
+[INFO] [1790808720.527356897] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808727.795256821] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808743.010027469] [perturbation_node]: [genoma #121 da /attack/genome]  noise 1.93 cm  dropout 10.6%  ghost 0.9%  geom 0.816  edge 0.07  drift 0.43
+[INFO] [1790808743.216204038] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808750.466511182] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808765.727047402] [perturbation_node]: [genoma #122 da /attack/genome]  noise 4.57 cm  dropout 5.0%  ghost 0.8%  geom 0.083  edge 0.45  drift 0.79
+[INFO] [1790808765.927573140] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808773.116576993] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808788.331914210] [perturbation_node]: [genoma #123 da /attack/genome]  noise 1.93 cm  dropout 10.6%  ghost 1.4%  geom 0.815  edge 0.07  drift 0.43
+[INFO] [1790808788.537438363] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808795.703153887] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808810.914576947] [perturbation_node]: [genoma #124 da /attack/genome]  noise 2.38 cm  dropout 10.6%  ghost 0.6%  geom 0.800  edge 0.07  drift 0.66
+[INFO] [1790808811.117266862] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808818.330091785] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808833.707184935] [perturbation_node]: [genoma #125 da /attack/genome]  noise 1.13 cm  dropout 12.8%  ghost 1.4%  geom 0.274  edge 0.17  drift 0.71
+[INFO] [1790808833.917136228] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808841.540039088] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808856.116949611] [perturbation_node]: [genoma #126 da /attack/genome]  noise 2.14 cm  dropout 2.0%  ghost 0.9%  geom 0.259  edge 0.38  drift 0.71
+[INFO] [1790808856.318033060] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808863.484244201] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808878.595497911] [perturbation_node]: [genoma #127 da /attack/genome]  noise 4.51 cm  dropout 12.8%  ghost 1.4%  geom 0.275  edge 0.15  drift 0.25
+[INFO] [1790808878.796058633] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808886.307615283] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808901.515234208] [perturbation_node]: [genoma #128 da /attack/genome]  noise 4.51 cm  dropout 12.8%  ghost 1.4%  geom 0.274  edge 0.16  drift 0.71
+[INFO] [1790808901.717296444] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808908.963180874] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808923.885489865] [perturbation_node]: [genoma #129 da /attack/genome]  noise 4.42 cm  dropout 12.8%  ghost 1.4%  geom 0.274  edge 0.17  drift 0.71
+[INFO] [1790808924.086928339] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808931.250636743] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808946.458948575] [perturbation_node]: [genoma #130 da /attack/genome]  noise 1.19 cm  dropout 5.2%  ghost 0.8%  geom 0.061  edge 0.16  drift 0.78
+[INFO] [1790808946.666863972] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808953.852120960] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808968.905884230] [perturbation_node]: [genoma #131 da /attack/genome]  noise 1.20 cm  dropout 12.8%  ghost 0.9%  geom 0.338  edge 0.17  drift 0.45
+[INFO] [1790808969.107062413] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808976.555870051] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790808991.850042587] [perturbation_node]: [genoma #132 da /attack/genome]  noise 2.14 cm  dropout 2.0%  ghost 0.9%  geom 0.260  edge 0.38  drift 0.24
+[INFO] [1790808992.056716635] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790808999.311949260] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790809014.547111874] [perturbation_node]: [genoma #133 da /attack/genome]  noise 1.22 cm  dropout 12.8%  ghost 1.4%  geom 0.275  edge 0.15  drift 0.25
+[INFO] [1790809014.747646752] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790809022.299505421] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790809037.470900367] [perturbation_node]: [genoma #134 da /attack/genome]  noise 4.51 cm  dropout 12.7%  ghost 1.4%  geom 0.297  edge 0.46  drift 0.26
+[INFO] [1790809037.676819797] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790809044.841721670] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790809060.377609068] [perturbation_node]: [genoma #135 da /attack/genome]  noise 1.91 cm  dropout 4.1%  ghost 1.4%  geom 0.274  edge 0.60  drift 0.69
+[INFO] [1790809060.585803608] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790809067.837220474] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790809082.722796459] [perturbation_node]: [genoma #136 da /attack/genome]  noise 1.13 cm  dropout 12.8%  ghost 1.4%  geom 0.274  edge 0.17  drift 0.71
+[INFO] [1790809082.927542707] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790809090.123131787] [perturbation_node]: Attacco ATTIVATO
+[INFO] [1790809105.250559993] [perturbation_node]: [genoma #137 da /attack/genome]  noise 1.13 cm  dropout 12.8%  ghost 1.4%  geom 0.274  edge 0.17  drift 0.71
+[INFO] [1790809105.456683760] [perturbation_node]: Attacco DISATTIVATO
+[INFO] [1790809112.668896493] [perturbation_node]: Attacco ATTIVATO

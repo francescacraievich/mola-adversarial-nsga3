@@ -1,0 +1,35 @@
+─────────────────────────────────────────────────────────────
+  topic LiDAR : /carter/lidar_perturbed
+  local map   : 25.0 m
+  sigma       : iniziale 0.20, max 0.25
+  lidar pose  : (-0.2317, 0, 0.526)
+  pipeline    : lidar3d-gicp-optimize-twist-local.yaml
+  tracce      : data/attack/campaign/straight/nsga3_g3_p8x4/rep_07/logs/traces_w0_e14.csv
+─────────────────────────────────────────────────────────────
+  Controlla che il riquadro all'avvio dica 'with optimize_twist'.
+
+[01:04:51.0134|INFO |MolaLauncherApp] Setting up system from YAML config... (set DEBUG verbosity level to see full config)
+[01:04:51.0155|INFO |MolaLauncherApp] Instantiating module `lidar_odom` of type `mola::LidarOdometry`
+[01:04:51.0160|INFO |MolaLauncherApp] Instantiating module `state_estimation` of type `mola::state_estimation_simple::StateEstimationSimple`
+[01:04:51.0162|INFO |MolaLauncherApp] Instantiating module `ros2_bridge` of type `mola::BridgeROS2`
+[01:04:51.0164|INFO |MolaLauncherApp] 
+╔═══════════════════════════════════════╦═════════════════════════════════╗
+║  Entering main MOLA application loop  ║ > CTRL+C for mola-cli to quit < ║
+╚═══════════════════════════════════════╩═════════════════════════════════╝
+[01:04:51.0167|WARN |LidarOdometry] Your YAML pipeline references one or more deprecated *_sensor_* names (ESTIMATED_SENSOR_MAX_RANGE, INSTANTANEOUS_SENSOR_MAX_RANGE, max_sensor_range_filter_coefficient, absolute_minimum_sensor_range). They are aliases of ESTIMATED_OBSERVATION_RADIUS, INSTANTANEOUS_OBSERVATION_RADIUS, observation_radius_filter_coefficient, absolute_minimum_observation_radius respectively (all measured from base_link, not from the sensor) and will be removed in a future release. Please rename references in your pipeline files.
+[01:04:51.0167|INFO |LidarOdometry] 
+┌──────────────────────────────────────────────────────────────┐
+│              USING THIS LIDAR-ODOMETRY PIPELINE              │
+├──────────────────────────────────────────────────────────────┤
+│            GICP with cov-to-cov pairings with optimize_twist │
+└──────────────────────────────────────────────────────────────┘
+[01:04:51.0252|WARN |LidarOdometry] No YAML entry 'observations_deskew_pass', this filter stage will have no effect.
+[01:04:51.0668|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA localization source module 'mola::LidarOdometry:lidar_odom'
+[01:04:51.0668|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA map source module 'mola::LidarOdometry:lidar_odom'
+[01:04:51.0668|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA relocalization module 'mola::LidarOdometry:lidar_odom'
+[01:04:51.0675|INFO |mola::BridgeROS2:ros2_bridge] Subscribing to MOLA map server module 'mola::LidarOdometry:lidar_odom'
+[01:04:51.6442|INFO |StateEstimationSimple] reset() called
+[01:04:51.6443|INFO |LidarOdometry] Initial re-localization done with pose: (x,y,z,yaw,pitch,roll)=(0.0000,0.0000,0.0000,0.00deg,0.00deg,0.00deg)
+[01:04:51.6553|INFO |LidarOdometry] Writing debug traces to: data/attack/campaign/straight/nsga3_g3_p8x4/rep_07/logs/traces_w0_e14.csv
+[01:04:52.5715|WARN |LidarOdometry] Not able to use velocity motion model for this timestep (pathStep=6, timestamp=1970/01/01,00:02:23.900000 UTC)
+[INFO] [1790809501.248833855] [rclcpp]: signal_handler(SIGINT/SIGTERM)
