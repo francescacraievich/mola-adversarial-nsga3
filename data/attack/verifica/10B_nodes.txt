@@ -1,2 +1,0 @@
-/add_intensity_node
-/mola_bridge_ros2
