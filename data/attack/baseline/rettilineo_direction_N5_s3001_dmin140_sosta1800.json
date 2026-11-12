@@ -1,0 +1,177 @@
+{
+  "descrizione": "baseline del rettilineo in modo direction: polilinea della posa vera della vittima di una run senza attacco (--goal-mode direction, finestre fisse)",
+  "stato": "pilota (1 seme)",
+  "data_costruzione": "2026-10-27 05:58:01 CET",
+  "comando": "python3 costruisci_baseline_direction.py data/attack/verifica/2026-10-26_baseline_definitiva_s3001_N5_dmin140_sosta1800/campagna/straight/none_g3_sel2_stopramp_k1.0_reliable_serieB_s3001_pt1_oprandom_sgross_baseline_direction_N5/rep_01 --csv data/attack/baseline/rettilineo_direction_N5_s3001_dmin140_sosta1800.csv --json data/attack/verifica/2026-10-26_baseline_definitiva_s3001_N5_dmin140_sosta1800/baseline_direction_rapporto.json --finestre 5 --x-max 7.0 --seme 3001 --stato pilota (1 seme)",
+  "ripetizione": "data/attack/verifica/2026-10-26_baseline_definitiva_s3001_N5_dmin140_sosta1800/campagna/straight/none_g3_sel2_stopramp_k1.0_reliable_serieB_s3001_pt1_oprandom_sgross_baseline_direction_N5/rep_01",
+  "controlli_superati": true,
+  "controlli": [
+    {
+      "controllo": "cartella completata",
+      "valore": true,
+      "atteso": true,
+      "ok": true
+    },
+    {
+      "controllo": "finestre guidate",
+      "valore": 5,
+      "atteso": 5,
+      "ok": true
+    },
+    {
+      "controllo": "finestre trattenute (victim_held)",
+      "valore": 0,
+      "atteso": 0,
+      "ok": true
+    },
+    {
+      "controllo": "run_end.reason",
+      "valore": "finestre_completate",
+      "atteso": "finestre_completate",
+      "ok": true
+    },
+    {
+      "controllo": "goal_mode nei record (se presente)",
+      "valore": [
+        "direction"
+      ],
+      "atteso": "direction o assente",
+      "ok": true
+    },
+    {
+      "controllo": "esiti della vittima (nessuna perdita di posa, nessun arrived)",
+      "valore": "nessun esito anomalo",
+      "atteso": "nessun esito anomalo",
+      "ok": true
+    },
+    {
+      "controllo": "traccia della vittima per ogni finestra guidata (>= 2 pose)",
+      "valore": "tutte",
+      "atteso": "tutte",
+      "ok": true
+    },
+    {
+      "controllo": "x odom vera finale della vittima [m]",
+      "valore": 5.1108,
+      "atteso": "<= 7.0",
+      "ok": true
+    },
+    {
+      "controllo": "x odom vera massima su tutte le tracce [m]",
+      "valore": [
+        5.1108,
+        "w4_victim.csv"
+      ],
+      "atteso": "<= 7.0",
+      "ok": true
+    },
+    {
+      "controllo": "seme della run (log della ripetizione)",
+      "valore": 3001,
+      "atteso": 3001,
+      "ok": true
+    }
+  ],
+  "finestre_guidate": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "finestre_trattenute": [],
+  "run_end": {
+    "reason": "finestre_completate",
+    "windows_driven": 5,
+    "windows_held": 0
+  },
+  "per_finestra": [
+    {
+      "finestra": 0,
+      "status_nominale": "ok",
+      "victim_status": "ok",
+      "victim_travelled_m": 1.017166955940201,
+      "victim_track_ratio": 0.9990611069691878,
+      "traccia": "w0_victim.csv",
+      "pose_distinte": 76,
+      "x_fine_m": 1.0353,
+      "window_time_s": 1816.66956615448
+    },
+    {
+      "finestra": 1,
+      "status_nominale": "ok",
+      "victim_status": "ok",
+      "victim_travelled_m": 1.0148104420327686,
+      "victim_track_ratio": 1.0022571673159941,
+      "traccia": "w1_victim.csv",
+      "pose_distinte": 74,
+      "x_fine_m": 2.0528,
+      "window_time_s": 1816.6002779006958
+    },
+    {
+      "finestra": 2,
+      "status_nominale": "ok",
+      "victim_status": "ok",
+      "victim_travelled_m": 1.0171260793116164,
+      "victim_track_ratio": 0.9982814932187554,
+      "traccia": "w2_victim.csv",
+      "pose_distinte": 78,
+      "x_fine_m": 3.0726,
+      "window_time_s": 1818.7289652824402
+    },
+    {
+      "finestra": 3,
+      "status_nominale": "ok",
+      "victim_status": "ok",
+      "victim_travelled_m": 1.0136918723245096,
+      "victim_track_ratio": 1.003149854197515,
+      "traccia": "w3_victim.csv",
+      "pose_distinte": 69,
+      "x_fine_m": 4.0889,
+      "window_time_s": 1817.7795522212982
+    },
+    {
+      "finestra": 4,
+      "status_nominale": "ok",
+      "victim_status": "ok",
+      "victim_travelled_m": 1.019320854430707,
+      "victim_track_ratio": 0.998951075278895,
+      "traccia": "w4_victim.csv",
+      "pose_distinte": 78,
+      "x_fine_m": 5.1108,
+      "window_time_s": 1816.7604942321777
+    }
+  ],
+  "tracce_concatenate": [
+    "w0_victim.csv",
+    "w1_victim.csv",
+    "w2_victim.csv",
+    "w3_victim.csv",
+    "w4_victim.csv"
+  ],
+  "righe_csv": 397,
+  "pose_vere_distinte": 375,
+  "x_max_m": 7.0,
+  "passo_m": 0.05,
+  "csv": "data/attack/baseline/rettilineo_direction_N5_s3001_dmin140_sosta1800.csv",
+  "csv_sha256": "912e8c2d88f77b2635884dcf6d515455133ed4b8a4854b8420540229c5c67b05",
+  "n_punti": 103,
+  "lunghezza_m": 5.0926,
+  "primo_punto": [
+    0.0182,
+    -0.0
+  ],
+  "ultimo_punto": [
+    5.1108,
+    -0.0026
+  ],
+  "y_min_m": -0.0029,
+  "y_max_m": -0.0,
+  "lettore": "load_baseline (src/analysis/baseline_distance.py)",
+  "riletti_punti": 103,
+  "scarto_pose_dalla_polilinea_cm": {
+    "media": 0.0017,
+    "max": 0.0072,
+    "n": 375
+  }
+}

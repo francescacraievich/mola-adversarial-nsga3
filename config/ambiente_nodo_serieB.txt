@@ -1,0 +1,11 @@
+# Expected interpreter and library versions for the perturbation_node.
+# Checked by scripts/ambiente_nodo.py (run_campaign.sh with SERIE_B=1, coda_serieB.sh).
+# Interpreter: python3 from PATH (/usr/bin/python3.12), without -I, with /opt/ros/jazzy sourced:
+# numpy and scipy come from the user site-packages (~/.local/lib/python3.12/site-packages),
+# rclpy from /opt/ros/jazzy (ros-jazzy-rclpy). With python3 -I numpy and scipy would be the
+# system ones (1.26.4 / 1.11.4) and the output of operator g6 changes.
+# open3d and sklearn are not used by the node.
+python 3.12.3
+numpy 2.3.1
+scipy 1.17.0
+rclpy 7.1.12

@@ -1,0 +1,273 @@
+{
+ "descrizione": "baseline del danno della serie B: media dei 3 semi senza attacco (1001, 2001, 3001; N 5, D_min 140 ms, sosta 1800 s), decisione baseline-A2 del 27/10 (opzione c); DERIVATA per l'ablazione dell'orizzonte H = 2.5 m (stessa polilinea; punti di fine finestra a (k+1)·H: misurati a 1 m se interi, interpolati altrimenti)",
+ "data_costruzione": "2026-10-27 10:24:28 CET",
+ "comando": "python3 costruisci_baseline_media3semi.py data/attack/verifica/2026-10-26_baseline_definitiva_s1001_N5_dmin140_sosta1800/campagna/straight/none_g3_sel2_stopramp_k1.0_reliable_serieB_s1001_pt1_oprandom_sgross_baseline_direction_N5/rep_01 data/attack/verifica/2026-10-26_baseline_definitiva_s2001_N5_dmin140_sosta1800/campagna/straight/none_g3_sel2_stopramp_k1.0_reliable_serieB_s2001_pt1_oprandom_sgross_baseline_direction_N5/rep_01 data/attack/verifica/2026-10-26_baseline_definitiva_s3001_N5_dmin140_sosta1800/campagna/straight/none_g3_sel2_stopramp_k1.0_reliable_serieB_s3001_pt1_oprandom_sgross_baseline_direction_N5/rep_01 --csv data/attack/baseline/rettilineo_direction_N5_media3semi_dmin140_sosta1800.csv --json data/attack/baseline/rettilineo_direction_N5_media3semi_dmin140_sosta1800.json --sens-dir data/attack/dossier/2026-10-23_serieB/baseline_A2/sensibilita --per-seme data/attack/baseline/rettilineo_direction_N5_s1001_dmin140_sosta1800.csv data/attack/baseline/rettilineo_direction_N5_s2001_dmin140_sosta1800.csv data/attack/baseline/rettilineo_direction_N5_s3001_dmin140_sosta1800.csv",
+ "metodo": "media di x(s), y(s) a parita' di ascissa curvilinea s (passo 0,05 m, s dal primo punto di ogni seme) fino a s_min, ultimo punto a s_min (polilinea_media del 20/10, fino_a_smin), piu' i 5 punti medi di fine finestra inseriti all'ascissa media di fine finestra (criterio_baseline_definitiva.md, par. 3)",
+ "semi": [
+  {
+   "ripetizione": "data/attack/verifica/2026-10-26_baseline_definitiva_s1001_N5_dmin140_sosta1800/campagna/straight/none_g3_sel2_stopramp_k1.0_reliable_serieB_s1001_pt1_oprandom_sgross_baseline_direction_N5/rep_01",
+   "history_sha256": "73db00505f6495cd11e1eba01ba2eed0dfc90897aadfe93556ae95de9aae568b",
+   "tracce": [
+    "w0_victim.csv",
+    "w1_victim.csv",
+    "w2_victim.csv",
+    "w3_victim.csv",
+    "w4_victim.csv"
+   ],
+   "righe_csv": 404,
+   "pose_vere_distinte": 382,
+   "lunghezza_m": 5.0831,
+   "primo_punto": [
+    0.0169,
+    0.0
+   ],
+   "ultimo_punto": [
+    5.1,
+    -0.0027
+   ],
+   "fine_finestra": [
+    {
+     "finestra": 0,
+     "x_m": 1.0312,
+     "y_m": -0.0022,
+     "s_m": 1.014306949663919,
+     "indice": 80
+    },
+    {
+     "finestra": 1,
+     "x_m": 2.0442,
+     "y_m": -0.0015,
+     "s_m": 2.027310939282604,
+     "indice": 159
+    },
+    {
+     "finestra": 2,
+     "x_m": 3.0628,
+     "y_m": -0.0032,
+     "s_m": 3.0459143666262447,
+     "indice": 238
+    },
+    {
+     "finestra": 3,
+     "x_m": 4.0812,
+     "y_m": -0.0023,
+     "s_m": 4.064316584598217,
+     "indice": 308
+    },
+    {
+     "finestra": 4,
+     "x_m": 5.1,
+     "y_m": -0.0027,
+     "s_m": 5.083129358420274,
+     "indice": 381
+    }
+   ]
+  },
+  {
+   "ripetizione": "data/attack/verifica/2026-10-26_baseline_definitiva_s2001_N5_dmin140_sosta1800/campagna/straight/none_g3_sel2_stopramp_k1.0_reliable_serieB_s2001_pt1_oprandom_sgross_baseline_direction_N5/rep_01",
+   "history_sha256": "d58c5992df2ad8194c66d7eadbf10a448bd913f1e264c7098a9b4d761e7c27bb",
+   "tracce": [
+    "w0_victim.csv",
+    "w1_victim.csv",
+    "w2_victim.csv",
+    "w3_victim.csv",
+    "w4_victim.csv"
+   ],
+   "righe_csv": 413,
+   "pose_vere_distinte": 384,
+   "lunghezza_m": 5.1025,
+   "primo_punto": [
+    0.0203,
+    -0.0
+   ],
+   "ultimo_punto": [
+    5.1228,
+    -0.0026
+   ],
+   "fine_finestra": [
+    {
+     "finestra": 0,
+     "x_m": 1.0388,
+     "y_m": -0.0022,
+     "s_m": 1.0185077302835293,
+     "indice": 78
+    },
+    {
+     "finestra": 1,
+     "x_m": 2.0566,
+     "y_m": -0.0016,
+     "s_m": 2.036309445010949,
+     "indice": 156
+    },
+    {
+     "finestra": 2,
+     "x_m": 3.0795,
+     "y_m": -0.0029,
+     "s_m": 3.059213300231928,
+     "indice": 227
+    },
+    {
+     "finestra": 3,
+     "x_m": 4.1021,
+     "y_m": -0.0022,
+     "s_m": 4.081819770692975,
+     "indice": 307
+    },
+    {
+     "finestra": 4,
+     "x_m": 5.1228,
+     "y_m": -0.0026,
+     "s_m": 5.10252191537392,
+     "indice": 383
+    }
+   ]
+  },
+  {
+   "ripetizione": "data/attack/verifica/2026-10-26_baseline_definitiva_s3001_N5_dmin140_sosta1800/campagna/straight/none_g3_sel2_stopramp_k1.0_reliable_serieB_s3001_pt1_oprandom_sgross_baseline_direction_N5/rep_01",
+   "history_sha256": "584b3dee2c7603e6a00edcad887a71297c863fa46bd3922748223983569db96b",
+   "tracce": [
+    "w0_victim.csv",
+    "w1_victim.csv",
+    "w2_victim.csv",
+    "w3_victim.csv",
+    "w4_victim.csv"
+   ],
+   "righe_csv": 397,
+   "pose_vere_distinte": 375,
+   "lunghezza_m": 5.0926,
+   "primo_punto": [
+    0.0182,
+    -0.0
+   ],
+   "ultimo_punto": [
+    5.1108,
+    -0.0026
+   ],
+   "fine_finestra": [
+    {
+     "finestra": 0,
+     "x_m": 1.0353,
+     "y_m": -0.0024,
+     "s_m": 1.0171083740357887,
+     "indice": 75
+    },
+    {
+     "finestra": 1,
+     "x_m": 2.0528,
+     "y_m": -0.0012,
+     "s_m": 2.034611984240891,
+     "indice": 149
+    },
+    {
+     "finestra": 2,
+     "x_m": 3.0726,
+     "y_m": -0.0029,
+     "s_m": 3.054417029104532,
+     "indice": 227
+    },
+    {
+     "finestra": 3,
+     "x_m": 4.0889,
+     "y_m": -0.0017,
+     "s_m": 4.070724734073089,
+     "indice": 296
+    },
+    {
+     "finestra": 4,
+     "x_m": 5.1108,
+     "y_m": -0.0026,
+     "s_m": 5.092627624980838,
+     "indice": 374
+    }
+   ]
+  }
+ ],
+ "s_min_m": 5.0831,
+ "punti_media_fino_a_s_min": 103,
+ "punti_fine_finestra_medi": [
+  {
+   "finestra": 0,
+   "s_m": 2.542962844082858,
+   "x_m": 2.5614166666666662,
+   "y_m": -0.0022166666666666663
+  },
+  {
+   "finestra": 1,
+   "s_m": 5.09275963292501,
+   "x_m": 5.1112,
+   "y_m": -0.0026333333333333334
+  }
+ ],
+ "scarto_punti_inseriti": [
+  {
+   "finestra": 0,
+   "dx_cm": -0.0001,
+   "dy_cm": -0.0067
+  },
+  {
+   "finestra": 1,
+   "dx_cm": -0.0,
+   "dy_cm": 0.0023
+  },
+  {
+   "finestra": 2,
+   "dx_cm": -0.0,
+   "dy_cm": -0.0001
+  },
+  {
+   "finestra": 3,
+   "dx_cm": -0.0002,
+   "dy_cm": 0.0017
+  },
+  {
+   "finestra": 4,
+   "oltre_s_min_m": 0.0096,
+   "dx_dall_ultimo_cm": 0.963,
+   "dy_dall_ultimo_cm": 0.0
+  }
+ ],
+ "csv": "data/attack/baseline/rettilineo_direction_N5_media3semi_dmin140_sosta1800.csv",
+ "csv_sha256": "7f40548eb3583c687a9645f075fb1cbd03f3576d7fa7d83d29f0fd3249864b27",
+ "n_punti": 108,
+ "primo_punto": [
+  0.018467,
+  0.0
+ ],
+ "ultimo_punto": [
+  5.1112,
+  -0.002633
+ ],
+ "lunghezza_s_m": 5.0928,
+ "lettore": "load_baseline (src/analysis/baseline_distance.py)",
+ "riletti_punti": 108,
+ "riproduzione_csv_per_seme": [
+  {
+   "csv": "data/attack/baseline/rettilineo_direction_N5_s1001_dmin140_sosta1800.csv",
+   "sha256": "d9374c1f8c03d55a382485f97e909c66efdaeb62fedceae12c78ebb6c5d58cde",
+   "punti_esistente": 103,
+   "punti_ricalcolati": 103,
+   "scarto_max_m": 0.0
+  },
+  {
+   "csv": "data/attack/baseline/rettilineo_direction_N5_s2001_dmin140_sosta1800.csv",
+   "sha256": "7978321eeacbdc192689d6e088e585a5bc8f4f7174dca7ca33ff22dc154e6cc1",
+   "punti_esistente": 104,
+   "punti_ricalcolati": 104,
+   "scarto_max_m": 0.0
+  },
+  {
+   "csv": "data/attack/baseline/rettilineo_direction_N5_s3001_dmin140_sosta1800.csv",
+   "sha256": "912e8c2d88f77b2635884dcf6d515455133ed4b8a4854b8420540229c5c67b05",
+   "punti_esistente": 103,
+   "punti_ricalcolati": 103,
+   "scarto_max_m": 0.0
+  }
+ ],
+ "sensibilita_sha256": {
+  "sens_media_s_senza_punti_fine.csv": "664012a24413ff2fa6b59536b63784b3da2a60a0aa646927a41c7474c8bffd82",
+  "sens_mediana_s.csv": "e800f1cf23025fb3c197c3909444a1e7271c370aa8e1cecefd799ef6accd5a94",
+  "sens_media_x.csv": "148131a97c85868d14ce402739a39a550dfdc8cd3631dc7a1875de942aae1256"
+ },
+ "derivata_da": "data/attack/baseline/rettilineo_direction_N5_media3semi_dmin140_sosta1800.json",
+ "regola_derivata": "Baseline derivata per l'ablazione dell'orizzonte: stessa polilinea media3semi, punti di fine finestra\nper H diverso da 1. Regola: la fine della finestra k sta alla distanza nominale d = (k+1)·H. Se d e' intera si\nprende il punto medio di fine finestra misurato a 1 m (finestra d-1) cosi' com'e'; altrimenti s, x, y si\ninterpolano linearmente in d fra i due punti misurati adiacenti (d = 0: primo punto della polilinea, s = 0).\nCon H = 1 riproduce esattamente i 5 punti del file attuale (controllo sotto)."
+}
