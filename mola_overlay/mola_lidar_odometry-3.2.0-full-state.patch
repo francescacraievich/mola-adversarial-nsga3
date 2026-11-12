@@ -1,0 +1,1644 @@
+diff -ruN a/mola_lidar_odometry/CMakeLists.txt b/mola_lidar_odometry/CMakeLists.txt
+--- a/mola_lidar_odometry/CMakeLists.txt
++++ b/mola_lidar_odometry/CMakeLists.txt
+@@ -47,6 +47,7 @@
+   module/src/LidarOdometry_SensorCallbacks.cpp
+   module/src/LidarOdometry_Publish.cpp
+   module/src/LidarOdometry_InitialLocalization.cpp
++  module/src/LidarOdometry_FullState.cpp
+   # Last:
+   module/src/register.cpp
+ )
+diff -ruN a/mola_lidar_odometry/module/include/mola_lidar_odometry/KeyframeDecider.h b/mola_lidar_odometry/module/include/mola_lidar_odometry/KeyframeDecider.h
+--- a/mola_lidar_odometry/module/include/mola_lidar_odometry/KeyframeDecider.h
++++ b/mola_lidar_odometry/module/include/mola_lidar_odometry/KeyframeDecider.h
+@@ -21,6 +21,7 @@
+ 
+ #include <cstdint>
+ #include <deque>
++#include <string>
+ #include <utility>
+ 
+ namespace mola
+@@ -170,6 +171,11 @@
+    *  spatial one. */
+   [[nodiscard]] size_t activeSize() const { return temporal_ ? recent_.size() : poses_.size(); }
+ 
++  /** Full state: binary save/load of all stored poses, including those in
++   *  SearchablePoseList. Loading requires a decider built with the same options. */
++  void saveFullState(std::string & out) const;
++  void loadFullState(const std::string & in);
++
+ private:
+   using Entry = std::pair<double /*timestamp*/, mrpt::poses::CPose3D>;
+ 
+diff -ruN a/mola_lidar_odometry/module/include/mola_lidar_odometry/LidarOdometry.h b/mola_lidar_odometry/module/include/mola_lidar_odometry/LidarOdometry.h
+--- a/mola_lidar_odometry/module/include/mola_lidar_odometry/LidarOdometry.h
++++ b/mola_lidar_odometry/module/include/mola_lidar_odometry/LidarOdometry.h
+@@ -1786,6 +1786,23 @@
+   void appendKeyframeMetadataObs(
+     mrpt::obs::CSensoryFrame & keyframe_obs, const mrpt::Clock::time_point & scan_ref_time,
+     const mp2p_icp::metric_map_t & observation);
++
++  // Full state save/load (LidarOdometry_FullState.cpp). Non-virtual functions only,
++  // so the class memory layout is unchanged.
++  static bool fullStateEnabled();
++  /// false if the observation must be dropped (it precedes the state to load)
++  bool fullStateOnObservation(const CObservation::ConstPtr & o);
++  void fullStateAfterScan(const CObservation::ConstPtr & o);
++  bool fullStateMapSave(const std::string & path);
++  bool fullStateMapLoad(const std::string & path);
++  void fullStateSaveToFile(
++    const std::string & file, const std::optional<mrpt::Clock::time_point> & stamp);
++  void fullStateLoadFromFile(const std::string & file);
++  /// Caller holds state_mtx_
++  std::string fullStateSerialize(
++    const std::optional<mrpt::Clock::time_point> & stamp, std::array<uint64_t, 3> * impronte);
++  /// Caller holds state_mtx_
++  void fullStateDeserialize(const std::string & blob);
+ };
+ 
+ namespace detail
+diff -ruN a/mola_lidar_odometry/module/src/FullStateIO.h b/mola_lidar_odometry/module/src/FullStateIO.h
+--- a/mola_lidar_odometry/module/src/FullStateIO.h
++++ b/mola_lidar_odometry/module/src/FullStateIO.h
+@@ -0,0 +1,266 @@
++/* Full state: hand-written binary writer and reader.
++ *
++ * Internal header, not installed. Doubles are copied byte by byte (no text);
++ * CPose3D poses are written with coordinates, rotation matrix and the cached
++ * yaw/pitch/roll, which MRPT serialization does not preserve.
++ */
++#pragma once
++
++#include <mrpt/core/Clock.h>
++#include <mrpt/core/exceptions.h>
++#include <mrpt/math/CMatrixFixed.h>
++#include <mrpt/math/TPose3D.h>
++#include <mrpt/math/TTwist3D.h>
++#include <mrpt/poses/CPose3D.h>
++#include <mrpt/poses/CPose3DPDFGaussian.h>
++#include <mrpt/poses/CPose3DPDFGaussianInf.h>
++
++#include <cstdint>
++#include <cstring>
++#include <optional>
++#include <stdexcept>
++#include <string>
++#include <type_traits>
++
++namespace mola::full_state
++{
++// Access to non-public members of external classes: explicit template
++// instantiation is not subject to access checking.
++template <typename Tag, auto M>
++struct Ruba
++{
++  friend auto get(Tag) { return M; }
++};
++
++#define MOLA_FS_ACCESSO(Tag, Membro) \
++  struct Tag                         \
++  {                                  \
++    friend auto get(Tag);            \
++  };                                 \
++  template struct ::mola::full_state::Ruba<Tag, &Membro>
++
++// Protected members of CPose3D, reached through a derived class.
++struct AccessoPosa : public mrpt::poses::CPose3D
++{
++  static auto rot() { return &AccessoPosa::m_ROT; }
++  static auto yprAggiornata() { return &AccessoPosa::m_ypr_uptodate; }
++  static auto yaw() { return &AccessoPosa::m_yaw; }
++  static auto pitch() { return &AccessoPosa::m_pitch; }
++  static auto roll() { return &AccessoPosa::m_roll; }
++};
++
++class Scrittore
++{
++public:
++  std::string buf;
++
++  void grezzo(const void * p, std::size_t n) { buf.append(static_cast<const char *>(p), n); }
++
++  template <typename T>
++  void pod(const T & v)
++  {
++    static_assert(std::is_trivially_copyable_v<T>);
++    grezzo(&v, sizeof(T));
++  }
++
++  void u8(bool b) { pod<uint8_t>(b ? 1 : 0); }
++  void u64(uint64_t v) { pod(v); }
++  void f64(double v) { pod(v); }
++
++  void stringa(const std::string & s)
++  {
++    u64(s.size());
++    grezzo(s.data(), s.size());
++  }
++
++  void tempo(const mrpt::Clock::time_point & t)
++  {
++    pod<int64_t>(static_cast<int64_t>(t.time_since_epoch().count()));
++  }
++
++  void tempoOpt(const std::optional<mrpt::Clock::time_point> & t)
++  {
++    u8(t.has_value());
++    if (t) tempo(*t);
++  }
++
++  void f64Opt(const std::optional<double> & v)
++  {
++    u8(v.has_value());
++    if (v) f64(*v);
++  }
++
++  template <std::size_t R, std::size_t C>
++  void matrice(const mrpt::math::CMatrixFixed<double, R, C> & m)
++  {
++    for (std::size_t r = 0; r < R; r++)
++      for (std::size_t c = 0; c < C; c++) f64(m(r, c));
++  }
++
++  void posa(const mrpt::poses::CPose3D & p)
++  {
++    for (int i = 0; i < 3; i++) f64(p.m_coords[i]);
++    matrice(p.*AccessoPosa::rot());
++    u8(p.*AccessoPosa::yprAggiornata());
++    f64(p.*AccessoPosa::yaw());
++    f64(p.*AccessoPosa::pitch());
++    f64(p.*AccessoPosa::roll());
++  }
++
++  void posaPdf(const mrpt::poses::CPose3DPDFGaussian & p)
++  {
++    posa(p.mean);
++    matrice(p.cov);
++  }
++
++  void posaPdfInf(const mrpt::poses::CPose3DPDFGaussianInf & p)
++  {
++    posa(p.mean);
++    matrice(p.cov_inv);
++  }
++
++  void tposa(const mrpt::math::TPose3D & p)
++  {
++    f64(p.x);
++    f64(p.y);
++    f64(p.z);
++    f64(p.yaw);
++    f64(p.pitch);
++    f64(p.roll);
++  }
++
++  void twist(const mrpt::math::TTwist3D & t)
++  {
++    f64(t.vx);
++    f64(t.vy);
++    f64(t.vz);
++    f64(t.wx);
++    f64(t.wy);
++    f64(t.wz);
++  }
++};
++
++class Lettore
++{
++public:
++  explicit Lettore(const std::string & b) : buf_(b) {}
++
++  void grezzo(void * p, std::size_t n)
++  {
++    if (pos_ + n > buf_.size()) {
++      throw std::runtime_error("stato completo: file troncato");
++    }
++    std::memcpy(p, buf_.data() + pos_, n);
++    pos_ += n;
++  }
++
++  template <typename T>
++  T pod()
++  {
++    static_assert(std::is_trivially_copyable_v<T>);
++    T v;
++    grezzo(&v, sizeof(T));
++    return v;
++  }
++
++  bool u8() { return pod<uint8_t>() != 0; }
++  uint64_t u64() { return pod<uint64_t>(); }
++  double f64() { return pod<double>(); }
++
++  std::string stringa()
++  {
++    const auto n = u64();
++    if (pos_ + n > buf_.size()) {
++      throw std::runtime_error("stato completo: stringa oltre la fine del file");
++    }
++    std::string s(buf_.data() + pos_, n);
++    pos_ += n;
++    return s;
++  }
++
++  mrpt::Clock::time_point tempo()
++  {
++    return mrpt::Clock::time_point(mrpt::Clock::duration(pod<int64_t>()));
++  }
++
++  std::optional<mrpt::Clock::time_point> tempoOpt()
++  {
++    if (!u8()) return std::nullopt;
++    return tempo();
++  }
++
++  std::optional<double> f64Opt()
++  {
++    if (!u8()) return std::nullopt;
++    return f64();
++  }
++
++  template <std::size_t R, std::size_t C>
++  void matrice(mrpt::math::CMatrixFixed<double, R, C> & m)
++  {
++    for (std::size_t r = 0; r < R; r++)
++      for (std::size_t c = 0; c < C; c++) m(r, c) = f64();
++  }
++
++  void posa(mrpt::poses::CPose3D & p)
++  {
++    for (int i = 0; i < 3; i++) p.m_coords[i] = f64();
++    matrice(p.*AccessoPosa::rot());
++    p.*AccessoPosa::yprAggiornata() = u8();
++    p.*AccessoPosa::yaw() = f64();
++    p.*AccessoPosa::pitch() = f64();
++    p.*AccessoPosa::roll() = f64();
++  }
++
++  mrpt::poses::CPose3D posa()
++  {
++    mrpt::poses::CPose3D p;
++    posa(p);
++    return p;
++  }
++
++  void posaPdf(mrpt::poses::CPose3DPDFGaussian & p)
++  {
++    posa(p.mean);
++    matrice(p.cov);
++  }
++
++  void posaPdfInf(mrpt::poses::CPose3DPDFGaussianInf & p)
++  {
++    posa(p.mean);
++    matrice(p.cov_inv);
++  }
++
++  mrpt::math::TPose3D tposa()
++  {
++    mrpt::math::TPose3D p;
++    p.x = f64();
++    p.y = f64();
++    p.z = f64();
++    p.yaw = f64();
++    p.pitch = f64();
++    p.roll = f64();
++    return p;
++  }
++
++  mrpt::math::TTwist3D twist()
++  {
++    mrpt::math::TTwist3D t;
++    t.vx = f64();
++    t.vy = f64();
++    t.vz = f64();
++    t.wx = f64();
++    t.wy = f64();
++    t.wz = f64();
++    return t;
++  }
++
++  std::size_t posizione() const { return pos_; }
++  bool finito() const { return pos_ == buf_.size(); }
++
++private:
++  const std::string & buf_;
++  std::size_t pos_ = 0;
++};
++
++}  // namespace mola::full_state
+diff -ruN a/mola_lidar_odometry/module/src/LidarOdometry_FullState.cpp b/mola_lidar_odometry/module/src/LidarOdometry_FullState.cpp
+--- a/mola_lidar_odometry/module/src/LidarOdometry_FullState.cpp
++++ b/mola_lidar_odometry/module/src/LidarOdometry_FullState.cpp
+@@ -0,0 +1,1254 @@
++/* Full state of LidarOdometry and of the state estimator.
++ *
++ * Saves and reloads in binary all the state that affects the processing of
++ * later scans, so that it can be moved from the shadow MOLA instance to the
++ * twin instance. Enabled only with MOLA_FULL_STATE=1; when disabled every hook
++ * returns immediately and processing is unchanged.
++ *
++ * Environment variables (read once):
++ *  MOLA_FULL_STATE=1                    enable
++ *  MOLA_FULL_STATE_SAVE_AT_TICKS=a,b,.. save after the scan with this stamp
++ *                                       (mrpt::Clock ticks, 100 ns)
++ *  MOLA_FULL_STATE_SAVE_DIR=<dir>       output directory (default ".")
++ *  MOLA_FULL_STATE_LOAD=<file>          drop inputs with stamp <= the saved
++ *                                       one, load the state at the first
++ *                                       later input
++ *  MOLA_FULL_STATE_RESAVE=<file>        save again right after loading
++ *  MOLA_FULL_STATE_TRACE=<file>         one line per scan with its fingerprint
++ *  MOLA_FULL_STATE_PROVA_TWIST_ZERO=1   negative control: estimator twist set
++ *                                       to zero on load
++ *  MOLA_FULL_STATE_SKIP_UNTIL_TICKS=t   offline tests only: drop inputs with
++ *                                       stamp <= t without loading anything
++ *                                       (negative control)
++ *  MOLA_FULL_STATE_SAVE_MM=1            on every save also write <file>.mm
++ *                                       (as map_save) and <file>.posa.txt
++ *                                       (pose and sigma)
++ *
++ * Wall-clock fields, closed list: last_obs_reception_time (set to now() on
++ * load) and waiting_for_state_estimator_since (reset).
++ * Excluded because used only for visualization or publishing: glVehicleModels,
++ * glVehicleModelsLoaded, glEstimatedPath, last_deskewed_scan_for_publishing.
++ * IMU state, GNSS, multi-LiDAR synchronization and external georeferencing
++ * are not handled: if any of them is non-empty the save is refused.
++ * For the keyframe map the ICP cache is saved too (selection, submap,
++ * bounding box); only the visualization caches (cachedPoints, cached_viz_,
++ * cachez_viz_covs_) and the point cloud KD-trees are left out, the latter
++ * rebuilt from the same points at the first search.
++ */
++
++#include <mola_lidar_odometry/LidarOdometry.h>
++#include <mola_metric_maps/KeyframePointCloudMap.h>
++#include <mrpt/core/lock_helper.h>
++#include <mrpt/io/CMemoryStream.h>
++#include <mrpt/serialization/CArchive.h>
++#include <mrpt/system/filesystem.h>
++
++#include <dlfcn.h>
++
++#include <cstdio>
++#include <cstdlib>
++#include <fstream>
++#include <set>
++#include <sstream>
++
++#include "FullStateIO.h"
++
++namespace mola::full_state
++{
++// Private members of external classes (explicit instantiation only).
++MOLA_FS_ACCESSO(SplLastKf, mola::SearchablePoseList::last_kf_);
++MOLA_FS_ACCESSO(SplHasLastKf, mola::SearchablePoseList::has_last_kf_);
++MOLA_FS_ACCESSO(SplKfPoses, mola::SearchablePoseList::kf_poses_);
++MOLA_FS_ACCESSO(SplKfPoints, mola::SearchablePoseList::kf_points_);
++MOLA_FS_ACCESSO(SplKfIds, mola::SearchablePoseList::kf_ids_);
++MOLA_FS_ACCESSO(SplIdToIdx, mola::SearchablePoseList::id_to_idx_);
++MOLA_FS_ACCESSO(SplFromLastOnly, mola::SearchablePoseList::from_last_only_);
++
++MOLA_FS_ACCESSO(KfmKeyframes, mola::KeyframePointCloudMap::keyframes_);
++MOLA_FS_ACCESSO(KfmLastInserted, mola::KeyframePointCloudMap::last_inserted_kf_id_);
++MOLA_FS_ACCESSO(KfmEvicted, mola::KeyframePointCloudMap::evicted_kf_ids_);
++MOLA_FS_ACCESSO(KfmNextFree, mola::KeyframePointCloudMap::next_free_kf_id_);
++MOLA_FS_ACCESSO(KfmMtx, mola::KeyframePointCloudMap::state_mtx_);
++MOLA_FS_ACCESSO(KfmCached, mola::KeyframePointCloudMap::cached_);
++
++// ICP search submap (private KeyFrame of the keyframe map).
++MOLA_FS_ACCESSO(KfKCorr, mola::KeyframePointCloudMap::KeyFrame::k_correspondences_for_cov_);
++MOLA_FS_ACCESSO(KfMinCorr, mola::KeyframePointCloudMap::KeyFrame::min_correspondences_for_cov_);
++MOLA_FS_ACCESSO(KfMaxDist, mola::KeyframePointCloudMap::KeyFrame::max_distance_for_cov_);
++MOLA_FS_ACCESSO(KfPc, mola::KeyframePointCloudMap::KeyFrame::pointcloud_);
++MOLA_FS_ACCESSO(KfPose, mola::KeyframePointCloudMap::KeyFrame::pose_);
++MOLA_FS_ACCESSO(KfBBox, mola::KeyframePointCloudMap::KeyFrame::cached_bbox_local_);
++MOLA_FS_ACCESSO(KfDensity, mola::KeyframePointCloudMap::KeyFrame::cloud_density_);
++MOLA_FS_ACCESSO(KfCovLocal, mola::KeyframePointCloudMap::KeyFrame::cached_cov_local_);
++MOLA_FS_ACCESSO(KfCovGlobal, mola::KeyframePointCloudMap::KeyFrame::cached_cov_global_);
++MOLA_FS_ACCESSO(KfPcGlobal, mola::KeyframePointCloudMap::KeyFrame::pointcloud_global_);
++
++MOLA_FS_ACCESSO(LvbLinVel, mola::imu::LocalVelocityBuffer::linear_velocities_);
++MOLA_FS_ACCESSO(LvbAngVel, mola::imu::LocalVelocityBuffer::angular_velocities_);
++MOLA_FS_ACCESSO(LvbLinAcc, mola::imu::LocalVelocityBuffer::linear_accelerations_);
++MOLA_FS_ACCESSO(LvbOrient, mola::imu::LocalVelocityBuffer::orientations_);
++MOLA_FS_ACCESSO(LvbRefTime, mola::imu::LocalVelocityBuffer::reference_zero_time);
++
++MOLA_FS_ACCESSO(PibSamples, mola::PendingImuBuffer::samples_);
++MOLA_FS_ACCESSO(PibConsumed, mola::PendingImuBuffer::consumed_up_to_);
++
++namespace
++{
++constexpr char MAGIC[8] = {'M', 'O', 'L', 'A', 'F', 'S', '0', '1'};
++// Version 2 includes the ICP cache of the keyframe map (section 7).
++constexpr uint32_t VERSIONE = 2;
++
++struct Config
++{
++  bool attivo = false;
++  std::set<int64_t> salvaAiTick;
++  std::string cartella = ".";
++  std::string carica;
++  std::string risalva;
++  std::string traccia;
++  bool twistZero = false;
++  int64_t saltaFinoA = 0;
++  bool salvaMm = false;
++};
++
++std::string env(const char * nome)
++{
++  const char * v = std::getenv(nome);
++  return v ? std::string(v) : std::string();
++}
++
++const Config & config()
++{
++  static const Config c = []() {
++    Config r;
++    r.attivo = env("MOLA_FULL_STATE") == "1";
++    if (!r.attivo) {
++      return r;
++    }
++    std::stringstream ss(env("MOLA_FULL_STATE_SAVE_AT_TICKS"));
++    std::string tok;
++    while (std::getline(ss, tok, ',')) {
++      if (!tok.empty()) r.salvaAiTick.insert(std::stoll(tok));
++    }
++    if (const auto d = env("MOLA_FULL_STATE_SAVE_DIR"); !d.empty()) r.cartella = d;
++    r.carica = env("MOLA_FULL_STATE_LOAD");
++    r.risalva = env("MOLA_FULL_STATE_RESAVE");
++    r.traccia = env("MOLA_FULL_STATE_TRACE");
++    r.twistZero = env("MOLA_FULL_STATE_PROVA_TWIST_ZERO") == "1";
++    if (const auto s = env("MOLA_FULL_STATE_SKIP_UNTIL_TICKS"); !s.empty()) {
++      r.saltaFinoA = std::stoll(s);
++    }
++    r.salvaMm = env("MOLA_FULL_STATE_SAVE_MM") == "1";
++    return r;
++  }();
++  return c;
++}
++
++// State of the load mechanism (one LidarOdometry instance per process).
++struct Esecuzione
++{
++  bool caricamentoInAttesa = false;
++  bool stampLetto = false;
++  int64_t stampSalvato = 0;
++  std::ofstream traccia;
++  bool tracciaAperta = false;
++};
++
++Esecuzione & esecuzione()
++{
++  static Esecuzione e = []() {
++    Esecuzione r;
++    r.caricamentoInAttesa = !config().carica.empty();
++    return r;
++  }();
++  return e;
++}
++
++int64_t tick(const mrpt::Clock::time_point & t)
++{
++  return static_cast<int64_t>(t.time_since_epoch().count());
++}
++
++uint64_t fnv1a(const std::string & s)
++{
++  uint64_t h = 1469598103934665603ULL;
++  for (const unsigned char c : s) {
++    h ^= c;
++    h *= 1099511628211ULL;
++  }
++  return h;
++}
++
++std::string leggiFile(const std::string & f)
++{
++  std::ifstream in(f, std::ios::binary);
++  if (!in) throw std::runtime_error("stato completo: impossibile aprire " + f);
++  std::ostringstream ss;
++  ss << in.rdbuf();
++  return ss.str();
++}
++
++void scriviFile(const std::string & f, const std::string & dati)
++{
++  std::ofstream out(f, std::ios::binary | std::ios::trunc);
++  if (!out) throw std::runtime_error("stato completo: impossibile scrivere " + f);
++  out.write(dati.data(), static_cast<std::streamsize>(dati.size()));
++  out.close();
++  if (!out) throw std::runtime_error("stato completo: scrittura fallita " + f);
++}
++
++// Section marker: a misaligned read fails immediately.
++void sezione(Scrittore & w, uint32_t id) { w.pod<uint32_t>(0x53450000u | id); }
++void sezione(Lettore & r, uint32_t id)
++{
++  const auto v = r.pod<uint32_t>();
++  if (v != (0x53450000u | id)) {
++    throw std::runtime_error("stato completo: sezione " + std::to_string(id) + " non allineata");
++  }
++}
++
++std::string serializzaMrpt(const mrpt::serialization::CSerializable & o)
++{
++  mrpt::io::CMemoryStream ms;
++  auto arch = mrpt::serialization::archiveFrom(ms);
++  arch << o;
++  return std::string(
++    static_cast<const char *>(ms.getRawBufferData()), static_cast<std::size_t>(ms.getTotalBytesCount()));
++}
++
++void deserializzaMrpt(const std::string & blob, mrpt::serialization::CSerializable & o)
++{
++  mrpt::io::CMemoryStream ms;
++  ms.assignMemoryNotOwn(blob.data(), blob.size());
++  auto arch = mrpt::serialization::archiveFrom(ms);
++  arch >> o;
++}
++
++// Polymorphic MRPT object (e.g. the submap point cloud): class and content.
++mrpt::serialization::CSerializable::Ptr deserializzaMrptPtr(const std::string & blob)
++{
++  mrpt::io::CMemoryStream ms;
++  ms.assignMemoryNotOwn(blob.data(), blob.size());
++  auto arch = mrpt::serialization::archiveFrom(ms);
++  return arch.ReadObject();
++}
++
++void bboxScrivi(Scrittore & w, const std::optional<mrpt::math::TBoundingBoxf> & b)
++{
++  w.u8(b.has_value());
++  if (!b) return;
++  for (const auto * p : {&b->min, &b->max}) {
++    w.pod<float>(p->x);
++    w.pod<float>(p->y);
++    w.pod<float>(p->z);
++  }
++}
++
++std::optional<mrpt::math::TBoundingBoxf> bboxLeggi(Lettore & r)
++{
++  if (!r.u8()) return std::nullopt;
++  mrpt::math::TPoint3Df mn, mx;
++  for (auto * p : {&mn, &mx}) {
++    p->x = r.pod<float>();
++    p->y = r.pod<float>();
++    p->z = r.pod<float>();
++  }
++  return mrpt::math::TBoundingBoxf(mn, mx, mrpt::math::TBoundingBoxf::CTOR_FLAGS::AllowUnordered);
++}
++
++void covScrivi(Scrittore & w, const std::vector<mrpt::math::CMatrixFloat33> & v)
++{
++  w.u64(v.size());
++  for (const auto & m : v)
++    for (int i = 0; i < 3; i++)
++      for (int j = 0; j < 3; j++) w.pod<float>(m(i, j));
++}
++
++void covLeggi(Lettore & r, std::vector<mrpt::math::CMatrixFloat33> & v)
++{
++  v.clear();
++  const auto n = r.u64();
++  v.resize(n);
++  for (auto & m : v)
++    for (int i = 0; i < 3; i++)
++      for (int j = 0; j < 3; j++) m(i, j) = r.pod<float>();
++}
++
++// ICP search submap, with all its caches except the visualization-only ones
++// (cached_viz_, cachez_viz_covs_). The internal KD-trees of the point clouds
++// are not serializable: they are rebuilt from the same points at the first search.
++template <typename KF>
++void submapScrivi(Scrittore & w, const KF & kf)
++{
++  w.tempo(kf.timestamp);
++  w.u64(kf.*get(KfKCorr{}));
++  w.u64(kf.*get(KfMinCorr{}));
++  w.f64(kf.*get(KfMaxDist{}));
++  const auto & pc = kf.*get(KfPc{});
++  w.u8(static_cast<bool>(pc));
++  if (pc) w.stringa(serializzaMrpt(*pc));
++  w.posa(kf.*get(KfPose{}));
++  bboxScrivi(w, kf.*get(KfBBox{}));
++  const auto & dens = kf.*get(KfDensity{});
++  w.u8(dens.has_value());
++  w.pod<float>(dens.value_or(0.0f));
++  covScrivi(w, kf.*get(KfCovLocal{}));
++  covScrivi(w, kf.*get(KfCovGlobal{}));
++  const auto & pcg = kf.*get(KfPcGlobal{});
++  // 0: absent, 1: same cloud as pointcloud_, 2: own cloud
++  const uint8_t modo = !pcg ? 0 : (pcg == pc ? 1 : 2);
++  w.pod<uint8_t>(modo);
++  if (modo == 2) w.stringa(serializzaMrpt(*pcg));
++}
++
++mrpt::maps::CPointsMap::Ptr nuvolaLeggi(Lettore & r)
++{
++  auto o = deserializzaMrptPtr(r.stringa());
++  auto pc = std::dynamic_pointer_cast<mrpt::maps::CPointsMap>(o);
++  if (!pc) throw std::runtime_error("stato completo: nuvola del submap di classe inattesa");
++  return pc;
++}
++
++template <typename KF>
++void submapLeggi(Lettore & r, KF & kf)
++{
++  kf.timestamp = r.tempo();
++  kf.*get(KfKCorr{}) = static_cast<std::size_t>(r.u64());
++  kf.*get(KfMinCorr{}) = static_cast<std::size_t>(r.u64());
++  kf.*get(KfMaxDist{}) = r.f64();
++  mrpt::maps::CPointsMap::Ptr pc;
++  if (r.u8()) pc = nuvolaLeggi(r);
++  kf.*get(KfPc{}) = pc;
++  r.posa(kf.*get(KfPose{}));
++  kf.*get(KfBBox{}) = bboxLeggi(r);
++  const bool hasDens = r.u8();
++  const float dens = r.pod<float>();
++  kf.*get(KfDensity{}) = hasDens ? std::optional<float>(dens) : std::nullopt;
++  covLeggi(r, kf.*get(KfCovLocal{}));
++  covLeggi(r, kf.*get(KfCovGlobal{}));
++  const auto modo = r.pod<uint8_t>();
++  if (modo == 0) {
++    (kf.*get(KfPcGlobal{})).reset();
++  } else if (modo == 1) {
++    kf.*get(KfPcGlobal{}) = pc;
++  } else {
++    kf.*get(KfPcGlobal{}) = nuvolaLeggi(r);
++  }
++}
++
++// For the log: ICP selection and submap size of each keyframe map.
++std::string descriviCacheIcp(const mp2p_icp::metric_map_t & mm)
++{
++  std::ostringstream ss;
++  for (const auto & [nome, ly] : mm.layers) {
++    if (!ly || std::string(ly->GetRuntimeClass()->className) != "mola::KeyframePointCloudMap") {
++      continue;
++    }
++    const auto * m = static_cast<const KeyframePointCloudMap *>(ly.get());
++    auto lck = mrpt::lockHelper(*(m->*get(KfmMtx{})));
++    const auto & c = m->*get(KfmCached{});
++    ss << " [" << nome << ": icp_search_kfs=";
++    if (c.icp_search_kfs) {
++      ss << "(";
++      bool primo = true;
++      for (const auto id : *c.icp_search_kfs) {
++        ss << (primo ? "" : ",") << id;
++        primo = false;
++      }
++      ss << ")";
++    } else {
++      ss << "nessuna";
++    }
++    ss << " submap=";
++    if (c.icp_search_submap && c.icp_search_submap->pointcloud()) {
++      ss << c.icp_search_submap->pointcloud()->size() << " punti";
++    } else {
++      ss << (c.icp_search_submap ? "senza nuvola" : "assente");
++    }
++    ss << "]";
++  }
++  return ss.str();
++}
++
++template <typename T>
++void bufferCircolareScrivi(Scrittore & w, const mrpt::containers::circular_buffer<T> & b)
++{
++  w.u64(b.capacity());
++  w.u64(b.size());
++  for (std::size_t i = 0; i < b.size(); i++) w.pod(b.peek(i));
++}
++
++template <typename T>
++void bufferCircolareLeggi(Lettore & r, mrpt::containers::circular_buffer<T> & b)
++{
++  const auto cap = r.u64();
++  if (cap != b.capacity()) throw std::runtime_error("stato completo: capacita' di un buffer diversa");
++  const auto n = r.u64();
++  b.clear();
++  for (uint64_t i = 0; i < n; i++) b.push(r.pod<T>());
++}
++
++void vettori3Scrivi(Scrittore & w, const std::map<double, mrpt::math::TVector3D> & m)
++{
++  w.u64(m.size());
++  for (const auto & [t, v] : m) {
++    w.f64(t);
++    w.f64(v.x);
++    w.f64(v.y);
++    w.f64(v.z);
++  }
++}
++
++void vettori3Leggi(Lettore & r, std::map<double, mrpt::math::TVector3D> & m)
++{
++  m.clear();
++  const auto n = r.u64();
++  for (uint64_t i = 0; i < n; i++) {
++    const double t = r.f64();
++    mrpt::math::TVector3D v;
++    v.x = r.f64();
++    v.y = r.f64();
++    v.z = r.f64();
++    m.emplace(t, v);
++  }
++}
++
++// Estimator functions, looked up by name in its already loaded library:
++// the LO library does not link against the estimator library.
++using FnSalvaSes = int (*)(const void *, std::string *, std::string *);
++using FnCaricaSes = int (*)(void *, const std::string *, int, std::string *);
++
++void * simboloSes(const char * nome)
++{
++  if (void * h = dlopen("libmola_state_estimation_simple.so.2.4", RTLD_NOW | RTLD_NOLOAD); h) {
++    void * s = dlsym(h, nome);
++    dlclose(h);
++    if (s) return s;
++  }
++  return dlsym(RTLD_DEFAULT, nome);
++}
++
++void richiedi(bool cond, const char * cosa)
++{
++  if (!cond) {
++    throw std::runtime_error(std::string("stato completo: non gestito, ") + cosa);
++  }
++}
++
++}  // namespace
++}  // namespace mola::full_state
++
++namespace mola
++{
++using namespace mola::full_state;
++
++// ---------------------------------------------------------------------------
++// KeyframeDecider
++// ---------------------------------------------------------------------------
++void KeyframeDecider::saveFullState(std::string & out) const
++{
++  Scrittore w;
++  w.u8(from_last_only_);
++  w.u8(temporal_);
++  w.u64(created_);
++  w.u64(recent_.size());
++  for (const auto & [t, p] : recent_) {
++    w.f64(t);
++    w.posa(p);
++  }
++  const auto & spl = poses_;
++  w.u8(spl.*get(SplFromLastOnly{}));
++  w.u8(spl.*get(SplHasLastKf{}));
++  w.posa(spl.*get(SplLastKf{}));
++  const auto & kfPoses = spl.*get(SplKfPoses{});
++  w.u64(kfPoses.size());
++  for (const auto & p : kfPoses) w.posa(p);
++  const auto & pts = spl.*get(SplKfPoints{});
++  const auto & xs = pts.getPointsBufferRef_x();
++  const auto & ys = pts.getPointsBufferRef_y();
++  const auto & zs = pts.getPointsBufferRef_z();
++  w.u64(pts.size());
++  for (std::size_t i = 0; i < pts.size(); i++) {
++    w.pod<float>(xs[i]);
++    w.pod<float>(ys[i]);
++    w.pod<float>(zs[i]);
++  }
++  const auto & ids = spl.*get(SplKfIds{});
++  w.u64(ids.size());
++  for (const auto & id : ids) {
++    w.u8(id.has_value());
++    w.u64(id.value_or(0));
++  }
++  const auto & idx = spl.*get(SplIdToIdx{});
++  w.u64(idx.size());
++  for (const auto & [k, v] : idx) {
++    w.u64(k);
++    w.u64(v);
++  }
++  out = std::move(w.buf);
++}
++
++void KeyframeDecider::loadFullState(const std::string & in)
++{
++  Lettore r(in);
++  if (r.u8() != from_last_only_ || r.u8() != temporal_) {
++    throw std::runtime_error("stato completo: KeyframeDecider con opzioni diverse");
++  }
++  created_ = r.u64();
++  recent_.clear();
++  const auto nRecent = r.u64();
++  for (uint64_t i = 0; i < nRecent; i++) {
++    const double t = r.f64();
++    recent_.emplace_back(t, r.posa());
++  }
++  auto & spl = poses_;
++  if (r.u8() != spl.*get(SplFromLastOnly{})) {
++    throw std::runtime_error("stato completo: SearchablePoseList con opzioni diverse");
++  }
++  spl.*get(SplHasLastKf{}) = r.u8();
++  r.posa(spl.*get(SplLastKf{}));
++  auto & kfPoses = spl.*get(SplKfPoses{});
++  kfPoses.clear();
++  const auto nPoses = r.u64();
++  for (uint64_t i = 0; i < nPoses; i++) kfPoses.push_back(r.posa());
++  auto & pts = spl.*get(SplKfPoints{});
++  pts.clear();
++  const auto nPts = r.u64();
++  for (uint64_t i = 0; i < nPts; i++) {
++    const float x = r.pod<float>();
++    const float y = r.pod<float>();
++    const float z = r.pod<float>();
++    pts.insertPoint(x, y, z);
++  }
++  auto & ids = spl.*get(SplKfIds{});
++  ids.clear();
++  const auto nIds = r.u64();
++  for (uint64_t i = 0; i < nIds; i++) {
++    const bool has = r.u8();
++    const auto v = r.u64();
++    ids.push_back(has ? std::optional<uint64_t>(v) : std::nullopt);
++  }
++  auto & idx = spl.*get(SplIdToIdx{});
++  idx.clear();
++  const auto nIdx = r.u64();
++  for (uint64_t i = 0; i < nIdx; i++) {
++    const auto k = r.u64();
++    idx[k] = static_cast<std::size_t>(r.u64());
++  }
++  if (!r.finito()) throw std::runtime_error("stato completo: KeyframeDecider, byte in eccesso");
++}
++
++// ---------------------------------------------------------------------------
++// LidarOdometry
++// ---------------------------------------------------------------------------
++bool LidarOdometry::fullStateEnabled() { return config().attivo; }
++
++std::string LidarOdometry::fullStateSerialize(
++  const std::optional<mrpt::Clock::time_point> & stamp, std::array<uint64_t, 3> * impronte)
++{
++  // Caller holds state_mtx_. Other mutexes are taken one at a time, always
++  // after state_mtx_, as in the rest of the module.
++  Scrittore w;
++  w.grezzo(MAGIC, sizeof(MAGIC));
++  w.pod<uint32_t>(VERSIONE);
++  w.u8(stamp.has_value());
++  w.pod<int64_t>(stamp ? tick(*stamp) : 0);
++  const std::size_t inizioCorpo = w.buf.size();
++
++  // 1: MethodState fields
++  sezione(w, 1);
++  richiedi(!state_.external_georef.has_value(), "external_georef presente");
++  richiedi(state_.sync_obs.empty(), "sync_obs non vuoto (piu' LiDAR)");
++  richiedi(state_.last_gnss_.empty(), "osservazioni GNSS presenti");
++
++  w.u8(state_.initial_localization_done);
++  w.u8(state_.gravity_calib_pitch_roll.has_value());
++  if (state_.gravity_calib_pitch_roll) {
++    w.f64(state_.gravity_calib_pitch_roll->first);
++    w.f64(state_.gravity_calib_pitch_roll->second);
++  }
++  w.f64Opt(state_.gravity_calib_first_available_time);
++  w.u8(state_.gravity_calib_pose.has_value());
++  if (state_.gravity_calib_pose) w.posa(*state_.gravity_calib_pose);
++
++  w.posaPdf(state_.last_lidar_pose);
++  w.u64(state_.last_obs_tim_by_label.size());
++  for (const auto & [k, t] : state_.last_obs_tim_by_label) {
++    w.stringa(k);
++    w.tempo(t);
++  }
++  w.u64(state_.last_lidar_sensor_poses.size());
++  for (const auto & [k, p] : state_.last_lidar_sensor_poses) {
++    w.stringa(k);
++    w.posa(p);
++  }
++  w.u8(state_.last_icp_was_good);
++  w.f64(state_.last_icp_quality);
++  w.u64(state_.last_icp_iterations);
++  w.tempoOpt(state_.first_ever_timestamp);
++  w.tempoOpt(state_.last_obs_timestamp);
++  w.tempoOpt(state_.last_icp_timestamp);
++  w.f64(state_.last_observed_scan_period_sec);
++
++  w.u8(state_.last_motion_model_output.has_value());
++  if (state_.last_motion_model_output) {
++    w.posaPdfInf(state_.last_motion_model_output->pose);
++    w.twist(state_.last_motion_model_output->twist);
++    w.matrice(state_.last_motion_model_output->twist_inv_cov);
++  }
++
++  w.f64(state_.adapt_thres_sigma);
++  w.pod<int32_t>(state_.consecutive_bad_icps);
++  w.u64(state_.registrations_attempted);
++  w.u64(state_.registration_no_motion_model);
++  w.u64(state_.registration_icp_rejected);
++  w.f64Opt(state_.estimated_observation_radius);
++  w.f64Opt(state_.instantaneous_observation_radius);
++  w.u8(state_.map_has_been_loaded);
++
++  w.pod<uint32_t>(state_.localmap_check_removal_counter);
++  w.pod<uint32_t>(state_.localmap_advertise_updates_counter);
++  w.u8(state_.local_map_needs_viz_update);
++  w.u8(state_.local_map_needs_publish);
++  w.u8(state_.local_map_georef_needs_publish);
++  w.f64Opt(state_.last_yaw_for_viz_camera);
++  w.pod<uint32_t>(state_.step_counter_post_relocalization);
++  w.pod<uint32_t>(state_.mapUpdateCnt);
++
++  w.u64(state_.recent_lidar_stamps.size());
++  for (const auto & [k, b] : state_.recent_lidar_stamps) {
++    w.stringa(k);
++    bufferCircolareScrivi(w, b);
++  }
++  bufferCircolareScrivi(w, state_.recent_gnss_stamps);
++
++  // 2: keyframe decider
++  sezione(w, 2);
++  for (const auto * d : {&state_.kf_decider_local_map, &state_.kf_decider_simplemap}) {
++    w.u8(d->has_value());
++    if (d->has_value()) {
++      std::string s;
++      (*d)->saveFullState(s);
++      w.stringa(s);
++    }
++  }
++
++  // 3: state guarded by imu_state_mtx_
++  sezione(w, 3);
++  {
++    auto lckImu = mrpt::lockHelper(imu_state_mtx_);
++    richiedi(!state_.imu_initializer.has_value(), "imu_initializer presente");
++    richiedi(state_.gravity_estimator.acc_buffer.size() == 0, "buffer dell'accelerometro non vuoto");
++    richiedi(pending_imu_.size() == 0, "IMU in attesa");
++#if defined(MOLA_LO_HAS_MAP_GRAVITY_ESTIMATOR)
++    {
++      const auto & mg = state_.map_gravity;
++      richiedi(
++        !mg.last_imu_time && !mg.open_t_from && mg.intervals_since_solve == 0 &&
++          !mg.pending_relevel && !mg.relevel_decided && !mg.applied_relevel,
++        "stima della gravita' nella mappa avviata");
++    }
++#endif
++    w.posa(state_.gravity_estimator.imu_sensor_pose);
++    w.f64(state_.gravity_estimator.imu_sensor_pose_timestamp);
++    w.f64(pending_imu_.*get(PibConsumed{}));
++    bufferCircolareScrivi(w, state_.recent_imu_stamps);
++
++    const auto vars = state_.parameter_source.getVariableValues();
++    w.u64(vars.size());
++    for (const auto & [k, v] : vars) {
++      w.stringa(k);
++      w.f64(v);
++    }
++    const auto & lvb = state_.parameter_source.localVelocityBuffer;
++    w.f64(lvb.parameters.max_time_window);
++    w.f64(lvb.*get(LvbRefTime{}));
++    vettori3Scrivi(w, lvb.*get(LvbLinVel{}));
++    vettori3Scrivi(w, lvb.*get(LvbAngVel{}));
++    vettori3Scrivi(w, lvb.*get(LvbLinAcc{}));
++    const auto & orient = lvb.*get(LvbOrient{});
++    w.u64(orient.size());
++    for (const auto & [t, R] : orient) {
++      w.f64(t);
++      w.matrice(R);
++    }
++  }
++
++  // 4: LidarOdometry members outside MethodState, and params_ changed at run time
++  sezione(w, 4);
++  {
++    auto lckWait = mrpt::lockHelper(worker_lidar_wait_for_imu_list_mtx_);
++    richiedi(worker_lidar_wait_for_imu_list_.size() == 0, "scan in attesa di IMU");
++    w.f64(last_lidar_arrival_stamp_);
++  }
++  w.f64(latest_imu_time_.load());
++  w.f64(latest_obs_time_.load());
++  w.f64(lidar_scan_period_.load());
++  w.u64(params_.optimize_twist_max_corrections);
++  {
++    auto lckDrop = mrpt::lockHelper(drop_stats_mtx_);
++    for (std::size_t i = 0; i < MethodState::DROP_STATS_WINDOW_LENGTH; i++) {
++      w.u8(state_.drop_frames_stats_good[i]);
++      w.u8(state_.drop_frames_stats_dropped[i]);
++    }
++    w.u64(state_.drop_frames_stats_next_index);
++  }
++
++  // 5: estimated trajectory (TPose3D, six doubles per pose)
++  sezione(w, 5);
++  {
++    auto lckTraj = mrpt::lockHelper(state_trajectory_mtx_);
++    w.u64(state_.estimated_trajectory.size());
++    for (const auto & [t, p] : state_.estimated_trajectory) {
++      w.tempo(t);
++      w.tposa(p);
++    }
++  }
++
++  // 6: simplemap (MRPT serialization; not used by the odometry)
++  sezione(w, 6);
++  {
++    auto lckSm = mrpt::lockHelper(state_simplemap_mtx_);
++    const auto & sm = state_.reconstructed_simplemap;
++    w.stringa(serializzaMrpt(sm));
++    // Unload queue (memory only): pointers to the same SensoryFrames as the
++    // simplemap, saved as indices into the simplemap.
++    w.u64(state_.past_simplemaps_observations.size());
++    for (const auto & [t, sf] : state_.past_simplemaps_observations) {
++      std::size_t idx = sm.size();
++      for (std::size_t i = 0; i < sm.size(); i++) {
++        if (sm.get(i).sf == sf) {
++          idx = i;
++          break;
++        }
++      }
++      richiedi(idx < sm.size(), "osservazione da scaricare fuori dal simplemap");
++      w.tempo(t);
++      w.u64(idx);
++    }
++  }
++  const std::size_t fineLo = w.buf.size();
++
++  // 7: local map, MRPT serialization plus exact keyframe poses
++  sezione(w, 7);
++  {
++    auto lckMap = mrpt::lockHelper(local_map_content_mtx_);
++    ASSERT_(state_.local_map);
++    w.stringa(serializzaMrpt(*state_.local_map));
++
++    std::vector<std::pair<std::string, const KeyframePointCloudMap *>> kfms;
++    for (const auto & [nome, ly] : state_.local_map->layers) {
++      if (ly && std::string(ly->GetRuntimeClass()->className) == "mola::KeyframePointCloudMap") {
++        kfms.emplace_back(nome, static_cast<const KeyframePointCloudMap *>(ly.get()));
++      }
++    }
++    w.u64(kfms.size());
++    for (const auto & [nome, m] : kfms) {
++      w.stringa(nome);
++      const auto & kfs = m->*get(KfmKeyframes{});
++      w.u64(kfs.size());
++      for (const auto & [id, kf] : kfs) {
++        w.u64(id);
++        w.tempo(kf.timestamp);
++        w.posa(kf.pose());
++      }
++      const auto & last = m->*get(KfmLastInserted{});
++      w.u8(last.has_value());
++      w.u64(last.value_or(0));
++      w.u64(m->*get(KfmNextFree{}));
++      const auto & ev = m->*get(KfmEvicted{});
++      w.u64(ev.size());
++      for (const auto e : ev) w.u64(e);
++
++      // ICP cache: the .mm file stores icp_search_kfs but loading discards it, and
++      // without the submap the first scan after loading would rebuild it.
++      // Selection, submap and auxiliary caches are saved as they are.
++      auto lckKfm = mrpt::lockHelper(*(m->*get(KfmMtx{})));
++      const auto & c = m->*get(KfmCached{});
++      w.u8(c.icp_search_kfs.has_value());
++      if (c.icp_search_kfs) {
++        w.u64(c.icp_search_kfs->size());
++        for (const auto id : *c.icp_search_kfs) w.u64(id);
++      }
++      w.u8(c.icp_search_built_approximate);
++      bboxScrivi(w, c.boundingBox);
++      w.u8(c.icp_search_submap.has_value());
++      if (c.icp_search_submap) submapScrivi(w, *c.icp_search_submap);
++    }
++  }
++  const std::size_t fineMappa = w.buf.size();
++
++  // 8: state estimator
++  sezione(w, 8);
++  w.u8(static_cast<bool>(state_.navstate_fuse));
++  if (state_.navstate_fuse) {
++    auto fn = reinterpret_cast<FnSalvaSes>(simboloSes("mola_ses_full_state_save"));
++    richiedi(fn != nullptr, "funzioni dello stimatore non trovate");
++    std::string dati, errore;
++    const int rc =
++      fn(static_cast<const NavStateFilter *>(state_.navstate_fuse.get()), &dati, &errore);
++    if (rc != 0) {
++      throw std::runtime_error("stato completo: stimatore, " + errore);
++    }
++    w.stringa(dati);
++  }
++
++  if (impronte) {
++    (*impronte)[0] = fnv1a(w.buf.substr(inizioCorpo, fineLo - inizioCorpo));
++    (*impronte)[1] = fnv1a(w.buf.substr(fineLo, fineMappa - fineLo));
++    (*impronte)[2] = fnv1a(w.buf.substr(fineMappa));
++  }
++  return std::move(w.buf);
++}
++
++void LidarOdometry::fullStateDeserialize(const std::string & blob)
++{
++  // Caller holds state_mtx_.
++  Lettore r(blob);
++  char magic[sizeof(MAGIC)];
++  r.grezzo(magic, sizeof(magic));
++  if (std::memcmp(magic, MAGIC, sizeof(MAGIC)) != 0) {
++    throw std::runtime_error("stato completo: file non riconosciuto");
++  }
++  if (r.pod<uint32_t>() != VERSIONE) throw std::runtime_error("stato completo: versione diversa");
++  (void)r.u8();
++  (void)r.pod<int64_t>();
++
++  sezione(r, 1);
++  state_.initial_localization_done = r.u8();
++  if (r.u8()) {
++    const double a = r.f64();
++    const double b = r.f64();
++    state_.gravity_calib_pitch_roll = std::make_pair(a, b);
++  } else {
++    state_.gravity_calib_pitch_roll.reset();
++  }
++  state_.gravity_calib_first_available_time = r.f64Opt();
++  if (r.u8()) {
++    state_.gravity_calib_pose = r.posa();
++  } else {
++    state_.gravity_calib_pose.reset();
++  }
++  r.posaPdf(state_.last_lidar_pose);
++  state_.last_obs_tim_by_label.clear();
++  for (uint64_t i = 0, n = r.u64(); i < n; i++) {
++    auto k = r.stringa();
++    state_.last_obs_tim_by_label[k] = r.tempo();
++  }
++  state_.last_lidar_sensor_poses.clear();
++  for (uint64_t i = 0, n = r.u64(); i < n; i++) {
++    auto k = r.stringa();
++    state_.last_lidar_sensor_poses[k] = r.posa();
++  }
++  state_.last_icp_was_good = r.u8();
++  state_.last_icp_quality = r.f64();
++  state_.last_icp_iterations = r.u64();
++  state_.first_ever_timestamp = r.tempoOpt();
++  state_.last_obs_timestamp = r.tempoOpt();
++  state_.last_icp_timestamp = r.tempoOpt();
++  state_.last_observed_scan_period_sec = r.f64();
++  // wall-clock fields
++  state_.last_obs_reception_time = mrpt::Clock::now();
++  state_.waiting_for_state_estimator_since.reset();
++
++  if (r.u8()) {
++    NavState ns;
++    r.posaPdfInf(ns.pose);
++    ns.twist = r.twist();
++    r.matrice(ns.twist_inv_cov);
++    state_.last_motion_model_output = ns;
++  } else {
++    state_.last_motion_model_output.reset();
++  }
++
++  state_.adapt_thres_sigma = r.f64();
++  state_.consecutive_bad_icps = r.pod<int32_t>();
++  state_.registrations_attempted = r.u64();
++  state_.registration_no_motion_model = r.u64();
++  state_.registration_icp_rejected = r.u64();
++  state_.estimated_observation_radius = r.f64Opt();
++  state_.instantaneous_observation_radius = r.f64Opt();
++  state_.map_has_been_loaded = r.u8();
++
++  state_.localmap_check_removal_counter = r.pod<uint32_t>();
++  state_.localmap_advertise_updates_counter = r.pod<uint32_t>();
++  state_.local_map_needs_viz_update = r.u8();
++  state_.local_map_needs_publish = r.u8();
++  state_.local_map_georef_needs_publish = r.u8();
++  state_.last_yaw_for_viz_camera = r.f64Opt();
++  state_.step_counter_post_relocalization = r.pod<uint32_t>();
++  state_.mapUpdateCnt = r.pod<uint32_t>();
++
++  state_.recent_lidar_stamps.clear();
++  for (uint64_t i = 0, n = r.u64(); i < n; i++) {
++    auto k = r.stringa();
++    // the capacity is the first field written for the buffer
++    const auto cap = r.pod<uint64_t>();
++    auto [it, nuovo] = state_.recent_lidar_stamps.try_emplace(k, cap);
++    const auto nb = r.u64();
++    it->second.clear();
++    for (uint64_t j = 0; j < nb; j++) it->second.push(r.pod<double>());
++  }
++  bufferCircolareLeggi(r, state_.recent_gnss_stamps);
++
++  sezione(r, 2);
++  {
++    const bool hasLocal = r.u8();
++    if (hasLocal) {
++      state_.kf_decider_local_map.emplace(params_.local_map_updates);
++      state_.kf_decider_local_map->loadFullState(r.stringa());
++    } else {
++      state_.kf_decider_local_map.reset();
++    }
++    const bool hasSm = r.u8();
++    if (hasSm) {
++      state_.kf_decider_simplemap.emplace(params_.simplemap);
++      state_.kf_decider_simplemap->loadFullState(r.stringa());
++    } else {
++      state_.kf_decider_simplemap.reset();
++    }
++  }
++
++  sezione(r, 3);
++  {
++    auto lckImu = mrpt::lockHelper(imu_state_mtx_);
++    r.posa(state_.gravity_estimator.imu_sensor_pose);
++    state_.gravity_estimator.imu_sensor_pose_timestamp = r.f64();
++    pending_imu_.*get(PibConsumed{}) = r.f64();
++    bufferCircolareLeggi(r, state_.recent_imu_stamps);
++
++    for (uint64_t i = 0, n = r.u64(); i < n; i++) {
++      auto k = r.stringa();
++      state_.parameter_source.updateVariable(k, r.f64());
++    }
++    auto & lvb = state_.parameter_source.localVelocityBuffer;
++    lvb.parameters.max_time_window = r.f64();
++    lvb.*get(LvbRefTime{}) = r.f64();
++    vettori3Leggi(r, lvb.*get(LvbLinVel{}));
++    vettori3Leggi(r, lvb.*get(LvbAngVel{}));
++    vettori3Leggi(r, lvb.*get(LvbLinAcc{}));
++    auto & orient = lvb.*get(LvbOrient{});
++    orient.clear();
++    for (uint64_t i = 0, n = r.u64(); i < n; i++) {
++      const double t = r.f64();
++      mrpt::math::CMatrixDouble33 R;
++      r.matrice(R);
++      orient.emplace(t, R);
++    }
++  }
++
++  sezione(r, 4);
++  {
++    auto lckWait = mrpt::lockHelper(worker_lidar_wait_for_imu_list_mtx_);
++    last_lidar_arrival_stamp_ = r.f64();
++  }
++  latest_imu_time_.store(r.f64());
++  latest_obs_time_.store(r.f64());
++  lidar_scan_period_.store(r.f64());
++  params_.optimize_twist_max_corrections = static_cast<std::size_t>(r.u64());
++  {
++    auto lckDrop = mrpt::lockHelper(drop_stats_mtx_);
++    for (std::size_t i = 0; i < MethodState::DROP_STATS_WINDOW_LENGTH; i++) {
++      state_.drop_frames_stats_good[i] = r.u8();
++      state_.drop_frames_stats_dropped[i] = r.u8();
++    }
++    state_.drop_frames_stats_next_index = static_cast<std::size_t>(r.u64());
++  }
++
++  sezione(r, 5);
++  {
++    auto lckTraj = mrpt::lockHelper(state_trajectory_mtx_);
++    state_.estimated_trajectory.clear();
++    for (uint64_t i = 0, n = r.u64(); i < n; i++) {
++      const auto t = r.tempo();
++      state_.estimated_trajectory.insert(t, r.tposa());
++    }
++  }
++
++  sezione(r, 6);
++  {
++    auto lckSm = mrpt::lockHelper(state_simplemap_mtx_);
++    auto & sm = state_.reconstructed_simplemap;
++    deserializzaMrpt(r.stringa(), sm);
++    state_.past_simplemaps_observations.clear();
++    for (uint64_t i = 0, n = r.u64(); i < n; i++) {
++      const auto t = r.tempo();
++      const auto idx = r.u64();
++      if (idx >= sm.size()) throw std::runtime_error("stato completo: indice del simplemap");
++      state_.past_simplemaps_observations[t] = sm.get(idx).sf;
++    }
++  }
++
++  sezione(r, 7);
++  {
++    auto lckMap = mrpt::lockHelper(local_map_content_mtx_);
++    ASSERT_(state_.local_map);
++    // In a fresh MOLA the layer classes (e.g. mola::KeyframePointCloudMap) are
++    // registered only when the generator creates the map at the first keyframe:
++    // creating a temporary map loads the plugin without touching the state.
++    {
++      mp2p_icp::metric_map_t tmp;
++      for (const auto & g : state_.local_map_generators) {
++        if (g) g->createTargetLayerIfNeeded(tmp);
++      }
++    }
++    deserializzaMrpt(r.stringa(), *state_.local_map);
++    for (uint64_t i = 0, n = r.u64(); i < n; i++) {
++      const auto nome = r.stringa();
++      auto itLy = state_.local_map->layers.find(nome);
++      if (
++        itLy == state_.local_map->layers.end() || !itLy->second ||
++        std::string(itLy->second->GetRuntimeClass()->className) != "mola::KeyframePointCloudMap") {
++        throw std::runtime_error("stato completo: layer della mappa assente: " + nome);
++      }
++      auto * m = static_cast<KeyframePointCloudMap *>(itLy->second.get());
++      auto & kfs = m->*get(KfmKeyframes{});
++      const auto nKf = r.u64();
++      if (nKf != kfs.size()) throw std::runtime_error("stato completo: numero di keyframe diverso");
++      for (uint64_t j = 0; j < nKf; j++) {
++        const auto id = r.u64();
++        const auto t = r.tempo();
++        auto itKf = kfs.find(id);
++        if (itKf == kfs.end() || itKf->second.timestamp != t) {
++          throw std::runtime_error("stato completo: keyframe " + std::to_string(id) + " diverso");
++        }
++        // exact pose, with the yaw/pitch/roll cache as it was at save time
++        itKf->second.pose(r.posa());
++      }
++      const bool hasLast = r.u8();
++      const auto last = r.u64();
++      m->*get(KfmLastInserted{}) = hasLast ? std::optional<uint64_t>(last) : std::nullopt;
++      m->*get(KfmNextFree{}) = r.u64();
++      auto & ev = m->*get(KfmEvicted{});
++      ev.clear();
++      for (uint64_t j = 0, ne = r.u64(); j < ne; j++) ev.push_back(r.u64());
++
++      // ICP cache, after the keyframe poses (the setter does not touch it)
++      auto lckKfm = mrpt::lockHelper(*(m->*get(KfmMtx{})));
++      auto & c = m->*get(KfmCached{});
++      if (r.u8()) {
++        std::set<KeyframePointCloudMap::KeyFrameID> ids;
++        for (uint64_t j = 0, ni = r.u64(); j < ni; j++) ids.insert(r.u64());
++        c.icp_search_kfs = std::move(ids);
++      } else {
++        c.icp_search_kfs.reset();
++      }
++      c.icp_search_built_approximate = r.u8();
++      c.boundingBox = bboxLeggi(r);
++      if (r.u8()) {
++        // the constructor arguments are overwritten right after with the saved values
++        c.icp_search_submap.emplace(0, 0, 0.0);
++        submapLeggi(r, *c.icp_search_submap);
++      } else {
++        c.icp_search_submap.reset();
++      }
++    }
++  }
++
++  sezione(r, 8);
++  if (r.u8()) {
++    ASSERTMSG_(state_.navstate_fuse, "stato completo: stimatore assente in questa istanza");
++    auto fn = reinterpret_cast<FnCaricaSes>(simboloSes("mola_ses_full_state_load"));
++    richiedi(fn != nullptr, "funzioni dello stimatore non trovate");
++    const std::string dati = r.stringa();
++    std::string errore;
++    const int rc = fn(
++      static_cast<NavStateFilter *>(state_.navstate_fuse.get()), &dati,
++      config().twistZero ? 1 : 0, &errore);
++    if (rc != 0) {
++      throw std::runtime_error("stato completo: stimatore, " + errore);
++    }
++  }
++  if (!r.finito()) throw std::runtime_error("stato completo: byte in eccesso a fine file");
++}
++
++void LidarOdometry::fullStateSaveToFile(
++  const std::string & file, const std::optional<mrpt::Clock::time_point> & stamp)
++{
++  std::string blob, cacheIcp;
++  {
++    auto lckState = mrpt::lockHelper(state_mtx_);
++    blob = fullStateSerialize(stamp, nullptr);
++    auto lckMap = mrpt::lockHelper(local_map_content_mtx_);
++    if (state_.local_map) cacheIcp = descriviCacheIcp(*state_.local_map);
++  }
++  scriviFile(file, blob);
++  MRPT_LOG_INFO_STREAM(
++    "[full_state] salvato " << file << " (" << blob.size() << " byte, stamp "
++                            << (stamp ? std::to_string(tick(*stamp)) : std::string("nessuno"))
++                            << ")" << cacheIcp);
++}
++
++void LidarOdometry::fullStateLoadFromFile(const std::string & file)
++{
++  const std::string blob = leggiFile(file);
++  std::string cacheIcp;
++  {
++    auto lckState = mrpt::lockHelper(state_mtx_);
++    fullStateDeserialize(blob);
++    auto lckMap = mrpt::lockHelper(local_map_content_mtx_);
++    if (state_.local_map) cacheIcp = descriviCacheIcp(*state_.local_map);
++  }
++  MRPT_LOG_INFO_STREAM(
++    "[full_state] caricato " << file << " (" << blob.size() << " byte)" << cacheIcp);
++
++  if (!config().risalva.empty()) {
++    std::optional<mrpt::Clock::time_point> stamp;
++    Lettore r(blob);
++    char magic[sizeof(MAGIC)];
++    r.grezzo(magic, sizeof(magic));
++    (void)r.pod<uint32_t>();
++    if (r.u8()) {
++      stamp = mrpt::Clock::time_point(mrpt::Clock::duration(r.pod<int64_t>()));
++    }
++    fullStateSaveToFile(config().risalva, stamp);
++  }
++}
++
++bool LidarOdometry::fullStateOnObservation(const CObservation::ConstPtr & o)
++{
++  if (!config().attivo) {
++    return true;
++  }
++  auto & e = esecuzione();
++  if (!e.caricamentoInAttesa) {
++    // negative control: fresh MOLA starting from the first scan after t
++    return config().saltaFinoA == 0 || tick(o->timestamp) > config().saltaFinoA;
++  }
++  if (!e.stampLetto) {
++    const std::string blob = leggiFile(config().carica);
++    Lettore r(blob);
++    char magic[sizeof(MAGIC)];
++    r.grezzo(magic, sizeof(magic));
++    if (std::memcmp(magic, MAGIC, sizeof(MAGIC)) != 0 || r.pod<uint32_t>() != VERSIONE) {
++      throw std::runtime_error("stato completo: file non riconosciuto " + config().carica);
++    }
++    if (!r.u8()) throw std::runtime_error("stato completo: file senza stamp " + config().carica);
++    e.stampSalvato = r.pod<int64_t>();
++    e.stampLetto = true;
++  }
++  // inputs already processed by the instance that saved the state: dropped
++  if (tick(o->timestamp) <= e.stampSalvato) {
++    return false;
++  }
++  e.caricamentoInAttesa = false;
++  fullStateLoadFromFile(config().carica);
++  return true;
++}
++
++void LidarOdometry::fullStateAfterScan(const CObservation::ConstPtr & o)
++{
++  const auto & c = config();
++  if (!c.attivo || !o) {
++    return;
++  }
++  const int64_t t = tick(o->timestamp);
++
++  if (!c.traccia.empty()) {
++    auto & e = esecuzione();
++    if (!e.tracciaAperta) {
++      e.traccia.open(c.traccia, std::ios::out | std::ios::trunc);
++      e.traccia << "stamp_tick,stamp_s,n_traiettoria,kf_locale,kf_simplemap,init_fatta,icp_buono,"
++                   "step_post_riloc,icp_cattivi,contatore_rimozione,max_correzioni_twist,"
++                   "x,y,z,R00,R10,sigma,raggio_stimato,raggio_istantaneo,"
++                   "impronta_lo,impronta_mappa,impronta_stimatore\n";
++      e.tracciaAperta = true;
++    }
++    std::array<uint64_t, 3> imp{};
++    std::string riga;
++    try {
++      auto lckState = mrpt::lockHelper(state_mtx_);
++      (void)fullStateSerialize(state_.last_obs_timestamp, &imp);
++      const auto & p = state_.last_lidar_pose.mean;
++      const auto & R = p.*AccessoPosa::rot();
++      char b[1024];
++      std::snprintf(
++        b, sizeof(b),
++        "%lld,%.9f,%zu,%zu,%zu,%d,%d,%u,%d,%u,%zu,%a,%a,%a,%a,%a,%a,%a,%a,%016llx,%016llx,%016llx\n",
++        static_cast<long long>(t), mrpt::Clock::toDouble(o->timestamp),
++        state_.estimated_trajectory.size(),
++        state_.kf_decider_local_map ? state_.kf_decider_local_map->size() : 0,
++        state_.kf_decider_simplemap ? state_.kf_decider_simplemap->size() : 0,
++        state_.initial_localization_done ? 1 : 0, state_.last_icp_was_good ? 1 : 0,
++        state_.step_counter_post_relocalization, state_.consecutive_bad_icps,
++        state_.localmap_check_removal_counter, params_.optimize_twist_max_corrections,
++        p.m_coords[0], p.m_coords[1], p.m_coords[2], R(0, 0), R(1, 0), state_.adapt_thres_sigma,
++        state_.estimated_observation_radius.value_or(-1.0),
++        state_.instantaneous_observation_radius.value_or(-1.0),
++        static_cast<unsigned long long>(imp[0]), static_cast<unsigned long long>(imp[1]),
++        static_cast<unsigned long long>(imp[2]));
++      riga = b;
++    } catch (const std::exception & ex) {
++      riga = std::to_string(t) + ",errore\n";
++      MRPT_LOG_ERROR_STREAM("[full_state] traccia: " << ex.what());
++    }
++    e.traccia << riga;
++    e.traccia.flush();
++  }
++
++  if (c.salvaAiTick.count(t) != 0) {
++    const std::string f = c.cartella + "/stato_" + std::to_string(t) + ".molastate";
++    try {
++      fullStateSaveToFile(f, o->timestamp);
++      if (c.salvaMm) {
++        // Inputs for the negative control: map as map_save_impl, pose
++        // (x, y, z in m; yaw, pitch, roll in deg) and sigma of the same scan.
++        auto lckState = mrpt::lockHelper(state_mtx_);
++        auto lckMap = mrpt::lockHelper(local_map_content_mtx_);
++        if (!state_.local_map->save_to_file(f + ".mm")) {
++          throw std::runtime_error("scrittura del .mm fallita");
++        }
++        // copy: yaw() updates the ypr cache, which is part of the state
++        const mrpt::poses::CPose3D p = state_.last_lidar_pose.mean;
++        char b[512];
++        std::snprintf(
++          b, sizeof(b), "x %.17g\ny %.17g\nz %.17g\nyaw_deg %.17g\npitch_deg %.17g\nroll_deg %.17g\nsigma %.17g\n",
++          p.x(), p.y(), p.z(), mrpt::RAD2DEG(p.yaw()), mrpt::RAD2DEG(p.pitch()),
++          mrpt::RAD2DEG(p.roll()), state_.adapt_thres_sigma);
++        scriviFile(f + ".posa.txt", b);
++      }
++    } catch (const std::exception & ex) {
++      MRPT_LOG_ERROR_STREAM("[full_state] salvataggio fallito: " << ex.what());
++    }
++  }
++}
++
++bool LidarOdometry::fullStateMapSave(const std::string & path)
++{
++  if (!config().attivo) {
++    return true;
++  }
++  try {
++    std::optional<mrpt::Clock::time_point> stamp;
++    {
++      auto lckState = mrpt::lockHelper(state_mtx_);
++      stamp = state_.last_obs_timestamp;
++    }
++    fullStateSaveToFile(path + ".molastate", stamp);
++    return true;
++  } catch (const std::exception & ex) {
++    MRPT_LOG_ERROR_STREAM("[full_state] salvataggio fallito: " << ex.what());
++    return false;
++  }
++}
++
++bool LidarOdometry::fullStateMapLoad(const std::string & path)
++{
++  if (!config().attivo) {
++    return true;
++  }
++  const std::string f = path + ".molastate";
++  if (!mrpt::system::fileExists(f)) {
++    MRPT_LOG_ERROR_STREAM("[full_state] file di stato assente: " << f);
++    return false;
++  }
++  try {
++    fullStateLoadFromFile(f);
++    return true;
++  } catch (const std::exception & ex) {
++    MRPT_LOG_ERROR_STREAM("[full_state] caricamento fallito: " << ex.what());
++    return false;
++  }
++}
++
++}  // namespace mola
+diff -ruN a/mola_lidar_odometry/module/src/LidarOdometry_MapServer.cpp b/mola_lidar_odometry/module/src/LidarOdometry_MapServer.cpp
+--- a/mola_lidar_odometry/module/src/LidarOdometry_MapServer.cpp
++++ b/mola_lidar_odometry/module/src/LidarOdometry_MapServer.cpp
+@@ -138,6 +138,13 @@
+ 
+   ret.success = mmLoadOk;  // smLoadOk is not mandatory
+ 
++  // Full state: replace the state just set with the one saved in <path>.molastate.
++  // No-op when disabled.
++  if (fullStateEnabled() && !fullStateMapLoad(path)) {
++    ret.success = false;
++    ret.error_message += "Error loading full state from: "s + path + ".molastate. ";
++  }
++
+   if (!mmLoadOk) {
+     ret.error_message += "Error loading metric local map from: "s + mmFile + ". ";
+   }
+@@ -180,6 +187,12 @@
+ 
+   ret.success = mmSaveOk && smSaveOk;
+ 
++  // Full state to <path>.molastate. No-op when disabled.
++  if (fullStateEnabled() && !fullStateMapSave(path)) {
++    ret.success = false;
++    ret.error_message += "Error saving full state to: "s + path + ".molastate. ";
++  }
++
+   if (!mmSaveOk) {
+     ret.error_message = "Error saving metric local map from: "s + mmFile + ". ";
+   }
+diff -ruN a/mola_lidar_odometry/module/src/LidarOdometry_SensorCallbacks.cpp b/mola_lidar_odometry/module/src/LidarOdometry_SensorCallbacks.cpp
+--- a/mola_lidar_odometry/module/src/LidarOdometry_SensorCallbacks.cpp
++++ b/mola_lidar_odometry/module/src/LidarOdometry_SensorCallbacks.cpp
+@@ -78,6 +78,12 @@
+     }
+   }
+ 
++  // Full state: drop inputs already processed and load the state.
++  // Always returns true when disabled.
++  if (!fullStateOnObservation(o)) {
++    return;
++  }
++
+   // Advance the notion of "now" in sensor time. It bounds how long a scan may
+   // wait for IMU data, and it must be updated from every input so that a stalled
+   // IMU is detected by the data itself rather than by the wall clock.
+@@ -300,6 +306,8 @@
+   try {
+     addDropStats(false);
+     processLidarScan(o, imuCoverageEndTime);
++    // Full state: trace and save. No-op when disabled.
++    fullStateAfterScan(o);
+   } catch (const std::exception & e) {
+     MRPT_LOG_ERROR_STREAM("Exception:\n" << mrpt::exception_to_str(e));
+     auto lckStateFlags = mrpt::lockHelper(state_flags_mtx_);

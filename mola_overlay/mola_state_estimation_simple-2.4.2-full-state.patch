@@ -1,0 +1,458 @@
+diff -ruN a/mola_state_estimation_simple/include/mola_state_estimation_simple/StateEstimationSimple.h b/mola_state_estimation_simple/include/mola_state_estimation_simple/StateEstimationSimple.h
+--- a/mola_state_estimation_simple/include/mola_state_estimation_simple/StateEstimationSimple.h
++++ b/mola_state_estimation_simple/include/mola_state_estimation_simple/StateEstimationSimple.h
+@@ -134,6 +134,13 @@
+ 
+     std::optional<mrpt::math::TTwist3D> get_last_twist() const;
+ 
++    /** Full state: binary save/load of the whole filter state. Non-virtual,
++     *  so the class layout is unchanged. With zeroTwist the loaded twist is
++     *  set to zero (negative control). Called from the LO library through the
++     *  extern "C" functions mola_ses_full_state_save/load. */
++    void saveFullState(std::string& out) const;
++    void loadFullState(const std::string& in, bool zeroTwist);
++
+     /** @} */
+ 
+     // Implementation of RawDataConsumer
+diff -ruN a/mola_state_estimation_simple/src/FullStateIO.h b/mola_state_estimation_simple/src/FullStateIO.h
+--- a/mola_state_estimation_simple/src/FullStateIO.h
++++ b/mola_state_estimation_simple/src/FullStateIO.h
+@@ -0,0 +1,266 @@
++/* Full state: hand-written binary writer and reader.
++ *
++ * Internal header, not installed. Doubles are copied byte by byte (no text);
++ * CPose3D poses are written with coordinates, rotation matrix and the cached
++ * yaw/pitch/roll, which MRPT serialization does not preserve.
++ */
++#pragma once
++
++#include <mrpt/core/Clock.h>
++#include <mrpt/core/exceptions.h>
++#include <mrpt/math/CMatrixFixed.h>
++#include <mrpt/math/TPose3D.h>
++#include <mrpt/math/TTwist3D.h>
++#include <mrpt/poses/CPose3D.h>
++#include <mrpt/poses/CPose3DPDFGaussian.h>
++#include <mrpt/poses/CPose3DPDFGaussianInf.h>
++
++#include <cstdint>
++#include <cstring>
++#include <optional>
++#include <stdexcept>
++#include <string>
++#include <type_traits>
++
++namespace mola::full_state
++{
++// Access to non-public members of external classes: explicit template
++// instantiation is not subject to access checking.
++template <typename Tag, auto M>
++struct Ruba
++{
++  friend auto get(Tag) { return M; }
++};
++
++#define MOLA_FS_ACCESSO(Tag, Membro) \
++  struct Tag                         \
++  {                                  \
++    friend auto get(Tag);            \
++  };                                 \
++  template struct ::mola::full_state::Ruba<Tag, &Membro>
++
++// Protected members of CPose3D, reached through a derived class.
++struct AccessoPosa : public mrpt::poses::CPose3D
++{
++  static auto rot() { return &AccessoPosa::m_ROT; }
++  static auto yprAggiornata() { return &AccessoPosa::m_ypr_uptodate; }
++  static auto yaw() { return &AccessoPosa::m_yaw; }
++  static auto pitch() { return &AccessoPosa::m_pitch; }
++  static auto roll() { return &AccessoPosa::m_roll; }
++};
++
++class Scrittore
++{
++public:
++  std::string buf;
++
++  void grezzo(const void * p, std::size_t n) { buf.append(static_cast<const char *>(p), n); }
++
++  template <typename T>
++  void pod(const T & v)
++  {
++    static_assert(std::is_trivially_copyable_v<T>);
++    grezzo(&v, sizeof(T));
++  }
++
++  void u8(bool b) { pod<uint8_t>(b ? 1 : 0); }
++  void u64(uint64_t v) { pod(v); }
++  void f64(double v) { pod(v); }
++
++  void stringa(const std::string & s)
++  {
++    u64(s.size());
++    grezzo(s.data(), s.size());
++  }
++
++  void tempo(const mrpt::Clock::time_point & t)
++  {
++    pod<int64_t>(static_cast<int64_t>(t.time_since_epoch().count()));
++  }
++
++  void tempoOpt(const std::optional<mrpt::Clock::time_point> & t)
++  {
++    u8(t.has_value());
++    if (t) tempo(*t);
++  }
++
++  void f64Opt(const std::optional<double> & v)
++  {
++    u8(v.has_value());
++    if (v) f64(*v);
++  }
++
++  template <std::size_t R, std::size_t C>
++  void matrice(const mrpt::math::CMatrixFixed<double, R, C> & m)
++  {
++    for (std::size_t r = 0; r < R; r++)
++      for (std::size_t c = 0; c < C; c++) f64(m(r, c));
++  }
++
++  void posa(const mrpt::poses::CPose3D & p)
++  {
++    for (int i = 0; i < 3; i++) f64(p.m_coords[i]);
++    matrice(p.*AccessoPosa::rot());
++    u8(p.*AccessoPosa::yprAggiornata());
++    f64(p.*AccessoPosa::yaw());
++    f64(p.*AccessoPosa::pitch());
++    f64(p.*AccessoPosa::roll());
++  }
++
++  void posaPdf(const mrpt::poses::CPose3DPDFGaussian & p)
++  {
++    posa(p.mean);
++    matrice(p.cov);
++  }
++
++  void posaPdfInf(const mrpt::poses::CPose3DPDFGaussianInf & p)
++  {
++    posa(p.mean);
++    matrice(p.cov_inv);
++  }
++
++  void tposa(const mrpt::math::TPose3D & p)
++  {
++    f64(p.x);
++    f64(p.y);
++    f64(p.z);
++    f64(p.yaw);
++    f64(p.pitch);
++    f64(p.roll);
++  }
++
++  void twist(const mrpt::math::TTwist3D & t)
++  {
++    f64(t.vx);
++    f64(t.vy);
++    f64(t.vz);
++    f64(t.wx);
++    f64(t.wy);
++    f64(t.wz);
++  }
++};
++
++class Lettore
++{
++public:
++  explicit Lettore(const std::string & b) : buf_(b) {}
++
++  void grezzo(void * p, std::size_t n)
++  {
++    if (pos_ + n > buf_.size()) {
++      throw std::runtime_error("stato completo: file troncato");
++    }
++    std::memcpy(p, buf_.data() + pos_, n);
++    pos_ += n;
++  }
++
++  template <typename T>
++  T pod()
++  {
++    static_assert(std::is_trivially_copyable_v<T>);
++    T v;
++    grezzo(&v, sizeof(T));
++    return v;
++  }
++
++  bool u8() { return pod<uint8_t>() != 0; }
++  uint64_t u64() { return pod<uint64_t>(); }
++  double f64() { return pod<double>(); }
++
++  std::string stringa()
++  {
++    const auto n = u64();
++    if (pos_ + n > buf_.size()) {
++      throw std::runtime_error("stato completo: stringa oltre la fine del file");
++    }
++    std::string s(buf_.data() + pos_, n);
++    pos_ += n;
++    return s;
++  }
++
++  mrpt::Clock::time_point tempo()
++  {
++    return mrpt::Clock::time_point(mrpt::Clock::duration(pod<int64_t>()));
++  }
++
++  std::optional<mrpt::Clock::time_point> tempoOpt()
++  {
++    if (!u8()) return std::nullopt;
++    return tempo();
++  }
++
++  std::optional<double> f64Opt()
++  {
++    if (!u8()) return std::nullopt;
++    return f64();
++  }
++
++  template <std::size_t R, std::size_t C>
++  void matrice(mrpt::math::CMatrixFixed<double, R, C> & m)
++  {
++    for (std::size_t r = 0; r < R; r++)
++      for (std::size_t c = 0; c < C; c++) m(r, c) = f64();
++  }
++
++  void posa(mrpt::poses::CPose3D & p)
++  {
++    for (int i = 0; i < 3; i++) p.m_coords[i] = f64();
++    matrice(p.*AccessoPosa::rot());
++    p.*AccessoPosa::yprAggiornata() = u8();
++    p.*AccessoPosa::yaw() = f64();
++    p.*AccessoPosa::pitch() = f64();
++    p.*AccessoPosa::roll() = f64();
++  }
++
++  mrpt::poses::CPose3D posa()
++  {
++    mrpt::poses::CPose3D p;
++    posa(p);
++    return p;
++  }
++
++  void posaPdf(mrpt::poses::CPose3DPDFGaussian & p)
++  {
++    posa(p.mean);
++    matrice(p.cov);
++  }
++
++  void posaPdfInf(mrpt::poses::CPose3DPDFGaussianInf & p)
++  {
++    posa(p.mean);
++    matrice(p.cov_inv);
++  }
++
++  mrpt::math::TPose3D tposa()
++  {
++    mrpt::math::TPose3D p;
++    p.x = f64();
++    p.y = f64();
++    p.z = f64();
++    p.yaw = f64();
++    p.pitch = f64();
++    p.roll = f64();
++    return p;
++  }
++
++  mrpt::math::TTwist3D twist()
++  {
++    mrpt::math::TTwist3D t;
++    t.vx = f64();
++    t.vy = f64();
++    t.vz = f64();
++    t.wx = f64();
++    t.wy = f64();
++    t.wz = f64();
++    return t;
++  }
++
++  std::size_t posizione() const { return pos_; }
++  bool finito() const { return pos_ == buf_.size(); }
++
++private:
++  const std::string & buf_;
++  std::size_t pos_ = 0;
++};
++
++}  // namespace mola::full_state
+diff -ruN a/mola_state_estimation_simple/src/StateEstimationSimple_FullState.cpp b/mola_state_estimation_simple/src/StateEstimationSimple_FullState.cpp
+--- a/mola_state_estimation_simple/src/StateEstimationSimple_FullState.cpp
++++ b/mola_state_estimation_simple/src/StateEstimationSimple_FullState.cpp
+@@ -0,0 +1,167 @@
++/* Full state of the state estimator: binary save and load.
++ *
++ * The extern "C" functions at the bottom are looked up by name (dlsym) from the
++ * LO library, which does not link against this one. RegexCache members are not
++ * saved: they cache parameters and rebuild themselves.
++ */
++
++#include <mola_state_estimation_simple/StateEstimationSimple.h>
++
++#include <stdexcept>
++#include <string>
++
++#include "FullStateIO.h"
++
++namespace mola::state_estimation_simple
++{
++using mola::full_state::Lettore;
++using mola::full_state::Scrittore;
++
++namespace
++{
++constexpr uint32_t VERSIONE_SES = 1;
++
++void scriviPdfOpt(Scrittore& w, const std::optional<mrpt::poses::CPose3DPDFGaussian>& p)
++{
++    w.u8(p.has_value());
++    if (p) w.posaPdf(*p);
++}
++
++std::optional<mrpt::poses::CPose3DPDFGaussian> leggiPdfOpt(Lettore& r)
++{
++    if (!r.u8()) return std::nullopt;
++    mrpt::poses::CPose3DPDFGaussian p;
++    r.posaPdf(p);
++    return p;
++}
++}  // namespace
++
++void StateEstimationSimple::saveFullState(std::string& out) const
++{
++    auto lck = std::scoped_lock(state_mtx_);
++
++    if (state_.last_odom_obs.has_value())
++    {
++        throw std::runtime_error("odometria delle ruote presente: non gestita");
++    }
++
++    Scrittore w;
++    w.pod<uint32_t>(VERSIONE_SES);
++    w.tempoOpt(state_.last_pose_obs_tim);
++    scriviPdfOpt(w, state_.last_pose);
++    w.u8(state_.last_twist.has_value());
++    if (state_.last_twist) w.twist(*state_.last_twist);
++    w.u8(state_.last_twist_cov.has_value());
++    if (state_.last_twist_cov) w.matrice(*state_.last_twist_cov);
++    w.u8(state_.pose_already_updated_with_odom);
++    for (const double P : state_.vel_filter_P) w.f64(P);
++    for (const auto& t : state_.vel_filter_last_tim) w.tempoOpt(t);
++    w.u64(state_.per_source.size());
++    for (const auto& [k, s] : state_.per_source)
++    {
++        w.stringa(k);
++        scriviPdfOpt(w, s.last_pose);
++        w.tempoOpt(s.last_obs_tim);
++    }
++    out = std::move(w.buf);
++}
++
++void StateEstimationSimple::loadFullState(const std::string& in, bool zeroTwist)
++{
++    auto lck = std::scoped_lock(state_mtx_);
++
++    Lettore r(in);
++    if (r.pod<uint32_t>() != VERSIONE_SES)
++    {
++        throw std::runtime_error("versione dello stato dello stimatore diversa");
++    }
++    State s;
++    s.last_pose_obs_tim = r.tempoOpt();
++    s.last_pose         = leggiPdfOpt(r);
++    if (r.u8()) s.last_twist = r.twist();
++    if (r.u8())
++    {
++        mrpt::math::CMatrixDouble66 c;
++        r.matrice(c);
++        s.last_twist_cov = c;
++    }
++    s.pose_already_updated_with_odom = r.u8();
++    for (double& P : s.vel_filter_P) P = r.f64();
++    for (auto& t : s.vel_filter_last_tim) t = r.tempoOpt();
++    for (uint64_t i = 0, n = r.u64(); i < n; i++)
++    {
++        const auto k = r.stringa();
++        auto&      src = s.per_source[k];
++        src.last_pose    = leggiPdfOpt(r);
++        src.last_obs_tim = r.tempoOpt();
++    }
++    if (!r.finito())
++    {
++        throw std::runtime_error("byte in eccesso nello stato dello stimatore");
++    }
++
++    // Negative control for the load path: zero twist, everything else unchanged.
++    if (zeroTwist && s.last_twist.has_value())
++    {
++        *s.last_twist = mrpt::math::TTwist3D(0, 0, 0, 0, 0, 0);
++    }
++
++    // RegexCache members stay those of this instance.
++    state_.last_odom_obs.reset();
++    state_.last_pose_obs_tim              = s.last_pose_obs_tim;
++    state_.last_pose                      = s.last_pose;
++    state_.last_twist                     = s.last_twist;
++    state_.last_twist_cov                 = s.last_twist_cov;
++    state_.pose_already_updated_with_odom = s.pose_already_updated_with_odom;
++    state_.vel_filter_P                   = s.vel_filter_P;
++    state_.vel_filter_last_tim            = s.vel_filter_last_tim;
++    state_.per_source                     = s.per_source;
++}
++
++}  // namespace mola::state_estimation_simple
++
++// Interface for the LO library: 0 = success, 1 = object of another class,
++// 2 = error (message in *err).
++extern "C" __attribute__((visibility("default"))) int mola_ses_full_state_save(const void* filter, std::string* out, std::string* err)
++{
++    using mola::state_estimation_simple::StateEstimationSimple;
++    const auto* s = dynamic_cast<const StateEstimationSimple*>(
++        static_cast<const mola::NavStateFilter*>(filter));
++    if (!s)
++    {
++        if (err) *err = "lo stimatore non e' StateEstimationSimple";
++        return 1;
++    }
++    try
++    {
++        s->saveFullState(*out);
++        return 0;
++    }
++    catch (const std::exception& e)
++    {
++        if (err) *err = e.what();
++        return 2;
++    }
++}
++
++extern "C" __attribute__((visibility("default"))) int mola_ses_full_state_load(
++    void* filter, const std::string* in, int zeroTwist, std::string* err)
++{
++    using mola::state_estimation_simple::StateEstimationSimple;
++    auto* s = dynamic_cast<StateEstimationSimple*>(static_cast<mola::NavStateFilter*>(filter));
++    if (!s)
++    {
++        if (err) *err = "lo stimatore non e' StateEstimationSimple";
++        return 1;
++    }
++    try
++    {
++        s->loadFullState(*in, zeroTwist != 0);
++        return 0;
++    }
++    catch (const std::exception& e)
++    {
++        if (err) *err = e.what();
++        return 2;
++    }
++}
