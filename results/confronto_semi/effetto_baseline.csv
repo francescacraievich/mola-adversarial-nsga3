@@ -1,0 +1,13 @@
+braccio,budget,D_s1001,D_s2001,D_s3001,effetto,n_sotto_meno_F,n_metri_genoma_nullo
+nsga3,senzabudget,19.468,31.865000000000002,58.239,effetto oltre la variabilita' nominale,0,"{'s1001': 0, 's2001': 0, 's3001': 0}"
+nsga3,eps5,1.8270000000000002,,,effetto oltre la variabilita' nominale (solo 1 semi su 3),0,{'s1001': 0}
+nsga3,eps20,4.34,8.796,8.350999999999999,effetto oltre la variabilita' nominale,0,"{'s1001': 0, 's2001': 0, 's3001': 0}"
+nsga3,eps50,18.965,19.766000000000002,14.521,effetto oltre la variabilita' nominale,0,"{'s1001': 0, 's2001': 0, 's3001': 0}"
+casuale,senzabudget,30.366,17.213,28.105,effetto oltre la variabilita' nominale,0,"{'s1001': 0, 's2001': 0, 's3001': 0}"
+casuale,eps5,0.651,,,effetto oltre la variabilita' nominale (solo 1 semi su 3),0,{'s1001': 3}
+casuale,eps20,5.231,5.626,6.817,effetto oltre la variabilita' nominale,0,"{'s1001': 0, 's2001': 0, 's3001': 0}"
+casuale,eps50,18.16,20.336,25.049,effetto oltre la variabilita' nominale,0,"{'s1001': 0, 's2001': 0, 's3001': 0}"
+randpuro,senzabudget,4.583,21.434,8.429,effetto oltre la variabilita' nominale,0,"{'s1001': 0, 's2001': 0, 's3001': 0}"
+randpuro,eps5,-0.102,,,nessun effetto oltre la variabilita' nominale (solo 1 semi su 3),0,{'s1001': 5}
+randpuro,eps20,1.091,3.2159999999999997,0.8,effetto oltre la variabilita' nominale,0,"{'s1001': 2, 's2001': 0, 's3001': 0}"
+randpuro,eps50,4.43,9.663,1.9500000000000002,effetto oltre la variabilita' nominale,0,"{'s1001': 0, 's2001': 0, 's3001': 0}"

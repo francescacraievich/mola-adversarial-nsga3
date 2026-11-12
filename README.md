@@ -1,180 +1,143 @@
-# mola-adversarial-nsga3
+# Multi-Objective Optimization of LiDAR Adversarial Attacks against Robot Localization Using NSGA-III
 
-Adversarial perturbations of LiDAR point clouds against the MOLA LiDAR-odometry
-pipeline, optimised with NSGA-III in a closed loop: the perturbed scans drive the
-SLAM estimate, the estimate drives the robot, and the physical deviation of the
-robot is the objective. Simulation in NVIDIA Isaac Sim (Nova Carter, Hesai XT-32
-in a warehouse scene), SLAM with MOLA on ROS 2 Jazzy.
+Master's thesis code, University of Trieste. The project searches for perturbations of the LiDAR
+point cloud that push a wheeled robot off its path by corrupting its LiDAR odometry, while
+keeping the perturbation small. Everything runs in closed loop: the perturbed cloud reaches
+[MOLA](https://github.com/MOLAorg/mola) LiDAR odometry, the odometry estimate drives the robot
+controller, and the robot moves in Isaac Sim.
 
-Master's thesis work, University of Trieste, 2026.
+- Robot and scene: NVIDIA Nova Carter (differential drive) with a Hesai XT-32 LiDAR at 10 Hz
+  (about 45k points per scan, sensor noise set to zero), warehouse scene in Isaac Sim 6.1.
+- Odometry: `mola_lidar_odometry` 3.2.0 on ROS 2 Jazzy, local copies of the MOLA pipeline
+  files in `config/mola/`.
+- Task: follow a 5 m straight line; the controller steers towards a point 5 m ahead on the
+  line using the pose estimated by MOLA.
+- Search: NSGA-III (pymoo) over a 17-gene genome with two objectives, damage to be maximised
+  and Chamfer distance between clean and perturbed cloud to be minimised; optionally a
+  Chamfer budget as a constraint.
 
-## How it works
+## Threat model
 
-```
-Isaac Sim ──/front_3d_lidar/lidar_points──▶ add_intensity_node
-          ──/carter/lidar_with_intensity──▶ perturbation_node   (genome → 9 operators, every scan)
-          ──/carter/lidar_perturbed──────▶ MOLA (mola-cli)      ──/lidar_odometry/pose──▶ controller
-Isaac Sim ◀──────────────────────────────/cmd_vel───────────────────────────────────────┘
-```
+The attacker sits between the sensor and the odometry and can only modify the point cloud
+(noise per point, dropout, geometric distortion of the scan, ghost points, cluster and edge
+shifts, temporal drift of the whole cloud). It knows the robot's own estimate of its pose,
+not the true pose, and has no access to MOLA's internals or to the velocity commands.
+Perceptibility is measured by the Chamfer distance between the clean and the perturbed cloud.
 
-The controller reads only the MOLA estimate. The true pose (`/chassis/odom`,
-Isaac state) is used for measurement only.
+## Architecture
 
-The attack runs as a receding horizon. For every window of H metres the
-orchestrator saves the simulator state, runs one nominal rollout (no attack) and
-N×G candidate rollouts (restore state, restart MOLA, load genome, drive H metres),
-scores each candidate by the physical deviation of its true trajectory from the
-nominal one, compared at equal distance travelled (`--damage mean|max|end`), plus
-a directional term, and by perturbation magnitude (Chamfer distance); NSGA-III
-selects the Pareto front, the chosen genome is applied for a real H-metre stretch,
-and the next window starts from the new state.
+- **Victim**: the MOLA instance that receives the perturbed clouds and drives the robot.
+- **Shadow**: a second MOLA instance fed with the same clouds as the victim; at the end of
+  every window its full state is saved to disk.
+- **Twin**: a MOLA instance that loads the shadow state and evaluates candidate genomes in
+  simulated rollouts that start from the victim's current state. This needs the small patch
+  to MOLA in `mola_overlay/` (full-state save and load).
+- **Receding horizon**: the path is split into 1 m windows. At the end of each window the
+  robot stops, NSGA-III evaluates 32 x 16 = 512 candidates on the twin, the selected genome
+  (maximum damage on the Pareto front within the Chamfer budget) is replayed three times on
+  the twin and then applied to the victim for the next metre.
 
-The genome has 17 values in [-1, 1], decoded into 13 parameters of nine
-perturbation operators (per-point noise, cluster shifts, dropout, ghost points,
-geometric distortion, edge attack, temporal drift, scanline shift, feature-anchored
-ghosts). See `src/perturbations/perturbation_generator.py`.
+Damage is measured against a no-attack baseline (mean of three seeds,
+`data/attack/baseline/`): the added damage of a metre is the mean distance of the true path
+from the baseline path over that metre minus the distance at its start; `D` is the sum over
+the five metres. The noise floor `F` is the larger of two terms: the largest `|D|` of the three
+no-attack runs measured against their mean path, and the median spread of `D` over the three
+replays of each selected genome.
 
-## Layout
+## Results
 
-```
-config/mola/          MOLA system file and odometry pipeline (GICP + optimize_twist)
-isaac/                scene (carter_warehouse.usd) and Script Editor helpers
-src/nodes/            ROS 2 nodes: add_intensity, perturbation, waypoint follower; MOLA launcher
-src/perturbations/    perturbation generator and its diagnostics
-src/optimization/     receding-horizon orchestrator (NSGA-III) and follower model
-src/baseline/         open-loop deterministic baseline and its statistics
-src/analysis/         rollout and MOLA-trace diagnostics
-src/plots/            trajectory, Pareto, temporal and baseline plots
-data/                 run outputs (history.json, TUM trajectories, traces)
-results/              archived results
-docs/mola-reference/  MOLA headers and pipelines used for reference
-```
+Three seeds (1001, 2001, 3001), one run per seed and condition, 5 m straight, 1 m windows.
+Each cell gives the final lateral offset of the true path and `D`, both in cm.
 
-## Requirements
+| condition | seed 1001 | seed 2001 | seed 3001 |
+|---|---|---|---|
+| NSGA-III, no budget | -25.51 / 19.47 | -46.21 / 31.87 | +84.83 / 58.24 |
+| random search, no budget | -42.94 / 30.37 | -23.74 / 17.21 | -40.53 / 28.11 |
+| pure random, no budget | -6.58 / 4.58 | +30.03 / 21.43 | -10.89 / 8.43 |
+| NSGA-III, Chamfer <= 20 cm | +5.83 / 4.34 | +12.74 / 8.80 | -12.49 / 8.35 |
+| random search, Chamfer <= 20 cm | +7.31 / 5.23 | -8.42 / 5.63 | +9.68 / 6.82 |
+| pure random, Chamfer <= 20 cm | -2.13 / 1.09 | -5.65 / 3.22 | +0.74 / 0.80 |
+| NSGA-III, Chamfer <= 50 cm | +27.33 / 18.97 | -26.50 / 19.77 | +20.34 / 14.52 |
+| random search, Chamfer <= 50 cm | +26.02 / 18.16 | -29.59 / 20.34 | -36.27 / 25.05 |
+| pure random, Chamfer <= 50 cm | -7.65 / 4.43 | +13.10 / 9.66 | +0.07 / 1.95 |
+| fixed maximum genome | +15.63 / 10.97 | +15.45 / 10.81 | +15.23 / 10.80 |
 
-- Ubuntu 24.04, ROS 2 Jazzy, `ros-jazzy-mola`, `ros-jazzy-mola-lidar-odometry`,
-  `ros-jazzy-mola-state-estimation`
-- NVIDIA Isaac Sim 6.1 (pip install), scene `isaac/carter_warehouse.usd`
-- Python: `pip install -r requirements.txt`
+*Random search* draws 512 genomes per window and uses the same twin evaluation and selection
+as NSGA-III. *Pure random* draws one genome at a time and applies the first admissible one
+(at most 64 draws). The *fixed maximum genome* sets every operator to its maximum, with no
+search.
 
-## Running
+- Noise floor: `F` = 0.385 cm. `D` is above `F` in every run.
+- NSGA-III and random search are **not distinguishable** at any budget: the paired
+  differences change sign across seeds and exceed `F`.
+- Both searches beat pure random at Chamfer <= 20 cm and <= 50 cm in all three seeds, and
+  NSGA-III also without budget. Random search and pure random are not distinguishable
+  without budget.
+- Admissible candidates under the 20 cm budget: 7056 of 7680 for NSGA-III, 177 of 7680 for
+  random search (15 windows per arm).
+- Victim odometry: 14 ICP failures out of 9113 victim scans over 31 runs, no scans rejected
+  for low ICP quality. All failures fall in the first clouds after the victim resumes from
+  the optimisation pause, with the robot still stopped.
+- The +84.83 cm of NSGA-III on seed 3001 is a single run; it contains four of those ICP
+  failures at the start of the last metre.
 
-All commands from the repository root, with `source /opt/ros/jazzy/setup.bash`.
-Isaac Sim must be in Play with the LiDAR publishing at ~10 Hz.
+![mechanism](results/figure/attack_mechanism_seed1001_nsga3.png)
 
-Open-loop baseline (robot follows the true pose, MOLA observes):
+NSGA-III, seed 1001: lateral offset reported by the odometry against the true one, metre by
+metre. Most of the true offset comes from the controller chasing the reported error.
 
-```bash
-# Script Editor: isaac/run_isaac_headless.py
-python3 src/baseline/run_baseline_experiment.py --run-id 1 --path loop --loop-size 4,2.5 \
-    --loop-dir ccw --deterministic --local-map-size 25 \
-    --lidar-topic /front_3d_lidar/lidar_points --sub-scans-per-cycle 1 \
-    --lidar-pose="-0.2317,0,0.526" --skip-reset
-python3 src/baseline/loop_baseline_stats.py --runs 2 3 4 5 6
-python3 src/plots/plot_loop_baseline.py --runs 2 3 4 5 6
-```
+![trajectories](results/figure/true_trajectories_seed1001.png)
 
-Closed loop without optimisation (four terminals):
+![pareto](results/figure/pareto_fronts_seed1001.png)
 
-```bash
-python3 src/nodes/add_intensity_node.py --input-topic /front_3d_lidar/lidar_points \
-    --sub-scans-per-cycle 1 --output-frame base_link
-python3 src/nodes/perturbation_node.py --passthrough
-./src/nodes/launch_mola_attack.sh
-python3 src/nodes/waypoint_follower_node.py --waypoints "4,0; 4,2.5; 0,2.5; 0,0" \
-    --warmup-poses 60 --log data/attack/closedloop.csv
-```
+Sources: `results/inventario/run.csv` (final lateral offsets), `results/confronto_semi/`
+(D, floor, paired comparisons, admissible candidates), `results/fallimenti_icp/` (ICP
+counts). The verdict rules (floor, sign agreement across seeds) were written before the data.
 
-Receding-horizon attack (the orchestrator starts MOLA and drives the robot itself):
+## Limitations
 
-```bash
-# Script Editor: isaac/isaac_rollout_server.py
-python3 src/nodes/add_intensity_node.py --input-topic /front_3d_lidar/lidar_points \
-    --sub-scans-per-cycle 1 --output-frame base_link
-python3 src/nodes/perturbation_node.py
-python3 -u src/optimization/attack_orchestrator.py --goal "5,0" --horizon 1.0 \
-    --settle-sec 2.0 --pop 4 --gen 2 --trace --out data/attack/run_01
-```
+- Three seeds and one run per seed and condition; the verdicts above are provisional and
+  a fourth seed is running.
+- The robot stops at the end of every 1 m window while the twin search runs. This is a
+  laboratory instrument, not a real-time attack. An ablation of the window length (2.5 m
+  and 5 m) is in progress.
+- One scene, one path (a 5 m straight), simulation only.
+- Perceptibility is measured only by the Chamfer distance; no detector is modelled.
+- This branch holds the code of the runs on seeds 2001 and 3001 and of the ablation.
+  Seed 1001 ran on an earlier revision without the options of the limits study (limit
+  multiplier of the operators), which are off by default and unused in all these runs.
 
-Main options: `--goals "5,0; 5,2.5; 10,2.5"` (waypoints), `--start-pose=x,y,yaw_deg`
-(teleport before the run; the `=` is needed because a value starting with `-`
-would be parsed as an option), `--genome-group 1|2|3` (active genes: 6, 15, 17),
-`--search nsga3|random|gaussian` (comparison arms; gaussian needs
-`perturbation_node.py --gaussian-sigma S`), `--damage mean|max|end`,
-`--attack-from spawn|motion` (default spawn: the attack is on from MOLA start,
-the compromised node is always active in the threat model), `--discard-policy
-infra|legacy` (default infra: only infrastructure failures and windows with an
-anomalous nominal are discarded; timeout, short path and lost tracking count as
-damage via path_deviation, each with an outcome label in the history),
-`--untracked discard|nominal|damage` (only with legacy),
-`--chamfer-budget EPS` (candidates whose mean Chamfer exceeds EPS cm are
-inadmissible: kept out of the Pareto front and never applied, but still
-evaluated and logged with an `admissible` flag), `--reeval`,
-`--true-pose ros|file`. The true pose is read from `/chassis/odom`; the file
-channel to `isaac_rollout_server.py` is used only for pause, play, save,
-restore and set_pose. Each rollout also records the localization error
-(MOLA estimate minus true pose in the world frame, mean and final over the
-window) for nominal, candidates, reevaluation and applied. With the attack on,
-`perturbation_node` publishes in `/attack/status` the fraction of points moved
-more than 5 cm, the median point shift, and the number of points added and
-removed; the orchestrator stores them per window. The perturbation stays plausible by
-construction: the ghost-point offset is capped at MAX_GHOST_OFFSET_M (0.10 m)
-and the dropout fraction at MAX_DROPOUT_RATE (0.05), documented constants in
-`perturbation_generator.py`.
+## How to reproduce
 
-Campaign (repetitions of one arm on one scenario, resumable). Every arm must pay
-the same latency per scan, otherwise the computation time of the perturbation
-enters the damage: the node runs with `--min-latency-ms 85`, which holds each
-scan (attack on or off, any `--search`) for at least 85 ms before publishing it
-and never shortens slower scans. The value is published in `/attack/status`
-(`min_latency_ms`, with `latency_ms_mean`/`latency_ms_max`), and
-`run_campaign.sh` refuses to start if the running node does not match
-`MIN_LATENCY_MS` (default 85). `--passthrough-delay-ms` (delay with the attack
-off only) is kept for compatibility.
-
-The script starts Isaac Sim from the terminal (`isaac/run_isaac_standalone.py`,
-extra options in `ISAAC_ARGS`, e.g. `--headless`) at the beginning of every
-repetition and closes it at the end, so each Isaac process lives for one run;
-it refuses to start if another Isaac is already running. Results go to
-`CAMPAIGN_DIR` (default `data/attack/campaign`). The orchestrator watches the
-simulator: if the pose written by the Isaac loop or the clouds on
-`/carter/lidar_perturbed` (while playing) stop for more than 5 s, or a server
-command takes longer than that, the window is marked `isaac_stall`, the partial
-`history.json` is saved and it exits with code 3. The script then reruns that
-repetition once; the stalled attempt is kept as `rep_NN_stallo1`
-(`rep_NN_stallo2` if the retry stalls too, and the script moves on).
+Requirements: Ubuntu 24.04, an RTX GPU, ROS 2 Jazzy, MOLA from apt (`ros-jazzy-mola*`,
+`mola_lidar_odometry` 3.2.0), Isaac Sim 6.1 installed with pip, Python 3.12.
 
 ```bash
-python3 -u src/nodes/perturbation_node.py --min-latency-ms 85
-scripts/run_campaign.sh straight nsga3 1 10 4 2
-python3 src/analysis/aggregate_campaign.py data/attack/campaign --plot
+pip install -r requirements.txt
+bash mola_overlay/build.sh                 # patched MOLA in ~/mola_ws/install_G1
+python3 -m pytest tests                    # tests that need ROS run in domain 88
+
+# one campaign (Isaac, adapter, perturbation node and MOLA are started by the scripts)
+set -a; . config/campagne.env; set +a
+SEMI=1001 scripts/coda_serieB.sh --a-secco nsga3_senzabudget   # checks and commands only
+SEMI=1001 scripts/coda_serieB.sh nsga3_senzabudget
+scripts/coda_serieB.sh --lista                                  # all conditions
+
+# tables and figures of the three seeds
+python3 scripts/analisi/inventario_run.py
+python3 scripts/analisi/confronto_semi.py --semi 1001,2001,3001
+python3 scripts/analisi/figure_per_seme.py results/figure
+python3 scripts/analisi/fallimenti_icp_vittime.py
 ```
 
-Plots and diagnostics:
+Runs are written to `data/attack/serieB/<condition>/s<seed>/` and are not part of the
+repository; the analysis scripts look for the run folders listed in their `RADICI` and
+`results/inventario/run.csv`. Code comments and command-line messages are partly in Italian.
 
-```bash
-python3 src/plots/plot_trajectory.py data/attack/run_01/history.json
-python3 src/plots/plot_pareto.py data/attack/run_01/history.json
-python3 src/analysis/diagnose_rollout.py data/attack/run_01/traces/*.csv
-python3 src/analysis/path_deviation.py data/attack/run_01/traces
-python3 src/perturbations/chamfer_by_operator.py --history data/attack/run_01/history.json
-```
+The earlier open-loop pipeline (offline replay of recorded clouds) is kept in the tag
+[`offline-pipeline-v1`](../../tree/offline-pipeline-v1); its results are not part of this work.
 
-## Notes
+## License
 
-- Sensor noise of the XT-32 is set to zero in the scene so that any effect is
-  attributable to the perturbation alone.
-- MOLA is restarted for every rollout because it exposes no reset; the victim
-  SLAM is therefore not persistent across windows.
-- The state save/restore makes the optimisation a worst-case analysis with a
-  digital twin; only the applied perturbation is something a real attacker
-  could reproduce.
-- The earlier offline pipeline (replay of recorded scans, ATE against ground
-  truth) is kept in the git tag `offline-pipeline-v1`.
-
-## References
-
-- FLAT: Flux-Aware Imperceptible Adversarial Attacks on 3D Point Clouds (ECCV 2024)
-- SLACK: Attacking LiDAR-based SLAM with Adversarial Point Injections (arXiv 2024)
-- Adversarial attacks on ICP-based registration (arXiv 2403.05666)
-- ASP: Attribution-based Scanline Perturbation (IEEE 2024)
+MIT, see `LICENSE`. The MOLA patch in `mola_overlay/` is GPL-3.0, like the packages it
+modifies.

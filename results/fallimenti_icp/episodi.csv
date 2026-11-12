@@ -1,0 +1,4 @@
+seme,condizione,tipo,metro,stato_inizio,stato_fine,stamp_inizio,scansioni,durata_s,goodness_max,soglia
+2001,randpuro_senzabudget,fallimento ICP,w3_applied,fermo,fermo,31.599999,2,0.2,0.0,0.2
+3001,nsga3_senzabudget,fallimento ICP,w3_applied,fermo,fermo,36.6,4,0.4,0.0,0.2
+3001,casuale_senzabudget,fallimento ICP,w3_applied,fermo,fermo,39.2,8,0.8,0.0,0.2
