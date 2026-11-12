@@ -64,10 +64,12 @@ Each cell gives the final lateral offset of the true path and `D`, both in cm.
 
 *Random search* draws 512 genomes per window and uses the same twin evaluation and selection
 as NSGA-III. *Pure random* draws one genome at a time and applies the first admissible one
-(at most 64 draws). The *fixed maximum genome* sets every operator to its maximum, with no
+(at most 64 draws; if none is admissible the window is driven with the null genome, which
+happened in 2 metres). The *fixed maximum genome* sets every operator to its maximum, with no
 search.
 
-- Noise floor: `F` = 0.385 cm. `D` is above `F` in every run.
+- Noise floor: `F` = 0.385 cm, computed on all budgets including Chamfer <= 5 cm (one seed
+  only, not shown). `D` is above `F` in every run of the table.
 - NSGA-III and random search are **not distinguishable** at any budget: the paired
   differences change sign across seeds and exceed `F`.
 - Both searches beat pure random at Chamfer <= 20 cm and <= 50 cm in all three seeds, and
@@ -75,8 +77,8 @@ search.
   without budget.
 - Admissible candidates under the 20 cm budget: 7056 of 7680 for NSGA-III, 177 of 7680 for
   random search (15 windows per arm).
-- Victim odometry: 14 ICP failures out of 9113 victim scans over 31 runs, no scans rejected
-  for low ICP quality. All failures fall in the first clouds after the victim resumes from
+- Victim odometry: 14 ICP failures out of 8951 victim scans in the 30 runs of the table, no
+  scans rejected for low ICP quality. All failures fall in the first clouds after the victim resumes from
   the optimisation pause, with the robot still stopped.
 - The +84.83 cm of NSGA-III on seed 3001 is a single run; it contains four of those ICP
   failures at the start of the last metre.
@@ -96,16 +98,17 @@ counts). The verdict rules (floor, sign agreement across seeds) were written bef
 
 ## Limitations
 
-- Three seeds and one run per seed and condition; the verdicts above are provisional and
-  a fourth seed is running.
+- Three seeds and one run per seed and condition; the verdicts above are provisional until a
+  fourth seed is run.
 - The robot stops at the end of every 1 m window while the twin search runs. This is a
   laboratory instrument, not a real-time attack. An ablation of the window length (2.5 m
   and 5 m) is in progress.
 - One scene, one path (a 5 m straight), simulation only.
 - Perceptibility is measured only by the Chamfer distance; no detector is modelled.
-- This branch holds the code of the runs on seeds 2001 and 3001 and of the ablation.
-  Seed 1001 ran on an earlier revision without the options of the limits study (limit
-  multiplier of the operators), which are off by default and unused in all these runs.
+- This branch holds the code of the runs on seeds 2001 and 3001 and of the ablation, with
+  comments rewritten and a few internal names and messages changed (the code is otherwise
+  identical). Seed 1001 ran on an earlier revision without the options of the limits study
+  (limit multiplier of the operators), which are off by default and unused in all these runs.
 
 ## How to reproduce
 

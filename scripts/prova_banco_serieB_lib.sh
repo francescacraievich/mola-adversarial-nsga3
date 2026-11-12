@@ -295,7 +295,7 @@ if not v.is_dir() or not pref:
     raise SystemExit(f"vault assente o VAULT_LOG_PREFISSO vuoto: {v}")
 with open(v / f"{pref}{time.strftime('%Y-%m-%d')}.md", "a") as f:
     f.write(riga_log + "\n")
-q = v / "00 Coda simulazioni.md"
+q = v / "coda_simulazioni.md"
 if riga_coda and q.exists():
     # read, modify and replace under the same lock (shared by the bench scripts)
     os.makedirs(os.path.dirname(lock), exist_ok=True)

@@ -6,16 +6,17 @@ FollowerModel reproduces the waypoint follower's control law: on the estimated
 pose it computes the bearing error to the waypoint; above an alignment threshold
 it turns in place (omega = clip(k_ang * err), at least 0.05 rad/s), otherwise it
 drives with v = min(max_speed, k_lin * dist) and the same clipped omega; inside
-the tolerance it stops. The orchestrator uses it to rebuild the command the
-follower computes on the MOLA estimate.
+the tolerance it stops. The orchestrator's controller uses it to compute the
+/cmd_vel it publishes from the MOLA estimate.
 
 predict_true_trajectory, damage_deviation and directional_bonus are a model-based
 alternative, not used by the orchestrator (which evaluates candidates with
 physical rollouts in Isaac Sim), kept for comparison. They propagate the follower
-command with the unicycle model
+command with the unicycle model, midpoint heading integration
 
-    x <- x + v*cos(theta)*dt
-    y <- y + v*sin(theta)*dt
+    theta_mid <- theta + 0.5*omega*dt
+    x <- x + v*cos(theta_mid)*dt
+    y <- y + v*sin(theta_mid)*dt
     theta <- theta + omega*dt
 
 and ignore inertia, wheel slip and the differential controller's ramps.
