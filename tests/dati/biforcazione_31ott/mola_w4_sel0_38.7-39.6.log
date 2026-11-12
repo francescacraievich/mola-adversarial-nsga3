@@ -1,0 +1,47 @@
+# estratto di logs/mola_w4_sel0.log (prova di accettazione del 30/10, rep_01), righe 357-816: solo le righe lette da banco_g.nuvole_icp, piu' le due righe dopo ogni riga spezzata da un avviso TF_OLD_DATA; testo invariato
+[02:49:03.7586|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=38.7000
+[02:49:03.7629|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13087 budget=4000 stride=3.27 emitted=4000
+[02:49:03.7692|DEBUG|LidarOdometry] ICP (kind=0): goodness=22.36% iters=3 pose=[3.817341 -0.521670 -0.011221 6.754182 0.165086 -0.043299] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{4.921290e-04 2.146002e-03 4.979716e-04 [m] 2.620631e-03 7.635624e-03 6.030712e-03 [deg]}
+[LidarOdometry] pathStep=247 timestamp=1970/01/01,00:00:38.700000 goodness=0.224 minRequired=0.200 iters=3 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0425 consecutive_bad=0
+[02:49:03.8490|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=38.8000
+[02:49:03.8530|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13061 budget=4000 stride=3.27 emitted=4000
+[02:49:03.8573|DEBUG|LidarOdometry] ICP (kind=0): goodness=23.12% iters=3 pose=[3.817299 -0.514964 -0.009202 6.763895 0.168358 -0.043127] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{5.592769e-04 2.673411e-03 4.622559e-04 [m] 3.232438e-03 9.493777e-03 5.999190e-03 [deg]}
+[LidarOdometry] pathStep=248 timestamp=1970/01/01,00:00:38.800000 goodness=0.231 minRequired=0.200 iters=3 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0450 consecutive_bad=0
+[02:49:04.0100|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=38.9000
+[02:49:04.0134|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13050 budget=4000 stride=3.26 emitted=4000
+[02:49:04.0165|DEBUG|LidarOdometry] ICP (kind=0): goodness=23.44% iters=2 pose=[3.816972 -0.522080 -0.008380 6.772213 0.168935 -0.034870] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{5.979172e-04 2.685131e-03 5.212984e-04 [m] 3.265938e-03 8.998537e-03 5.873556e-03 [deg][WARN] [1793411344.016647197] []: TF_OLD_DATA ignoring data from the past for frame base_link at time 38.900000 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+}
+[LidarOdometry] pathStep=249 timestamp=1970/01/01,00:00:38.900000 goodness=0.234 minRequired=0.200 iters=2 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0475 consecutive_bad=0
+[02:49:04.1068|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=39.0000
+[02:49:04.1103|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13047 budget=4000 stride=3.26 emitted=4000
+[02:49:04.1133|DEBUG|LidarOdometry] ICP (kind=0): goodness=27.00% iters=2 pose=[3.813488 -0.507982 -0.007333 6.768481 0.161439 -0.039489] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{5.911703e-04 2.644463e-03 5.801318e-04 [m] 3.238690e-03 8.590874e-03 7.479966e-03 [deg]}
+[LidarOdometry] pathStep=250 timestamp=1970/01/01,00:00:39.000000 goodness=0.270 minRequired=0.200 iters=2 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0500 consecutive_bad=0
+[02:49:04.2099|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=39.1000
+[02:49:04.2134|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13051 budget=4000 stride=3.26 emitted=4000
+[02:49:04.2195|DEBUG|LidarOdometry] ICP (kind=0): goodness=29.76% [WARN] [1793411344.219689245] []: TF_OLD_DATA ignoring data from the past for frame base_link at time 39.100000 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+iters=7 pose=[3.803566 -0.531007 -0.005844 6.766280 0.176744 -0.040371] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{8.943513e-04 4.550653e-03 8.621318e-04 [m] 5.380356e-03 1.207018e-02 9.938235e-03 [deg]}
+[LidarOdometry] pathStep=251 timestamp=1970/01/01,00:00:39.100000 goodness=0.298 minRequired=0.200 iters=7 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0525 consecutive_bad=0
+[02:49:04.4229|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=39.2000
+[02:49:04.4266|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13053 budget=4000 stride=3.26 emitted=4000
+[02:49:04.4534|DEBUG|LidarOdometry] ICP (kind=0): goodness=46.92% iters=4 pose=[3.675298 -0.714439 -0.006031 6.718224 0.043477 -0.088257] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{8.168490e-04 6.891448e-04 9.742215e-04 [m] 3.560125e-03 1.525912e-02 1.404642e-02 [deg]}
+[LidarOdometry] pathStep=252 timestamp=1970/01/01,00:00:39.200000 goodness=0.469 minRequired=0.200 iters=4 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0500 consecutive_bad=0
+[02:49:04.5260|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=39.3000
+[02:49:04.5295|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13067 budget=4000 stride=3.27 emitted=4000
+[02:49:04.5453|DEBUG|LidarOdometry] ICP (kind=0): goodness=45.12% iters=2 pose=[3.674647 -0.712278 -0.004523 6.705738 0.110363 -0.043877] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{7.863798e-04 6.541812e-04 8.899939e-04 [m] 3.670950e-03 1.352886e-02 1.255246e-02 [deg]}
+[LidarOdometry] pathStep=253 timestamp=1970/01/01,00:00:39.300000 goodness=0.451 minRequired=0.200 iters=2 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0475 consecutive_bad=0
+[02:49:04.6269|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=39.4000
+[02:49:04.6309|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13069 budget=4000 stride=3.27 emitted=4000
+[02:49:04.6344|DEBUG|LidarOdometry] ICP (kind=0): goodness=43.40% iters=2 pose=[3.673552 -0.713999 -0.002385 6.705066 0.100125 -0.024431] termRea[WARN] [1793411344.634572282] []: TF_OLD_DATA ignoring data from the past for frame base_link at time 39.400000 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+son=IterTermReason::Stalled pose_cov diagonal sigmas:{8.278835e-04 6.609458e-04 9.164426e-04 [m] 3.708177e-03 1.479487e-02 1.086537e-02 [deg]}
+[LidarOdometry] pathStep=254 timestamp=1970/01/01,00:00:39.400000 goodness=0.434 minRequired=0.200 iters=2 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0450 consecutive_bad=0
+[02:49:04.7319|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=39.5000
+[02:49:04.7353|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13089 budget=4000 stride=3.27 emitted=4000
+[02:49:04.7393|DEBUG|LidarOdometry] ICP (kind=0): goodness=40.48% iters=2 pose=[3.672157 -0.712828 -0.001621 6.710319 0.096605 -0.041927] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{8.115143e-04 6.934021e-04 9.993876e-04 [m] 3.652113e-03 1.479982e-02 1.373452e-02 [deg]}
+[LidarOdometry] pathStep=255 timestamp=1970/01/01,00:00:39.500000 goodness=0.405 minRequired=0.200 iters=2 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0445 consecutive_bad=0
+[02:49:04.8301|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=39.6000
+[02:49:04.8340|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13088 budget=4000 stride=3.27 emitted=4000
+[02:49:04.8539|DEBUG|LidarOdometry] ICP (kind=0): goodness=42.08% iters=2 pose=[3.670502 -0.713962 -0.000420 6.709653 0.117254 -0.026304] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{7.788453e-04 6.613464e-04 9.543956e-04 [m] 3.618136e-03 1.261619e-02 1.254836e-02 [deg]}
+[LidarOdometry] pathStep=256 timestamp=1970/01/01,00:00:39.600000 goodness=0.421 minRequired=0.200 iters=2 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0424 consecutive_bad=0

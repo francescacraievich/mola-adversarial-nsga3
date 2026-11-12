@@ -1,0 +1,52 @@
+[
+ {
+  "window": 0,
+  "victim_window": {
+   "open_stamp": 12.4,
+   "drive_stamps": [
+    14.4,
+    16.8
+   ]
+  }
+ },
+ {
+  "window": 1,
+  "victim_window": {
+   "open_stamp": 18.0,
+   "drive_stamps": [
+    19.0,
+    23.0
+   ]
+  }
+ },
+ {
+  "window": 2,
+  "victim_window": {
+   "open_stamp": 23.2,
+   "drive_stamps": [
+    25.2,
+    28.5
+   ]
+  }
+ },
+ {
+  "window": 3,
+  "victim_window": {
+   "open_stamp": 28.7,
+   "drive_stamps": [
+    30.7,
+    33.9
+   ]
+  }
+ },
+ {
+  "window": 4,
+  "victim_window": {
+   "open_stamp": 34.1,
+   "drive_stamps": [
+    36.0,
+    39.5
+   ]
+  }
+ }
+]

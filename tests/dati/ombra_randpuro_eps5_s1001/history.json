@@ -1,0 +1,40 @@
+[
+ {
+  "window": 0,
+  "victim_window": null
+ },
+ {
+  "window": 1,
+  "victim_window": null
+ },
+ {
+  "window": 2,
+  "victim_window": null
+ },
+ {
+  "window": 3,
+  "victim_window": null
+ },
+ {
+  "window": 4,
+  "victim_window": null
+ },
+ {
+  "window": 5,
+  "victim_window": null
+ },
+ {
+  "window": 6,
+  "victim_window": {
+   "open_stamp": 13.9,
+   "drive_stamps": [
+    15.8,
+    19.8
+   ]
+  }
+ },
+ {
+  "window": 7,
+  "victim_window": null
+ }
+]

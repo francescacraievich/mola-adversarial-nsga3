@@ -1,0 +1,9 @@
+# estratto di logs/mola_attacker.log (prova di accettazione del 30/10, rep_01), righe 190267-190360 (nuvole 38,5 e 38,6): solo le righe lette da banco_g.nuvole_icp; testo invariato
+[01:12:59.2386|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=38.5000
+[01:12:59.2421|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13236 budget=4000 stride=3.31 emitted=4000
+[01:12:59.2472|DEBUG|LidarOdometry] ICP (kind=0): goodness=70.24% iters=3 pose=[4.117223 0.607761 -0.000953 9.208001 -0.188120 0.014406] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{3.281889e-04 2.596514e-04 4.971522e-04 [m] 1.240587e-03 8.057910e-03 5.569211e-03 [deg]}
+[LidarOdometry] pathStep=266 timestamp=1970/01/01,00:00:38.500000 goodness=0.702 minRequired=0.200 iters=3 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0400 consecutive_bad=0
+[01:12:59.3923|DEBUG|Generator (raw)] Processing observation type='mrpt::obs::CObservationPointCloud' label='lidar' stamp=38.6000
+[01:12:59.3956|DEBUG|FilterDecimateAdaptive (map)] output 'decimated_unfiltered': nVoxels=13241 budget=4000 stride=3.31 emitted=4000
+[01:12:59.4005|DEBUG|LidarOdometry] ICP (kind=0): goodness=72.32% iters=3 pose=[4.116833 0.608540 -0.001257 9.206027 -0.166056 0.028472] termReason=IterTermReason::Stalled pose_cov diagonal sigmas:{2.952571e-04 2.264734e-04 4.324461e-04 [m] 1.174758e-03 6.677326e-03 4.430605e-03 [deg]}
+[LidarOdometry] pathStep=267 timestamp=1970/01/01,00:00:38.600000 goodness=0.723 minRequired=0.200 iters=3 termReason=IterTermReason::Stalled isGood=1 adapt_thres_sigma=0.0400 consecutive_bad=0

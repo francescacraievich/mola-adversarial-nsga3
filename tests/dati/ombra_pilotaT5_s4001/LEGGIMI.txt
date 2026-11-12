@@ -1,0 +1,4 @@
+Estratto di verifica/2026-10-25_pilota_T5_dmin130, seme 4001, rep_01: shadow_check_scans.csv con le sole colonne
+stamp_s, elaborata, posa, livello, dxy_m, dyaw_rad, csv_identico (valori copiati senza modifiche, 347 righe);
+history.json ridotto a window e victim_window.open_stamp/drive_stamps.
+Serve a tests/test_shadow_identita.py.
