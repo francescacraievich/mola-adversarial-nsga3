@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
 """
-Modello del follower e predittore a modello uniciclo.
+Waypoint follower model and unicycle-model predictor.
 
-FollowerModel replica la legge di controllo di src/nodes/waypoint_follower_node.py
-ed e' usato dall'orchestratore (src/optimization/attack_orchestrator.py) per
-ricostruire il comando che il follower calcola sulla posa stimata da MOLA.
+FollowerModel reproduces the waypoint follower's control law: on the estimated
+pose it computes the bearing error to the waypoint; above an alignment threshold
+it turns in place (omega = clip(k_ang * err), at least 0.05 rad/s), otherwise it
+drives with v = min(max_speed, k_lin * dist) and the same clipped omega; inside
+the tolerance it stops. The orchestrator uses it to rebuild the command the
+follower computes on the MOLA estimate.
 
-predict_true_trajectory, damage_deviation e directional_bonus sono un'alternativa
-a modello, non usata dall'orchestratore, mantenuta per confronto: propagano il
-comando del follower con il modello uniciclo
+predict_true_trajectory, damage_deviation and directional_bonus are a model-based
+alternative, not used by the orchestrator (which evaluates candidates with
+physical rollouts in Isaac Sim), kept for comparison. They propagate the follower
+command with the unicycle model
 
     x <- x + v*cos(theta)*dt
     y <- y + v*sin(theta)*dt
     theta <- theta + omega*dt
 
-e stimano la deviazione senza far girare la simulazione. L'orchestratore valuta
-invece i candidati con rollout fisici in Isaac Sim. Il modello ignora inerzia,
-slittamento e le rampe del differential_controller.
+and ignore inertia, wheel slip and the differential controller's ramps.
 """
 
 import math
@@ -33,10 +35,10 @@ def angle_diff(a: float, b: float) -> float:
 
 
 class FollowerModel:
-    """Replica della legge di controllo di waypoint_follower_node.py.
+    """Waypoint follower control law (m, m/s, rad/s).
 
-    I valori di default devono coincidere con quelli del nodo reale: una
-    divergenza renderebbe la predizione sbagliata senza che nulla lo segnali.
+    Defaults must match the running follower: a mismatch makes the prediction
+    wrong without any visible error.
     """
 
     def __init__(self, max_speed=0.8, max_turn=0.5, align_threshold_deg=25.0,
@@ -49,7 +51,7 @@ class FollowerModel:
         self.tolerance = tolerance
 
     def command(self, est_x, est_y, est_yaw, wp_x, wp_y):
-        """Comando (v, omega, distanza dal waypoint) calcolato sulla posa stimata."""
+        """Command (v, omega, distance to waypoint) computed on the estimated pose."""
         dx, dy = wp_x - est_x, wp_y - est_y
         dist = math.hypot(dx, dy)
         if dist < self.tolerance:
@@ -58,7 +60,7 @@ class FollowerModel:
         bearing_err = angle_diff(math.atan2(dy, dx), est_yaw)
 
         if abs(bearing_err) > self.align_threshold:
-            # Rotazione sul posto
+            # Turn in place
             w = max(-self.max_turn, min(self.max_turn, self.k_ang * bearing_err))
             if 0 < abs(w) < 0.05:
                 w = math.copysign(0.05, w)
@@ -71,26 +73,12 @@ class FollowerModel:
 
 def predict_true_trajectory(est_poses, true_start, waypoint, dt=0.1,
                             follower=None):
-    """Traiettoria vera predetta dal modello uniciclo, date le pose stimate.
+    """True trajectory predicted by the unicycle model from the estimated poses.
 
-    Parameters
-    ----------
-    est_poses : (N,3) array
-        Pose stimate (x, y, yaw) sulla finestra.
-    true_start : (3,)
-        Posa vera del robot all'inizio della finestra (x, y, yaw).
-    waypoint : (2,)
-        Bersaglio che il follower sta inseguendo.
-    dt : float
-        Passo temporale fra due scan (0.1 s a 10 Hz).
-
-    Returns
-    -------
-    (N,3) array con la traiettoria vera predetta.
-
-    Il follower vede ad ogni passo la posa stimata, cioe' la posa vera piu'
-    l'errore indotto dalla perturbazione; il comando che ne risulta viene
-    applicato alla posa vera.
+    Args: est_poses (N,3) estimated (x, y, yaw) over the window; true_start true
+    pose at window start; waypoint (2,) target of the follower; dt step between
+    scans (0.1 s at 10 Hz). Returns an (N,3) array. At each step the follower
+    sees the estimated pose and its command is applied to the true pose.
     """
     follower = follower or FollowerModel()
     est_poses = np.asarray(est_poses, dtype=float)
@@ -105,8 +93,8 @@ def predict_true_trajectory(est_poses, true_start, waypoint, dt=0.1,
         ex, ey, eyaw = est_poses[i]
         v, w, _ = follower.command(ex, ey, eyaw, waypoint[0], waypoint[1])
 
-        # Integrazione con il punto medio dell'orientamento: piu' accurata
-        # dell'Eulero esplicito durante le rotazioni.
+        # Midpoint heading integration: more accurate than explicit Euler
+        # while turning.
         yaw_mid = yaw + 0.5 * w * dt
         x += v * math.cos(yaw_mid) * dt
         y += v * math.sin(yaw_mid) * dt
@@ -119,12 +107,11 @@ def predict_true_trajectory(est_poses, true_start, waypoint, dt=0.1,
 
 def damage_deviation(est_clean, est_attacked, true_start, waypoint, dt=0.1,
                      follower=None):
-    """Distanza fra i punti d'arrivo della traiettoria nominale e di quella attaccata.
+    """Distance (m) between the end points of the nominal and attacked trajectories.
 
-    Entrambe le traiettorie sono predette con lo stesso modello, cosi' gli errori
-    del modello uniciclo si cancellano in buona parte e resta l'effetto della
-    perturbazione. Si usa il punto d'arrivo perche' e' l'errore che il robot si
-    porta nella finestra successiva. Ritorna (deviazione, nominale, attaccata).
+    Both are predicted with the same model, so most unicycle-model errors cancel
+    and the perturbation effect remains. The end point is the error the robot
+    carries into the next window. Returns (deviation, nominal, attacked).
     """
     n = min(len(est_clean), len(est_attacked))
     if n < 2:
@@ -136,10 +123,9 @@ def damage_deviation(est_clean, est_attacked, true_start, waypoint, dt=0.1,
 
 
 def directional_bonus(nominal, attacked, goal):
-    """Variazione della distanza dal bersaglio: positiva se l'attacco allontana.
+    """Change in distance to the goal (m): positive if the attack moves away.
 
-    Distingue una deviazione che allontana dal bersaglio da una della stessa
-    entita' che gli gira intorno.
+    Separates a deviation away from the goal from one of equal size around it.
     """
     goal = np.asarray(goal, dtype=float)
     d_nom = np.linalg.norm(nominal[-1, :2] - goal)
@@ -148,15 +134,15 @@ def directional_bonus(nominal, attacked, goal):
 
 
 if __name__ == "__main__":
-    # Prova rapida: un errore di stima costante di 20 cm in y deve far sterzare
-    # il robot e dare una deviazione predetta diversa da zero.
+    # Quick check: a constant 20 cm estimate error in y must steer the robot
+    # and give a non-zero predicted deviation.
     n = 20
     true_start = (0.0, 0.0, 0.0)
     wp = (4.0, 0.0)
 
     clean = np.array([[0.8 * 0.1 * i, 0.0, 0.0] for i in range(n)])
     attacked = clean.copy()
-    attacked[:, 1] += 0.20          # stima spostata di 20 cm in y
+    attacked[:, 1] += 0.20          # estimate shifted by 20 cm in y
 
     dev, nom, att = damage_deviation(clean, attacked, true_start, wp)
     print(f"errore di stima costante: 20.0 cm in y")

@@ -1,47 +1,29 @@
 # Python
-.venv
+.venv/
 __pycache__/
 *.pyc
-*.egg-info
-.pytest_cache
+*.egg-info/
+.pytest_cache/
 
-# IDE / tools
-.vscode
-.idea
+# Editors
+.vscode/
+.idea/
 
-
-# Large data and run artefacts
+# Runs, logs and recordings: only the reference baselines are tracked
+data/*
+!data/attack/
+data/attack/*
+!data/attack/baseline/
 *.mcap
 *.bag
 *.npy
-*.mm
-*.gv
-*.pdf
-bags/
-data/attack/*/logs/
-data/attack/*/traces/
-data/trajectories/bags/
-data/attack/verifica/*.log
+*.npz
+*.molastate*
+*.simplemap
+*.log
+!tests/dati/**/*.log
 
 # Temporary
 *.tmp
 *.bak
 *~
-
-# Prove di collaudo, non risultati
-data/attack/prova_*/
-data/attack/smoke_*/
-data/attack/avviso_bersaglio/
-data/attack/g1_test_stallo/
-
-# Figure e script tenuti solo in locale
-docs/schema_pipeline.png
-docs/schema_pipeline.py
-docs/schema_catena.py
-docs/fitness_formule.py
-
-# Sonde e test diagnostici (non risultati di campagna)
-data/attack/convergenza_w4/
-data/attack/sonda_eps/
-data/attack/campaign/*/*/rep_*_incompleta_*
-data/attack/campaign/*/*/rep_*_stallo*

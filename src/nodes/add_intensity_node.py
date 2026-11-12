@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 """
-Nodo ROS 2 che adatta la nuvola del LiDAR RTX di Isaac Sim all'ingresso di MOLA.
+ROS 2 node that adapts the Isaac Sim RTX LiDAR cloud to MOLA's input.
 
-Riceve PointCloud2 (x, y, z) da /front_3d_lidar/lidar_points, aggiunge il campo
-intensity richiesto da MOLA, riscrive il frame_id e ripubblica su
-/carter/lidar_with_intensity. Gli offset di x, y, z sono letti dai metadati del
-messaggio, non assunti fissi.
+Subscribes to PointCloud2 (x, y, z) on /front_3d_lidar/lidar_points, adds the
+intensity field MOLA requires, rewrites frame_id and republishes on
+/carter/lidar_with_intensity. The x, y, z offsets are read from the message
+fields, not assumed.
 
-Isaac Sim pubblica un ciclo del lidar come piu' messaggi parziali, uno per
-settore angolare: il nodo li aggrega in un'unica nuvola per ciclo, a conteggio
-fisso (--sub-scans-per-cycle N) oppure per finestra temporale. Un filtro di
-monotonicita' sui timestamp scarta i messaggi di una sessione Isaac precedente
-rimasta attiva dopo world.reset() e riconosce il salto all'indietro di un reset.
-Il campo 't' per punto non e' disponibile (raycasting simultaneo su GPU) e non
-viene sintetizzato. Con --count-file il totale degli scan pubblicati e' scritto
-su file per l'orchestratore; le statistiche sono nei log [DIAG].
+Isaac Sim publishes one LiDAR revolution as several partial messages, one per
+angular sector; the node merges them into one cloud per revolution, either by a
+fixed count (--sub-scans-per-cycle N) or by a time window. A timestamp
+monotonicity filter drops messages from a stale Isaac session still running after
+world.reset() and detects the backward jump of a reset. The per-point 't' field is
+not available (simultaneous GPU raycasting) and is not synthesised. With
+--count-file the number of published scans is written to a file for the
+orchestrator; statistics go to the [DIAG] log lines.
 
-Uso:
+Usage:
     python3 src/nodes/add_intensity_node.py --input-topic /front_3d_lidar/lidar_points \\
         --sub-scans-per-cycle 1 --output-frame base_link
 """
@@ -32,32 +32,29 @@ from sensor_msgs_py import point_cloud2
 import numpy as np
 import struct
 
-MAX_FORWARD_JUMP = 30.0   # [s] salto in avanti oltre questo: sessione Isaac precedente
-MAX_BACKWARD_RESET = 10.0 # [s] salto all'indietro oltre questo: reset di Isaac Sim
+MAX_FORWARD_JUMP = 30.0   # [s] forward jump beyond this: stale Isaac session
+MAX_BACKWARD_RESET = 10.0 # [s] backward jump beyond this: Isaac Sim reset
 
-# Finestra di aggregazione dei sub-scan in secondi di sim-time. Un ciclo del
-# lidar RTX dura ~100 ms; il margine copre il ritardo dell'ultimo sub-scan.
+# Sub-scan aggregation window, s of sim time. One RTX LiDAR revolution takes
+# ~100 ms; the margin covers the delay of the last sub-scan.
 AGGREGATION_WINDOW_SEC = 0.120
 
-# Aggregazione a conteggio fisso, alternativa alla finestra temporale.
-# Con la finestra, quanti sub-scan finiscono in una nuvola dipende dagli istanti
-# di arrivo: un sub-scan oltre il bordo toglie un settore e MOLA riceve un
-# ingresso diverso fra due run identiche, differenza che i filtri ricorsivi
-# della pipeline (adaptive_threshold) propagano per tutta la run. Con un
-# conteggio fisso ogni nuvola ha sempre lo stesso numero di settori.
-# Il valore da usare e' il modale dell'istogramma [DIAG] SUB-SCAN stampato dal
-# nodo in modalita' finestra. 0 = finestra temporale.
+# Fixed-count aggregation, alternative to the time window. With the window, the
+# number of sub-scans per cloud depends on arrival times: a sub-scan past the edge
+# drops a sector, so MOLA gets different input in two identical runs, and the
+# recursive filters of the pipeline (adaptive_threshold) carry that difference for
+# the whole run. A fixed count gives every cloud the same number of sectors. Use the
+# mode of the [DIAG] SUB-SCAN histogram printed in window mode. 0 = time window.
 SUB_SCANS_PER_CYCLE = 0
 
-# Topic di ingresso e uscita.
 DEFAULT_INPUT_TOPIC = '/carter/lidar_fix'
 DEFAULT_OUTPUT_TOPIC = '/carter/lidar_with_intensity'
 
-# Frame id applicato in uscita: deve essere il frame rispetto a cui e' espressa
-# la posa LiDAR (LIDAR_POSE_*) passata a MOLA dallo script di lancio.
+# Output frame_id: must be the frame in which the LiDAR pose (LIDAR_POSE_*) passed to
+# MOLA by the launch script is expressed.
 DEFAULT_OUTPUT_FRAME = 'chassis_link'
 
-# PointField.datatype -> (dtype numpy, dimensione in byte)
+# PointField.datatype -> (numpy dtype, size in bytes)
 _PFTYPE_TO_NPTYPE = {
     PointField.INT8:    (np.int8,    1),
     PointField.UINT8:   (np.uint8,   1),
@@ -71,7 +68,7 @@ _PFTYPE_TO_NPTYPE = {
 
 
 def _get_field(msg, name):
-    """Cerca un PointField per nome; ritorna (offset, dtype numpy, byte) o None."""
+    """Find a PointField by name; returns (offset, numpy dtype, bytes) or None."""
     for f in msg.fields:
         if f.name == name:
             entry = _PFTYPE_TO_NPTYPE.get(f.datatype)
@@ -94,7 +91,7 @@ class AddIntensityNode(Node):
         self._output_topic = output_topic
         self._output_frame = output_frame
         self._sub_scans_per_cycle = sub_scans_per_cycle
-        self._cycle_hist = Counter()   # sub-scan per ciclo pubblicato
+        self._cycle_hist = Counter()   # sub-scans per published cycle
         self._last_accepted_stamp: float | None = None
         self._recv_count = 0
         self._pub_count = 0
@@ -103,17 +100,17 @@ class AddIntensityNode(Node):
         self._sub_scan_count = 0
         self._fields_logged = False
 
-        # Layout dei campi, letto dal primo messaggio.
+        # Field layout, read from the first message.
         self._x_offset = None
         self._y_offset = None
         self._z_offset = None
-        self._field_dtype = None  # dtype comune a x, y, z
-        self._field_size = None   # byte per componente
+        self._field_dtype = None  # common dtype of x, y, z
+        self._field_size = None   # bytes per component
 
-        # Buffer di aggregazione del ciclo corrente.
-        self._agg_points = []          # un np.array(N,3) per sub-scan
-        self._agg_window_start = None  # sim-time del primo sub-scan
-        self._agg_header = None        # header del primo sub-scan, riusato in uscita
+        # Aggregation buffer of the current cycle.
+        self._agg_points = []          # one np.array(N,3) per sub-scan
+        self._agg_window_start = None  # sim time of the first sub-scan
+        self._agg_header = None        # header of the first sub-scan, reused on output
 
         self.subscription = self.create_subscription(
             PointCloud2,
@@ -127,7 +124,7 @@ class AddIntensityNode(Node):
             10
         )
 
-        # Statistiche periodiche nei log [DIAG].
+        # Periodic [DIAG] statistics.
         self.create_timer(10.0, self._log_stats)
 
         self.get_logger().info('Add Intensity Node started (with scan aggregation)')
@@ -152,9 +149,8 @@ class AddIntensityNode(Node):
             f'last_t={self._last_accepted_stamp}'
         )
         if self._cycle_hist:
-            # Se la distribuzione non e' concentrata su un unico valore, la
-            # finestra temporale raggruppa i settori in modo variabile: il
-            # modale e' il valore da passare a --sub-scans-per-cycle.
+            # A spread distribution means the time window groups sectors
+            # inconsistently: the mode is the value for --sub-scans-per-cycle.
             items = sorted(self._cycle_hist.items())
             total = sum(self._cycle_hist.values())
             dist = '  '.join(f'{k}:{v} ({100.0*v/total:.0f}%)' for k, v in items)
@@ -164,7 +160,7 @@ class AddIntensityNode(Node):
             )
 
     def _cache_field_layout(self, msg):
-        """Legge gli offset di x, y, z dal messaggio e li memorizza."""
+        """Read and cache the x, y, z offsets from the message."""
         fx = _get_field(msg, 'x')
         fy = _get_field(msg, 'y')
         fz = _get_field(msg, 'z')
@@ -176,7 +172,6 @@ class AddIntensityNode(Node):
             )
             return False
 
-        # Le tre componenti devono avere lo stesso tipo.
         if not (fx[1] == fy[1] == fz[1]):
             self.get_logger().error(
                 f'x/y/z fields have different types: '
@@ -199,7 +194,7 @@ class AddIntensityNode(Node):
         return True
 
     def _extract_valid_points(self, msg):
-        """Estrae x, y, z dal PointCloud2 e scarta NaN e origine; np.array(N,3) o None."""
+        """Extract x, y, z, dropping NaN and origin points; np.array(N,3) or None."""
         raw = np.frombuffer(msg.data, dtype=np.uint8).reshape(-1, msg.point_step)
         if raw.shape[0] == 0:
             return None
@@ -211,14 +206,14 @@ class AddIntensityNode(Node):
 
         xyz = np.column_stack([x_vals, y_vals, z_vals]).astype(np.float32)
 
-        # Punti all'origine: padding di Isaac Sim.
+        # Points at the origin are Isaac Sim padding.
         valid = np.isfinite(xyz).all(axis=1) & (np.abs(xyz).sum(axis=1) > 1e-6)
         points = xyz[valid]
 
         return points if len(points) > 0 else None
 
     def _publish_aggregated(self):
-        """Pubblica il buffer aggregato come un unico PointCloud2."""
+        """Publish the aggregated buffer as a single PointCloud2."""
         if not self._agg_points:
             return
 
@@ -233,7 +228,7 @@ class AddIntensityNode(Node):
             self._agg_header = None
             return
 
-        # Intensity sintetica decrescente con la distanza.
+        # Synthetic intensity, decreasing with range.
         distances = np.linalg.norm(all_points, axis=1)
         intensities = 100.0 / (1.0 + distances)
 
@@ -269,9 +264,9 @@ class AddIntensityNode(Node):
         self._agg_header = None
 
         if self._count_file is not None:
-            # Il nodo parte prima di MOLA e termina dopo: confrontare il totale
-            # con le pose MOLA darebbe un falso drop rate. L'orchestratore legge
-            # il file all'inizio e alla fine della finestra MOLA e usa il delta.
+            # The node starts before MOLA and stops after it, so the raw total vs
+            # MOLA poses would give a false drop rate. The orchestrator reads the
+            # file at the start and end of the MOLA window and uses the delta.
             try:
                 with open(self._count_file, 'w') as f:
                     f.write(str(self._pub_count))
@@ -282,7 +277,7 @@ class AddIntensityNode(Node):
         self._recv_count += 1
         stamp = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
 
-        # Layout del PointCloud2, una sola volta.
+        # Log the PointCloud2 layout once.
         if not self._fields_logged:
             self._fields_logged = True
             field_info = [(f.name, f.offset, f.datatype, f.count) for f in msg.fields]
@@ -297,7 +292,7 @@ class AddIntensityNode(Node):
             if not self._cache_field_layout(msg):
                 return
 
-        # Filtro di monotonicita' sui timestamp.
+        # Timestamp monotonicity filter.
         if self._last_accepted_stamp is not None:
             dt = stamp - self._last_accepted_stamp
 
@@ -314,7 +309,7 @@ class AddIntensityNode(Node):
                 self.get_logger().info(
                     f'Session reset: t {self._last_accepted_stamp:.2f}s → {stamp:.2f}s'
                 )
-                # I punti in buffer appartengono alla sessione precedente.
+                # Buffered points belong to the previous session.
                 self._agg_points.clear()
                 self._agg_window_start = None
                 self._agg_header = None
@@ -333,9 +328,8 @@ class AddIntensityNode(Node):
             return
 
         if self._sub_scans_per_cycle > 0:
-            # Conteggio fisso: pubblica appena il gruppo di N sub-scan e'
-            # completo, non all'arrivo del primo sub-scan del ciclo successivo,
-            # quindi senza il ritardo di una finestra sul timestamp.
+            # Fixed count: publish as soon as N sub-scans are in, not when the
+            # first sub-scan of the next cycle arrives, so no window delay.
             if self._agg_window_start is None:
                 self._agg_window_start = stamp
                 self._agg_header = msg.header
@@ -345,13 +339,13 @@ class AddIntensityNode(Node):
                 self._publish_aggregated()
             return
 
-        # Finestra temporale.
+        # Time window.
         if self._agg_window_start is None:
             self._agg_window_start = stamp
             self._agg_header = msg.header
             self._agg_points.append(points)
         elif stamp - self._agg_window_start > AGGREGATION_WINDOW_SEC:
-            # Finestra scaduta: pubblica e riparte dal sub-scan corrente.
+            # Window expired: publish and restart from the current sub-scan.
             self._publish_aggregated()
 
             self._agg_window_start = stamp
@@ -361,7 +355,7 @@ class AddIntensityNode(Node):
             self._agg_points.append(points)
 
     def destroy_node(self):
-        """Pubblica il buffer residuo prima della chiusura."""
+        """Publish the remaining buffer before shutdown."""
         self._publish_aggregated()
         super().destroy_node()
 

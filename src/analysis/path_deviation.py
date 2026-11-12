@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 """
-Deviazione fra due traiettorie vere allineate per ascissa curvilinea.
+Deviation between two true trajectories aligned by arc length.
 
-La deviazione al solo punto d'arrivo ignora quello che succede lungo il tratto:
-un attacco che porta il robot fuori rotta a meta' finestra e lo lascia rientrare
-vale zero. Qui le due traiettorie (nominale e attaccata, entrambe misurate con
-la posa vera dallo stesso stato iniziale) si confrontano punto per punto a
-parita' di distanza percorsa: la deviazione in s e' la distanza fra dove il
-robot attaccato si trova dopo s metri e dove si trovava quello nominale dopo
-gli stessi s metri.
+The end-point deviation ignores what happens along the way: an attack that
+pushes the robot off course mid-window and lets it come back scores zero. Here
+the nominal and attacked trajectories (both true poses from the same initial
+state) are compared at equal travelled distance: the deviation at s is the
+distance between where the attacked robot is after s metres and where the
+nominal one was after the same s metres.
 
-L'allineamento e' per distanza e non per tempo perche' sotto attacco il robot
-e' piu' lento (il doppio dei frame per metro nelle run attuali): a parita' di
-istante si misurerebbe il ritardo e non lo scostamento.
+Alignment is by distance, not time, because under attack the robot is slower
+(about twice the frames per metre in the recorded runs): at equal time one would
+measure the delay rather than the offset.
 
-Uso da riga di comando, su una cartella traces/ dell'orchestratore:
+Command line, on a traces/ folder written by the orchestrator:
 
     python3 src/analysis/path_deviation.py data/attack/attack_v5/traces
 """
@@ -29,11 +28,11 @@ import numpy as np
 
 
 def true_path(rows):
-    """Posizioni vere distinte da una traccia (lista di dict o array Nx2).
+    """Distinct true positions of a trace (list of dicts or Nx2 array).
 
-    La posa vera nelle tracce e' aggiornata a intervalli e ripetuta sui tick
-    intermedi: i duplicati consecutivi vanno tolti, altrimenti pesano di piu'
-    i tratti in cui il robot era fermo.
+    The true pose in the traces is updated at intervals and repeated on the
+    ticks in between: consecutive duplicates are dropped, otherwise the
+    stretches where the robot stood still would weigh more.
     """
     if len(rows) == 0:
         return np.zeros((0, 2))
@@ -56,7 +55,7 @@ def arc_length(xy):
 
 
 def sample_at(xy, s, s_query):
-    """Posizione lungo la spezzata xy all'ascissa s_query (oltre la fine: ultimo punto)."""
+    """Position along polyline xy at arc length s_query (past the end: last point)."""
     s_query = np.clip(s_query, 0.0, s[-1])
     x = np.interp(s_query, s, xy[:, 0])
     y = np.interp(s_query, s, xy[:, 1])
@@ -64,15 +63,14 @@ def sample_at(xy, s, s_query):
 
 
 def path_deviation(nom_xy, cand_xy, step=0.02):
-    """Deviazione fra traiettoria candidata e nominale a parita' di percorso.
+    """Deviation between candidate and nominal trajectory at equal path length.
 
-    Le due spezzate vengono ricampionate ogni `step` metri fino alla lunghezza
-    della piu' corta; oltre, la piu' corta e' prolungata con il suo ultimo punto
-    fino alla lunghezza della piu' lunga, cosi' un robot che si ferma prima o
-    che gira su se' stesso non e' premiato dal confronto piu' breve.
+    Both polylines are resampled every `step` m up to the longer length; past
+    its end the shorter one is held at its last point, so a robot that stops
+    early or spins in place is not rewarded by a shorter comparison.
 
-    Restituisce un dict con dev_mean, dev_max, dev_end (metri), len_nom e
-    len_cand (metri percorsi) e il profilo (s, dev) per i grafici.
+    Returns a dict with dev_mean, dev_max, dev_end (m), len_nom and len_cand
+    (travelled m) and the profile (s, dev) for plots.
     """
     nom_xy = np.asarray(nom_xy, dtype=np.float64)
     cand_xy = np.asarray(cand_xy, dtype=np.float64)

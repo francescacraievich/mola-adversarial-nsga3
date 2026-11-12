@@ -1,0 +1,426 @@
+# Local MOLA configuration against the files installed by apt (mola_lidar_odometry 3.2.0)
+
+## Odometry pipeline
+--- /opt/ros/jazzy/share/mola_lidar_odometry/pipelines/lidar3d-gicp-optimize-twist.yaml
++++ config/mola/lidar3d-gicp-optimize-twist-local.yaml
+@@ -27,21 +27,19 @@
+   gnss_sensor_label: "${MOLA_GPS_NAME|gps}"
+ 
+   # Optionally, drop lidar data too close in time:
+-  min_time_between_scans: 1e-3 # [seconds]
++  # 0.080s in sim-time: drops the duplicate scan from Replicator_44 (~33ms after Replicator_43).
++  # Two ros2_rtx_lidar_helper nodes in Perceptions_Lidar_Camera both publish on /carter/lidar
++  # from the same physical sensor. The real scan period is ~200ms sim-time (5 Hz).
++  min_time_between_scans: 0.080 # [seconds]
+ 
+   # Parameters for max sensor range automatic estimation:
+-  observation_radius_filter_coefficient: 0.95
+-  absolute_minimum_observation_radius: ${MOLA_ABS_MIN_SENSOR_RANGE|5.0}
+-  # Quantile of the per-point norms taken as ESTIMATED_OBSERVATION_RADIUS.
+-  # 1.0 = the bounding-box max-norm, i.e. one far return sets the scene
+-  # scale for the six parameters derived from it. Default unchanged;
+-  # exposed so the robust alternative can be measured.
+-  observation_radius_quantile: ${MOLA_OBSERVATION_RADIUS_QUANTILE|1.0}
++  max_sensor_range_filter_coefficient: 0.95
++  absolute_minimum_sensor_range: ${MOLA_ABS_MIN_SENSOR_RANGE|5.0}
+ 
+   # If enabled, vehicle twist will be optimized during ICP
+   # enabling better and more robust odometry in high dynamics motion without an IMU.
+   optimize_twist: "${MOLA_OPTIMIZE_TWIST|false}"
+-  optimize_twist_max_corrections: 8 # (max number of corrections)
++  optimize_twist_max_corrections: ${MOLA_OPTIMIZE_TWIST_MAX_CORRECTIONS|8} # (max number of corrections)
+   optimize_twist_rerun_min_trans: 0.15 # [m]
+   optimize_twist_rerun_min_rot_deg: 0.75 # [deg]
+ 
+@@ -59,59 +57,46 @@
+   local_map_updates:
+     enabled: "${MOLA_MAPPING_ENABLED|true}"
+     load_existing_local_map: ${MOLA_LOAD_MM|""}
+-    load_map_after_gui_init: ${MOLA_LO_LOAD_MAP_AFTER_GUI|false}
+     save_final_local_map: ${MOLA_SAVE_MM|""} # If not empty, saves the final local metric map to a ".mm" file
+ 
+     # Idea: don't integrate scans with a high rotational speed since they are probably not correctly deskewed:
+-    min_translation_between_keyframes: "${MOLA_MIN_XYZ_BETWEEN_MAP_UPDATES|(0.1e-2 + sqrt(wx^2+wy^2+wz^2)*0.1)*ESTIMATED_OBSERVATION_RADIUS}" # [m]
++    min_translation_between_keyframes: "${MOLA_MIN_XYZ_BETWEEN_MAP_UPDATES|(0.1e-2 + sqrt(wx^2+wy^2+wz^2)*0.1)*ESTIMATED_SENSOR_MAX_RANGE}" # [m]
+     min_rotation_between_keyframes: "${MOLA_MIN_ROT_BETWEEN_MAP_UPDATES|(15 + sqrt(wx^2+wy^2+wz^2)*500 )}" # [deg]
+ 
+     # Should match the "remove farther than" option of the local metric map. "0" means deletion of distant key-frames is disabled
+-    max_distance_to_keep_keyframes: "${MOLA_LOCAL_MAP_MAX_SIZE|max(100.0, 1.50*ESTIMATED_OBSERVATION_RADIUS)}" # [m]
++    max_distance_to_keep_keyframes: "${MOLA_LOCAL_MAP_MAX_SIZE|max(100.0, 1.50*ESTIMATED_SENSOR_MAX_RANGE)}" # [m]
+     check_for_removal_every_n: 100
+     publish_map_updates_every_n: ${MOLA_PUBLISH_LOCAL_MAP_UPDATES_EVERY_N|40}
+ 
+   # Minimum ICP quality to insert it into the map:
+-  min_icp_goodness: ${MOLA_MINIMUM_ICP_QUALITY|0.50}
++  min_icp_goodness: ${MOLA_MINIMUM_ICP_QUALITY|0.20} # lowered from 0.50: symmetric corridors yield quality 0.25-0.40
+ 
+-  # Adaptive threshold:
++  # Adaptive threshold, as in the KISS-ICP paper:
+   adaptive_threshold:
+     enabled: true
+-    initial_sigma: ${MOLA_SIGMA_INITIAL|0.50} # [m]
+-    min_motion: ${MOLA_SIGMA_MIN_MOTION|0.5} # [m]
+-    maximum_sigma: ${MOLA_SIGMA_MAX_MOTION|2.00} # [m]
+-    max_sigma_step: ${MOLA_SIGMA_MAX_STEP|0.05} # [m]
+-    icp_quality_controller_setpoint: ${MOLA_SIGMA_CONTROLLER_QUALITY_SETPOINT|0.85}
+-    kp: ${MOLA_SIGMA_CONTROLLER_GAIN|2.0}
+-    alpha: ${MOLA_ADAPT_THRESHOLD_ALPHA|0.90}
+-    # Sustained-failure recovery: if enabled, sigma is grown multiplicatively
+-    # after a streak of bad ICPs, capped at maximum_sigma, so the matcher
+-    # window can re-open and ICP can recover. Enabled by default: without it,
+-    # once sigma is driven down near min_motion by a run of easy/near-static
+-    # scans (e.g. goodness consistently above icp_quality_controller_setpoint),
+-    # a single larger inter-scan motion (a turn, a bump, or just ordinary
+-    # scan-to-scan variability once sigma is already pinned at its floor) can
+-    # push ICP into failure, and with sigma frozen the correspondence search
+-    # window never reopens, so the pipeline stalls indefinitely
+-    # (estimated_trajectory never grows again). Set to false to restore the
+-    # old behavior. `maximum_sigma` must be set strictly above
+-    # `initial_sigma`, or this mechanism is a no-op: sigma always starts
+-    # each run AT initial_sigma, so a bad ICP on frame 1 (e.g. a slightly
+-    # imprecise localization-only seed pose against a prebuilt map) has no
+-    # room to grow into and can never recover (observed in testing as ICP
+-    # goodness stuck just under min_icp_goodness for an entire run).
++    initial_sigma: ${MOLA_INITIAL_SIGMA|0.20} # [m] — tuned for symmetric warehouse corridors (default 0.50 too large)
+     #
+-    # recover_after_n_bad/recover_growth_factor default to a fast reaction
+-    # (2 bad frames, x2.0 growth) rather than a slow one (5 bad frames,
+-    # x1.5): every frame spent stuck is a frame of real, untracked vehicle
+-    # motion accumulating; the slower defaults let that gap grow to the
+-    # point where, once the search window finally reopens, ICP can lock onto
+-    # a self-consistent but WRONG registration (observed in testing as a
+-    # sudden ~30-40 deg yaw error that then persisted for the rest of a run)
+-    # instead of recovering the true pose.
+-    recover_on_sustained_failure: ${MOLA_ADAPT_THRESHOLD_RECOVER|true}
+-    recover_after_n_bad: ${MOLA_ADAPT_THRESHOLD_RECOVER_AFTER_N_BAD|2}
+-    recover_growth_factor: ${MOLA_ADAPT_THRESHOLD_RECOVER_GROWTH_FACTOR|2.0}
++    # ATTENZIONE al valore iniziale nei rollout brevi.
++    #
++    # sigma si adatta con media esponenziale (alpha sotto): ad ogni scan si
++    # sposta del 5% verso lo scarto osservato fra la posa prevista dal modello
++    # di moto e quella trovata da ICP. Partendo da 0.20 con un regime intorno a
++    # 0.05 servono oltre 60 scan, cioe' 6 secondi a 10 Hz.
++    #
++    # In una run continua di 15 m il transitorio e' trascurabile. Nei rollout
++    # dell'attacco receding-horizon, che durano 3-4 secondi e ripartono con MOLA
++    # appena riavviata, il transitorio E' l'intero rollout: misurato in traccia,
++    # sigma scendeva linearmente 0.2000 -> 0.1200 in 33 scan senza assestarsi.
++    # La soglia di accoppiamento restava quindi a 2*0.15 = 30 cm invece dei ~10
++    # di regime, cioe' permissiva per tutta la durata della misura.
++    #
++    # Per quei rollout conviene partire gia' vicino al regime:
++    #   MOLA_INITIAL_SIGMA=0.06
++    min_motion: ${MOLA_SIGMA_MIN_MOTION|0.04} # [m]
++    maximum_sigma: ${MOLA_SIGMA_MAX_MOTION|0.50} # [m]
++    icp_quality_controller_setpoint: ${MOLA_ICP_QUALITY_SETPOINT|0.40} # typical quality 0.25-0.40 in corridors (default 0.85 unreachable)
++    kp: 2.0
++    alpha: ${MOLA_ADAPT_THRESHOLD_ALPHA|0.95}
+ 
+   # If enabled, a map will be stored in RAM and (if using the CLI) stored
+   # to a ".simplemap" file for later use for localization, etc.
+@@ -121,19 +106,8 @@
+ 
+     save_final_map_to_file: ${MOLA_SIMPLEMAP_OUTPUT|'final_map.simplemap'}
+ 
+-    # NOTE: unlike local_map_updates above, these thresholds are NOT scaled by
+-    # angular velocity: this is what feeds the SharedKeyframeMap sink (e.g.
+-    # mola_mapper), and the old w-scaled formula (rotation threshold growing
+-    # by 500 deg per rad/s) made it create close to NO keyframes while
+-    # smoothly turning, starving loop closure of the keyframes it needs.
+-    min_translation_between_keyframes: ${MOLA_SIMPLEMAP_MIN_XYZ|1.0e-2*ESTIMATED_OBSERVATION_RADIUS} # m
+-    min_rotation_between_keyframes: ${MOLA_SIMPLEMAP_MIN_ROT|15} # deg
+-
+-    # Revisiting an already-mapped area creates NO keyframes with the purely
+-    # spatial criterion above, which starves loop closure of the second endpoint
+-    # of the loop. Set to a positive value [s] so only keyframes newer than that
+-    # take part in the "is there one here already?" test.
+-    nearby_keyframe_time_window: ${MOLA_SIMPLEMAP_KF_TIME_WINDOW|0} # [s], 0=disabled
++    min_translation_between_keyframes: ${MOLA_SIMPLEMAP_MIN_XYZ|(1.0e-2 + sqrt(wx^2+wy^2+wz^2)*1.0)*ESTIMATED_SENSOR_MAX_RANGE} # m
++    min_rotation_between_keyframes: ${MOLA_SIMPLEMAP_MIN_ROT|15 + sqrt(wx^2+wy^2+wz^2)*500} # deg
+ 
+     generate_lazy_load_scan_files: ${MOLA_SIMPLEMAP_GENERATE_LAZY_LOAD|false} # If enabled, a directory will be create alongside the .simplemap and pointclouds will be externally serialized there.
+     add_non_keyframes_too: ${MOLA_SIMPLEMAP_ALSO_NON_KEYFRAMES|false} # If enabled, all frames are stored in the simplemap, but non-keyframes will be without associated observations.
+@@ -150,7 +124,7 @@
+   # If run within a mola-cli container, and mola_viz is present, use these options
+   # to show live progress:
+   visualization:
+-    map_update_decimation: ${MOLA_GUI_MAP_UPDATE_DECIMATION|10}
++    map_update_decimation: 10
+     show_trajectory: true
+     trajectory_rgba: [0.1, 0.1, 0.1, 1.0]
+     show_current_observation: false # shows "live deskewed" LiDAR points
+@@ -173,8 +147,6 @@
+     show_ground_grid: ${MOLA_GUI_SHOW_GROUND_GRID|true}
+     ground_grid_spacing: 5.0 # [m]
+     #current_pose_corner_size: 1.5
+-    #sensor_poses_corner_size: 0.5  # XYZ corner for each LiDAR sensor pose; 0 to disable
+-    show_current_pose_corner: ${MOLA_LO_SHOW_CURRENT_POSE_CORNER|true} # Set to false to hide the current-pose XYZ corner (e.g. for a first-person camera)
+     model:
+       - file: ${MOLA_VEHICLE_MODEL_FILE|""} # Default: none
+         tf.x: ${MOLA_VEHICLE_MODEL_X|0.0} # deg
+@@ -211,22 +183,17 @@
+ # re-localization method to use at start up:
+ initial_localization:
+   method: "${MOLA_LO_INITIAL_LOCALIZATION_METHOD|InitLocalization::FixedPose}"
+-  # Format: x(m) y(m) z(m) yaw(deg) pitch(deg) roll(deg)
+   fixed_initial_pose:
+-    ["${MOLA_INITIAL_X|0.0}", "${MOLA_INITIAL_Y|0.0}", "${MOLA_INITIAL_Z|0.0}", "${MOLA_INITIAL_YAW|0.0}", "${MOLA_INITIAL_PITCH|0.0}", "${MOLA_INITIAL_ROLL|0.0}"]
+-  # Seconds of accelerometer data to average for the initial pitch & roll.
+-  # A duration, not a sample count: what limits accuracy is platform motion
+-  # during the window, so the same setting must mean the same averaging time
+-  # on a 100 Hz and on a 400 Hz IMU.
+-  imu_initial_calibration_window_seconds: "${MOLA_LO_INITIAL_IMU_WINDOW|1.0}"
+-  # Sanity floor only, to reject a degenerate handful of samples:
+-  imu_initial_calibration_min_samples: "${MOLA_LO_INITIAL_IMU_MIN_SAMPLES|20}"
+-  # Defer initialization while the accelerometer directions in the window
+-  # disagree by more than this: such a window is measuring platform motion,
+-  # not gravity. After the timeout it is accepted anyway, so a start that is
+-  # never still still initializes.
+-  imu_initial_calibration_max_dispersion_deg: "${MOLA_LO_INITIAL_IMU_MAX_DISPERSION|1.5}"
+-  imu_initial_calibration_dispersion_timeout: "${MOLA_LO_INITIAL_IMU_DISPERSION_TIMEOUT|5.0}"
++    [
++      "${MOLA_INITIAL_X|0.0}",
++      "${MOLA_INITIAL_Y|0.0}",
++      "${MOLA_INITIAL_Z|0.0}",
++      "${MOLA_INITIAL_YAW|0.0}",
++      "${MOLA_INITIAL_PITCH|0.0}",
++      "${MOLA_INITIAL_ROLL|0.0}",
++    ]
++  imu_initial_calibration_sample_count: "${MOLA_LO_INITIAL_IMU_SAMPLES|400}"
++  imu_initial_calibration_max_age: 5.0
+   use_imu_orientation: "${MOLA_LO_INITIAL_IMU_USE_ORIENTATION|true}"
+ 
+ # If "icp_settings_without_vel" is not defined here, defaults to be the same than 'icp_settings_with_vel'
+@@ -264,9 +231,6 @@
+         maxIterations: 1
+         robustKernel: "${MOLA_LO_ROBUST_KERNEL|RobustKernel::GemanMcClure}"
+         robustKernelParam: "${MOLA_LO_ROBUST_KERNEL_PARAM|6.0}" # In GICP, errors are normalized by covariance
+-        # Blend [0,1] for the robust kernel residual reference toward the prior
+-        # mean pose (0=current iterate only, 1=prior mean only). See mp2p_icp.
+-        robustKernelPriorRefBlend: "${MOLA_LO_ROBUST_KERNEL_PRIOR_REF_BLEND|0.0}"
+         #innerLoopVerbose: true
+ 
+   # Sequence of one or more pairs (class, params) defining mp2p_icp::Matcher
+@@ -279,7 +243,10 @@
+         allowMatchAlreadyMatchedGlobalPoints: true # faster
+         # Both layers here must be of type 'mola::KeyframePointCloudMap'
+         layerMatches:
+-          - { global: "${MOLA_LOCALMAP_LAYER_NAME|localmap}", local: "observation" }
++          - {
++              global: "${MOLA_LOCALMAP_LAYER_NAME|localmap}",
++              local: "observation",
++            }
+ 
+   quality:
+     - class: mp2p_icp::QualityEvaluator_PairedRatio
+@@ -303,14 +270,14 @@
+       # metric_map_definition_ini_file: '${CURRENT_YAML_FILE_PATH}/localmap_definition_voxelmap.ini'
+ 
+       metric_map_definition:
+-        # Any class derived from mrpt::maps::CMetricMap https://docs.mrpt.org/reference/stable/group_mrpt_maps_grp.html
++        # Any class derived from mrpt::maps::CMetricMap https://docs.mrpt.org/reference/latest/group_mrpt_maps_grp.html
+         class: mola::KeyframePointCloudMap
+         plugin: "libmola_metric_maps.so" # Import additional custom user-defined map classes (search in LD_LIBRARY_PATH)
+         creationOpts:
+-          max_search_keyframes: 3
++          max_search_keyframes: 6
+           k_correspondences_for_cov: 20
+         insertOpts:
+-          remove_frames_farther_than: "${MOLA_LOCAL_MAP_MAX_SIZE|$f{max(100.0, 1.50*ESTIMATED_OBSERVATION_RADIUS)}}" # [m]
++          remove_frames_farther_than: "${MOLA_LOCAL_MAP_MAX_SIZE|$f{max(100.0, 1.50*ESTIMATED_SENSOR_MAX_RANGE)}}" # [m]
+         likelihoodOpts: ~ # none required
+         renderOpts:
+           color.A: 0.25 # [0,1] Use this alpha value for points, RGB from colormap
+@@ -352,7 +319,7 @@
+       # metric_map_definition_ini_file: '${CURRENT_YAML_FILE_PATH}/localmap_definition_voxelmap.ini'
+ 
+       metric_map_definition:
+-        # Any class derived from mrpt::maps::CMetricMap https://docs.mrpt.org/reference/stable/group_mrpt_maps_grp.html
++        # Any class derived from mrpt::maps::CMetricMap https://docs.mrpt.org/reference/latest/group_mrpt_maps_grp.html
+         class: mola::KeyframePointCloudMap
+         plugin: "libmola_metric_maps.so" # Import additional custom user-defined map classes (search in LD_LIBRARY_PATH)
+         creationOpts: ~ # none required
+@@ -387,7 +354,7 @@
+       name: "FilterDecimateAdaptive (map)"
+       input_pointcloud_layer: "raw"
+       output_pointcloud_layer: "decimated_unfiltered"
+-      voxel_size: "${MOLA_CLOUD_DECIMATION_VOXEL_SIZE_MAP|0.15}" # [m]
++      voxel_size: "${MOLA_CLOUD_DECIMATION_VOXEL_SIZE|0.15}" # [m]
+       desired_output_point_count: "${MOLA_DECIMATED_POINTS_MAP|10000}"
+       parallelization_grain_size: 8000 # When TBB is enabled, the grainsize for splitting the input clouds into threads
+ 
+@@ -397,8 +364,8 @@
+     params:
+       input_pointcloud_layer: "decimated_unfiltered"
+       output_layer_between: "decimated_skewed_for_map"
+-      range_min: "${MOLA_MINIMUM_RANGE_FILTER|max(1.0, 0.03*ESTIMATED_OBSERVATION_RADIUS)}"
+-      range_max: 1.2*ESTIMATED_OBSERVATION_RADIUS
++      range_min: "${MOLA_MINIMUM_RANGE_FILTER|max(1.0, 0.03*ESTIMATED_SENSOR_MAX_RANGE)}"
++      range_max: 1.2*ESTIMATED_SENSOR_MAX_RANGE
+       metric_l_infinity: true
+ 
+   - class_name: mp2p_icp_filters::FilterDecimateAdaptive
+@@ -406,7 +373,7 @@
+       name: "FilterDecimateAdaptive (icp)"
+       input_pointcloud_layer: "decimated_skewed_for_map"
+       output_pointcloud_layer: "decimated_skewed_for_icp"
+-      voxel_size: "${MOLA_CLOUD_DECIMATION_VOXEL_SIZE_ICP|0.10}" # [m]
++      voxel_size: "${MOLA_CLOUD_DECIMATION_VOXEL_SIZE|0.10}" # [m]
+       desired_output_point_count: "${MOLA_DECIMATED_POINTS_ICP|3000}"
+       parallelization_grain_size: 8000 # When TBB is enabled, the grainsize for splitting the input clouds into threads
+ 
+@@ -458,7 +425,13 @@
+   # Remove layers to save memory and log file storage
+   - class_name: mp2p_icp_filters::FilterDeleteLayer
+     params:
+-      pointcloud_layer_to_remove: ["raw", "decimated_unfiltered", "decimated_skewed_for_map", "decimated_skewed_for_icp"]
++      pointcloud_layer_to_remove:
++        [
++          "raw",
++          "decimated_unfiltered",
++          "decimated_skewed_for_map",
++          "decimated_skewed_for_icp",
++        ]
+ 
+ # To populate the local map, one or more observation layers are merged
+ # into the local map via this pipeline:
+@@ -469,7 +442,8 @@
+       input_pointcloud_layer: "decimated_for_map"
+       target_layer: "${MOLA_LOCALMAP_LAYER_NAME|localmap}"
+       input_layer_in_local_coordinates: true
+-      robot_pose: [robot_x, robot_y, robot_z, robot_yaw, robot_pitch, robot_roll]
++      robot_pose:
++        [robot_x, robot_y, robot_z, robot_yaw, robot_pitch, robot_roll]
+ 
+ # Pipeline starting from raw observations (passed through "Generator"), to be
+ # sent out for visualization of the sliding-window of recent clouds as a dense local map
+@@ -478,8 +452,8 @@
+     params:
+       input_pointcloud_layer: "raw"
+       output_layer_between: "raw_filtered"
+-      range_min: "${MOLA_MINIMUM_RANGE_FILTER|max(1.0, 0.03*ESTIMATED_OBSERVATION_RADIUS)}"
+-      range_max: 1.2*ESTIMATED_OBSERVATION_RADIUS
++      range_min: "${MOLA_MINIMUM_RANGE_FILTER|max(1.0, 0.03*ESTIMATED_SENSOR_MAX_RANGE)}"
++      range_max: 1.2*ESTIMATED_SENSOR_MAX_RANGE
+       metric_l_infinity: true
+ 
+   - class_name: mp2p_icp_filters::FilterDeskew
+
+## Application (mola-cli launch)
+--- /opt/ros/jazzy/share/mola_lidar_odometry/mola-cli-launchs/lidar_odometry_ros2.yaml
++++ config/mola/lidar_odometry_ros2_local.yaml
+@@ -10,11 +10,10 @@
+   # MolaViz
+   # =====================
+   - name: viz
+-    type: ${MOLA_GUI_MODULE|mola::MolaVizImGui}
++    type: mola::MolaViz
+     enabled: ${MOLA_WITH_GUI|true}
+     verbosity_level: "${MOLA_VERBOSITY_MOLA_VIZ|INFO}"
+-    params:
+-      imgui_app_name: lidar_odometry_ros2
++    params: ~ # none
+ 
+   # =====================
+   # LidarOdometry
+@@ -25,7 +24,7 @@
+     raw_data_source: "ros2_bridge"
+     # This includes here a whole block "params: (...)"
+     # with the LIDAR-Odometry pipeline configuration:
+-    params: "${MOLA_ODOMETRY_PIPELINE_YAML|../pipelines/lidar3d-default.yaml}"
++    params: "${MOLA_ODOMETRY_PIPELINE_YAML|/opt/ros/jazzy/share/mola_lidar_odometry/pipelines/lidar3d-default.yaml}"
+ 
+   # =====================
+   # State Estimation
+@@ -40,8 +39,7 @@
+     execution_rate: ${MOLA_STATE_ESTIMATOR_PUBLISH_RATE|10} # Hz
+ 
+     # This includes here a whole block "params: (...)":
+-    # Don't provide a default for the ROS2 system to make sure we are getting the env var from the launch file
+-    params: "${MOLA_STATE_ESTIMATOR_YAML|no_default.yaml}"
++    params: "${MOLA_STATE_ESTIMATOR_YAML|/opt/ros/jazzy/share/mola_lidar_odometry/state-estimator-params/state-estimation-simple.yaml}"
+ 
+   # =====================
+   # ROS2 <-> MOLA
+@@ -55,7 +53,7 @@
+     # rate of publishing odometry observations, if enabled.
+     # All other subscribed sensors are forwarded to the MOLA
+     # system without delay as they are received from ROS.
+-    execution_rate: 20 # Hz
++    execution_rate: ${MOLA_BRIDGE_ROS2_RATE|20} # Hz
+ 
+     gui_preview_sensors:
+       - raw_sensor_label: ${MOLA_LIDAR_NAME|lidar}
+@@ -126,13 +124,6 @@
+       #  - false: the wall-clock time.
+       publish_in_sim_time: ${MOLA_ROS2_PUBLISH_IN_SIM_TIME|true}
+ 
+-      # Future-dating offset [s] for the localization /tf stamp.
+-      transform_tolerance: ${MOLA_ROS2_TRANSFORM_TOLERANCE|0.1}
+-
+-      # Period [s] for re-broadcasting the latest localization /tf
+-      # (0 disables). Default 20 Hz.
+-      transform_publish_period: ${MOLA_ROS2_TRANSFORM_PUBLISH_PERIOD|0.05}
+-
+       # Period [s] to publish the updated map to ROS2 from the MOLA SLAM solution:
+       # Note that no repeated maps are published. This is just the period for checking the need to republish.
+       period_publish_new_map: ${MOLA_ROS2_PUBLISH_MAPS_PERIOD|1.0} # [s]
+@@ -149,13 +140,6 @@
+           # If present, this will override whatever /tf tells about the sensor pose:
+           fixed_sensor_pose: "${LIDAR_POSE_X|0} ${LIDAR_POSE_Y|0} ${LIDAR_POSE_Z|0} ${LIDAR_POSE_YAW|0} ${LIDAR_POSE_PITCH|0} ${LIDAR_POSE_ROLL|0}" # 'x y z yaw_deg pitch_deg roll_deg''
+           use_fixed_sensor_pose: ${MOLA_USE_FIXED_LIDAR_POSE|false}
+-          # Subscription QoS. Defaults follow REP-2003 (best-effort, volatile)
+-          # with depth=50 to absorb executor stalls. Set reliability=reliable
+-          # and a deeper depth when subscribing to a reliable, high-rate
+-          # publisher (e.g. some Ouster drivers).
+-          qos:
+-            reliability: ${MOLA_LIDAR_QOS_RELIABILITY|best_effort}
+-            depth: ${MOLA_LIDAR_QOS_DEPTH|50}
+ 
+         # For GPS messages of type 'sensor_msgs/NavSatFix'
+         - topic: ${MOLA_GNSS_TOPIC|/gps}
+@@ -179,28 +163,20 @@
+           # If present, this will override whatever /tf tells about the sensor pose:
+           fixed_sensor_pose: "${IMU_POSE_X|0} ${IMU_POSE_Y|0} ${IMU_POSE_Z|0} ${IMU_POSE_YAW|0} ${IMU_POSE_PITCH|0} ${IMU_POSE_ROLL|0}" # 'x y z yaw_deg pitch_deg roll_deg''
+           use_fixed_sensor_pose: ${MOLA_USE_FIXED_IMU_POSE|false}
+-          # Subscription QoS. Defaults follow REP-2003 (best-effort, volatile)
+-          # with depth=50 to absorb executor stalls. For high-rate IMUs
+-          # (e.g. Ouster's 640 Hz) consumed by a heavy SLAM pipeline,
+-          # consider reliability=reliable and a deeper depth (e.g. 200-1000)
+-          # to avoid silent drops; the publisher must also be reliable.
+-          qos:
+-            reliability: ${MOLA_IMU_QOS_RELIABILITY|best_effort}
+-            depth: ${MOLA_IMU_QOS_DEPTH|50}
+-
+-        # Optional: direct subscription to a nav_msgs/Odometry topic (e.g., wheel odometry).
+-        # Leave MOLA_ODOM_TOPIC empty (default) to disable. Set to e.g. "/wheel_odom" to enable.
+-        # Mutually exclusive with `forward_ros_tf_as_mola_odometry_observations` (TF-driven path)
+-        # — enabling both feeds duplicate observations to the state estimator.
+-        # With `odometry_as_robot_pose_observation=true` (default), this produces a 3D
+-        # CObservationRobotPose (6x6 covariance), which is what the Smoother wants for
+-        # multi-source fusion.
+-        # NOTE: output_sensor_label is the smoother's frame_id for this odometry
+-        # source. If the smoother publishes map->odom directly
+-        # (publish_map_to_odom_tf), the published /tf child frame must equal the
+-        # REP-105 odom frame the external driver publishes odom->base_link for
+-        # (usually "odom"): set MOLA_ODOM_SENSOR_LABEL to it, or the smoother's
+-        # map_to_odom_child_frame. Otherwise the /tf tree will not connect.
+-        - topic: ${MOLA_ODOM_TOPIC|}
++
++        # Odometria da Isaac Sim come prior ICP per MOLA.
++        #
++        # DISABILITATA DI DEFAULT (baseline LiDAR-only).
++        #
++        # Motivo: /chassis/odom e' anche la sorgente usata come riferimento in
++        # run_baseline_experiment.py. Darlo in pasto a MOLA rende l'esperimento
++        # circolare (si misura l'errore contro un segnale che MOLA gia' riceve) e
++        # riduce drasticamente la presa dell'attacco adversarial, perche' MOLA
++        # dispone di un motion prior indipendente dal LiDAR.
++        #
++        # Il default punta a un topic inesistente, quindi la subscribe non riceve
++        # nulla. Per riabilitarla in un A/B test:
++        #     export MOLA_WHEEL_ODOM_TOPIC=/chassis/odom
++        - topic: ${MOLA_WHEEL_ODOM_TOPIC|/__wheel_odom_disabled__}
+           msg_type: Odometry
+-          output_sensor_label: ${MOLA_ODOM_SENSOR_LABEL|odom_wheels}
++          output_sensor_label: odom

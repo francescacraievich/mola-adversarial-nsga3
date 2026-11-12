@@ -1,25 +1,23 @@
 #!/usr/bin/env bash
-# Lancia mola-cli con la configurazione usata sia dalla baseline sia dall'attacco.
+# Launch mola-cli with the configuration shared by baseline and attack runs.
 #
-# MOLA legge la configurazione da variabili d'ambiente e, per quelle mancanti,
-# usa il default senza segnalarlo. Questo script e' l'unica sorgente di tali
-# variabili, cosi' baseline e attacco girano con lo stesso SLAM. Le principali:
+# MOLA reads its configuration from environment variables and silently falls back
+# to defaults for missing ones. This script is the single source of those
+# variables, so baseline and attack run the same SLAM. Main ones:
 #
-#   MOLA_ODOMETRY_PIPELINE_YAML   pipeline GICP con optimize_twist; con il
-#                                 default optimize_twist non e' attivo (il
-#                                 riquadro all'avvio deve dire "with optimize_twist")
-#   use_sim_time                  Isaac Sim pubblica sim-time; con il wall-clock
-#                                 i timestamp non sono monotoni e gli scan
-#                                 vengono scartati
-#   MOLA_SIGMA_MAX_MOTION         soglia di matching Cov2Cov; con il default
-#                                 (0.50) GICP accoppia copie simmetriche del
-#                                 corridoio
-#   ENFORCE_PLANAR_MOTION         3DOF su pavimento piatto invece di 6DOF
+#   MOLA_ODOMETRY_PIPELINE_YAML   GICP pipeline with optimize_twist; the default
+#                                 pipeline does not enable it (the start-up banner
+#                                 must say "with optimize_twist")
+#   use_sim_time                  Isaac Sim publishes sim time; with wall clock the
+#                                 timestamps are not monotonic and scans are dropped
+#   MOLA_SIGMA_MAX_MOTION         Cov2Cov matching threshold; with the default
+#                                 (0.50) GICP pairs symmetric copies of the corridor
+#   ENFORCE_PLANAR_MOTION         3DOF on a flat floor instead of 6DOF
 #
-# Uso:
+# Usage:
 #   ./src/nodes/launch_mola_attack.sh                              # /carter/lidar_perturbed
-#   ./src/nodes/launch_mola_attack.sh /carter/lidar_with_intensity # bypassa l'attacco
-#   LOCAL_MAP=8 ./src/nodes/launch_mola_attack.sh                  # mappa locale ridotta
+#   ./src/nodes/launch_mola_attack.sh /carter/lidar_with_intensity # bypass the attack
+#   LOCAL_MAP=8 ./src/nodes/launch_mola_attack.sh                  # smaller local map
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -33,10 +31,8 @@ export MOLA_LIDAR_TOPIC="$LIDAR_TOPIC"
 export MOLA_LIDAR_NAME="lidar"
 export MOLA_WITH_GUI="false"
 
-# Posa del LiDAR rispetto a base_link, dal /tf della scena:
-#   base_link -> XT_32 = (-0.2317, 0, 0.5260), rotazione identita'
-# Le componenti di traslazione sono sovrascrivibili da env per verificare la
-# convenzione di segno di MOLA con un confronto A/B.
+# Fixed LiDAR pose on the base. The translation can be overridden from the
+# environment to check MOLA's sign convention with an A/B comparison.
 export MOLA_USE_FIXED_LIDAR_POSE="true"
 export LIDAR_POSE_X="${LIDAR_POSE_X:--0.2317}"
 export LIDAR_POSE_Y="${LIDAR_POSE_Y:-0}"
@@ -45,9 +41,8 @@ export LIDAR_POSE_YAW="0"
 export LIDAR_POSE_PITCH="0"
 export LIDAR_POSE_ROLL="0"
 
-# Pipeline con optimize_twist: stima velocita' lineare e angolare dentro ICP,
-# senza IMU, e non salta nei corridoi simmetrici quando il modello di velocita'
-# esterno fallisce.
+# optimize_twist pipeline: estimates linear and angular velocity inside ICP, without
+# IMU, and does not jump in symmetric corridors when the external motion model fails.
 export MOLA_ODOMETRY_PIPELINE_YAML="$CONFIG_DIR/lidar3d-gicp-optimize-twist-local.yaml"
 export MOLA_OPTIMIZE_TWIST="true"
 export MOLA_OPTIMIZE_TWIST_MAX_CORRECTIONS="4"
@@ -59,28 +54,23 @@ export MOLA_DECIMATED_POINTS_MAP="4000"
 export MOLA_LOCALIZ_USE_REP105="false"
 export MOLA_FORWARD_ROS_TF_ODOM_TO_MOLA="false"
 
-# Soglia di matching Cov2Cov: 2.0 x ADAPTIVE_THRESHOLD_SIGMA. A 0.25 il massimo
-# e' 0.50 m: basta per il moto fra scan (~0.08 m a 0.8 m/s e 10 Hz) ma non per
-# accoppiare copie simmetriche del corridoio.
+# Cov2Cov matching threshold.
 export MOLA_SIGMA_MAX_MOTION="${MOLA_SIGMA_MAX_MOTION:-0.25}"
 
-# Sigma iniziale. Si adatta verso il regime (~0.05) al 5% per scan, cioe' in
-# circa 60 scan: nei rollout brevi dell'attacco, in cui MOLA riparte ogni volta,
-# il transitorio coprirebbe l'intera misura. Sovrascrivibile da env per partire
-# vicino al regime senza consumare metri di riscaldamento.
+# Initial sigma.
 export MOLA_INITIAL_SIGMA="${MOLA_INITIAL_SIGMA:-0.20}"
 
-# Pavimento piatto: stimare z, pitch e roll aggiunge solo errore.
+# Flat floor: estimating z, pitch and roll only adds error.
 export MOLA_NAVSTATE_ENFORCE_PLANAR_MOTION="true"
 
-# Soglie keyframe costanti invece dell'espressione dipendente da velocita'
-# angolare stimata e range, che in rettilineo collassa e rende ogni scan un
-# keyframe.
+# Constant keyframe thresholds (m, deg) instead of the expression based on estimated
+# angular velocity and range, which collapses on a straight line and makes every
+# scan a keyframe.
 export MOLA_MIN_XYZ_BETWEEN_MAP_UPDATES="0.20"
 export MOLA_MIN_ROT_BETWEEN_MAP_UPDATES="10"
 
-# Mappa locale molto piu' estesa del percorso: stima riancorata, il drift non
-# accumula. Molto meno estesa: odometria pura, il drift accumula.
+# Local map (m) much larger than the path: the estimate is re-anchored and drift
+# does not accumulate. Much smaller: pure odometry, drift accumulates.
 export MOLA_LOCAL_MAP_MAX_SIZE="$LOCAL_MAP"
 
 if [[ -n "$TRACES" ]]; then

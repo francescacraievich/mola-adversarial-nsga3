@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Chain profile for Fast DDS 2.14.6 with rmw_fastrtps 8.4.4.
+     4 MiB UDP socket buffers, 16 MiB shared-memory segment, local-only discovery.
+     Use with ROS_AUTOMATIC_DISCOVERY_RANGE=SYSTEM_DEFAULT (rmw then leaves the profile alone),
+     ROS_LOCALHOST_ONLY unset (with 1, rcl forces LOCALHOST and rmw adds its own transports),
+     and the same FASTRTPS_DEFAULT_PROFILES_FILE and FASTDDS_DEFAULT_PROFILES_FILE for every
+     process.
+     Local discovery mirrors what rmw does for LOCALHOST: no metatraffic multicast, an empty
+     unicast locator (prevents the default multicast), initial peer 127.0.0.1 with
+     maxInitialPeersRange 32; in addition the UDP interfaces are restricted to 127.0.0.1. -->
+<profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+  <transport_descriptors>
+    <transport_descriptor>
+      <transport_id>shm_16M</transport_id>
+      <type>SHM</type>
+      <segment_size>16777216</segment_size>
+    </transport_descriptor>
+    <transport_descriptor>
+      <transport_id>udp_4M_locale</transport_id>
+      <type>UDPv4</type>
+      <sendBufferSize>4194304</sendBufferSize>
+      <receiveBufferSize>4194304</receiveBufferSize>
+      <maxInitialPeersRange>32</maxInitialPeersRange>
+      <interfaceWhiteList>
+        <address>127.0.0.1</address>
+      </interfaceWhiteList>
+    </transport_descriptor>
+  </transport_descriptors>
+  <participant profile_name="catena_udp4M_shm16M_scoperta_locale" is_default_profile="true">
+    <rtps>
+      <builtin>
+        <metatrafficUnicastLocatorList>
+          <locator>
+            <udpv4/>
+          </locator>
+        </metatrafficUnicastLocatorList>
+        <initialPeersList>
+          <locator>
+            <udpv4>
+              <address>127.0.0.1</address>
+            </udpv4>
+          </locator>
+        </initialPeersList>
+      </builtin>
+      <sendSocketBufferSize>4194304</sendSocketBufferSize>
+      <listenSocketBufferSize>4194304</listenSocketBufferSize>
+      <userTransports>
+        <transport_id>shm_16M</transport_id>
+        <transport_id>udp_4M_locale</transport_id>
+      </userTransports>
+      <useBuiltinTransports>false</useBuiltinTransports>
+    </rtps>
+  </participant>
+</profiles>

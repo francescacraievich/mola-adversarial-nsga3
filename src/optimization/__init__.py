@@ -1,1 +1,1 @@
-"""Attacco receding-horizon: orchestratore NSGA-III e modello del follower."""
+"""Receding-horizon attack: NSGA-III orchestrator and follower model."""
