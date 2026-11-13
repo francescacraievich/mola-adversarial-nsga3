@@ -24,7 +24,10 @@ The attacker sits between the sensor and the odometry and can only modify the po
 distortion of the scan, ghost points, cluster and edge shifts, temporal drift of the whole
 cloud). It does not know the true pose: it reconstructs the robot's estimate with its own
 shadow instance, fed with the clouds it publishes, and the start pose is assumed known. It has
-no access to MOLA's internals or to the velocity commands.
+no access to MOLA's internals or to the velocity commands. Laboratory instruments outside the
+threat model: the candidates are evaluated in simulated rollouts, a fourth MOLA instance on the
+clean cloud fixes the twin's start, the first victim stamp is checked, and states are saved with
+the simulation paused.
 Perceptibility is measured by the Chamfer distance between the clean and the perturbed cloud.
 
 ## Architecture
