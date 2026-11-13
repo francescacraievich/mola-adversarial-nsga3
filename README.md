@@ -8,8 +8,9 @@ controller, and the robot moves in Isaac Sim.
 
 - Robot and scene: NVIDIA Nova Carter (differential drive) with a Hesai XT-32 LiDAR at 10 Hz
   (about 45k points per scan, sensor noise set to zero), warehouse scene in Isaac Sim 6.1.
-- Odometry: `mola_lidar_odometry` 3.2.0 on ROS 2 Jazzy, local copies of the MOLA pipeline
-  files in `config/mola/`.
+- Odometry: MOLA LiDAR odometry on ROS 2 Jazzy, run with the `mola_lidar_odometry` 3.2.0
+  binaries and a pipeline configuration derived from release 2.0.0 (`config/mola/`). All MOLA
+  instances run on the build with the full-state patch (`mola_overlay/`).
 - Task: follow a 5 m straight line; the controller steers towards a point 5 m ahead on the
   line using the pose estimated by MOLA.
 - Search: NSGA-III (pymoo) over a 17-gene genome with two objectives, damage to be maximised
@@ -19,9 +20,11 @@ controller, and the robot moves in Isaac Sim.
 ## Threat model
 
 The attacker sits between the sensor and the odometry and can only modify the point cloud
-(noise per point, dropout, geometric distortion of the scan, ghost points, cluster and edge
-shifts, temporal drift of the whole cloud). It knows the robot's own estimate of its pose,
-not the true pose, and has no access to MOLA's internals or to the velocity commands.
+(per-point displacement along a direction, weighted by local curvature, dropout, geometric
+distortion of the scan, ghost points, cluster and edge shifts, temporal drift of the whole
+cloud). It does not know the true pose: it reconstructs the robot's estimate with its own
+shadow instance, fed with the clouds it publishes, and the start pose is assumed known. It has
+no access to MOLA's internals or to the velocity commands.
 Perceptibility is measured by the Chamfer distance between the clean and the perturbed cloud.
 
 ## Architecture
@@ -30,8 +33,8 @@ Perceptibility is measured by the Chamfer distance between the clean and the per
 - **Shadow**: a second MOLA instance fed with the same clouds as the victim; at the end of
   every window its full state is saved to disk.
 - **Twin**: a MOLA instance that loads the shadow state and evaluates candidate genomes in
-  simulated rollouts that start from the victim's current state. This needs the small patch
-  to MOLA in `mola_overlay/` (full-state save and load).
+  simulated rollouts that start from the victim's current state. Victim, shadow and twin all
+  run the same build with the small patch in `mola_overlay/` (full-state save and load).
 - **Receding horizon**: the path is split into 1 m windows. At the end of each window the
   robot stops, NSGA-III evaluates 32 x 16 = 512 candidates on the twin, the selected genome
   (maximum damage on the Pareto front within the Chamfer budget) is replayed three times on
